@@ -2,17 +2,13 @@ package com.fh.controller.system.menu;
 
 import java.io.PrintWriter;
 import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-
 import net.sf.json.JSONArray;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.fh.controller.base.BaseController;
 import com.fh.entity.system.Menu;
 import com.fh.service.system.menu.MenuService;

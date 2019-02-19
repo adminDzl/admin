@@ -2,13 +2,10 @@ package com.fh.controller.app.appuser;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.fh.controller.base.BaseController;
 import com.fh.service.system.appuser.AppuserService;
 import com.fh.util.AppUtil;

@@ -12,16 +12,10 @@
 	<%@ include file="../../system/admin/top.jsp"%> 
 	</head>
 <body>
-		
 <div class="container-fluid" id="main-container">
-
-
 <div id="page-content" class="clearfix">
-						
   <div class="row-fluid">
-
 	<div class="row-fluid">
-	
 			<!-- 检索  -->
 			<form action="${objectNameLower}/list.do" method="post" name="Form" id="Form">
 			<table>
@@ -49,10 +43,7 @@
 				</tr>
 			</table>
 			<!-- 检索  -->
-		
-		
 			<table id="table_report" class="table table-striped table-bordered table-hover">
-				
 				<thead>
 					<tr>
 						<th class="center">

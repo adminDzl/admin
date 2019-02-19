@@ -1,11 +1,8 @@
 package com.fh.service.system.menu;
 
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
-
 import com.fh.dao.DaoSupport;
 import com.fh.entity.system.Menu;
 import com.fh.util.PageData;

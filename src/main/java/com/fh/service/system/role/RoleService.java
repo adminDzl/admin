@@ -1,11 +1,8 @@
 package com.fh.service.system.role;
 
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
-
 import com.fh.dao.DaoSupport;
 import com.fh.entity.system.Role;
 import com.fh.util.PageData;
@@ -33,13 +30,20 @@ public class RoleService{
 		return (List<Role>) dao.findForList("RoleMapper.listAllRoles", null);
 		
 	}
-	
-	//通过当前登录用的角色id获取管理权限数据
+
+	/**
+	 * 通过当前登录用的角色id获取管理权限数据
+	 */
 	public PageData findGLbyrid(PageData pd) throws Exception {
 		return (PageData) dao.findForObject("RoleMapper.findGLbyrid", pd);
 	}
 	
-	//通过当前登录用的角色id获取用户权限数据
+	/**
+	 * 通过当前登录用的角色id获取用户权限数据
+	 * @param pd
+	 * @return
+	 * @throws Exception
+	 */
 	public PageData findYHbyrid(PageData pd) throws Exception {
 		return (PageData) dao.findForObject("RoleMapper.findYHbyrid", pd);
 	}
