@@ -207,15 +207,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="Maven: ojdbc6:ojdbc6:1.0">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/main/webapp/WEB-INF/lib/ojdbc6.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
       <library name="Maven: pinyin4j:pinyin4j:1.0">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/src/main/webapp/WEB-INF/lib/pinyin4j-2.5.0.jar!/" />
@@ -327,15 +318,6 @@
       <library name="Maven: java_websocket:java_websocket:1.0">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/src/main/webapp/WEB-INF/lib/java_websocket.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Maven: weixinapi:weixinapi:1.0">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/main/webapp/WEB-INF/lib/weixinapi.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
