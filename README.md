@@ -10,6 +10,7 @@
 	apply_status
 #2.缴费单(payment)
 	id
+	缴费单位id/个人id
 	payment_type（物业、水、电、一卡通）
 	amount
 	payment_date
@@ -62,6 +63,7 @@
 	postion所处位置
 	image
 	equipment
+	租金
 #11场地预定表(place_apply)
 	id
 	place_id
@@ -71,3 +73,12 @@
 	place_time
 	status
 #12.装修申请表
+
+
+#13.项目申请表
+
+
+#14.入住企业表
+
+#15.
+
