@@ -1,12 +1,17 @@
 package com.fh.util;
 
+import org.apache.commons.lang.time.DateUtils;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class DateUtil {
+/**
+ * @author msi
+ */
+public class DateUtil extends DateUtils{
 	private final static SimpleDateFormat sdfYear = new SimpleDateFormat("yyyy");
 
 	private final static SimpleDateFormat sdfDay = new SimpleDateFormat(
@@ -44,16 +49,6 @@ public class DateUtil {
 	 */
 	public static String getTime() {
 		return sdfTime.format(new Date());
-	}
-
-	/**
-	* @Description: TODO(日期比较，如果s>=e 返回true 否则返回false)
-	 */
-	public static boolean compareDate(String s, String e) {
-		if(fomatDate(s)==null||fomatDate(e)==null){
-			return false;
-		}
-		return fomatDate(s).getTime() >=fomatDate(e).getTime();
 	}
 
 	/**
@@ -109,8 +104,6 @@ public class DateUtil {
 				e.printStackTrace();
 			}
             day=(endDate.getTime()-beginDate.getTime())/(24*60*60*1000);
-            //System.out.println("相隔的天数="+day);
-      
         return day;
     }
     
@@ -120,8 +113,8 @@ public class DateUtil {
     public static String getAfterDayDate(String days) {
     	int daysInt = Integer.parseInt(days);
     	
-        Calendar canlendar = Calendar.getInstance(); // java.util包
-        canlendar.add(Calendar.DATE, daysInt); // 日期减 如果不够减会将月变动
+        Calendar canlendar = Calendar.getInstance();
+        canlendar.add(Calendar.DATE, daysInt);
         Date date = canlendar.getTime();
         
         SimpleDateFormat sdfd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -136,19 +129,14 @@ public class DateUtil {
     public static String getAfterDayWeek(String days) {
     	int daysInt = Integer.parseInt(days);
     	
-        Calendar canlendar = Calendar.getInstance(); // java.util包
-        canlendar.add(Calendar.DATE, daysInt); // 日期减 如果不够减会将月变动
+        Calendar canlendar = Calendar.getInstance();
+        canlendar.add(Calendar.DATE, daysInt);
         Date date = canlendar.getTime();
         
         SimpleDateFormat sdf = new SimpleDateFormat("E");
         String dateStr = sdf.format(date);
         
         return dateStr;
-    }
-    
-    public static void main(String[] args) {
-    	System.out.println(getDays());
-    	System.out.println(getAfterDayWeek("3"));
     }
 
 }

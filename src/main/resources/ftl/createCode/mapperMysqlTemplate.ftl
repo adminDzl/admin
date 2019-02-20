@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="${objectName}Mapper">
-	
-	
+
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into ${tabletop}${objectNameUpper}(
@@ -17,16 +16,14 @@
 			${r"#{"}${objectNameUpper}_ID${r"}"}
 		)
 	</insert>
-	
-	
+
 	<!-- 删除-->
 	<delete id="delete" parameterType="pd">
 		delete from ${tabletop}${objectNameUpper}
 		where 
 			${objectNameUpper}_ID = ${r"#{"}${objectNameUpper}_ID${r"}"}
 	</delete>
-	
-	
+
 	<!-- 修改 -->
 	<update id="edit" parameterType="pd">
 		update  ${tabletop}${objectNameUpper}
@@ -40,8 +37,7 @@
 			where 
 				${objectNameUpper}_ID = ${r"#{"}${objectNameUpper}_ID${r"}"}
 	</update>
-	
-	
+
 	<!-- 通过ID获取数据 -->
 	<select id="findById" parameterType="pd" resultType="pd">
 		select 
@@ -54,8 +50,7 @@
 		where 
 			${objectNameUpper}_ID = ${r"#{"}${objectNameUpper}_ID${r"}"}
 	</select>
-	
-	
+
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
@@ -87,5 +82,4 @@
                  ${r"#{item}"}
 		</foreach>
 	</delete>
-	
 </mapper>

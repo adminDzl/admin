@@ -4,8 +4,7 @@ package com.fh.util.mail;
  */ 
 import java.util.Date;    
 import java.util.Properties;   
-
-import javax.mail.Address;    
+import javax.mail.Address;
 import javax.mail.BodyPart;    
 import javax.mail.Message;    
 import javax.mail.Multipart;    
@@ -15,10 +14,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;    
 import javax.mail.internet.MimeMessage;    
 import javax.mail.internet.MimeMultipart;    
-
 import com.fh.controller.base.BaseController;
 
-    
 public class SimpleMailSender extends BaseController {    
 /**   
   * 以文本格式发送邮件   
@@ -114,8 +111,9 @@ public class SimpleMailSender extends BaseController {
 	     mailInfo.setMailServerHost("smtp.qq.com");    
 	     mailInfo.setMailServerPort("25");    
 	     mailInfo.setValidate(true);    
-	     mailInfo.setUserName("itfather@1b23.com");    
-	     mailInfo.setPassword("tttt");//您的邮箱密码    
+	     mailInfo.setUserName("itfather@1b23.com");
+        //您的邮箱密码
+	     mailInfo.setPassword("tttt");
 	     mailInfo.setFromAddress("itfather@1b23.com");    
 	     mailInfo.setToAddress(tomail);    
 	     mailInfo.setSubject(title);    
@@ -125,9 +123,11 @@ public class SimpleMailSender extends BaseController {
 	     SimpleMailSender sms = new SimpleMailSender();   
 	     
 	     if("1".equals(type)){
-	    	 return sms.sendTextMail(mailInfo);//发送文体格式    
+             //发送文体格式
+	    	 return sms.sendTextMail(mailInfo);
 	     }else if("2".equals(type)){
-	    	 return sms.sendHtmlMail(mailInfo);//发送html格式   
+             //发送html格式
+	    	 return sms.sendHtmlMail(mailInfo);
 	     }
 	     return false;
 	   }
@@ -164,10 +164,8 @@ public class SimpleMailSender extends BaseController {
 	    }else{
 	    	sms.sendHtmlMail(mailInfo);
 	    }
-	     
-	   }
-    
-    
+    }
+
     public static void main(String[] args){   
         //这个类主要是设置邮件   
 	     MailSenderInfo mailInfo = new MailSenderInfo();    
@@ -181,11 +179,8 @@ public class SimpleMailSender extends BaseController {
 	     mailInfo.setSubject("设置邮箱标题");    
 	     mailInfo.setContent("设置邮箱内容");    
 	     //这个类主要来发送邮件   
-	  
-	     SimpleMailSender sms = new SimpleMailSender();   
+	     SimpleMailSender sms = new SimpleMailSender();
 	     //sms.sendTextMail(mailInfo);//发送文体格式    
 	     //sms.sendHtmlMail(mailInfo);//发送html格式   
-	     
-	   }
-    
-}   
+    }
+}

@@ -23,18 +23,16 @@ public class AppUtil  {
 		int falseCount = 0;
 		String[] paramArray = new String[20];
 		String[] valueArray = new String[20];
-		String[] tempArray  = new String[20];  //临时数组
+		String[] tempArray  = new String[20];
 		
-		if(method=="registered"){// 注册
-			paramArray = Const.APP_REGISTERED_PARAM_ARRAY;  //参数
-			valueArray = Const.APP_REGISTERED_VALUE_ARRAY;  //参数名称
-			
-		}else if(method=="getAppuserByUsernmae"){//根据用户名获取会员信息
+		if("registered".equals(method)){
+			paramArray = Const.APP_REGISTERED_PARAM_ARRAY;
+			valueArray = Const.APP_REGISTERED_VALUE_ARRAY;
+		}else if("getAppuserByUsernmae".equals(method)){
+			//根据用户名获取会员信息
 			paramArray = Const.APP_GETAPPUSER_PARAM_ARRAY;  
 			valueArray = Const.APP_GETAPPUSER_VALUE_ARRAY;
 		}
-		
-		
 		int size = paramArray.length;
 		for(int i=0;i<size;i++){
 			String param = paramArray[i];
@@ -43,7 +41,6 @@ public class AppUtil  {
 				falseCount += 1;
 			}
 		}
-		
 		if(falseCount>0){
 			logger.error(method+"接口，请求协议中缺少 "+falseCount+"个 参数");
 			for(int j=1;j<=falseCount;j++){
@@ -52,7 +49,6 @@ public class AppUtil  {
 		} else {
 			result = true;
 		}
-		
 		return result;
 	}
 	
@@ -64,7 +60,8 @@ public class AppUtil  {
 	public static PageData setPageParam(PageData pd){
 		String page_now_str = pd.get("page_now").toString();
 		int pageNowInt = Integer.parseInt(page_now_str)-1;
-		String page_size_str = pd.get("page_size").toString(); //每页显示记录数
+		//每页显示记录数
+		String page_size_str = pd.get("page_size").toString();
 		int pageSizeInt = Integer.parseInt(page_size_str);
 		
 		String page_now = pageNowInt+"";

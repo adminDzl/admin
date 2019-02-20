@@ -14,7 +14,11 @@ public class DictionariesService{
 	private DaoSupport dao;
 	
 	
-	//新增
+	/**
+	 * 新增
+	 * @param pd
+	 * @throws Exception
+	 */
 	public void save(PageData pd)throws Exception{
 		dao.save("DictionariesMapper.save", pd);
 	}
