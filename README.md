@@ -111,5 +111,9 @@
     place(企业租位)
     create_time
     update_time
-# 16.
+
+# 16.企业租位登记表
+    id
+    company_id
+
 
