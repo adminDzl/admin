@@ -1,4 +1,4 @@
-#1.报修单repair_apply	
+# 1.报修单repair_apply	
 	id
 	apply_no 工单编号
 	type(1巡检报修、2弱电报修、3门禁报修)
