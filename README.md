@@ -115,5 +115,10 @@
 # 16.企业租位登记表
     id
     company_id
+    place_address(租位地址)
+    place_cycle(租位周期)
+    place_rent(租位租金)
+    create_time
+    update_time
 
 
