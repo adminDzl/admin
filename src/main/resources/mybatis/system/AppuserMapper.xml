@@ -2,15 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="AppuserMapper">
-	
-	
 	<!-- 更新登录时间 -->
 	<update id="updateLastLogin" parameterType="pd">
 		update SYS_APP_USER set 
 		LAST_LOGIN = #{LAST_LOGIN} 
 		where USER_ID = #{USER_ID}
 	</update>
-	
 	<!-- 判断用户名和密码 -->
 	<select id="getUserInfo" parameterType="pd" resultType="pd">
 		select * from SYS_APP_USER 
@@ -29,7 +26,6 @@
 		and USER_ID = #{USER_ID}
 		</if>
 	</select>
-	
 	<!-- 存入IP -->
 	<update id="saveIP" parameterType="pd">
 		update SYS_APP_USER 
@@ -38,7 +34,6 @@
 			where 
 				USERNAME = #{USERNAME}
 	</update>
-	
 	<!-- 修改 -->
 	<update id="editU" parameterType="pd">
 		update  SYS_APP_USER
@@ -60,7 +55,6 @@
 			where 
 				USER_ID = #{USER_ID}
 	</update>
-	
 	<!-- 通过user_id获取数据 -->
 	<select id="findByUiId" parameterType="pd" resultType="pd">
 		select 
@@ -86,7 +80,6 @@
 		where 
 			USER_ID = #{USER_ID}
 	</select>
-	
 	<!-- 通过邮箱获取数据 -->
 	<select id="findByUE" parameterType="pd" resultType="pd">
 		select 
@@ -115,7 +108,6 @@
 			and USERNAME != #{USERNAME} 
 		</if>
 	</select>
-	
 	<!-- 通过编号获取数据 -->
 	<select id="findByUN" parameterType="pd" resultType="pd">
 		select 
@@ -144,7 +136,6 @@
 			and USERNAME != #{USERNAME} 
 		</if>
 	</select>
-	
 	<!-- 通过USERNAME获取数据 -->
 	<select id="findByUId" parameterType="pd" resultType="pd">
 		select 
@@ -170,7 +161,6 @@
 		where 
 			USERNAME = #{USERNAME}
 	</select>
-	
 	<!-- 新增app用户 -->
 	<insert id="saveU" parameterType="pd">
 		insert into SYS_APP_USER (
@@ -231,7 +221,6 @@
 		where u.ROLE_ID = r.ROLE_ID 
 		and 1 = 1
 		and r.PARENT_ID = '7'
-		
 		<if test="pd.USERNAME != null and pd.USERNAME != ''"><!-- 用户名检索 -->
 			and (
 				u.USERNAME LIKE CONCAT(CONCAT('%', #{pd.USERNAME}),'%')
@@ -254,7 +243,6 @@
 			and u.STATUS=#{pd.STATUS} 
 		</if>
 	</select>
-	
 	<!-- 用户列表(全部) -->
 	<select id="listAllUser" parameterType="pd" resultType="pd">
 		select  u.USER_ID,
@@ -276,7 +264,6 @@
 		where u.ROLE_ID = r.ROLE_ID 
 		and 1 = 1
 		and r.PARENT_ID = '7'
-		
 		<if test="USERNAME != null and USERNAME != ''"><!-- 用户名检索 -->
 			and (
 				u.USERNAME LIKE CONCAT(CONCAT('%', #{USERNAME}),'%')
@@ -299,14 +286,12 @@
 			and u.STATUS=#{STATUS} 
 		</if>
 	</select>
-	
 	<!-- 删除用户 -->
 	<delete id="deleteU" parameterType="pd">
 		delete from SYS_APP_USER 
 		where 
 			USER_ID = #{USER_ID}
 	</delete>
-	
 	<!-- 批量删除用户 -->
 	<delete id="deleteAllU" parameterType="String">
 		delete from SYS_APP_USER
@@ -316,5 +301,4 @@
                   #{item}
              </foreach>
 	</delete>
-	
 </mapper>

@@ -1,4 +1,4 @@
-# 1.报修单repair_apply	
+# 1.报修单 repair_apply	
 	id
 	apply_no 工单编号
 	type(1巡检报修、2弱电报修、3门禁报修)
@@ -6,15 +6,17 @@
 	order_time
 	repair_content
 	image_urls
+	attach
 	create_time
 	apply_status
-# 2.维修进度repair_progress
+# 2.维修进度 repair_progress
     id
     apply_id
     progress(进度状态)
+    attach
     create_time
     create_user_id
-# 3.缴费单payment
+# 3.缴费单 payment
 	id
 	缴费单位id/个人id
 	payment_type（物业、水、电、一卡通）
@@ -22,13 +24,13 @@
 	payment_date 费用月度
 	status
 	create_time
-# 4.客服表service_man
+# 4.客服表 service_man
 	id
 	floor 楼层
 	floor_master_name 层长姓名
 	master_tel 联系方式
 	create_time
-# 5.用户车牌绑定表user_car_bind
+# 5.用户车牌绑定表 user_car_bind
 	id
 	user_id 用户id
 	car_province 车牌归属
@@ -36,7 +38,7 @@
 	status 绑定状态
 	create_time
 	update_time
-# 6.用户停车月卡user_car_month_card
+# 6.用户停车月卡 user_car_month_card
 	id
 	user_id 用户id
 	card_no 月卡号
@@ -45,7 +47,7 @@
 	card_status 月卡状态
 	create_time
     update_time
-# 7.停车记录表parking
+# 7.停车记录表 parking
 	id
 	user_id 用户id
 	begain_time 开始时间
@@ -54,7 +56,7 @@
 	fee 停车费
 	create_time
     update_time
-# 8.付费记录pay_order
+# 8.付费记录 pay_order
 	id
 	order_type（1水电物业，2停车费）
 	order_amount 付费金额
@@ -62,24 +64,16 @@
     update_time
 	return_time 确认时间
 	pay_status	付费状态
-# 9.公告消息表tip_msg
+# 9.站内信表 tip_msg
 	id
-	msg_title 公告标题
-	msg_content 公告内容
-	img_url 图片url
-	attach_url 附件url
-	create_time
-    update_time
-# 10.进度提醒表alert_msg
-	id
-	to_user
+	msg_type 公告消息，进度提醒
+	to_user 公告为空，
 	alert_title 提醒标题
-	alert_content 提醒内容
-	img_url 图片url
+	alert_content 提醒内容text
     attach_url 附件url
 	create_time
     update_time
-# 11.场地表place
+# 10.场地表 yard
 	id
 	place_type（1.会议室，2.活动室，3健身房）
 	postion 所处位置
@@ -89,7 +83,7 @@
 	rent_fee 租金
 	create_time
     update_time
-# 12.场地预定表place_booking
+# 11.场地预定表 yard_booking
 	id
 	place_id 场地id
 	apply_user_id 预定人
@@ -98,27 +92,27 @@
 	status 预定状态
 	create_time
     update_time
-# 13.装修申请表
+# 12.装修申请表
 
 
-# 14.项目申请表
+# 13.项目申请表
 
 
-# 15.入住企业表company
+# 14.入住企业表company
     id
     company_name(企业名)
+    type (1.自己公司，2.其他公司)
+    status
+    description 描述
     level(企业等级)
-    place(企业租位)
+    place_name(企业租位)
     create_time
     update_time
-
-# 16.企业租位登记表
+# 15.企业租位登记表 rent_place
     id
-    company_id
     place_address(租位地址)
     place_cycle(租位周期)
     place_rent(租位租金)
+    attach_url
     create_time
     update_time
-
-

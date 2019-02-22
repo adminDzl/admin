@@ -67,5 +67,4 @@
 		LAST_LOGIN=#{LAST_LOGIN} 
 		where USER_ID=#{USER_ID}
 	</update>
-	
 </mapper>

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="PicturesMapper">
-	
-	
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into TB_PICTURES(
@@ -23,16 +21,12 @@
 			#{PICTURES_ID}
 		)
 	</insert>
-	
-	
 	<!-- 删除-->
 	<delete id="delete" parameterType="pd">
 		delete from TB_PICTURES
 		where 
 			PICTURES_ID = #{PICTURES_ID}
 	</delete>
-	
-	
 	<!-- 修改 -->
 	<update id="edit" parameterType="pd">
 		update  TB_PICTURES
@@ -48,8 +42,6 @@
 			where 
 				PICTURES_ID = #{PICTURES_ID}
 	</update>
-	
-	
 	<!-- 通过ID获取数据 -->
 	<select id="findById" parameterType="pd" resultType="pd">
 		select 
@@ -65,8 +57,6 @@
 		where 
 			PICTURES_ID = #{PICTURES_ID}
 	</select>
-	
-	
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
@@ -93,7 +83,6 @@
 				)
 		</if>
 	</select>
-	
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">
 		select
@@ -107,7 +96,6 @@
 		from 
 				TB_PICTURES a
 	</select>
-	
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from TB_PICTURES
@@ -117,7 +105,6 @@
                  #{item}
 		</foreach>
 	</delete>
-	
 	<!-- 批量获取 -->
 	<select id="getAllById" parameterType="String" resultType="pd">
 		select PATH from TB_PICTURES
@@ -127,7 +114,6 @@
                  #{item}
 		</foreach>
 	</select>
-	
 	<!-- 删除图片 -->
 	<update id="delTp" parameterType="pd">
 		update  TB_PICTURES

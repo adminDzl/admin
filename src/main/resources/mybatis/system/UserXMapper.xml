@@ -2,23 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="UserXMapper">
-	
-    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>  
-	
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
 	<!-- 换皮肤-->
 	<update id="setSKIN" parameterType="pd" flushCache="false">
 		update SYS_USER set 
 		SKIN = #{SKIN} 
 		where USERNAME = #{USERNAME}
 	</update>
-	
 	<!-- 更新登录时间 -->
 	<update id="updateLastLogin" parameterType="pd" flushCache="false">
 		update SYS_USER set 
 		LAST_LOGIN = #{LAST_LOGIN} 
 		where USER_ID = #{USER_ID}
 	</update>
-	
 	<!-- 判断用户名和密码 -->
 	<select id="getUserInfo" parameterType="pd" resultType="pd" useCache="false"><!-- insert update delete (flushCache="true/false") -->
 		select * from SYS_USER 
@@ -36,9 +32,6 @@
 		and USER_ID = #{USER_ID}
 		</if>
 	</select>
-	
-
-	
 	<!-- 存入IP -->
 	<update id="saveIP" parameterType="pd" flushCache="false">
 		update SYS_USER 
@@ -47,7 +40,6 @@
 			where 
 				USERNAME = #{USERNAME}
 	</update>
-	
 	<!-- 修改 -->
 	<update id="editU" parameterType="pd" flushCache="false">
 		update  SYS_USER
@@ -64,7 +56,6 @@
 			where 
 				USER_ID = #{USER_ID}
 	</update>
-	
 	<!-- 通过user_id获取数据 -->
 	<select id="findByUiId" parameterType="pd" resultType="pd" useCache="false">
 		select 
@@ -87,7 +78,6 @@
 		where 
 			USER_ID = #{USER_ID}
 	</select>
-		
 	<!-- 通过邮箱获取数据 -->
 	<select id="findByUE" parameterType="pd" resultType="pd" useCache="false">
 		select 
@@ -113,7 +103,6 @@
 			and USERNAME != #{USERNAME} 
 		</if>
 	</select>
-	
 	<!-- 通过编号获取数据 -->
 	<select id="findByUN" parameterType="pd" resultType="pd" useCache="false">
 		select 
@@ -139,7 +128,6 @@
 			and USERNAME != #{USERNAME} 
 		</if>
 	</select>
-	
 	<!-- 通过USERNAME获取数据 -->
 	<select id="findByUId" parameterType="pd" resultType="pd" useCache="false">
 		select 
@@ -162,7 +150,6 @@
 		where 
 			USERNAME = #{USERNAME}
 	</select>
-	
 	<!-- 新增用户 -->
 	<insert id="saveU" parameterType="pd" flushCache="false">
 		insert into SYS_USER (
@@ -239,7 +226,6 @@
 		</if>
 		order by u.LAST_LOGIN desc
 	</select>
-	
 	<!-- 用户列表(全部) -->
 	<select id="listAllUser" parameterType="pd" resultType="pd" useCache="false">
 		select  u.USER_ID,
@@ -282,14 +268,12 @@
 		</if>
 		order by u.LAST_LOGIN desc
 	</select>
-	
 	<!-- 删除用户 -->
 	<delete id="deleteU" parameterType="pd" flushCache="false">
 		delete from SYS_USER
 		where 
 			USER_ID = #{USER_ID}
 	</delete>
-	
 	<!-- 批量删除用户 -->
 	<delete id="deleteAllU" parameterType="String" flushCache="false">
 		delete from SYS_USER
@@ -299,5 +283,4 @@
                   #{item}
              </foreach>
 	</delete>
-	
 </mapper>

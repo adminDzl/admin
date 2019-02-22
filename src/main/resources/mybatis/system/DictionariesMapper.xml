@@ -2,8 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="DictionariesMapper">
-	
-	
 	<!-- 修改 -->
 	<update id="edit" parameterType="pd">
 		update  SYS_DICTIONARIES
@@ -14,7 +12,6 @@
 			where 
 				ZD_ID = #{ZD_ID}
 	</update>
-	
 	<!-- 通过id获取数据 -->
 	<select id="findById" parameterType="pd" resultType="pd">
 		select 
@@ -30,7 +27,6 @@
 		where 
 			ZD_ID = #{ZD_ID}
 	</select>
-	
 	<!-- 新增 -->
 	<insert id="save" parameterType="pd">
 		insert into SYS_DICTIONARIES (
@@ -51,7 +47,6 @@
 			#{P_BM}
 		)
 	</insert>
-	
 	<!-- 列表 -->
 	<select id="dictlistPage" parameterType="page" resultType="pd">
 		select  z1.ZD_ID,
@@ -73,7 +68,6 @@
 		</if>
 		order by z1.ORDY_BY
 	</select>
-	
 	<!-- 查询总数 -->
 	<select id="findCount" parameterType="pd" resultType="pd">
 		select 
@@ -83,7 +77,6 @@
 		where 
 			PARENT_ID = #{ZD_ID}
 	</select>
-	
 	<!-- 查询某编码 -->
 	<select id="findBmCount" parameterType="pd" resultType="pd">
 		select 
@@ -96,13 +89,10 @@
 			and ZD_ID != #{ZD_ID} 
 		</if>
 	</select>
-	
 	<!-- 删除用户 -->
 	<delete id="delete" parameterType="pd">
 		delete from SYS_DICTIONARIES 
 		where 
 			ZD_ID = #{ZD_ID}
 	</delete>
-	
-	
 </mapper>
