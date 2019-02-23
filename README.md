@@ -46,7 +46,7 @@
 	is_license 是否已上传行驶证
 	create_time
 	update_time
-# 6.用户停车月卡 user_car_month_card
+# 7.用户停车月卡 user_car_month_card
 	id
 	user_id 用户id
 	card_no 月卡号
@@ -55,7 +55,7 @@
 	card_status 月卡状态
 	create_time
     update_time
-# 7.停车记录表 parking 暂时不确定是自己座还是用自己
+# 8.停车记录表 parking 暂时不确定是自己座还是用自己
 	id
 	user_id 用户id
 	begin_time 开始时间
@@ -64,7 +64,7 @@
 	fee 停车费
 	create_time
     update_time
-# 8.付费记录 pay_order
+# 9.付费记录 pay_order
 	id
 	pay_type（1水电物业，2停车费，3场地预定费4，一卡通费用）
 	pay_amount 付费金额
@@ -72,7 +72,7 @@
     update_time
 	return_time 确认时间
 	pay_status	付费状态
-# 9.站内信表 tip_msg
+# 10.站内信表 tip_msg
 	id
 	msg_type 公告消息，进度提醒
 	to_user 公告为空，
@@ -80,7 +80,7 @@
 	alert_content 提醒内容text
 	create_time
     update_time
-# 10.场地表 yard
+# 11.场地表 yard
 	id
 	place_type（1.会议室，2.活动室，3健身房）
 	postion 所处位置
@@ -89,7 +89,7 @@
 	rent_fee 价格
 	create_time
     update_time
-# 11.场地预定表 yard_book
+# 12.场地预定表 yard_book
 	id
 	place_id 场地id
 	apply_user_id 预定人
@@ -101,7 +101,7 @@
 	status 预定状态
 	create_time
     update_time
-# 12.装修申请表 decorate
+# 13.装修申请表 decorate
     id
     decorate_no
     title
@@ -110,7 +110,7 @@
     create_time
     update_time
 
-# 13.新闻公告 news_tip
+# 14.新闻公告 news_tip
     id
 	news_type 1.新闻2.项目申报
 	news_title 标题
@@ -118,7 +118,7 @@
     attach_url 附件url
 	create_time
     update_time
-# 14.入住企业表company
+# 15.入住企业表 company
     id
     company_name(企业名)
     type (1.自己公司，2.其他公司)
@@ -129,7 +129,7 @@
     logo
     create_time
     update_time
-# 15.企业租位登记表 rent_place
+# 16.企业租位登记表 rent_place
     id
     place_address(租位地址)
     place_cycle(租位周期)
