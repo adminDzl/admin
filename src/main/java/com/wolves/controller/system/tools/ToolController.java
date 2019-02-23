@@ -1,6 +1,5 @@
 package com.wolves.controller.system.tools;
 
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -13,11 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.wolves.controller.base.BaseController;
 import com.wolves.util.AppUtil;
-import com.wolves.util.Const;
 import com.wolves.util.MapDistance;
 import com.wolves.util.PageData;
-import com.wolves.util.PathUtil;
-import com.wolves.util.TwoDimensionCode;
 
 @Controller
 @RequestMapping(value="/tool")
@@ -82,72 +78,6 @@ public class ToolController extends BaseController {
 	}
 	
 	/**
-	 * 二维码页面
-	 */
-	@RequestMapping(value="/goTwoDimensionCode")
-	public ModelAndView goTwoDimensionCode() throws Exception{
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		mv.setViewName("system/tools/twoDimensionCode");
-		mv.addObject("pd", pd);
-		return mv;
-	}
-	
-	/**
-	 *	生成二维码
-	 */
-	@RequestMapping(value="/createTwoDimensionCode")
-	@ResponseBody
-	public Object createTwoDimensionCode(){
-		Map<String,String> map = new HashMap<String,String>();
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		String errInfo = "success", encoderImgId = this.get32UUID()+".png"; //encoderImgId此处二维码的图片名
-		String encoderContent = pd.getString("encoderContent");				//内容
-		if(null == encoderContent){
-			errInfo = "error";
-		}else{
-			try {
-				String filePath = PathUtil.getClasspath() + Const.FILEPATHTWODIMENSIONCODE + encoderImgId;  //存放路径
-				TwoDimensionCode.encoderQRCode(encoderContent, filePath, "png");							//执行生成二维码
-			} catch (Exception e) {
-				errInfo = "error";
-			}
-		}
-		map.put("result", errInfo);						//返回结果
-		map.put("encoderImgId", encoderImgId);			//二维码图片名
-		return AppUtil.returnObject(new PageData(), map);
-	}
-	
-	/**
-	 *	解析二维码
-	 */
-	@RequestMapping(value="/readTwoDimensionCode")
-	@ResponseBody
-	public Object readTwoDimensionCode(){
-		Map<String,String> map = new HashMap<String,String>();
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		String errInfo = "success",readContent="";
-		String imgId = pd.getString("imgId");//内容
-		if(null == imgId){
-			errInfo = "error";
-		}else{
-			try {
-				String filePath = PathUtil.getClasspath() + Const.FILEPATHTWODIMENSIONCODE + imgId;  //存放路径
-				readContent = TwoDimensionCode.decoderQRCode(filePath);//执行读取二维码
-			} catch (Exception e) {
-				errInfo = "error";
-			}
-		}
-		map.put("result", errInfo);						//返回结果
-		map.put("readContent", readContent);			//读取的内容
-		return AppUtil.returnObject(new PageData(), map);
-	}
-	
-	
-	/**
 	 * 多级别树页面
 	 */
 	@RequestMapping(value="/ztree")
@@ -201,9 +131,8 @@ public class ToolController extends BaseController {
 		} catch (Exception e) {
 			errInfo = "error";
 		}
-		map.put("result", errInfo);				//返回结果
-		map.put("distance", distance);			//距离
+		map.put("result", errInfo);
+		map.put("distance", distance);
 		return AppUtil.returnObject(new PageData(), map);
 	}
-	
 }
