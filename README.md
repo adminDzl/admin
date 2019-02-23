@@ -1,19 +1,19 @@
-# 1.报修单 repair_apply	
+# 1.报修单 repair_apply
 	id
 	apply_no 工单编号
-	type(1巡检报修、2弱电报修、3门禁报修)
-	order_date
-	order_time
+	type(1巡检报修、2弱电报修、3门禁报修、4其他报修)
+	order_date（预约上门日期）
+	order_time（预约上门时间）
 	repair_content
 	image_urls
-	attach
 	create_time
 	apply_status
 # 2.维修进度 repair_progress
     id
     apply_id
+    repair_goods维修物品
     progress(进度状态)
-    attach
+    image_urls
     create_time
     create_user_id
 # 3.缴费单 payment
@@ -50,7 +50,7 @@
 # 7.停车记录表 parking
 	id
 	user_id 用户id
-	begain_time 开始时间
+	begin_time 开始时间
 	end_time 结束时间
 	total_hour 总时长
 	fee 停车费
@@ -116,3 +116,5 @@
     attach_url
     create_time
     update_time
+
+
