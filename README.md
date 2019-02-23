@@ -16,26 +16,34 @@
     image_urls
     create_time
     create_user_id
-# 3.缴费单 payment
+# 3.缴费单 payment（app上单位的ceo和ceo指定的人能看到并操作）
 	id
-	缴费单位id/个人id
-	payment_type（物业、水、电、一卡通）
+	缴费单位id
+	payment_type（物业、水、电）
 	amount 金额
 	payment_date 费用月度
 	status
 	create_time
-# 4.客服表 service_man
+# 4.楼长表 build_man
 	id
+    build_no 楼栋号
+	build_master_name 楼长姓名
+	master_tel 联系方式
+	create_time	
+# 5.层长表 floor_man
+	id
+    build_no 楼栋号
 	floor 楼层
 	floor_master_name 层长姓名
 	master_tel 联系方式
 	create_time
-# 5.用户车牌绑定表 user_car_bind
+# 6.用户车牌绑定表 user_car_bind
 	id
 	user_id 用户id
 	car_province 车牌归属
 	car_no 车牌号
 	status 绑定状态
+	is_license 是否已上传行驶证
 	create_time
 	update_time
 # 6.用户停车月卡 user_car_month_card
@@ -43,11 +51,11 @@
 	user_id 用户id
 	card_no 月卡号
 	price 金额
-	use_month 有效月份
+	use_til_date 有效月份
 	card_status 月卡状态
 	create_time
     update_time
-# 7.停车记录表 parking
+# 7.停车记录表 parking 暂时不确定是自己座还是用自己
 	id
 	user_id 用户id
 	begin_time 开始时间
@@ -58,8 +66,8 @@
     update_time
 # 8.付费记录 pay_order
 	id
-	order_type（1水电物业，2停车费）
-	order_amount 付费金额
+	pay_type（1水电物业，2停车费，3场地预定费4，一卡通费用）
+	pay_amount 付费金额
 	create_time 付费时间
     update_time
 	return_time 确认时间
@@ -70,7 +78,6 @@
 	to_user 公告为空，
 	alert_title 提醒标题
 	alert_content 提醒内容text
-    attach_url 附件url
 	create_time
     update_time
 # 10.场地表 yard
@@ -79,33 +86,47 @@
 	postion 所处位置
 	image_url
 	equipment 设备
-	equipment_health 设备运行情况
-	rent_fee 租金
+	rent_fee 价格
 	create_time
     update_time
-# 11.场地预定表 yard_booking
+# 11.场地预定表 yard_book
 	id
 	place_id 场地id
 	apply_user_id 预定人
 	place_date 预定日期
-	place_time 预定时间
+	begin_time 预定开始时间
+	end_time 预定结束时间
+	book_duration 预定时长
+	book_fee 预定费用
 	status 预定状态
 	create_time
     update_time
-# 12.装修申请表
+# 12.装修申请表 decorate
+    id
+    decorate_no
+    title
+    content
+    status 审核状态
+    create_time
+    update_time
 
-
-# 13.项目申请表
-
-
+# 13.新闻公告 news_tip
+    id
+	news_type 1.新闻2.项目申报
+	news_title 标题
+	news_content 内容text
+    attach_url 附件url
+	create_time
+    update_time
 # 14.入住企业表company
     id
     company_name(企业名)
     type (1.自己公司，2.其他公司)
     status
     description 描述
-    level(企业等级)
-    place_name(企业租位)
+    company_certify(企业认证)
+    place_id(企业租位)
+    logo
     create_time
     update_time
 # 15.企业租位登记表 rent_place
@@ -116,5 +137,6 @@
     attach_url
     create_time
     update_time
+# 企业用户表
 
 
