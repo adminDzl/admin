@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="NewsTipMapper">
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into NEWS_TIPNEWSTIP(
+			ID,	
+			NEWS_TYPE,	
+			NEWS_TITLE,	
+			NEWS_CONTENT,	
+			ATTACH_URL,	
+			CREATE_TIME,	
+			UPDATE_TIME,	
+			NEWSTIP_ID
+		) values (
+			#{ID},	
+			#{NEWS_TYPE},	
+			#{NEWS_TITLE},	
+			#{NEWS_CONTENT},	
+			#{ATTACH_URL},	
+			#{CREATE_TIME},	
+			#{UPDATE_TIME},	
+			#{NEWSTIP_ID}
+		)
+	</insert>
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from NEWS_TIPNEWSTIP
+		where 
+			NEWSTIP_ID = #{NEWSTIP_ID}
+	</delete>
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update  NEWS_TIPNEWSTIP
+			set 
+				ID = #{ID},
+				NEWS_TYPE = #{NEWS_TYPE},
+				NEWS_TITLE = #{NEWS_TITLE},
+				NEWS_CONTENT = #{NEWS_CONTENT},
+				ATTACH_URL = #{ATTACH_URL},
+				CREATE_TIME = #{CREATE_TIME},
+				UPDATE_TIME = #{UPDATE_TIME},
+			NEWSTIP_ID = NEWSTIP_ID
+			where 
+				NEWSTIP_ID = #{NEWSTIP_ID}
+	</update>
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+			ID,	
+			NEWS_TYPE,	
+			NEWS_TITLE,	
+			NEWS_CONTENT,	
+			ATTACH_URL,	
+			CREATE_TIME,	
+			UPDATE_TIME,	
+			NEWSTIP_ID
+		from 
+			NEWS_TIPNEWSTIP
+		where 
+			NEWSTIP_ID = #{NEWSTIP_ID}
+	</select>
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+				a.ID,	
+				a.NEWS_TYPE,	
+				a.NEWS_TITLE,	
+				a.NEWS_CONTENT,	
+				a.ATTACH_URL,	
+				a.CREATE_TIME,	
+				a.UPDATE_TIME,	
+				a.NEWSTIP_ID
+		from 
+				NEWS_TIPNEWSTIP a
+	</select>
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+				a.ID,	
+				a.NEWS_TYPE,	
+				a.NEWS_TITLE,	
+				a.NEWS_CONTENT,	
+				a.ATTACH_URL,	
+				a.CREATE_TIME,	
+				a.UPDATE_TIME,	
+				a.NEWSTIP_ID
+		from 
+				NEWS_TIPNEWSTIP a
+	</select>
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from NEWS_TIPNEWSTIP
+		where 
+			NEWSTIP_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+</mapper>
