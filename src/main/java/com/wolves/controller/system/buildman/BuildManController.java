@@ -102,7 +102,7 @@ public class BuildManController extends BaseController {
 		try{
 			pd = this.getPageData();
 			page.setPd(pd);
-			List<PageData>	varList = buildmanService.list(page);	//列出BuildMan列表
+			List<PageData> varList = buildmanService.list(page);	//列出BuildMan列表
 			mv.setViewName("system/buildman/buildman_list");
 			mv.addObject("varList", varList);
 			mv.addObject("pd", pd);
