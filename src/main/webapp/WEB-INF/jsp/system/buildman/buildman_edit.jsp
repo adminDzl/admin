@@ -27,16 +27,7 @@
 <script type="text/javascript">
 	//保存
 	function save(){
-			if($("#ID").val()==""){
-			$("#ID").tips({
-				side:3,
-	            msg:'请输入id',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#ID").focus();
-			return false;
-		}
+
 		if($("#BUILD_NO").val()==""){
 			$("#BUILD_NO").tips({
 				side:3,
@@ -89,10 +80,7 @@
 		<input type="hidden" name="BUILDMAN_ID" id="BUILDMAN_ID" value="${pd.BUILDMAN_ID}"/>
 		<div id="zhongxin">
 		<table id="table_report" class="table table-striped table-bordered table-hover">
-			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">id:</td>
-				<td><input type="number" name="ID" id="ID" value="${pd.ID}" maxlength="32" placeholder="这里输入id" title="id"/></td>
-			</tr>
+
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">楼栋号:</td>
 				<td><input type="text" name="BUILD_NO" id="BUILD_NO" value="${pd.BUILD_NO}" maxlength="32" placeholder="这里输入楼栋号" title="楼栋号"/></td>

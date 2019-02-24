@@ -83,13 +83,13 @@
 # 11.场地表 yard
 	id
 	place_type（1.会议室，2.活动室，3健身房）
-	postion 所处位置
+	position 所处位置
 	image_url
 	equipment 设备
 	rent_fee 价格
 	create_time
     update_time
-# 12.场地预定表 yard_book
+# 12.场地预定表 yard_appoint
 	id
 	place_id 场地id
 	apply_user_id 预定人

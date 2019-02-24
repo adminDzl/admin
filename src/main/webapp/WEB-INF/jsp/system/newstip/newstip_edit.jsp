@@ -27,20 +27,11 @@
 <script type="text/javascript">
 	//保存
 	function save(){
-			if($("#ID").val()==""){
-			$("#ID").tips({
-				side:3,
-	            msg:'请输入id',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#ID").focus();
-			return false;
-		}
+
 		if($("#NEWS_TYPE").val()==""){
 			$("#NEWS_TYPE").tips({
 				side:3,
-	            msg:'请输入新闻类型（1.新闻 2.项目申报）',
+	            msg:'请输入新闻类型',
 	            bg:'#AE81FF',
 	            time:2
 	        });
@@ -109,12 +100,9 @@
 		<input type="hidden" name="NEWSTIP_ID" id="NEWSTIP_ID" value="${pd.NEWSTIP_ID}"/>
 		<div id="zhongxin">
 		<table id="table_report" class="table table-striped table-bordered table-hover">
+
 			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">id:</td>
-				<td><input type="number" name="ID" id="ID" value="${pd.ID}" maxlength="32" placeholder="这里输入id" title="id"/></td>
-			</tr>
-			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">新闻类型（1.新闻 2.项目申报）:</td>
+				<td style="width:70px;text-align: right;padding-top: 13px;">新闻类型:</td>
 				<td><input type="number" name="NEWS_TYPE" id="NEWS_TYPE" value="${pd.NEWS_TYPE}" maxlength="32" placeholder="这里输入新闻类型（1.新闻 2.项目申报）" title="新闻类型（1.新闻 2.项目申报）"/></td>
 			</tr>
 			<tr>

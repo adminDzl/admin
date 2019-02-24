@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="YardMapper">
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into YARD(
+			PLACE_TYPE,	
+			POSITION,	
+			IMAGE_URL,	
+			EQUIPMENT,	
+			RENT_FEE,	
+			CREATE_TIME,	
+			UPDATE_TIME,	
+			YARD_ID
+		) values (
+			#{PLACE_TYPE},	
+			#{POSITION},	
+			#{IMAGE_URL},	
+			#{EQUIPMENT},	
+			#{RENT_FEE},	
+			#{CREATE_TIME},	
+			#{UPDATE_TIME},	
+			#{YARD_ID}
+		)
+	</insert>
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from YARD
+		where 
+			YARD_ID = #{YARD_ID}
+	</delete>
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update  YARD
+			set 
+				PLACE_TYPE = #{PLACE_TYPE},
+				POSITION = #{POSITION},
+				IMAGE_URL = #{IMAGE_URL},
+				EQUIPMENT = #{EQUIPMENT},
+				RENT_FEE = #{RENT_FEE},
+			YARD_ID = YARD_ID
+			where 
+				YARD_ID = #{YARD_ID}
+	</update>
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+			PLACE_TYPE,	
+			POSITION,	
+			IMAGE_URL,	
+			EQUIPMENT,	
+			RENT_FEE,	
+			CREATE_TIME,	
+			UPDATE_TIME,	
+			YARD_ID
+		from 
+			YARD
+		where 
+			YARD_ID = #{YARD_ID}
+	</select>
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+				a.PLACE_TYPE,	
+				a.POSITION,	
+				a.IMAGE_URL,	
+				a.EQUIPMENT,	
+				a.RENT_FEE,	
+				a.CREATE_TIME,	
+				a.UPDATE_TIME,	
+				a.YARD_ID
+		from 
+				YARD a
+	</select>
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+				a.PLACE_TYPE,	
+				a.POSITION,	
+				a.IMAGE_URL,	
+				a.EQUIPMENT,	
+				a.RENT_FEE,	
+				a.CREATE_TIME,	
+				a.UPDATE_TIME,	
+				a.YARD_ID
+		from 
+				YARD a
+	</select>
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from YARD
+		where 
+			YARD_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+</mapper>
