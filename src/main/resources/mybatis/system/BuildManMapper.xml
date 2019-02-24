@@ -4,14 +4,12 @@
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into BUILD_MANBUILDMAN(
-			ID,	
 			BUILD_NO,	
 			BUILD_MASTER_NAME,	
 			MASTER_TEL,	
 			CREATE_TIME,	
 			BUILDMAN_ID
 		) values (
-			#{ID},	
 			#{BUILD_NO},	
 			#{BUILD_MASTER_NAME},	
 			#{MASTER_TEL},	
@@ -28,8 +26,7 @@
 	<!-- 修改 -->
 	<update id="edit" parameterType="pd">
 		update  BUILD_MANBUILDMAN
-			set 
-				ID = #{ID},
+			set
 				BUILD_NO = #{BUILD_NO},
 				BUILD_MASTER_NAME = #{BUILD_MASTER_NAME},
 				MASTER_TEL = #{MASTER_TEL},
@@ -40,8 +37,7 @@
 	</update>
 	<!-- 通过ID获取数据 -->
 	<select id="findById" parameterType="pd" resultType="pd">
-		select 
-			ID,	
+		select
 			BUILD_NO,	
 			BUILD_MASTER_NAME,	
 			MASTER_TEL,	
@@ -55,7 +51,6 @@
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
-				a.ID,	
 				a.BUILD_NO,	
 				a.BUILD_MASTER_NAME,	
 				a.MASTER_TEL,	
@@ -67,7 +62,6 @@
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">
 		select
-				a.ID,	
 				a.BUILD_NO,	
 				a.BUILD_MASTER_NAME,	
 				a.MASTER_TEL,	
