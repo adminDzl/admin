@@ -50,7 +50,7 @@
 						<label><input type="checkbox" id="zcheckbox" /><span class="lbl"></span></label>
 						</th>
 						<th class="center">序号</th>
-						<th class="center">新闻类型（1.新闻 2.项目申报）</th>
+						<th class="center">新闻类型</th>
 						<th class="center">新闻标题</th>
 						<th class="center">新闻内容</th>
 						<th class="center">附件url</th>
@@ -72,7 +72,12 @@
 									<label><input type='checkbox' name='ids' value="${var.NEWSTIP_ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-										<td>${var.NEWS_TYPE}</td>
+										<c:if test="${var.NEWS_TYPE == 1}">
+											<td>新闻</td>
+										</c:if>
+										<c:if test="${var.NEWS_TYPE == 2}">
+											<td>项目申报</td>
+										</c:if>
 										<td>${var.NEWS_TITLE}</td>
 										<td>${var.NEWS_CONTENT}</td>
 										<td>${var.ATTACH_URL}</td>

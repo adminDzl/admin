@@ -62,17 +62,17 @@
 				<div class="form-actions">
 					<div style="width:86%;padding-left:8%;">
 
-						<div style="float: left;">
-							<i><img src="static/login/yan.png" /></i>
-						</div>
-						<div style="float: left;" class="codediv">
-							<input type="text" name="code" id="code" class="login_code"
-								style="height:16px; padding-top:0px;" />
-						</div>
-						<div style="float: left;">
-							<i><img style="height:22px;" id="codeImg" alt="点击更换"
-								title="点击更换" src="" /></i>
-						</div>
+						<%--<div style="float: left;">--%>
+							<%--<i><img src="static/login/yan.png" /></i>--%>
+						<%--</div>--%>
+						<%--<div style="float: left;" class="codediv">--%>
+							<%--<input type="text" name="code" id="code" class="login_code"--%>
+								<%--style="height:16px; padding-top:0px;" />--%>
+						<%--</div>--%>
+						<%--<div style="float: left;">--%>
+							<%--<i><img style="height:22px;" id="codeImg" alt="点击更换"--%>
+								<%--title="点击更换" src="" /></i>--%>
+						<%--</div>--%>
 
 						<span class="pull-right" style="padding-right:3%;"><a
 							href="javascript:quxiao();" class="btn btn-success">取消</a></span> <span
@@ -110,7 +110,7 @@
 				
 				var loginname = $("#loginname").val();
 				var password = $("#password").val();
-				var code = "qq313596790fh"+loginname+",fh,"+password+"QQ978336446fh"+",fh,"+$("#code").val();
+				var code = "qq313596790fh"+loginname+",fh,"+password+"QQ978336446fh"+",fh,";
 				$.ajax({
 					type: "POST",
 					url: 'login_login',
@@ -151,10 +151,10 @@
 			}
 		}
 	
-		$(document).ready(function() {
-			changeCode();
-			$("#codeImg").bind("click", changeCode);
-		});
+//		$(document).ready(function() {
+//			changeCode();
+//			$("#codeImg").bind("click", changeCode);
+//		});
 
 		$(document).keyup(function(event) {
 			if (event.keyCode == 13) {
@@ -201,18 +201,18 @@
 				$("#password").focus();
 				return false;
 			}
-			if ($("#code").val() == "") {
-
-				$("#code").tips({
-					side : 1,
-					msg : '验证码不得为空',
-					bg : '#AE81FF',
-					time : 3
-				});
-
-				$("#code").focus();
-				return false;
-			}
+//			if ($("#code").val() == "") {
+//
+//				$("#code").tips({
+//					side : 1,
+//					msg : '验证码不得为空',
+//					bg : '#AE81FF',
+//					time : 3
+//				});
+//
+//				$("#code").focus();
+//				return false;
+//			}
 
 			$("#loginbox").tips({
 				side : 1,

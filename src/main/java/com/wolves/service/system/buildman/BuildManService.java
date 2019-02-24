@@ -19,7 +19,7 @@ public class BuildManService {
 	public void save(PageData pd)throws Exception{
 		dao.save("BuildManMapper.save", pd);
 	}
-	
+
 	/**
 	* 删除
 	*/
