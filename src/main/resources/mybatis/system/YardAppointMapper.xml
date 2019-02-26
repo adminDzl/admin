@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="YardAppointMapper">
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into YARD_APPOINT(
+			PLACE_ID,	
+			APPLY_USER_ID,	
+			PLACE_DATE,	
+			BEGIN_TIME,	
+			END_TIME,	
+			BOOK_DURATION,	
+			BOOK_FEE,	
+			STATUS,	
+			CREATE_TIME,	
+			UPDATE_TIME,	
+			YARDAPPOINT_ID
+		) values (
+			#{PLACE_ID},	
+			#{APPLY_USER_ID},	
+			#{PLACE_DATE},	
+			#{BEGIN_TIME},	
+			#{END_TIME},	
+			#{BOOK_DURATION},	
+			#{BOOK_FEE},	
+			#{STATUS},	
+			now(),
+			now(),
+			#{YARDAPPOINT_ID}
+		)
+	</insert>
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from YARD_APPOINT
+		where 
+			YARDAPPOINT_ID = #{YARDAPPOINT_ID}
+	</delete>
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update  YARD_APPOINT
+			set 
+				PLACE_DATE = #{PLACE_DATE},
+				BEGIN_TIME = #{BEGIN_TIME},
+				END_TIME = #{END_TIME},
+				STATUS = #{STATUS},
+				UPDATE_TIME = now(),
+			YARDAPPOINT_ID = YARDAPPOINT_ID
+			where 
+				YARDAPPOINT_ID = #{YARDAPPOINT_ID}
+	</update>
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+			PLACE_ID,	
+			APPLY_USER_ID,	
+			PLACE_DATE,	
+			BEGIN_TIME,	
+			END_TIME,	
+			BOOK_DURATION,	
+			BOOK_FEE,	
+			STATUS,	
+			CREATE_TIME,	
+			UPDATE_TIME,	
+			YARDAPPOINT_ID
+		from 
+			YARD_APPOINT
+		where 
+			YARDAPPOINT_ID = #{YARDAPPOINT_ID}
+	</select>
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+				a.PLACE_ID,	
+				a.APPLY_USER_ID,	
+				a.PLACE_DATE,	
+				a.BEGIN_TIME,	
+				a.END_TIME,	
+				a.BOOK_DURATION,	
+				a.BOOK_FEE,	
+				a.STATUS,	
+				a.CREATE_TIME,	
+				a.UPDATE_TIME,	
+				a.YARDAPPOINT_ID
+		from 
+				YARD_APPOINT a
+	</select>
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+				a.PLACE_ID,	
+				a.APPLY_USER_ID,	
+				a.PLACE_DATE,	
+				a.BEGIN_TIME,	
+				a.END_TIME,	
+				a.BOOK_DURATION,	
+				a.BOOK_FEE,	
+				a.STATUS,	
+				a.CREATE_TIME,	
+				a.UPDATE_TIME,	
+				a.YARDAPPOINT_ID
+		from 
+				YARD_APPOINT a
+	</select>
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from YARD_APPOINT
+		where 
+			YARDAPPOINT_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+</mapper>

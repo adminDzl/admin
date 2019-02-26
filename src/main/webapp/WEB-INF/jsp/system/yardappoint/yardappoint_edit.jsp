@@ -25,64 +25,36 @@
 		<script type="text/javascript" src="static/js/jquery-1.7.2.js"></script>
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 <script type="text/javascript">
-	//栋长列表
-	function getBuildMan() {
-		$("#BUILD_NO").empty();//先清空避免重复查询，此段也可省略
-
-		$.ajax({
-			type: "POST",
-			url: '<%=basePath%>floorman/listBuildManAll.do',
-			data: {},
-			dataType: "json",
-			//beforeSend: validateData,
-			cache: false,
-			success: function(data){
-
-			}
-		});
-    }
-	
 	//保存
 	function save(){
-
-		if($("#BUILD_NO").val()==""){
-			$("#BUILD_NO").tips({
+			if($("#PLACE_DATE").val()==""){
+			$("#PLACE_DATE").tips({
 				side:3,
-	            msg:'请选择楼栋号',
+	            msg:'请输入预约日期',
 	            bg:'#AE81FF',
 	            time:2
 	        });
-			$("#BUILD_NO").focus();
+			$("#PLACE_DATE").focus();
 			return false;
 		}
-		if($("#FLOOR").val()==""){
-			$("#FLOOR").tips({
+		if($("#BEGIN_TIME").val()==""){
+			$("#BEGIN_TIME").tips({
 				side:3,
-	            msg:'请输入 楼层',
+	            msg:'请输入预定开始时间',
 	            bg:'#AE81FF',
 	            time:2
 	        });
-			$("#FLOOR").focus();
+			$("#BEGIN_TIME").focus();
 			return false;
 		}
-		if($("#FLOOR_MASTER_NAME").val()==""){
-			$("#FLOOR_MASTER_NAME").tips({
+		if($("#END_TIME").val()==""){
+			$("#END_TIME").tips({
 				side:3,
-	            msg:'请输入层长姓名',
+	            msg:'请输入预约结束时间',
 	            bg:'#AE81FF',
 	            time:2
 	        });
-			$("#FLOOR_MASTER_NAME").focus();
-			return false;
-		}
-		if($("#MASTER_TEL").val()==""){
-			$("#MASTER_TEL").tips({
-				side:3,
-	            msg:'请输入联系方式',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#MASTER_TEL").focus();
+			$("#END_TIME").focus();
 			return false;
 		}
 		$("#Form").submit();
@@ -93,33 +65,21 @@
 </script>
 	</head>
 <body>
-	<form action="floorman/${msg }.do" name="Form" id="Form" method="post">
-		<input type="hidden" name="FLOORMAN_ID" id="FLOORMAN_ID" value="${pd.FLOORMAN_ID}"/>
+	<form action="yardappoint/${msg }.do" name="Form" id="Form" method="post">
+		<input type="hidden" name="YARDAPPOINT_ID" id="YARDAPPOINT_ID" value="${pd.YARDAPPOINT_ID}"/>
 		<div id="zhongxin">
 		<table id="table_report" class="table table-striped table-bordered table-hover">
 			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">楼栋号:</td>
-				<td>
-					<select class="selectpicker show-tick form-control" name="BUILD_NO" id="BUILD_NO"
-							value="${pd.BUILD_NO}" maxlength="32" placeholder="这里选择楼栋号" title="楼栋号" onclick="getBuildMan()">
-						<option value="">请选择楼栋</option>
-						<c:forEach items="${varList}" var="item">
-							<option value="${item.BUILD_NO}">${item.BUILD_MASTER_NAME}</option>
-						</c:forEach>
-					</select>
-				</td>
+				<td style="width:70px;text-align: right;padding-top: 13px;">预约日期:</td>
+				<td><input class="span10 date-picker" name="PLACE_DATE" id="PLACE_DATE" value="${pd.PLACE_DATE}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="预约日期" title="预约日期"/></td>
 			</tr>
 			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;"> 楼层:</td>
-				<td><input type="text" name="FLOOR" id="FLOOR" value="${pd.FLOOR}" maxlength="32" placeholder="这里输入 楼层" title=" 楼层"/></td>
+				<td style="width:70px;text-align: right;padding-top: 13px;">预定开始时间:</td>
+				<td><input class="span10 date-picker" name="BEGIN_TIME" id="BEGIN_TIME" value="${pd.BEGIN_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="预定开始时间" title="预定开始时间"/></td>
 			</tr>
 			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">层长姓名:</td>
-				<td><input type="text" name="FLOOR_MASTER_NAME" id="FLOOR_MASTER_NAME" value="${pd.FLOOR_MASTER_NAME}" maxlength="32" placeholder="这里输入层长姓名" title="层长姓名"/></td>
-			</tr>
-			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">联系方式:</td>
-				<td><input type="text" name="MASTER_TEL" id="MASTER_TEL" value="${pd.MASTER_TEL}" maxlength="32" placeholder="这里输入联系方式" title="联系方式"/></td>
+				<td style="width:70px;text-align: right;padding-top: 13px;">预约结束时间:</td>
+				<td><input class="span10 date-picker" name="END_TIME" id="END_TIME" value="${pd.END_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="预约结束时间" title="预约结束时间"/></td>
 			</tr>
 			<tr>
 				<td style="text-align: center;" colspan="10">
