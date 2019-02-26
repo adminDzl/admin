@@ -38,6 +38,8 @@ public class FloorManController extends BaseController {
 	String menuUrl = "floorman/list.do"; //菜单地址(权限用)
 	@Resource(name="floormanService")
 	private FloorManService floormanService;
+	@Resource(name="buildmanService")
+	private BuildManService buildmanService;
 	
 	/**
 	 * 新增
@@ -108,6 +110,31 @@ public class FloorManController extends BaseController {
 			mv.addObject("varList", varList);
 			mv.addObject("pd", pd);
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		return mv;
+	}
+
+	/**
+	 * 查询全部栋长列表
+	 */
+	@RequestMapping(value="/listBuildManAll")
+	public ModelAndView listBuildManAll(Page page){
+		logBefore(logger, "列表BuildMan");
+		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			page.setPd(pd);
+			/*
+			列出BuildMan列表
+			 */
+			List<PageData> varList = buildmanService.listAll(pd);
+			mv.setViewName("system/floorman/floorman_edit");
+			mv.addObject("varList", varList);
+			mv.addObject("pd", pd);
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}

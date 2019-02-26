@@ -303,7 +303,7 @@ public class LoginController extends BaseController {
 		pd.put("msg", msg);
 		
 		pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
-		mv.setViewName("system/admin/login");
+		mv.setViewName("system/admin/login01");
 		mv.addObject("pd",pd);
 		return mv;
 	}

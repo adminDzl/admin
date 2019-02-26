@@ -4,7 +4,6 @@
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into FLOOR_MANFLOORMAN(
-			ID,	
 			BUILD_NO,	
 			FLOOR,	
 			FLOOR_MASTER_NAME,	
@@ -12,12 +11,11 @@
 			CREATE_TIME,	
 			FLOORMAN_ID
 		) values (
-			#{ID},	
 			#{BUILD_NO},	
 			#{FLOOR},	
 			#{FLOOR_MASTER_NAME},	
 			#{MASTER_TEL},	
-			#{CREATE_TIME},	
+			now(),
 			#{FLOORMAN_ID}
 		)
 	</insert>
@@ -30,14 +28,13 @@
 	<!-- 修改 -->
 	<update id="edit" parameterType="pd">
 		update  FLOOR_MANFLOORMAN
-			set 
-				ID = #{ID},
+			set
 				BUILD_NO = #{BUILD_NO},
 				FLOOR = #{FLOOR},
 				FLOOR_MASTER_NAME = #{FLOOR_MASTER_NAME},
 				MASTER_TEL = #{MASTER_TEL},
-				CREATE_TIME = #{CREATE_TIME},
-			FLOORMAN_ID = FLOORMAN_ID
+				CREATE_TIME = now(),
+				FLOORMAN_ID = FLOORMAN_ID
 			where 
 				FLOORMAN_ID = #{FLOORMAN_ID}
 	</update>
@@ -61,7 +58,6 @@
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
-				a.ID,	
 				a.BUILD_NO,	
 				a.FLOOR,	
 				a.FLOOR_MASTER_NAME,	
@@ -75,7 +71,6 @@
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">
 		select
-				a.ID,	
 				a.BUILD_NO,	
 				a.FLOOR,	
 				a.FLOOR_MASTER_NAME,	

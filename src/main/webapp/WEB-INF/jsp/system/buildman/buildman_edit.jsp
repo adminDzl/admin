@@ -58,16 +58,6 @@
 			$("#MASTER_TEL").focus();
 			return false;
 		}
-		if($("#CREATE_TIME").val()==""){
-			$("#CREATE_TIME").tips({
-				side:3,
-	            msg:'请输入创建时间',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#CREATE_TIME").focus();
-			return false;
-		}
 		$("#Form").submit();
 		$("#zhongxin").hide();
 		$("#zhongxin2").show();
@@ -92,10 +82,6 @@
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">联系方式:</td>
 				<td><input type="text" name="MASTER_TEL" id="MASTER_TEL" value="${pd.MASTER_TEL}" maxlength="32" placeholder="这里输入联系方式" title="联系方式"/></td>
-			</tr>
-			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">创建时间:</td>
-				<td><input class="span10 date-picker" name="CREATE_TIME" id="CREATE_TIME" value="${pd.CREATE_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="创建时间" title="创建时间"/></td>
 			</tr>
 			<tr>
 				<td style="text-align: center;" colspan="10">

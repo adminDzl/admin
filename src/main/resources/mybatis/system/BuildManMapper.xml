@@ -13,7 +13,7 @@
 			#{BUILD_NO},	
 			#{BUILD_MASTER_NAME},	
 			#{MASTER_TEL},	
-			#{CREATE_TIME},	
+			now(),
 			#{BUILDMAN_ID}
 		)
 	</insert>
@@ -58,13 +58,9 @@
 				a.BUILD_MASTER_NAME,	
 				a.MASTER_TEL,	
 				a.CREATE_TIME,	
-				a.BUILDMAN_ID,
-				f.FLOOR,
-				f.FLOOR_MASTER_NAME,
-				f.MASTER_TEL AS TEL
+				a.BUILDMAN_ID
 		from 
 				BUILD_MANBUILDMAN a
-		LEFT JOIN FLOOR_MANFLOORMAN f ON (f.BUILD_NO = a.BUILD_NO)
 	</select>
 
 	<!-- 列表(全部) -->
@@ -74,13 +70,9 @@
 				a.BUILD_MASTER_NAME,	
 				a.MASTER_TEL,	
 				a.CREATE_TIME,	
-				a.BUILDMAN_ID,
-				f.FLOOR,
-				f.FLOOR_MASTER_NAME,
-				f.MASTER_TEL AS TEL
+				a.BUILDMAN_ID
 		from 
 				BUILD_MANBUILDMAN a
-		LEFT JOIN FLOOR_MANFLOORMAN f ON (f.BUILD_NO = a.BUILD_NO)
 	</select>
 
 	<!-- 批量删除 -->

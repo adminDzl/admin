@@ -50,11 +50,10 @@
 						<label><input type="checkbox" id="zcheckbox" /><span class="lbl"></span></label>
 						</th>
 						<th class="center">序号</th>
-						<th class="center">id</th>
 						<th class="center">楼栋号</th>
-						<th class="center"> 楼层</th>
-						<th class="center">层长姓名</th>
-						<th class="center">联系方式</th>
+						<th class="center">楼层</th>
+						<th class="center">楼层负责人</th>
+						<th class="center">联系</th>
 						<th class="center">创建时间</th>
 						<th class="center">操作</th>
 					</tr>
@@ -72,7 +71,6 @@
 									<label><input type='checkbox' name='ids' value="${var.FLOORMAN_ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-										<td>${var.ID}</td>
 										<td>${var.BUILD_NO}</td>
 										<td>${var.FLOOR}</td>
 										<td>${var.FLOOR_MASTER_NAME}</td>

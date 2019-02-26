@@ -53,9 +53,6 @@
 						<th class="center">楼栋号</th>
 						<th class="center">楼栋负责人</th>
 						<th class="center">联系方式</th>
-						<th class="center">楼层</th>
-						<th class="center">楼层负责人</th>
-						<th class="center">联系</th>
 						<th class="center">创建时间</th>
 						<th class="center">操作</th>
 					</tr>
@@ -76,9 +73,6 @@
 										<td>${var.BUILD_NO}</td>
 										<td>${var.BUILD_MASTER_NAME}</td>
 										<td>${var.MASTER_TEL}</td>
-										<td>${var.FLOOR}</td>
-										<td>${var.FLOOR_MASTER_NAME}</td>
-										<td>${var.TEL}</td>
 										<td>${var.CREATE_TIME}</td>
 								<td style="width: 30px;" class="center">
 									<div class='hidden-phone visible-desktop btn-group'>

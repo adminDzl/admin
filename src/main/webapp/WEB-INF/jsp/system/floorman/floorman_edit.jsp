@@ -25,18 +25,14 @@
 		<script type="text/javascript" src="static/js/jquery-1.7.2.js"></script>
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 <script type="text/javascript">
+	//栋长列表
+	function getBuildMan() {
+		
+    }
+	
 	//保存
 	function save(){
-			if($("#ID").val()==""){
-			$("#ID").tips({
-				side:3,
-	            msg:'请输入id',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#ID").focus();
-			return false;
-		}
+
 		if($("#BUILD_NO").val()==""){
 			$("#BUILD_NO").tips({
 				side:3,
@@ -77,16 +73,6 @@
 			$("#MASTER_TEL").focus();
 			return false;
 		}
-		if($("#CREATE_TIME").val()==""){
-			$("#CREATE_TIME").tips({
-				side:3,
-	            msg:'请输入创建时间',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#CREATE_TIME").focus();
-			return false;
-		}
 		$("#Form").submit();
 		$("#zhongxin").hide();
 		$("#zhongxin2").show();
@@ -100,12 +86,19 @@
 		<div id="zhongxin">
 		<table id="table_report" class="table table-striped table-bordered table-hover">
 			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">id:</td>
-				<td><input type="number" name="ID" id="ID" value="${pd.ID}" maxlength="32" placeholder="这里输入id" title="id"/></td>
-			</tr>
-			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">楼栋号:</td>
-				<td><input type="text" name="BUILD_NO" id="BUILD_NO" value="${pd.BUILD_NO}" maxlength="32" placeholder="这里输入楼栋号" title="楼栋号"/></td>
+				<td>
+					<select class="selectpicker show-tick form-control"
+							data-live-search="true" name="BUILD_NO" id="BUILD_NO"
+							value="${pd.BUILD_NO}" maxlength="32" placeholder="这里选择楼栋号" title="楼栋号">
+						<option>四川(sichuan)</option>
+						<option>江西(jiangxi)</option>
+						<option>湖北(hubei)</option>
+						<option>上海(shanghai)</option>
+						<option>北京(beijing)</option>
+						<option>河北(hebei)</option>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;"> 楼层:</td>
@@ -118,10 +111,6 @@
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">联系方式:</td>
 				<td><input type="text" name="MASTER_TEL" id="MASTER_TEL" value="${pd.MASTER_TEL}" maxlength="32" placeholder="这里输入联系方式" title="联系方式"/></td>
-			</tr>
-			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">创建时间:</td>
-				<td><input class="span10 date-picker" name="CREATE_TIME" id="CREATE_TIME" value="${pd.CREATE_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="创建时间" title="创建时间"/></td>
 			</tr>
 			<tr>
 				<td style="text-align: center;" colspan="10">
