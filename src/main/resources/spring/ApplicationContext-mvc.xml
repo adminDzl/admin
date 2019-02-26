@@ -6,12 +6,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd	
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-	
-	<mvc:annotation-driven/>	
+	<mvc:annotation-driven/>
 	<mvc:default-servlet-handler/>
-	
 	<context:component-scan base-package="com.wolves.controller" />
-	<context:component-scan base-package="com.json" />
 
 	<!-- 对静态资源文件的访问  restful-->     
 	<mvc:resources mapping="/admin/**" location="/,/admin/" />
@@ -35,16 +32,16 @@
 	
 	<bean id="exceptionResolver" class="com.wolves.framework.resolver.MyExceptionResolver"></bean>
 	<!-- 上传拦截，如最大上传值及最小上传值 -->
-	  <bean id="multipartResolver"   class="org.springframework.web.multipart.commons.CommonsMultipartResolver" >   
-		  <property name="maxUploadSize">    
-	          <value>104857600</value>    
-	       </property>   
-	        <property name="maxInMemorySize">    
-	            <value>4096</value>    
-	        </property>   
-	         <property name="defaultEncoding">    
-	            <value>utf-8</value>    
-	        </property> 
+	<bean id="multipartResolver"   class="org.springframework.web.multipart.commons.CommonsMultipartResolver" >
+		<property name="maxUploadSize">
+			<value>104857600</value>
+		</property>
+		<property name="maxInMemorySize">
+			<value>4096</value>
+		</property>
+		<property name="defaultEncoding">
+			<value>utf-8</value>
+		</property>
     </bean>  
 	
 </beans>

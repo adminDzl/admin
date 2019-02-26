@@ -12,7 +12,6 @@ import com.wolves.util.AppUtil;
 import com.wolves.util.PageData;
 import com.wolves.util.Tools;
 
-
 /**
   * 会员-接口类 
   *    
@@ -39,13 +38,12 @@ public class IntAppuserController extends BaseController {
 	public Object getAppuserByUsernmae(){
 		logBefore(logger, "根据用户名获取会员信息");
 		Map<String,Object> map = new HashMap<String,Object>();
-		PageData pd = new PageData();
-		pd = this.getPageData();
+		PageData pd = this.getPageData();
 		String result = "00";
 		
 		try{
-			if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){	//检验请求key值是否合法
-				if(AppUtil.checkParam("getAppuserByUsernmae", pd)){	//检查参数
+			if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){
+				if(AppUtil.checkParam("getAppuserByUsernmae", pd)){
 					pd = appuserService.findByUId(pd);
 					
 					map.put("pd", pd);
@@ -63,12 +61,8 @@ public class IntAppuserController extends BaseController {
 			map.put("result", result);
 			logAfter(logger);
 		}
-		
 		return AppUtil.returnObject(new PageData(), map);
 	}
-	
-
-	
 }
 	
  
