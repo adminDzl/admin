@@ -1,4 +1,4 @@
-package com.fh.controller.${packageName}.${objectNameLower};
+package com.wolves.controller.system;
 
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
+import com.wolves.util.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -21,44 +22,29 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.wolves.controller.base.BaseController;
 import com.wolves.entity.Page;
-import com.wolves.util.AppUtil;
-import com.wolves.util.ObjectExcelView;
-import com.wolves.util.Const;
-import com.wolves.util.PageData;
-import com.wolves.util.Tools;
-import com.wolves.util.Jurisdiction;
-import com.wolves.service.${packageName}.${objectNameLower}.${objectName}Service;
+import com.wolves.service.system.CompanyService;
 
 @Controller
-@RequestMapping(value="/${objectNameLower}")
-public class ${objectName}Controller extends BaseController {
+@RequestMapping(value="/company")
+public class CompanyController extends BaseController {
 
 	//菜单地址(权限用)
-	String menuUrl = "${objectNameLower}/list.do";
-	@Resource(name="${objectNameLower}Service")
-	private ${objectName}Service ${objectNameLower}Service;
+	String menuUrl = "company/list.do";
+	@Resource(name="companyService")
+	private CompanyService companyService;
 	
 	/**
 	 * 新增
 	 */
 	@RequestMapping(value="/save")
 	public ModelAndView save() throws Exception{
-		logBefore(logger, "新增${objectName}");
-		//校验权限
+		logBefore(logger, "新增Company");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;}
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
-		pd.put("${objectNameUpper}_ID", this.get32UUID());
-<#list fieldList as var>
-	<#if var[3] == "否">
-		<#if var[1] == 'Date'>
-		pd.put("${var[0]}", Tools.date2Str(new Date()));
-		<#else>
-		pd.put("${var[0]}", "${var[4]?replace("无","")}");
-		</#if>
-	</#if>
-</#list>
-		${objectNameLower}Service.save(pd);
+		pd.put("COMPANY_ID", super.get32UUID());
+		pd.put("CREATE_TIME", new Date());
+		companyService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -69,11 +55,11 @@ public class ${objectName}Controller extends BaseController {
 	 */
 	@RequestMapping(value="/delete")
 	public void delete(PrintWriter out){
-		logBefore(logger, "删除${objectName}");
+		logBefore(logger, "删除Company");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;}
 		try{
 			PageData pd = this.getPageData();
-			${objectNameLower}Service.delete(pd);
+			companyService.delete(pd);
 			out.write("success");
 			out.close();
 		} catch(Exception e){
@@ -87,11 +73,12 @@ public class ${objectName}Controller extends BaseController {
 	 */
 	@RequestMapping(value="/edit")
 	public ModelAndView edit() throws Exception{
-		logBefore(logger, "修改${objectName}");
+		logBefore(logger, "修改Company");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;}
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
-		${objectNameLower}Service.edit(pd);
+		pd.put("UPDATE_TIME", new Date());
+		companyService.edit(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -102,14 +89,14 @@ public class ${objectName}Controller extends BaseController {
 	 */
 	@RequestMapping(value="/list")
 	public ModelAndView list(Page page){
-		logBefore(logger, "列表${objectName}");
+		logBefore(logger, "列表Company");
 		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
 		ModelAndView mv = this.getModelAndView();
 		try{
 			PageData pd = this.getPageData();
 			page.setPd(pd);
-			List<PageData>	varList = ${objectNameLower}Service.list(page);
-			mv.setViewName("${packageName}/${objectNameLower}/${objectNameLower}_list");
+			List<PageData>	varList = companyService.list(page);
+			mv.setViewName("system/company/company_list");
 			mv.addObject("varList", varList);
 			mv.addObject("pd", pd);
 			mv.addObject(Const.SESSION_QX,this.getHC());
@@ -124,11 +111,11 @@ public class ${objectName}Controller extends BaseController {
 	 */
 	@RequestMapping(value="/goAdd")
 	public ModelAndView goAdd(){
-		logBefore(logger, "去新增${objectName}页面");
+		logBefore(logger, "去新增Company页面");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		try {
-			mv.setViewName("${packageName}/${objectNameLower}/${objectNameLower}_edit");
+			mv.setViewName("system/company/company_edit");
 			mv.addObject("msg", "save");
 			mv.addObject("pd", pd);
 		} catch (Exception e) {
@@ -142,12 +129,12 @@ public class ${objectName}Controller extends BaseController {
 	 */
 	@RequestMapping(value="/goEdit")
 	public ModelAndView goEdit(){
-		logBefore(logger, "去修改${objectName}页面");
+		logBefore(logger, "去修改Company页面");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		try {
-			pd = ${objectNameLower}Service.findById(pd);
-			mv.setViewName("${packageName}/${objectNameLower}/${objectNameLower}_edit");
+			pd = companyService.findById(pd);
+			mv.setViewName("system/company/company_edit");
 			mv.addObject("msg", "edit");
 			mv.addObject("pd", pd);
 		} catch (Exception e) {
@@ -162,7 +149,7 @@ public class ${objectName}Controller extends BaseController {
 	@RequestMapping(value="/deleteAll")
 	@ResponseBody
 	public Object deleteAll() {
-		logBefore(logger, "批量删除${objectName}");
+		logBefore(logger, "批量删除Company");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "dell")){return null;}
 		PageData pd = null;
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -172,7 +159,7 @@ public class ${objectName}Controller extends BaseController {
 			String DATA_IDS = pd.getString("DATA_IDS");
 			if(null != DATA_IDS && !"".equals(DATA_IDS)){
 				String ArrayDATA_IDS[] = DATA_IDS.split(",");
-				${objectNameLower}Service.deleteAll(ArrayDATA_IDS);
+				companyService.deleteAll(ArrayDATA_IDS);
 				pd.put("msg", "ok");
 			}else{
 				pd.put("msg", "no");
@@ -193,28 +180,36 @@ public class ${objectName}Controller extends BaseController {
 	 */
 	@RequestMapping(value="/excel")
 	public ModelAndView exportExcel(){
-		logBefore(logger, "导出${objectName}到excel");
+		logBefore(logger, "导出Company到excel");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
 		ModelAndView mv = new ModelAndView();
 		PageData pd = this.getPageData();
 		try{
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
-	<#list fieldList as var>
-			titles.add("${var[2]}");
-	</#list>
+			titles.add("企业名");
+			titles.add("企业类型");
+			titles.add("状态");
+			titles.add("描述");
+			titles.add("企业认证");
+			titles.add("企业租位");
+			titles.add("企业logo");
+			titles.add("创建时间");
+			titles.add("修改时间");
 			dataMap.put("titles", titles);
-			List<PageData> varOList = ${objectNameLower}Service.listAll(pd);
+			List<PageData> varOList = companyService.listAll(pd);
 			List<PageData> varList = new ArrayList<PageData>();
 			for(int i=0;i<varOList.size();i++){
 				PageData vpd = new PageData();
-	<#list fieldList as var>
-			<#if var[1] == 'Integer'>
-				vpd.put("var${var_index+1}", varOList.get(i).get("${var[0]}").toString());
-			<#else>
-				vpd.put("var${var_index+1}", varOList.get(i).getString("${var[0]}"));
-			</#if>
-	</#list>
+				vpd.put("var2", varOList.get(i).getString("COMPANY_NAME"));
+				vpd.put("var3", varOList.get(i).get("TYPE").toString());
+				vpd.put("var4", varOList.get(i).get("STATUS").toString());
+				vpd.put("var5", varOList.get(i).getString("DESCRIPTION"));
+				vpd.put("var6", varOList.get(i).getString("COMPANY_CERTIFY"));
+				vpd.put("var7", varOList.get(i).getString("PLACE_ID"));
+				vpd.put("var8", varOList.get(i).getString("LOGO"));
+				vpd.put("var9", varOList.get(i).getString("CREATE_TIME"));
+				vpd.put("var10", varOList.get(i).getString("UPDATE_TIME"));
 				varList.add(vpd);
 			}
 			dataMap.put("varList", varList);

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CompanyMapper">
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into COMPANY(
+			COMPANY_NAME,
+			TYPE,	
+			STATUS,	
+			DESCRIPTION,	
+			COMPANY_CERTIFY,	
+			PLACE_ID,	
+			LOGO,	
+			CREATE_TIME,	
+			UPDATE_TIME,	
+			COMPANY_ID
+		) values (
+			#{COMPANY_NAME},
+			#{TYPE},	
+			#{STATUS},	
+			#{DESCRIPTION},	
+			#{COMPANY_CERTIFY},	
+			#{PLACE_ID},	
+			#{LOGO},	
+			#{CREATE_TIME},	
+			#{UPDATE_TIME},	
+			#{COMPANY_ID}
+		)
+	</insert>
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from COMPANY
+		where 
+			COMPANY_ID = #{COMPANY_ID}
+	</delete>
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update  COMPANY
+			set 
+				COMPANY_NAME = #{COMPANY_NAME},
+				TYPE = #{TYPE},
+				STATUS = #{STATUS},
+				DESCRIPTION = #{DESCRIPTION},
+				COMPANY_CERTIFY = #{COMPANY_CERTIFY},
+				PLACE_ID = #{PLACE_ID},
+				LOGO = #{LOGO},
+				CREATE_TIME = #{CREATE_TIME},
+				UPDATE_TIME = #{UPDATE_TIME},
+			COMPANY_ID = COMPANY_ID
+			where 
+				COMPANY_ID = #{COMPANY_ID}
+	</update>
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+			COMPANY_NAME,
+			TYPE,	
+			STATUS,	
+			DESCRIPTION,	
+			COMPANY_CERTIFY,	
+			PLACE_ID,	
+			LOGO,	
+			CREATE_TIME,	
+			UPDATE_TIME,	
+			COMPANY_ID
+		from 
+			COMPANY
+		where 
+			COMPANY_ID = #{COMPANY_ID}
+	</select>
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+				a.COMPANY_NAME,
+				a.TYPE,	
+				a.STATUS,	
+				a.DESCRIPTION,	
+				a.COMPANY_CERTIFY,	
+				a.PLACE_ID,	
+				a.LOGO,	
+				a.CREATE_TIME,	
+				a.UPDATE_TIME,	
+				a.COMPANY_ID
+		from 
+				COMPANY a
+	</select>
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+				a.COMPANY_NAME,
+				a.TYPE,	
+				a.STATUS,	
+				a.DESCRIPTION,	
+				a.COMPANY_CERTIFY,	
+				a.PLACE_ID,	
+				a.LOGO,	
+				a.CREATE_TIME,	
+				a.UPDATE_TIME,	
+				a.COMPANY_ID
+		from 
+				COMPANY a
+	</select>
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from COMPANY
+		where 
+			COMPANY_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+</mapper>
