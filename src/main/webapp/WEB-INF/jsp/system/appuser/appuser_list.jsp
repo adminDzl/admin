@@ -13,29 +13,20 @@
 	<%@ include file="../admin/top.jsp"%>   
 	</head>
 <body>
-		
-		
 <div class="container-fluid" id="main-container">
-
-
 <div id="page-content" class="clearfix">
-						
   <div class="row-fluid">
-
 	<div class="row-fluid">
-	
 			<!-- 检索  -->
 			<form action="happuser/listUsers.do" method="post" name="userForm" id="userForm">
 			<table border='0'>
 				<tr>
-				
 					<td>
 						<span class="input-icon">
 							<input autocomplete="off" id="nav-search-input" type="text" name="USERNAME" value="${pd.USERNAME }" placeholder="这里输入关键词" />
 							<i id="nav-search-icon" class="icon-search"></i>
 						</span>
 					</td>
-					
 					<td><input class="span10 date-picker" name="lastLoginStart" id="lastLoginStart" value="${pd.lastLoginStart}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期"/></td>
 					<td><input class="span10 date-picker" name="lastLoginEnd" id="lastLoginEnd" value="${pd.lastLoginEnd}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="到期日期"/></td>
 					<td style="vertical-align:top;"> 
@@ -61,10 +52,7 @@
 				</tr>
 			</table>
 			<!-- 检索  -->
-		
-		
 			<table id="table_report" class="table table-striped table-bordered table-hover">
-				
 				<thead>
 					<tr>
 						<th class="center">
@@ -82,15 +70,12 @@
 						<th class="center">操作</th>
 					</tr>
 				</thead>
-										
 				<tbody>
-					
-				<!-- 开始循环 -->	
+				<!-- 开始循环 -->
 				<c:choose>
 					<c:when test="${not empty userList}">
 						<c:if test="${QX.cha == 1 }">
 						<c:forEach items="${userList}" var="user" varStatus="vs">
-									
 							<tr>
 								<td class='center' style="width: 30px;">
 									<label><input type='checkbox' name='ids' value="${user.USER_ID }" id="${user.EMAIL }" alt="${user.PHONE }"/><span class="lbl"></span></label>
@@ -109,7 +94,6 @@
 								</td>
 								<td style="width: 30px;" class="center">
 									<div class='hidden-phone visible-desktop btn-group'>
-									
 										<c:if test="${QX.edit != 1 && QX.del != 1 }">
 										<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>
 										</c:if>
@@ -134,16 +118,12 @@
 											</c:otherwise>
 											</c:choose>
 										</ul>
-										
 										</div>
-										
 									</div>
 								</td>
 							</tr>
-						
 						</c:forEach>
 						</c:if>
-						
 						<c:if test="${QX.cha == 0 }">
 							<tr>
 								<td colspan="100" class="center">您无权查看</td>
@@ -156,11 +136,8 @@
 						</tr>
 					</c:otherwise>
 				</c:choose>
-					
-				
 				</tbody>
 			</table>
-			
 		<div class="page-header position-relative">
 		<table style="width:100%;">
 			<tr>
@@ -184,42 +161,27 @@
 		</div>
 		</form>
 	</div>
- 
- 
- 
- 
-	<!-- PAGE CONTENT ENDS HERE -->
-  </div><!--/row-->
-	
-</div><!--/#page-content-->
-</div><!--/.fluid-container#main-container-->
-		
-		<!-- 返回顶部  -->
+  </div>
+</div>
+</div>
 		<a href="#" id="btn-scroll-up" class="btn btn-small btn-inverse">
 			<i class="icon-double-angle-up icon-only"></i>
 		</a>
-		
-		<!-- 引入 -->
 		<script type="text/javascript">window.jQuery || document.write("<script src='static/js/jquery-1.9.1.min.js'>\x3C/script>");</script>
 		<script src="static/js/bootstrap.min.js"></script>
 		<script src="static/js/ace-elements.min.js"></script>
 		<script src="static/js/ace.min.js"></script>
-		
 		<script type="text/javascript" src="static/js/chosen.jquery.min.js"></script><!-- 下拉框 -->
 		<script type="text/javascript" src="static/js/bootstrap-datepicker.min.js"></script><!-- 日期框 -->
 		<script type="text/javascript" src="static/js/bootbox.min.js"></script><!-- 确认窗口 -->
-		<!-- 引入 -->
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script><!--提示框-->
 		<script type="text/javascript">
-		
 		$(top.hangge());
-		
 		//检索
 		function search(){
 			top.jzts();
 			$("#userForm").submit();
 		}
-		
 		//去发送电子邮件页面
 		function sendEmail(EMAIL){
 			 top.jzts();

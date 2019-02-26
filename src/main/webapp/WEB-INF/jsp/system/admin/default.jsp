@@ -12,32 +12,23 @@
 <html lang="en">
 <head>
 <base href="<%=basePath%>">
-
 <!-- jsp文件头和头部 -->
 <%@ include file="top.jsp"%>
-
 </head>
 <body>
-
 	<div class="container-fluid" id="main-container">
-		
-
 			<div id="page-content" class="clearfix">
-
 				<div class="page-header position-relative">
 					<h1>
 						后台首页 <small><i class="icon-double-angle-right"></i> </small>
 					</h1>
 				</div>
 				<!--/page-header-->
-
 				<div class="row-fluid">
-
 					<div class="space-6"></div>
 					<div class="row-fluid">
 						<%
 							String strXML = "";
-
 							strXML += "<graph caption='对比表' xAxisName='月份' yAxisName='值' decimalPrecision='0' formatNumberScale='0'>";
 							strXML += "<set name='1' value='462' color='AFD8F8'/>";
 							strXML += "<set name='2' value='857' color='F6BD0F'/>";
@@ -52,13 +43,7 @@
 							strXML += "<set name='11' value='761' color='9D080D'/>";
 							strXML += "<set name='12' value='960' color='A186BE'/>";
 							strXML += "</graph>";
-							//Create the chart - Column 3D Chart with data from strXML variable using dataXML method
 						%>
-
-
-
-
-
 						<!-- 柱状图 -->
 						<div class="center">
 							<div style="float:left;">
@@ -94,10 +79,6 @@
 								</table>
 							</div>
 						</div>
-
-
-
-
 						<div class="center">
 							<div style="float:left;">
 								<table border="0" width="50%">
@@ -132,13 +113,6 @@
 								</table>
 							</div>
 						</div>
-
-
-
-
-
-
-
 						<div class="center">
 							<div style="float:left;">
 								<table border="0" width="50%">
@@ -175,13 +149,6 @@
 								</table>
 							</div>
 						</div>
-
-
-
-
-
-
-
 						<div class="center">
 							<div style="float:left;">
 								<table border="0" width="50%">
@@ -216,12 +183,6 @@
 								</table>
 							</div>
 						</div>
-
-
-
-
-
-
 						<div class="center">
 							<div style="float:left;">
 								<table border="0" width="50%">
@@ -256,31 +217,8 @@
 								</table>
 							</div>
 						</div>
-
-
-
-
-
-
-
-
-
-
-
-
 					</div>
 				</div>
-				<!--/row-->
-
-
-
-
-
-
-
-
-
-
 		</div>
 		<!-- #main-content -->
 	</div>

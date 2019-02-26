@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-	<base href="<%=basePath%>"><!-- jsp文件头和头部 -->
+	<base href="<%=basePath%>">
 	<%@ include file="../../system/admin/top.jsp"%> 
 	</head>
 <body>
@@ -16,7 +16,6 @@
 <div id="page-content" class="clearfix">
   <div class="row-fluid">
 	<div class="row-fluid">
-			<!-- 检索  -->
 			<form action="${objectNameLower}/list.do" method="post" name="Form" id="Form">
 			<table>
 				<tr>
@@ -42,7 +41,6 @@
 					</c:if>
 				</tr>
 			</table>
-			<!-- 检索  -->
 			<table id="table_report" class="table table-striped table-bordered table-hover">
 				<thead>
 					<tr>
@@ -56,10 +54,7 @@
 						<th class="center">操作</th>
 					</tr>
 				</thead>
-										
 				<tbody>
-					
-				<!-- 开始循环 -->	
 				<c:choose>
 					<c:when test="${r"${not empty varList}"}">
 						<c:if test="${r"${QX.cha == 1 }"}">
@@ -92,7 +87,6 @@
 									</div>
 								</td>
 							</tr>
-						
 						</c:forEach>
 						</c:if>
 						<c:if test="${r"${QX.cha == 0 }"}">
@@ -107,11 +101,8 @@
 						</tr>
 					</c:otherwise>
 				</c:choose>
-					
-				
 				</tbody>
 			</table>
-			
 		<div class="page-header position-relative">
 		<table style="width:100%;">
 			<tr>
@@ -129,11 +120,9 @@
 		</div>
 		</form>
 	</div>
-	<!-- PAGE CONTENT ENDS HERE -->
-  </div><!--/row-->
-</div><!--/#page-content-->
-</div><!--/.fluid-container#main-container-->
-		<!-- 返回顶部  -->
+  </div>
+</div>
+</div>
 		<a href="#" id="btn-scroll-up" class="btn btn-small btn-inverse">
 			<i class="icon-double-angle-up icon-only"></i>
 		</a>
@@ -141,18 +130,16 @@
 		<script src="static/js/bootstrap.min.js"></script>
 		<script src="static/js/ace-elements.min.js"></script>
 		<script src="static/js/ace.min.js"></script>
-		<script type="text/javascript" src="static/js/chosen.jquery.min.js"></script><!-- 下拉框 -->
-		<script type="text/javascript" src="static/js/bootstrap-datepicker.min.js"></script><!-- 日期框 -->
-		<script type="text/javascript" src="static/js/bootbox.min.js"></script><!-- 确认窗口 -->
-		<script type="text/javascript" src="static/js/jquery.tips.js"></script><!--提示框-->
+		<script type="text/javascript" src="static/js/chosen.jquery.min.js"></script>
+		<script type="text/javascript" src="static/js/bootstrap-datepicker.min.js"></script>
+		<script type="text/javascript" src="static/js/bootbox.min.js"></script>
+		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 		<script type="text/javascript">
 		$(top.hangge());
-		//检索
 		function search(){
 			top.jzts();
 			$("#Form").submit();
 		}
-		//新增
 		function add(){
 			 top.jzts();
 			 var diag = new top.Dialog();
@@ -161,7 +148,7 @@
 			 diag.URL = '<%=basePath%>${objectNameLower}/goAdd.do';
 			 diag.Width = 450;
 			 diag.Height = 355;
-			 diag.CancelEvent = function(){ //关闭事件
+			 diag.CancelEvent = function(){
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					 if('${r"${page.currentPage}"}' == '0'){
 						 top.jzts();
@@ -174,7 +161,6 @@
 			 };
 			 diag.show();
 		}
-		//删除
 		function del(Id){
 			bootbox.confirm("确定要删除吗?", function(result) {
 				if(result) {
@@ -186,7 +172,6 @@
 				}
 			});
 		}
-		//修改
 		function edit(Id){
 			 top.jzts();
 			 var diag = new top.Dialog();
@@ -206,12 +191,9 @@
 		</script>
 		<script type="text/javascript">
 		$(function() {
-			//下拉框
-			$(".chzn-select").chosen(); 
+			$(".chzn-select").chosen();
 			$(".chzn-select-deselect").chosen({allow_single_deselect:true}); 
-			//日期框
 			$('.date-picker').datepicker();
-			//复选框
 			$('table th input:checkbox').on('click' , function(){
 				var that = this;
 				$(this).closest('table').find('tr > td:first-child input:checkbox')
@@ -221,7 +203,6 @@
 				});
 			});
 		});
-		//批量操作
 		function makeAll(msg){
 			bootbox.confirm(msg, function(result) {
 				if(result) {
@@ -245,7 +226,6 @@
 								}
 							 ]
 						);
-						
 						$("#zcheckbox").tips({
 							side:3,
 				            msg:'点这里全选',
@@ -262,7 +242,6 @@
 								url: '<%=basePath%>${objectNameLower}/deleteAll.do?tm='+new Date().getTime(),
 						    	data: {DATA_IDS:str},
 								dataType:'json',
-								//beforeSend: validateData,
 								cache: false,
 								success: function(data){
 									 $.each(data.list, function(i, list){
@@ -275,12 +254,9 @@
 				}
 			});
 		}
-		//导出excel
 		function toExcel(){
 			window.location.href='<%=basePath%>${objectNameLower}/excel.do';
 		}
 		</script>
-		
 	</body>
 </html>
-
