@@ -25,11 +25,7 @@ public class SmsUtil {
 	
 	
 	public static void main(String [] args) {
-		
 		sendSms2("13511111111","您的验证码是：1111。请不要把验证码泄露给其他人。");
-		//sendSmsAll(List<PageData> list)
-		
-		//sendSms1();
 	}
 
 	 //短信商 一  http://www.dxton.com/ =====================================================================================
@@ -41,7 +37,8 @@ public class SmsUtil {
  	public static void sendSms1(String mobile,String code){
  		
 	    String account = "", password = "";
-	    String strSMS1 = Tools.readTxtFile(Const.SMS1);			//读取短信1配置
+		//读取短信1配置
+	    String strSMS1 = Tools.readTxtFile(Const.SMS1);
 		if(null != strSMS1 && !"".equals(strSMS1)){
 			String strS1[] = strSMS1.split(",fh,");
 			if(strS1.length == 2){
@@ -55,25 +52,8 @@ public class SmsUtil {
 		} catch (UnsupportedEncodingException e) {
 			System.out.println("短信提交失败");
 		}
-		 //System.out.println(PostData);
  	     String ret = SMS(PostData, "http://sms.106jiekou.com/utf8/sms.aspx");
  	     System.out.println(ret);
- 	   /*  
- 	   100			发送成功
- 	   101			验证失败
- 	   102			手机号码格式不正确
- 	   103			会员级别不够
- 	   104			内容未审核
- 	   105			内容过多
- 	   106			账户余额不足
- 	   107			Ip受限
- 	   108			手机号码发送太频繁，请换号或隔天再发
- 	   109			帐号被锁定
- 	   110			发送通道不正确
- 	   111			当前时间段禁止短信发送
- 	   120			系统升级
-		*/
- 	     
 	}
 	
 	 public static String SMS(String postData, String postUrl) {
@@ -111,18 +91,14 @@ public class SmsUtil {
 	        }
 	        return "";
 	    }
-	 //===================================================================================================================
-	 
-	 
+
 	/**
 	 * 
 	 * 短信商 二  http://www.ihuyi.com/ =====================================================================================
 	 * 
 	 */
 	private static String Url = "http://106.ihuyi.com/webservice/sms.php?method=Submit";
-	
-	
-	
+
 	/**
 	 * 给一个人发送单条短信
 	 * @param mobile 手机号
@@ -138,7 +114,10 @@ public class SmsUtil {
 	    String content = new String(code);  
 	    
 	    String account = "", password = "";
-	    String strSMS2 = Tools.readTxtFile(Const.SMS2);			//读取短信2配置
+		/**
+		 * 读取短信2配置
+		 */
+		String strSMS2 = Tools.readTxtFile(Const.SMS2);
 		if(null != strSMS2 && !"".equals(strSMS2)){
 			String strS2[] = strSMS2.split(",fh,");
 			if(strS2.length == 2){
@@ -148,8 +127,9 @@ public class SmsUtil {
 		}
 	    
 		NameValuePair[] data = {//提交短信
-		    new NameValuePair("account", account), 
-		    new NameValuePair("password", password), 			//密码可以使用明文密码或使用32位MD5加密
+		    new NameValuePair("account", account),
+			//密码可以使用明文密码或使用32位MD5加密
+		    new NameValuePair("password", password),
 		    new NameValuePair("mobile", mobile), 
 		    new NameValuePair("content", content),
 		};
@@ -158,22 +138,15 @@ public class SmsUtil {
 		
 		try {
 			client.executeMethod(method);
-			
 			String SubmitResult =method.getResponseBodyAsString();
-					
-			Document doc = DocumentHelper.parseText(SubmitResult); 
+			Document doc = DocumentHelper.parseText(SubmitResult);
 			Element root = doc.getRootElement();
-
-
 			code = root.elementText("code");
 			String msg = root.elementText("msg");
 			String smsid = root.elementText("smsid");
-			
-			
 			System.out.println(code);
 			System.out.println(msg);
 			System.out.println(smsid);
-			
 			if(code == "2"){
 				System.out.println("短信提交成功");
 			}
@@ -201,9 +174,5 @@ public class SmsUtil {
 			sendSms2(mobile,code);
 		}
 	}
-	// =================================================================================================
-	
-	
-	
 }
 
