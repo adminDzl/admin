@@ -60,45 +60,11 @@ $(function(){
 					 $("#systemset").hide();	//隐藏系统设置
 					 $("#productCode").hide();	//隐藏代码生成
 				 }
-				 online();//连接在线管理
+				 //online();//连接在线管理
 			 });
 		}
 	});
 });
-
-//在线管理
-var websocket;
-function online(){
-	if (window.WebSocket) {
-		websocket = new WebSocket(encodeURI('ws://127.0.0.1:8889'));
-		
-		websocket.onopen = function() {
-			//连接成功
-			websocket.send('[join]'+user);
-		};
-		websocket.onerror = function() {
-			//连接失败
-		};
-		websocket.onclose = function() {
-			//连接断开
-		};
-		//消息接收
-		websocket.onmessage = function(message) {
-			var message = JSON.parse(message.data);
-			if (message.type == 'count') {
-				userCount = message.msg;
-			}else if(message.type == 'goOut'){
-				$("body").html("");
-				goOut("此用户在其它终端已经早于您登录,您暂时无法登录");
-			}else if(message.type == 'thegoout'){
-				$("body").html("");
-				goOut("您被系统管理员强制下线");
-			}else if(message.type == 'userlist'){
-				userlist = message.list;
-			}
-		};
-	}
-}
 
 //在线总数
 var userCount = 0;
@@ -121,10 +87,6 @@ function goOut(msg){
 function goOutUser(theuser){
 	websocket.send('[goOut]'+theuser);
 }
-
-
-
-
 //换肤
 function hf(b){
 	

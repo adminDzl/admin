@@ -18,7 +18,7 @@
   <div class="row-fluid">
 	<div class="row-fluid">
 			<!-- 检索  -->
-			<form action="happuser/listUsers.do" method="post" name="userForm" id="userForm">
+			<form action="appuser/listUsers.do" method="post" name="userForm" id="userForm">
 			<table border='0'>
 				<tr>
 					<td>
@@ -214,7 +214,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增会员";
-			 diag.URL = '<%=basePath%>happuser/goAddU.do';
+			 diag.URL = '<%=basePath%>appuser/goAddU.do';
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.CancelEvent = function(){ //关闭事件
@@ -237,7 +237,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="会员资料";
-			 diag.URL = '<%=basePath%>happuser/goEditU.do?USER_ID='+user_id;
+			 diag.URL = '<%=basePath%>appuser/goEditU.do?USER_ID='+user_id;
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.CancelEvent = function(){ //关闭事件
@@ -254,7 +254,7 @@
 			bootbox.confirm("确定要删除["+msg+"]吗?", function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>happuser/deleteU.do?USER_ID="+userId+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>appuser/deleteU.do?USER_ID="+userId+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						nextPage(${page.currentPage});
 					});
@@ -335,7 +335,7 @@
 							top.jzts();
 							$.ajax({
 								type: "POST",
-								url: '<%=basePath%>happuser/deleteAllU.do?tm='+new Date().getTime(),
+								url: '<%=basePath%>appuser/deleteAllU.do?tm='+new Date().getTime(),
 						    	data: {USER_IDS:str},
 								dataType:'json',
 								//beforeSend: validateData,
@@ -367,7 +367,6 @@
 			window.location.href='<%=basePath%>happuser/excel.do?USERNAME='+USERNAME+'&lastLoginStart='+lastLoginStart+'&lastLoginEnd='+lastLoginEnd+'&ROLE_ID='+ROLE_ID+'&STATUS='+STATUS;
 		}
 		</script>
-		
 	</body>
 </html>
 

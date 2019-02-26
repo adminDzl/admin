@@ -32,10 +32,10 @@ import com.wolves.util.ObjectExcelView;
 import com.wolves.util.PageData;
 
 @Controller
-@RequestMapping(value="/happuser")
+@RequestMapping(value="/appuser")
 public class AppuserController extends BaseController {
 	
-	String menuUrl = "happuser/listUsers.do"; //菜单地址(权限用)
+	String menuUrl = "appuser/listUsers.do"; //菜单地址(权限用)
 	@Resource(name="appuserService")
 	private AppuserService appuserService;
 	@Resource(name="roleService")
