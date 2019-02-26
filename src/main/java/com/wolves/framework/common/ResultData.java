@@ -1,9 +1,12 @@
 package com.wolves.framework.common;
 
+/**
+ * @author xulu
+ */
 public class ResultData extends Result{
 
     public ResultData() {
-        result = ResultCode.SUCCESS;// 默认操作成功
+        result = ResultCode.SUCCESS;
         msg = "";
     }
 

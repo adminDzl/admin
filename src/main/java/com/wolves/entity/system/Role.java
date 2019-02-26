@@ -1,6 +1,7 @@
 package com.wolves.entity.system;
 
 public class Role {
+
 	private String ROLE_ID;
 	private String ROLE_NAME;
 	private String RIGHTS;

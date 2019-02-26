@@ -1,12 +1,16 @@
 package com.wolves.framework.common;
 
+/**
+ * @author xulu
+ */
 public class Result {
 
-    public int result; //操作结果 0：成功、  1：业务错误(msg写失败描述)、 -1：系统异常
-
-    public String msg; //说明信息
-
-    protected Object data; //结果
+    /**
+     * 操作结果 0：成功、  1：业务错误(msg写失败描述)、 -1：系统异常
+     */
+    public int result;
+    public String msg;
+    protected Object data;
 
     public Result() {
         this.result = ResultCode.SUCCESS;

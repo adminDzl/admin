@@ -36,8 +36,8 @@ import com.wolves.util.Tools;
 @Intercepts({@Signature(type=StatementHandler.class,method="prepare",args={Connection.class})})
 public class PagePlugin implements Interceptor {
 
-	private static String dialect = "";	//数据库方言
-	private static String pageSqlId = ""; //mapper.xml中需要拦截的ID(正则匹配)
+	private static String dialect = "";
+	private static String pageSqlId = "";
 	
 	public Object intercept(Invocation ivk) throws Throwable {
 		// TODO Auto-generated method stub
@@ -45,17 +45,19 @@ public class PagePlugin implements Interceptor {
 			RoutingStatementHandler statementHandler = (RoutingStatementHandler)ivk.getTarget();
 			BaseStatementHandler delegate = (BaseStatementHandler) ReflectHelper.getValueByFieldName(statementHandler, "delegate");
 			MappedStatement mappedStatement = (MappedStatement) ReflectHelper.getValueByFieldName(delegate, "mappedStatement");
-			
-			if(mappedStatement.getId().matches(pageSqlId)){ //拦截需要分页的SQL
+
+			//拦截需要分页的SQL
+			if(mappedStatement.getId().matches(pageSqlId)){
 				BoundSql boundSql = delegate.getBoundSql();
-				Object parameterObject = boundSql.getParameterObject();//分页SQL<select>中parameterType属性对应的实体参数，即Mapper接口中执行分页方法的参数,该参数不得为空
+				//分页SQL<select>中parameterType属性对应的实体参数，即Mapper接口中执行分页方法的参数,该参数不得为空
+				Object parameterObject = boundSql.getParameterObject();
 				if(parameterObject==null){
 					throw new NullPointerException("parameterObject尚未实例化！");
 				}else{
 					Connection connection = (Connection) ivk.getArgs()[0];
 					String sql = boundSql.getSql();
-					//String countSql = "select count(0) from (" + sql+ ") as tmp_count"; //记录统计
-					String countSql = "select count(0) from (" + sql+ ")  tmp_count"; //记录统计 == oracle 加 as 报错(SQL command not properly ended)
+					//String countSql = "select count(0) from (" + sql+ ") as tmp_count";
+					String countSql = "select count(0) from (" + sql+ ")  tmp_count";
 					PreparedStatement countStmt = connection.prepareStatement(countSql);
 					BoundSql countBS = new BoundSql(mappedStatement.getConfiguration(),countSql,boundSql.getParameterMappings(),parameterObject);
 					setParameters(countStmt,mappedStatement,countBS,parameterObject);
@@ -66,9 +68,8 @@ public class PagePlugin implements Interceptor {
 					}
 					rs.close();
 					countStmt.close();
-					//System.out.println(count);
-					Page page = null;
-					if(parameterObject instanceof Page){	//参数就是Page实体
+					Page page;
+					if(parameterObject instanceof Page){
 						 page = (Page) parameterObject;
 						 page.setEntityOrField(true);	 
 						page.setTotalResult(count);
@@ -76,17 +77,18 @@ public class PagePlugin implements Interceptor {
 						Field pageField = ReflectHelper.getFieldByFieldName(parameterObject,"page");
 						if(pageField!=null){
 							page = (Page) ReflectHelper.getValueByFieldName(parameterObject,"page");
-							if(page==null)
+							if(page==null){
 								page = new Page();
-							page.setEntityOrField(false); 
+							}
+							page.setEntityOrField(false);
 							page.setTotalResult(count);
-							ReflectHelper.setValueByFieldName(parameterObject,"page", page); //通过反射，对实体对象设置分页对象
+							ReflectHelper.setValueByFieldName(parameterObject,"page", page);
 						}else{
 							throw new NoSuchFieldException(parameterObject.getClass().getName()+"不存在 page 属性！");
 						}
 					}
 					String pageSql = generatePageSql(sql,page);
-					ReflectHelper.setValueByFieldName(boundSql, "sql", pageSql); //将分页sql语句反射回BoundSql.
+					ReflectHelper.setValueByFieldName(boundSql, "sql", pageSql);
 				}
 			}
 		}
@@ -154,7 +156,6 @@ public class PagePlugin implements Interceptor {
 			}else if("oracle".equals(dialect)){
 				pageSql.append("select * from (select tmp_tb.*,ROWNUM row_id from (");
 				pageSql.append(sql);
-				//pageSql.append(") as tmp_tb where ROWNUM<=");
 				pageSql.append(") tmp_tb where ROWNUM<=");
 				pageSql.append(page.getCurrentResult()+page.getShowCount());
 				pageSql.append(") where row_id>");
@@ -165,19 +166,19 @@ public class PagePlugin implements Interceptor {
 			return sql;
 		}
 	}
-	
+
+	@Override
 	public Object plugin(Object arg0) {
-		// TODO Auto-generated method stub
 		return Plugin.wrap(arg0, this);
 	}
 
+	@Override
 	public void setProperties(Properties p) {
 		dialect = p.getProperty("dialect");
 		if (Tools.isEmpty(dialect)) {
 			try {
 				throw new PropertyException("dialect property is not found!");
 			} catch (PropertyException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -186,7 +187,6 @@ public class PagePlugin implements Interceptor {
 			try {
 				throw new PropertyException("pageSqlId property is not found!");
 			} catch (PropertyException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

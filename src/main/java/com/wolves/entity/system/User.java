@@ -3,18 +3,19 @@ package com.wolves.entity.system;
 import com.wolves.entity.Page;
 
 public class User {
-	private String USER_ID;		//用户id
-	private String USERNAME;	//用户名
-	private String PASSWORD; 	//密码
-	private String NAME;		//姓名
-	private String RIGHTS;		//权限
-	private String ROLE_ID;		//角色id
-	private String LAST_LOGIN;	//最后登录时间
-	private String IP;			//用户登录ip地址
-	private String STATUS;		//状态
-	private Role role;			//角色对象
-	private Page page;			//分页对象
-	private String SKIN;		//皮肤
+
+	private String USER_ID;
+	private String USERNAME;
+	private String PASSWORD;
+	private String NAME;
+	private String RIGHTS;
+	private String ROLE_ID;
+	private String LAST_LOGIN;
+	private String IP;
+	private String STATUS;
+	private Role role;
+	private Page page;
+	private String SKIN;
 	
 	public String getSKIN() {
 		return SKIN;
@@ -22,7 +23,6 @@ public class User {
 	public void setSKIN(String sKIN) {
 		SKIN = sKIN;
 	}
-	
 	public String getUSER_ID() {
 		return USER_ID;
 	}
@@ -85,8 +85,9 @@ public class User {
 		this.role = role;
 	}
 	public Page getPage() {
-		if(page==null)
+		if(page==null){
 			page = new Page();
+		}
 		return page;
 	}
 	public void setPage(Page page) {

@@ -1,9 +1,7 @@
 package com.wolves.dao;
 
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;

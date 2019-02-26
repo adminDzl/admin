@@ -12,10 +12,8 @@ public class Menu {
 	private String MENU_ICON;
 	private String MENU_TYPE;
 	private String target;
-	
 	private Menu parentMenu;
 	private List<Menu> subMenu;
-	
 	private boolean hasMenu = false;
 	
 	public String getMENU_ID() {
