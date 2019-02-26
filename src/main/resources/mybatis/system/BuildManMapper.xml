@@ -3,7 +3,7 @@
 <mapper namespace="BuildManMapper">
 	<!-- 新增楼栋长-->
 	<insert id="save" parameterType="pd">
-		insert into BUILD_MANBUILDMAN(
+		insert into BUILD_MAN(
 			BUILD_NO,	
 			BUILD_MASTER_NAME,	
 			MASTER_TEL,	
@@ -20,14 +20,14 @@
 
 	<!-- 删除-->
 	<delete id="delete" parameterType="pd">
-		delete from BUILD_MANBUILDMAN
+		delete from BUILD_MAN
 		where 
 			BUILDMAN_ID = #{BUILDMAN_ID}
 	</delete>
 
 	<!-- 修改 -->
 	<update id="edit" parameterType="pd">
-		update  BUILD_MANBUILDMAN
+		update  BUILD_MAN
 			set
 				BUILD_NO = #{BUILD_NO},
 				BUILD_MASTER_NAME = #{BUILD_MASTER_NAME},
@@ -46,7 +46,7 @@
 			CREATE_TIME,	
 			BUILDMAN_ID
 		from 
-			BUILD_MANBUILDMAN
+			BUILD_MAN
 		where 
 			BUILDMAN_ID = #{BUILDMAN_ID}
 	</select>
@@ -60,7 +60,7 @@
 				a.CREATE_TIME,	
 				a.BUILDMAN_ID
 		from 
-				BUILD_MANBUILDMAN a
+				BUILD_MAN a
 	</select>
 
 	<!-- 列表(全部) -->
@@ -72,12 +72,12 @@
 				a.CREATE_TIME,	
 				a.BUILDMAN_ID
 		from 
-				BUILD_MANBUILDMAN a
+				BUILD_MAN a
 	</select>
 
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
-		delete from BUILD_MANBUILDMAN
+		delete from BUILD_MAN
 		where 
 			BUILDMAN_ID in
 		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">

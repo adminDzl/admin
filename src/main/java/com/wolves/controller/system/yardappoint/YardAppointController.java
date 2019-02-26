@@ -1,4 +1,4 @@
-package com.wolves.controller.system.floorman;
+package com.wolves.controller.system.yardappoint;
 
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -12,8 +12,7 @@ import javax.annotation.Resource;
 
 import com.wolves.controller.base.BaseController;
 import com.wolves.entity.Page;
-import com.wolves.service.system.buildman.BuildManService;
-import com.wolves.service.system.floorman.FloorManService;
+import com.wolves.service.system.yardappoint.YardAppointService;
 import com.wolves.util.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -27,32 +26,37 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /** 
- * 类名称：FloorManController
+ * 类名称：YardAppointController
  * 创建人：FH 
- * 创建时间：2019-02-23
+ * 创建时间：2019-02-24
  */
 @Controller
-@RequestMapping(value="/floorman")
-public class FloorManController extends BaseController {
+@RequestMapping(value="/yardappoint")
+public class YardAppointController extends BaseController {
 	
-	String menuUrl = "floorman/list.do"; //菜单地址(权限用)
-	@Resource(name="floormanService")
-	private FloorManService floormanService;
-	@Resource(name="buildmanService")
-	private BuildManService buildmanService;
+	String menuUrl = "yardappoint/list.do"; //菜单地址(权限用)
+	@Resource(name="yardappointService")
+	private YardAppointService yardappointService;
 	
 	/**
 	 * 新增
 	 */
 	@RequestMapping(value="/save")
 	public ModelAndView save() throws Exception{
-		logBefore(logger, "新增FloorMan");
+		logBefore(logger, "新增YardAppoint");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd.put("FLOORMAN_ID", this.get32UUID());	//主键
-		floormanService.save(pd);
+		pd.put("YARDAPPOINT_ID", this.get32UUID());	//主键
+		pd.put("PLACE_ID", "");	//场地ID
+		pd.put("APPLY_USER_ID", "");	//预定人ID
+		pd.put("BOOK_DURATION", "");	//预定时长
+		pd.put("BOOK_FEE", "");	//预定金额
+		pd.put("STATUS", "");	//预定状态
+		pd.put("CREATE_TIME", Tools.date2Str(new Date()));	//创建时间
+		pd.put("UPDATE_TIME", Tools.date2Str(new Date()));	//更新时间
+		yardappointService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -63,12 +67,12 @@ public class FloorManController extends BaseController {
 	 */
 	@RequestMapping(value="/delete")
 	public void delete(PrintWriter out){
-		logBefore(logger, "删除FloorMan");
+		logBefore(logger, "删除YardAppoint");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
-			floormanService.delete(pd);
+			yardappointService.delete(pd);
 			out.write("success");
 			out.close();
 		} catch(Exception e){
@@ -82,12 +86,12 @@ public class FloorManController extends BaseController {
 	 */
 	@RequestMapping(value="/edit")
 	public ModelAndView edit() throws Exception{
-		logBefore(logger, "修改FloorMan");
+		logBefore(logger, "修改YardAppoint");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		floormanService.edit(pd);
+		yardappointService.edit(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -98,43 +102,18 @@ public class FloorManController extends BaseController {
 	 */
 	@RequestMapping(value="/list")
 	public ModelAndView list(Page page){
-		logBefore(logger, "列表FloorMan");
+		logBefore(logger, "列表YardAppoint");
 		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
 			page.setPd(pd);
-			List<PageData>	varList = floormanService.list(page);	//列出FloorMan列表
-			mv.setViewName("system/floorman/floorman_list");
+			List<PageData>	varList = yardappointService.list(page);	//列出YardAppoint列表
+			mv.setViewName("system/yardappoint/yardappoint_list");
 			mv.addObject("varList", varList);
 			mv.addObject("pd", pd);
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
-		} catch(Exception e){
-			logger.error(e.toString(), e);
-		}
-		return mv;
-	}
-
-	/**
-	 * 查询全部栋长列表
-	 */
-	@RequestMapping(value="/listBuildManAll")
-	public ModelAndView listBuildManAll(Page page){
-		logBefore(logger, "列表BuildMan");
-		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		try{
-			pd = this.getPageData();
-			page.setPd(pd);
-			/*
-			列出BuildMan列表
-			 */
-			List<PageData> varList = buildmanService.listAll(pd);
-			mv.setViewName("system/floorman/floorman_edit");
-			mv.addObject("varList", varList);
-			mv.addObject("data", pd);
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
@@ -146,12 +125,12 @@ public class FloorManController extends BaseController {
 	 */
 	@RequestMapping(value="/goAdd")
 	public ModelAndView goAdd(){
-		logBefore(logger, "去新增FloorMan页面");
+		logBefore(logger, "去新增YardAppoint页面");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
-			mv.setViewName("system/floorman/floorman_edit");
+			mv.setViewName("system/yardappoint/yardappoint_edit");
 			mv.addObject("msg", "save");
 			mv.addObject("pd", pd);
 		} catch (Exception e) {
@@ -165,13 +144,13 @@ public class FloorManController extends BaseController {
 	 */
 	@RequestMapping(value="/goEdit")
 	public ModelAndView goEdit(){
-		logBefore(logger, "去修改FloorMan页面");
+		logBefore(logger, "去修改YardAppoint页面");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
-			pd = floormanService.findById(pd);	//根据ID读取
-			mv.setViewName("system/floorman/floorman_edit");
+			pd = yardappointService.findById(pd);	//根据ID读取
+			mv.setViewName("system/yardappoint/yardappoint_edit");
 			mv.addObject("msg", "edit");
 			mv.addObject("pd", pd);
 		} catch (Exception e) {
@@ -186,7 +165,7 @@ public class FloorManController extends BaseController {
 	@RequestMapping(value="/deleteAll")
 	@ResponseBody
 	public Object deleteAll() {
-		logBefore(logger, "批量删除FloorMan");
+		logBefore(logger, "批量删除YardAppoint");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "dell")){return null;} //校验权限
 		PageData pd = new PageData();		
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -196,7 +175,7 @@ public class FloorManController extends BaseController {
 			String DATA_IDS = pd.getString("DATA_IDS");
 			if(null != DATA_IDS && !"".equals(DATA_IDS)){
 				String ArrayDATA_IDS[] = DATA_IDS.split(",");
-				floormanService.deleteAll(ArrayDATA_IDS);
+				yardappointService.deleteAll(ArrayDATA_IDS);
 				pd.put("msg", "ok");
 			}else{
 				pd.put("msg", "no");
@@ -217,7 +196,7 @@ public class FloorManController extends BaseController {
 	 */
 	@RequestMapping(value="/excel")
 	public ModelAndView exportExcel(){
-		logBefore(logger, "导出FloorMan到excel");
+		logBefore(logger, "导出YardAppoint到excel");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
 		ModelAndView mv = new ModelAndView();
 		PageData pd = new PageData();
@@ -225,23 +204,31 @@ public class FloorManController extends BaseController {
 		try{
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
-			titles.add("id");	//1
-			titles.add("楼栋号");	//2
-			titles.add(" 楼层");	//3
-			titles.add("层长姓名");	//4
-			titles.add("联系方式");	//5
-			titles.add("创建时间");	//6
+			titles.add("场地ID");	//1
+			titles.add("预定人ID");	//2
+			titles.add("预约日期");	//3
+			titles.add("预定开始时间");	//4
+			titles.add("预约结束时间");	//5
+			titles.add("预定时长");	//6
+			titles.add("预定金额");	//7
+			titles.add("预定状态");	//8
+			titles.add("创建时间");	//9
+			titles.add("更新时间");	//10
 			dataMap.put("titles", titles);
-			List<PageData> varOList = floormanService.listAll(pd);
+			List<PageData> varOList = yardappointService.listAll(pd);
 			List<PageData> varList = new ArrayList<PageData>();
 			for(int i=0;i<varOList.size();i++){
 				PageData vpd = new PageData();
-				vpd.put("var1", varOList.get(i).get("ID").toString());	//1
-				vpd.put("var2", varOList.get(i).getString("BUILD_NO"));	//2
-				vpd.put("var3", varOList.get(i).getString("FLOOR"));	//3
-				vpd.put("var4", varOList.get(i).getString("FLOOR_MASTER_NAME"));	//4
-				vpd.put("var5", varOList.get(i).getString("MASTER_TEL"));	//5
-				vpd.put("var6", varOList.get(i).getString("CREATE_TIME"));	//6
+				vpd.put("var1", varOList.get(i).getString("PLACE_ID"));	//1
+				vpd.put("var2", varOList.get(i).getString("APPLY_USER_ID"));	//2
+				vpd.put("var3", varOList.get(i).getString("PLACE_DATE"));	//3
+				vpd.put("var4", varOList.get(i).getString("BEGIN_TIME"));	//4
+				vpd.put("var5", varOList.get(i).getString("END_TIME"));	//5
+				vpd.put("var6", varOList.get(i).get("BOOK_DURATION").toString());	//6
+				vpd.put("var7", varOList.get(i).getString("BOOK_FEE"));	//7
+				vpd.put("var8", varOList.get(i).get("STATUS").toString());	//8
+				vpd.put("var9", varOList.get(i).getString("CREATE_TIME"));	//9
+				vpd.put("var10", varOList.get(i).getString("UPDATE_TIME"));	//10
 				varList.add(vpd);
 			}
 			dataMap.put("varList", varList);
