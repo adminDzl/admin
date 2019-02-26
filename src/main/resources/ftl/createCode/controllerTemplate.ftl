@@ -71,15 +71,10 @@ public class ${objectName}Controller extends BaseController {
 	public void delete(PrintWriter out){
 		logBefore(logger, "删除${objectName}");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;}
-		try{
-			PageData pd = this.getPageData();
-			${objectNameLower}Service.delete(pd);
-			out.write("success");
-			out.close();
-		} catch(Exception e){
-			logger.error(e.toString(), e);
-		}
-		
+		PageData pd = this.getPageData();
+		${objectNameLower}Service.delete(pd);
+		out.write("success");
+		out.close();
 	}
 	
 	/**
@@ -105,17 +100,13 @@ public class ${objectName}Controller extends BaseController {
 		logBefore(logger, "列表${objectName}");
 		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
 		ModelAndView mv = this.getModelAndView();
-		try{
-			PageData pd = this.getPageData();
-			page.setPd(pd);
-			List<PageData>	varList = ${objectNameLower}Service.list(page);
-			mv.setViewName("${packageName}/${objectNameLower}/${objectNameLower}_list");
-			mv.addObject("varList", varList);
-			mv.addObject("pd", pd);
-			mv.addObject(Const.SESSION_QX,this.getHC());
-		} catch(Exception e){
-			logger.error(e.toString(), e);
-		}
+		PageData pd = this.getPageData();
+		page.setPd(pd);
+		List<PageData>	varList = ${objectNameLower}Service.list(page);
+		mv.setViewName("${packageName}/${objectNameLower}/${objectNameLower}_list");
+		mv.addObject("varList", varList);
+		mv.addObject("pd", pd);
+		mv.addObject(Const.SESSION_QX,this.getHC());
 		return mv;
 	}
 	
@@ -127,13 +118,9 @@ public class ${objectName}Controller extends BaseController {
 		logBefore(logger, "去新增${objectName}页面");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
-		try {
-			mv.setViewName("${packageName}/${objectNameLower}/${objectNameLower}_edit");
-			mv.addObject("msg", "save");
-			mv.addObject("pd", pd);
-		} catch (Exception e) {
-			logger.error(e.toString(), e);
-		}						
+		mv.setViewName("${packageName}/${objectNameLower}/${objectNameLower}_edit");
+		mv.addObject("msg", "save");
+		mv.addObject("pd", pd);
 		return mv;
 	}	
 	
@@ -145,14 +132,10 @@ public class ${objectName}Controller extends BaseController {
 		logBefore(logger, "去修改${objectName}页面");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
-		try {
-			pd = ${objectNameLower}Service.findById(pd);
-			mv.setViewName("${packageName}/${objectNameLower}/${objectNameLower}_edit");
-			mv.addObject("msg", "edit");
-			mv.addObject("pd", pd);
-		} catch (Exception e) {
-			logger.error(e.toString(), e);
-		}						
+		pd = ${objectNameLower}Service.findById(pd);
+		mv.setViewName("${packageName}/${objectNameLower}/${objectNameLower}_edit");
+		mv.addObject("msg", "edit");
+		mv.addObject("pd", pd);
 		return mv;
 	}	
 	

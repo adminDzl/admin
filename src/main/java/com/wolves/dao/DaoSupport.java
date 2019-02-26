@@ -17,28 +17,28 @@ public class DaoSupport implements DAO {
 	/**
 	 * 保存对象
 	 */
-	public Object save(String str, Object obj) throws Exception {
+	public Object save(String str, Object obj){
 		return sqlSessionTemplate.insert(str, obj);
 	}
 	
 	/**
 	 * 批量更新
 	 */
-	public Object batchSave(String str, List objs )throws Exception{
+	public Object batchSave(String str, List objs ){
 		return sqlSessionTemplate.insert(str, objs);
 	}
 	
 	/**
 	 * 修改对象
 	 */
-	public Object update(String str, Object obj) throws Exception {
+	public Object update(String str, Object obj){
 		return sqlSessionTemplate.update(str, obj);
 	}
 
 	/**
 	 * 批量更新
 	 */
-	public void batchUpdate(String str, List objs )throws Exception{
+	public void batchUpdate(String str, List objs ){
 		SqlSessionFactory sqlSessionFactory = sqlSessionTemplate.getSqlSessionFactory();
 		//批量执行器
 		SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,false);
@@ -59,32 +59,32 @@ public class DaoSupport implements DAO {
 	/**
 	 * 批量更新
 	 */
-	public Object batchDelete(String str, List objs )throws Exception{
+	public Object batchDelete(String str, List objs ){
 		return sqlSessionTemplate.delete(str, objs);
 	}
 	
 	/**
 	 * 删除对象 
 	 */
-	public Object delete(String str, Object obj) throws Exception {
+	public Object delete(String str, Object obj) {
 		return sqlSessionTemplate.delete(str, obj);
 	}
 	 
 	/**
 	 * 查找对象
 	 */
-	public Object findForObject(String str, Object obj) throws Exception {
+	public Object findForObject(String str, Object obj) {
 		return sqlSessionTemplate.selectOne(str, obj);
 	}
 
 	/**
 	 * 查找对象
 	 */
-	public Object findForList(String str, Object obj) throws Exception {
+	public Object findForList(String str, Object obj) {
 		return sqlSessionTemplate.selectList(str, obj);
 	}
 	
-	public Object findForMap(String str, Object obj, String key, String value) throws Exception {
+	public Object findForMap(String str, Object obj, String key, String value) {
 		return sqlSessionTemplate.selectMap(str, obj, key);
 	}
 	

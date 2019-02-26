@@ -1,4 +1,4 @@
-package com.wolves.controller.system;
+package com.wolves.controller.system.appuser;
 
 import java.io.PrintWriter;
 import java.text.DateFormat;

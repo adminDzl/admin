@@ -61,6 +61,7 @@
 						<th>序号</th>
 						<th>用户名</th>
 						<th>姓名</th>
+						<th>所属公司</th>
 						<th>等级</th>
 						<th><i class="icon-time hidden-phone"></i>到期日期</th>
 						<th>年限</th>
@@ -83,6 +84,7 @@
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 								<td>${user.USERNAME }</td>
 								<td>${user.NAME }</td>
+								<td>${user.COMPANY }</td>
 								<td>${user.ROLE_NAME }</td>
 								<td>${user.END_TIME }</td>
 								<td>${user.YEARS }</td>
@@ -100,12 +102,6 @@
 										<div class="inline position-relative">
 										<button class="btn btn-mini btn-info" data-toggle="dropdown"><i class="icon-cog icon-only"></i></button>
 										<ul class="dropdown-menu dropdown-icon-only dropdown-light pull-right dropdown-caret dropdown-close">
-											<c:if test="${QX.FX_QX == 1 }">
-											<li><a style="cursor:pointer;" title="发送电子邮件" onclick="sendEmail('${user.EMAIL }');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class='icon-envelope-alt'></i></span></a></li>
-											</c:if>
-											<c:if test="${QX.FW_QX == 1 }">
-											<li><a style="cursor:pointer;"  title="发送短信" onclick="sendSms('${user.PHONE }');" class="tooltip-warning" data-rel="tooltip" title="" data-placement="left"><span class="blue"><i class='icon-envelope'></i></span></a></li>
-											</c:if>
 											<c:if test="${QX.edit == 1 }">
 											<li><a style="cursor:pointer;" title="编辑" onclick="editUser('${user.USER_ID }');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a></li>
 											</c:if>
@@ -145,12 +141,12 @@
 					<c:if test="${QX.add == 1 }">
 					<a class="btn btn-small btn-success" onclick="add();">新增</a>
 					</c:if>
-					<c:if test="${QX.FX_QX == 1 }">
-					<a title="批量发送电子邮件" class="btn btn-small btn-info" onclick="makeAll('确定要给选中的用户发送邮件吗?');"><i class="icon-envelope-alt"></i></a>
-					</c:if>
-					<c:if test="${QX.FW_QX == 1 }">
-					<a title="批量发送短信" class="btn btn-small btn-warning" onclick="makeAll('确定要给选中的用户发送短信吗?');"><i class="icon-envelope"></i></a>
-					</c:if>
+					<%--<c:if test="${QX.FX_QX == 1 }">--%>
+					<%--<a title="批量发送电子邮件" class="btn btn-small btn-info" onclick="makeAll('确定要给选中的用户发送邮件吗?');"><i class="icon-envelope-alt"></i></a>--%>
+					<%--</c:if>--%>
+					<%--<c:if test="${QX.FW_QX == 1 }">--%>
+					<%--<a title="批量发送短信" class="btn btn-small btn-warning" onclick="makeAll('确定要给选中的用户发送短信吗?');"><i class="icon-envelope"></i></a>--%>
+					<%--</c:if>--%>
 					<c:if test="${QX.del == 1 }">
 					<a class="btn btn-small btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='icon-trash'></i></a>
 					</c:if>
