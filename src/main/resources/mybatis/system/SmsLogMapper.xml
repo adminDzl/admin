@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SmsLogMapper">
+	<!-- 短信发送记录-->
+	<insert id="save" parameterType="pd">
+		insert into SMS_LOG(
+			ID,
+			SMS_TYPE,
+			PHONE,
+			CODE,
+			CONTENT,
+			SMS_STATUS
+			CREATE_TIME
+		) values (
+			#{SMS_TYPE},
+			#{PHONE},
+			#{CODE},
+			#{CONTENT},
+			#{SMS_STATUS}
+			now()
+		)
+	</insert>
+
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select
+			ID,
+			SMS_TYPE,
+			PHONE,
+			CODE,
+			CONTENT,
+			SMS_STATUS
+			CREATE_TIME,
+			UPDATE_TIME
+		from 
+			SMS_LOG
+		where 
+			ID = #{ID}
+	</select>
+
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+			a.ID,
+			a.SMS_TYPE,
+			a.PHONE,
+			a.CODE,
+			a.CONTENT,
+			a.SMS_STATUS,
+			a.CREATE_TIME,
+			a.UPDATE_TIME
+		from 
+			SMS_LOG a
+	</select>
+
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+		a.ID,
+		a.SMS_TYPE,
+		a.PHONE,
+		a.CODE,
+		a.CONTENT,
+		a.SMS_STATUS,
+		a.CREATE_TIME,
+		a.UPDATE_TIME
+		from
+		SMS_LOG a
+	</select>
+
+	<!-- 最近n分钟发送记录 -->
+	<select id="listLastMin" parameterType="pd" resultType="pd">
+		select a.ID,a.SMS_TYPE,a.PHONE,a.CODE,a.CONTENT,a.SMS_STATUS,a.CREATE_TIME,a.UPDATE_TIME
+		from SMS_LOG a
+		where a.PHONE=#{PHONE} and a.CREATE_TIME between date_add(now(), interval - #{MIN} minute) and now()
+
+	</select>
+
+	<select id="selectOneByPhone" parameterType="pd" resultType="pd">
+		select
+			a.ID,
+			a.SMS_TYPE,
+			a.PHONE,
+			a.CODE,
+			a.CONTENT,
+			a.SMS_STATUS,
+			a.CREATE_TIME,
+			a.UPDATE_TIME
+		from
+			SMS_LOG a
+		where a.PHONE=#{PHONE} order by a.CREATE_TIME DESC limit 1
+	</select>
+
+</mapper>

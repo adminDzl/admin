@@ -23,6 +23,9 @@ import com.wolves.util.SmsUtil;
 import com.wolves.util.Tools;
 import com.wolves.util.mail.SimpleMailSender;
 
+/**
+ * @author
+ */
 @Controller
 @RequestMapping(value="/head")
 public class HeadController extends BaseController {
@@ -43,16 +46,12 @@ public class HeadController extends BaseController {
 		try {
 			pd = this.getPageData();
 			List<PageData> pdList = new ArrayList<PageData>();
-			
-			//shiro管理的session
 			Subject currentUser = SecurityUtils.getSubject();  
 			Session session = currentUser.getSession();
-			
-			PageData pds = new PageData();
-			pds = (PageData)session.getAttribute(Const.SESSION_userpds);
+			PageData pds = (PageData)session.getAttribute(Const.SESSION_userpds);
 			
 			if(null == pds){
-				String USERNAME = session.getAttribute(Const.SESSION_USERNAME).toString();	//获取当前登录者loginname
+				String USERNAME = session.getAttribute(Const.SESSION_USERNAME).toString();
 				pd.put("USERNAME", USERNAME);
 				pds = userService.findByUId(pd);
 				session.setAttribute(Const.SESSION_userpds, pds);
@@ -72,26 +71,18 @@ public class HeadController extends BaseController {
 	 * 保存皮肤
 	 */
 	@RequestMapping(value="/setSKIN")
-	public void setSKIN(PrintWriter out){
+	public void setSKIN(PrintWriter out) throws Exception{
 		PageData pd = new PageData();
-		try{
-			pd = this.getPageData();
-			
-			//shiro管理的session
-			Subject currentUser = SecurityUtils.getSubject();  
-			Session session = currentUser.getSession();
-			
-			String USERNAME = session.getAttribute(Const.SESSION_USERNAME).toString();//获取当前登录者loginname
-			pd.put("USERNAME", USERNAME);
-			userService.setSKIN(pd);
-			session.removeAttribute(Const.SESSION_userpds);
-			session.removeAttribute(Const.SESSION_USERROL);
-			out.write("success");
-			out.close();
-		} catch(Exception e){
-			logger.error(e.toString(), e);
-		}
-		
+		pd = this.getPageData();
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		String USERNAME = session.getAttribute(Const.SESSION_USERNAME).toString();
+		pd.put("USERNAME", USERNAME);
+		userService.setSKIN(pd);
+		session.removeAttribute(Const.SESSION_userpds);
+		session.removeAttribute(Const.SESSION_USERROL);
+		out.write("success");
+		out.close();
 	}
 	
 	/**
@@ -126,21 +117,20 @@ public class HeadController extends BaseController {
 	@RequestMapping(value="/sendSms")
 	@ResponseBody
 	public Object sendSms(){
-		PageData pd = new PageData();
-		pd = this.getPageData();
+		PageData pd = this.getPageData();
 		Map<String,Object> map = new HashMap<String,Object>();
-		String msg = "ok";		//发送状态
-		int count = 0;			//统计发送成功条数
-		int zcount = 0;			//理论条数
+		String msg = "ok";
+		int count = 0;
+		int zcount = 0;
 		
 		
 		List<PageData> pdList = new ArrayList<PageData>();
 		
-		String PHONEs = pd.getString("PHONE");					//对方邮箱
-		String CONTENT = pd.getString("CONTENT");				//内容
-		String isAll = pd.getString("isAll");					//是否发送给全体成员 yes or no
-		String TYPE = pd.getString("TYPE");						//类型 1：短信接口1   2：短信接口2
-		String fmsg = pd.getString("fmsg");						//判断是系统用户还是会员 "appuser"为会员用户
+		String PHONEs = pd.getString("PHONE");
+		String CONTENT = pd.getString("CONTENT");
+		String isAll = pd.getString("isAll");
+		String TYPE = pd.getString("TYPE");
+		String fmsg = pd.getString("fmsg");
 		
 		
 		if("yes".endsWith(isAll)){
@@ -152,11 +142,11 @@ public class HeadController extends BaseController {
 				zcount = userList.size();
 				try {
 					for(int i=0;i<userList.size();i++){
-						if(Tools.checkMobileNumber(userList.get(i).getString("PHONE"))){			//手机号格式不对就跳过
+						if(Tools.checkMobileNumber(userList.get(i).getString("PHONE"))){
 							if("1".equals(TYPE)){
-								SmsUtil.sendSms1(userList.get(i).getString("PHONE"), CONTENT);		//调用发短信函数1
+								SmsUtil.sendSms1(userList.get(i).getString("PHONE"), CONTENT);
 							}else{
-								SmsUtil.sendSms2(userList.get(i).getString("PHONE"), CONTENT);		//调用发短信函数2
+								SmsUtil.sendSms2(userList.get(i).getString("PHONE"), CONTENT);
 							}
 							count++;
 						}else{
@@ -178,11 +168,11 @@ public class HeadController extends BaseController {
 			zcount = arrTITLE.length;
 			try {
 				for(int i=0;i<arrTITLE.length;i++){
-					if(Tools.checkMobileNumber(arrTITLE[i])){			//手机号式不对就跳过
+					if(Tools.checkMobileNumber(arrTITLE[i])){
 						if("1".equals(TYPE)){
-							SmsUtil.sendSms1(arrTITLE[i], CONTENT);		//调用发短信函数1
+							SmsUtil.sendSms1(arrTITLE[i], CONTENT);
 						}else{
-							SmsUtil.sendSms2(arrTITLE[i], CONTENT);		//调用发短信函数2
+							SmsUtil.sendSms2(arrTITLE[i], CONTENT);
 						}
 						count++;
 					}else{
@@ -195,8 +185,8 @@ public class HeadController extends BaseController {
 			} 
 		}	
 		pd.put("msg", msg);
-		pd.put("count", count);						//成功数
-		pd.put("ecount", zcount-count);				//失败数
+		pd.put("count", count);
+		pd.put("ecount", zcount-count);
 		pdList.add(pd);
 		map.put("list", pdList);
 		return AppUtil.returnObject(pd, map);
@@ -224,21 +214,21 @@ public class HeadController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		Map<String,Object> map = new HashMap<String,Object>();
-		String msg = "ok";		//发送状态
-		int count = 0;			//统计发送成功条数
-		int zcount = 0;			//理论条数
+		String msg = "ok";
+		int count = 0;
+		int zcount = 0;
 		
-		String strEMAIL = Tools.readTxtFile(Const.EMAIL);		//读取邮件配置
+		String strEMAIL = Tools.readTxtFile(Const.EMAIL);
 		
 		List<PageData> pdList = new ArrayList<PageData>();
 		
-		String toEMAIL = pd.getString("EMAIL");					//对方邮箱
-		String TITLE = pd.getString("TITLE");					//标题
-		String CONTENT = pd.getString("CONTENT");				//内容
-		String TYPE = pd.getString("TYPE");						//类型
-		String isAll = pd.getString("isAll");					//是否发送给全体成员 yes or no
+		String toEMAIL = pd.getString("EMAIL");
+		String TITLE = pd.getString("TITLE");
+		String CONTENT = pd.getString("CONTENT");
+		String TYPE = pd.getString("TYPE");
+		String isAll = pd.getString("isAll");
 		
-		String fmsg = pd.getString("fmsg");						//判断是系统用户还是会员 "appuser"为会员用户
+		String fmsg = pd.getString("fmsg");
 		
 		if(null != strEMAIL && !"".equals(strEMAIL)){
 			String strEM[] = strEMAIL.split(",fh,");
@@ -252,8 +242,8 @@ public class HeadController extends BaseController {
 						zcount = userList.size();
 						try {
 							for(int i=0;i<userList.size();i++){
-								if(Tools.checkEmail(userList.get(i).getString("EMAIL"))){		//邮箱格式不对就跳过
-									SimpleMailSender.sendEmail(strEM[0], strEM[1], strEM[2], strEM[3], userList.get(i).getString("EMAIL"), TITLE, CONTENT, TYPE);//调用发送邮件函数
+								if(Tools.checkEmail(userList.get(i).getString("EMAIL"))){
+									SimpleMailSender.sendEmail(strEM[0], strEM[1], strEM[2], strEM[3], userList.get(i).getString("EMAIL"), TITLE, CONTENT, TYPE);
 									count++;
 								}else{
 									continue;
@@ -274,8 +264,8 @@ public class HeadController extends BaseController {
 					zcount = arrTITLE.length;
 					try {
 						for(int i=0;i<arrTITLE.length;i++){
-							if(Tools.checkEmail(arrTITLE[i])){		//邮箱格式不对就跳过
-								SimpleMailSender.sendEmail(strEM[0], strEM[1], strEM[2], strEM[3], arrTITLE[i], TITLE, CONTENT, TYPE);//调用发送邮件函数
+							if(Tools.checkEmail(arrTITLE[i])){
+								SimpleMailSender.sendEmail(strEM[0], strEM[1], strEM[2], strEM[3], arrTITLE[i], TITLE, CONTENT, TYPE);
 								count++;
 							}else{
 								continue;
@@ -293,8 +283,8 @@ public class HeadController extends BaseController {
 			msg = "error";
 		}
 		pd.put("msg", msg);
-		pd.put("count", count);						//成功数
-		pd.put("ecount", zcount-count);				//失败数
+		pd.put("count", count);
+		pd.put("ecount", zcount-count);
 		pdList.add(pd);
 		map.put("list", pdList);
 		return AppUtil.returnObject(pd, map);
@@ -308,14 +298,14 @@ public class HeadController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd.put("YSYNAME", Tools.readTxtFile(Const.SYSNAME));	//读取系统名称
-		pd.put("COUNTPAGE", Tools.readTxtFile(Const.PAGE));		//读取每页条数
-		String strEMAIL = Tools.readTxtFile(Const.EMAIL);		//读取邮件配置
-		String strSMS1 = Tools.readTxtFile(Const.SMS1);			//读取短信1配置
-		String strSMS2 = Tools.readTxtFile(Const.SMS2);			//读取短信2配置
-		String strFWATERM = Tools.readTxtFile(Const.FWATERM);	//读取文字水印配置
-		String strIWATERM = Tools.readTxtFile(Const.IWATERM);	//读取图片水印配置
-		pd.put("Token", Tools.readTxtFile(Const.WEIXIN));		//读取微信配置
+		pd.put("YSYNAME", Tools.readTxtFile(Const.SYSNAME));
+		pd.put("COUNTPAGE", Tools.readTxtFile(Const.PAGE));
+		String strEMAIL = Tools.readTxtFile(Const.EMAIL);
+		String strSMS1 = Tools.readTxtFile(Const.SMS1);
+		String strSMS2 = Tools.readTxtFile(Const.SMS2);
+		String strFWATERM = Tools.readTxtFile(Const.FWATERM);
+		String strIWATERM = Tools.readTxtFile(Const.IWATERM);
+		pd.put("Token", Tools.readTxtFile(Const.WEIXIN));
 		
 		if(null != strEMAIL && !"".equals(strEMAIL)){
 			String strEM[] = strEMAIL.split(",fh,");
@@ -366,7 +356,6 @@ public class HeadController extends BaseController {
 		
 		mv.setViewName("system/head/sys_edit");
 		mv.addObject("pd", pd);
-		
 		return mv;
 	}
 	
@@ -378,11 +367,11 @@ public class HeadController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		Tools.writeFile(Const.SYSNAME,pd.getString("YSYNAME"));	//写入系统名称
-		Tools.writeFile(Const.PAGE,pd.getString("COUNTPAGE"));	//写入每页条数
-		Tools.writeFile(Const.EMAIL,pd.getString("SMTP")+",fh,"+pd.getString("PORT")+",fh,"+pd.getString("EMAIL")+",fh,"+pd.getString("PAW"));	//写入邮件服务器配置
-		Tools.writeFile(Const.SMS1,pd.getString("SMSU1")+",fh,"+pd.getString("SMSPAW1"));	//写入短信1配置
-		Tools.writeFile(Const.SMS2,pd.getString("SMSU2")+",fh,"+pd.getString("SMSPAW2"));	//写入短信2配置
+		Tools.writeFile(Const.SYSNAME,pd.getString("YSYNAME"));
+		Tools.writeFile(Const.PAGE,pd.getString("COUNTPAGE"));
+		Tools.writeFile(Const.EMAIL,pd.getString("SMTP")+",fh,"+pd.getString("PORT")+",fh,"+pd.getString("EMAIL")+",fh,"+pd.getString("PAW"));
+		Tools.writeFile(Const.SMS1,pd.getString("SMSU1")+",fh,"+pd.getString("SMSPAW1"));
+		Tools.writeFile(Const.SMS2,pd.getString("SMSU2")+",fh,"+pd.getString("SMSPAW2"));
 		mv.addObject("msg","OK");
 		mv.setViewName("save_result");
 		return mv;
@@ -394,10 +383,9 @@ public class HeadController extends BaseController {
 	@RequestMapping(value="/saveSys2")
 	public ModelAndView saveSys2() throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		Tools.writeFile(Const.FWATERM,pd.getString("isCheck1")+",fh,"+pd.getString("fcontent")+",fh,"+pd.getString("fontSize")+",fh,"+pd.getString("fontX")+",fh,"+pd.getString("fontY"));	//文字水印配置
-		Tools.writeFile(Const.IWATERM,pd.getString("isCheck2")+",fh,"+pd.getString("imgUrl")+",fh,"+pd.getString("imgX")+",fh,"+pd.getString("imgY"));	//图片水印配置
+		PageData pd = this.getPageData();
+		Tools.writeFile(Const.FWATERM,pd.getString("isCheck1")+",fh,"+pd.getString("fcontent")+",fh,"+pd.getString("fontSize")+",fh,"+pd.getString("fontX")+",fh,"+pd.getString("fontY"));
+		Tools.writeFile(Const.IWATERM,pd.getString("isCheck2")+",fh,"+pd.getString("imgUrl")+",fh,"+pd.getString("imgX")+",fh,"+pd.getString("imgY"));
 		mv.addObject("msg","OK");
 		mv.setViewName("save_result");
 		return mv;
@@ -411,7 +399,7 @@ public class HeadController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		Tools.writeFile(Const.WEIXIN,pd.getString("Token"));	//写入微信配置
+		Tools.writeFile(Const.WEIXIN,pd.getString("Token"));
 		mv.addObject("msg","OK");
 		mv.setViewName("save_result");
 		return mv;
