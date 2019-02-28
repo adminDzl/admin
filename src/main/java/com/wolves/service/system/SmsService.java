@@ -31,7 +31,7 @@ public class SmsService {
      * @param code 验证码
      */
     public Result sendSms(String tel, Integer type, String code, String msg){
-        Result result = new Result(1, "发送失败");
+        Result result = new Result("发送失败");
         Integer smsStstus = 0;
         //短信发送过多提醒
         PageData pd = new PageData();

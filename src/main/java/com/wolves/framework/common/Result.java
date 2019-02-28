@@ -12,11 +12,6 @@ public class Result {
     public String msg;
     protected Object data;
 
-    public Result() {
-        this.result = ResultCode.SUCCESS;
-        this.msg = "";
-    }
-
     public Result(String msg) {
         this.result = ResultCode.FAIL;
         this.msg = msg;

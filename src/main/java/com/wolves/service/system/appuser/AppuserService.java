@@ -98,4 +98,3 @@ public class AppuserService {
 		dao.update("AppuserMapper.updateLastLogin", pd);
 	}
 }
-
