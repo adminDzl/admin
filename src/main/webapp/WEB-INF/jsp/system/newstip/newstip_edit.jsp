@@ -103,7 +103,7 @@
 
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">新闻类型:</td>
-				<td><input type="number" name="NEWS_TYPE" id="NEWS_TYPE" value="${pd.NEWS_TYPE}" maxlength="32" placeholder="这里输入新闻类型（1.新闻 2.项目申报）" title="新闻类型（1.新闻 2.项目申报）"/></td>
+				<td><input type="number" name="NEWS_TYPE" id="NEWS_TYPE" value="${pd.NEWS_TYPE}" maxlength="32" placeholder="这里输入新闻类型" title="新闻类型（1.新闻 2.项目申报）"/></td>
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">新闻标题:</td>
@@ -114,16 +114,14 @@
 				<td><input type="text" name="NEWS_CONTENT" id="NEWS_CONTENT" value="${pd.NEWS_CONTENT}" maxlength="32" placeholder="这里输入新闻内容" title="新闻内容"/></td>
 			</tr>
 			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;">新闻内容:</td>
+				<td>
+					<script id="editor" type="text/plain" style="width:400px;height:300px;"></script>
+				</td>
+			</tr>
+			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">附件url:</td>
 				<td><input type="text" name="ATTACH_URL" id="ATTACH_URL" value="${pd.ATTACH_URL}" maxlength="32" placeholder="这里输入附件url" title="附件url"/></td>
-			</tr>
-			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">创建时间:</td>
-				<td><input class="span10 date-picker" name="CREATE_TIME" id="CREATE_TIME" value="${pd.CREATE_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="创建时间" title="创建时间"/></td>
-			</tr>
-			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">修改时间:</td>
-				<td><input class="span10 date-picker" name="UPDATE_TIME" id="UPDATE_TIME" value="${pd.UPDATE_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="修改时间" title="修改时间"/></td>
 			</tr>
 			<tr>
 				<td style="text-align: center;" colspan="10">
@@ -146,7 +144,18 @@
 		<script src="static/js/ace.min.js"></script>
 		<script type="text/javascript" src="static/js/chosen.jquery.min.js"></script><!-- 下拉框 -->
 		<script type="text/javascript" src="static/js/bootstrap-datepicker.min.js"></script><!-- 日期框 -->
-		<script type="text/javascript">
+
+		<!-- 编辑框-->
+		<script type="text/javascript" charset="utf-8">window.UEDITOR_HOME_URL = "<%=path%>/plugins/ueditor/";</script>
+		<script type="text/javascript" charset="utf-8" src="plugins/ueditor/ueditor.config.js"></script>
+		<script type="text/javascript" charset="utf-8" src="plugins/ueditor/ueditor.all.js"></script>
+		<!-- 编辑框-->
+
+		<!--提示框-->
+		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
+		<!--引入属于此页面的js -->
+		<script type="text/javascript" src="static/js/myjs/toolEmail.js"></script>
+	<script type="text/javascript">
 		$(top.hangge());
 		$(function() {
 			//单选框

@@ -37,7 +37,17 @@
 			//beforeSend: validateData,
 			cache: false,
 			success: function(data){
+				var pro = $('#BUILD_NO');
 
+				var options = '';
+				$(data).each(function() {
+					options += '<option value="' + this.BUILD_NO
+							+ '" >' + this.BUILD_MASTER_NAME
+							+ '</option>';
+
+				});
+
+				pro.append(options);
 			}
 		});
     }
@@ -102,10 +112,7 @@
 				<td>
 					<select class="selectpicker show-tick form-control" name="BUILD_NO" id="BUILD_NO"
 							value="${pd.BUILD_NO}" maxlength="32" placeholder="这里选择楼栋号" title="楼栋号" onclick="getBuildMan()">
-						<option value="">请选择楼栋</option>
-						<c:forEach items="${varList}" var="item">
-							<option value="${item.BUILD_NO}">${item.BUILD_MASTER_NAME}</option>
-						</c:forEach>
+						<option value =" ">请选择</option>
 					</select>
 				</td>
 			</tr>

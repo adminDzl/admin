@@ -120,10 +120,11 @@ public class FloorManController extends BaseController {
 	 * 查询全部栋长列表
 	 */
 	@RequestMapping(value="/listBuildManAll")
-	public ModelAndView listBuildManAll(Page page){
+	@ResponseBody
+	public Object listBuildManAll(Page page){
 		logBefore(logger, "列表BuildMan");
 		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限
-		ModelAndView mv = this.getModelAndView();
+		List<PageData> varList = new ArrayList<PageData>();
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
@@ -131,14 +132,12 @@ public class FloorManController extends BaseController {
 			/*
 			列出BuildMan列表
 			 */
-			List<PageData> varList = buildmanService.listAll(pd);
-			mv.setViewName("system/floorman/floorman_edit");
-			mv.addObject("varList", varList);
-			mv.addObject("data", pd);
+			varList = buildmanService.listAll(pd);
+
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
-		return mv;
+		return varList;
 	}
 	
 	/**
