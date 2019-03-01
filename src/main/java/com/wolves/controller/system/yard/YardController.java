@@ -12,6 +12,7 @@ import javax.annotation.Resource;
 
 import com.wolves.controller.base.BaseController;
 import com.wolves.entity.Page;
+import com.wolves.service.information.pictures.PicturesService;
 import com.wolves.service.system.yard.YardService;
 import com.wolves.util.*;
 import org.apache.shiro.SecurityUtils;
@@ -22,7 +23,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 /** 
@@ -37,6 +40,9 @@ public class YardController extends BaseController {
 	String menuUrl = "yard/list.do"; //菜单地址(权限用)
 	@Resource(name="yardService")
 	private YardService yardService;
+
+	@Resource(name="picturesService")
+	private PicturesService picturesService;
 	
 	/**
 	 * 新增
@@ -55,6 +61,44 @@ public class YardController extends BaseController {
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
+	}
+
+	/**
+	 * 新增
+	 */
+	@RequestMapping(value="/imageUpload")
+	@ResponseBody
+	public Object imageUpload(@RequestParam(required=false) MultipartFile[] files) throws Exception{
+		logBefore(logger, "新增Pictures");
+		Map<String,String> map = new HashMap<String,String>();
+		String fileAddress = DateUtil.getDays(), fileName = "";
+		List<PageData> pageDatas = new ArrayList<PageData>();
+		if (files != null && files.length > 0){
+			for (MultipartFile file : files){
+				if(Jurisdiction.buttonJurisdiction(menuUrl, "add")){
+					PageData pd = new PageData();
+					if (null != file && !file.isEmpty()) {
+						String filePath = PathUtil.getClasspath() + Const.FILEPATHIMG + fileAddress;		//文件上传路径
+						fileName = FileUpload.fileUp(file, filePath, this.get32UUID());				//执行上传
+					}else{
+						System.out.println("上传失败");
+					}
+					pd.put("PICTURES_ID", this.get32UUID());			//主键
+					pd.put("TITLE", "图片");							//标题
+					pd.put("NAME", fileName);							//文件名
+					pd.put("PATH", fileAddress + "/" + fileName);				//路径
+					pd.put("CREATETIME", Tools.date2Str(new Date()));	//创建时间
+					pd.put("MASTER_ID", "1");							//附属与
+					pd.put("BZ", "场地管理处上传");						//备注
+					//加水印
+					picturesService.save(pd);
+					pageDatas.add(pd);
+				}
+			}
+		}
+		map.put("result", "ok");
+		map.put("callback", pageDatas.toString());
+		return map;
 	}
 	
 	/**
