@@ -50,8 +50,8 @@
 						<label><input type="checkbox" id="zcheckbox" /><span class="lbl"></span></label>
 						</th>
 						<th class="center">序号</th>
-						<th class="center">场地ID</th>
-						<th class="center">预定人ID</th>
+						<th class="center">场地</th>
+						<th class="center">预定人</th>
 						<th class="center">预约日期</th>
 						<th class="center">预定开始时间</th>
 						<th class="center">预约结束时间</th>
@@ -76,14 +76,22 @@
 									<label><input type='checkbox' name='ids' value="${var.YARDAPPOINT_ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-										<td>${var.PLACE_ID}</td>
+										<td>${var.POSITION}</td>
 										<td>${var.APPLY_USER_ID}</td>
 										<td>${var.PLACE_DATE}</td>
 										<td>${var.BEGIN_TIME}</td>
 										<td>${var.END_TIME}</td>
 										<td>${var.BOOK_DURATION}</td>
 										<td>${var.BOOK_FEE}</td>
-										<td>${var.STATUS}</td>
+										<c:if test="${var.STATUS == 1 }">
+											<td style="color: #9abc32">已申请</td>
+										</c:if>
+										<c:if test="${var.STATUS == 2 }">
+											<td style="color: #00aa00">已成功</td>
+										</c:if>
+										<c:if test="${var.STATUS == 3 }">
+											<td style="color: #4a577d">已退回</td>
+										</c:if>
 										<td>${var.CREATE_TIME}</td>
 										<td>${var.UPDATE_TIME}</td>
 								<td style="width: 30px;" class="center">

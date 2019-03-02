@@ -44,18 +44,27 @@ public class YardAppointController extends BaseController {
 	@RequestMapping(value="/save")
 	public ModelAndView save() throws Exception{
 		logBefore(logger, "新增YardAppoint");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
+		//校验权限
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;}
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd.put("YARDAPPOINT_ID", this.get32UUID());	//主键
-		pd.put("PLACE_ID", "");	//场地ID
-		pd.put("APPLY_USER_ID", "");	//预定人ID
-		pd.put("BOOK_DURATION", "");	//预定时长
-		pd.put("BOOK_FEE", "");	//预定金额
-		pd.put("STATUS", "");	//预定状态
-		pd.put("CREATE_TIME", Tools.date2Str(new Date()));	//创建时间
-		pd.put("UPDATE_TIME", Tools.date2Str(new Date()));	//更新时间
+		//主键
+		pd.put("YARDAPPOINT_ID", this.get32UUID());
+		//场地ID
+		pd.put("PLACE_ID", "");
+		//预定人ID
+		pd.put("APPLY_USER_ID", "");
+		//预定时长
+		pd.put("BOOK_DURATION", 0);
+		//预定金额
+		pd.put("BOOK_FEE", "");
+		//预定状态
+		pd.put("STATUS", 0);
+		//创建时间
+		pd.put("CREATE_TIME", Tools.date2Str(new Date()));
+		//更新时间
+		pd.put("UPDATE_TIME", Tools.date2Str(new Date()));
 		yardappointService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
