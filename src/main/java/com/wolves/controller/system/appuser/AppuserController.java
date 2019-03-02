@@ -22,7 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.wolves.controller.base.BaseController;
 import com.wolves.entity.Page;
 import com.wolves.entity.system.Role;
-import com.wolves.service.system.appuser.AppuserService;
+import com.wolves.service.system.appuser.AppUserService;
 import com.wolves.service.system.role.RoleService;
 import com.wolves.util.AppUtil;
 import com.wolves.util.Const;
@@ -34,10 +34,13 @@ import com.wolves.util.PageData;
 @Controller
 @RequestMapping(value="/appuser")
 public class AppuserController extends BaseController {
-	
-	String menuUrl = "appuser/listUsers.do"; //菜单地址(权限用)
-	@Resource(name="appuserService")
-	private AppuserService appuserService;
+
+	/**
+	 * 菜单地址(权限用)
+	 */
+	String menuUrl = "appuser/listUsers.do";
+	@Resource(name="appUserService")
+	private AppUserService appUserService;
 	@Resource(name="roleService")
 	private RoleService roleService;
 
@@ -50,8 +53,8 @@ public class AppuserController extends BaseController {
 		PageData pd = this.getPageData();
 		pd.put("USER_ID", this.get32UUID());
 		pd.put("PASSWORD", MD5.md5(pd.getString("PASSWORD")));
-		if(null == appuserService.findByUId(pd)){
-			if(Jurisdiction.buttonJurisdiction(menuUrl, "add")){appuserService.saveU(pd);}
+		if(null == appUserService.findByUId(pd)){
+			if(Jurisdiction.buttonJurisdiction(menuUrl, "add")){appUserService.saveU(pd);}
 			mv.addObject("msg","success");
 		}else{
 			mv.addObject("msg","failed");
@@ -71,7 +74,7 @@ public class AppuserController extends BaseController {
 			pd.put("PASSWORD", MD5.md5(pd.getString("PASSWORD")));
 		}
 		if(Jurisdiction.buttonJurisdiction(menuUrl, "edit")){
-			appuserService.editU(pd);
+			appUserService.editU(pd);
 		}
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
@@ -87,7 +90,7 @@ public class AppuserController extends BaseController {
 		Map<String,String> map = new HashMap<String,String>();
 		String errInfo = "success";
 		PageData pd = this.getPageData();
-		if(appuserService.findByUId(pd) != null){
+		if(appUserService.findByUId(pd) != null){
 			errInfo = "error";
 		}
 		map.put("result", errInfo);
@@ -103,7 +106,7 @@ public class AppuserController extends BaseController {
 		Map<String,String> map = new HashMap<String,String>(8);
 		String errInfo = "success";
 		PageData pd = this.getPageData();
-		if(appuserService.findByUE(pd) != null){
+		if(appUserService.findByUE(pd) != null){
 			errInfo = "error";
 		}
 		map.put("result", errInfo);
@@ -119,7 +122,7 @@ public class AppuserController extends BaseController {
 		Map<String,String> map = new HashMap<String,String>(8);
 		String errInfo = "success";
 		PageData pd = this.getPageData();
-		if(appuserService.findByUN(pd) != null){
+		if(appUserService.findByUN(pd) != null){
 			errInfo = "error";
 		}
 		map.put("result", errInfo);
@@ -134,7 +137,7 @@ public class AppuserController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		List<Role> roleList = roleService.listAllappERRoles();
-		pd = appuserService.findByUiId(pd);
+		pd = appUserService.findByUiId(pd);
 		mv.setViewName("system/appuser/appuser_edit");
 		mv.addObject("msg", "editU");
 		mv.addObject("pd", pd);
@@ -170,7 +173,7 @@ public class AppuserController extends BaseController {
 			pd.put("USERNAME", USERNAME);
 		}
 		page.setPd(pd);
-		List<PageData>	userList = appuserService.listPdPageUser(page);
+		List<PageData>	userList = appUserService.listPdPageUser(page);
 		List<Role> roleList = roleService.listAllappERRoles();
 		mv.setViewName("system/appuser/appuser_list");
 		mv.addObject("userList", userList);
@@ -186,7 +189,7 @@ public class AppuserController extends BaseController {
 	@RequestMapping(value="/deleteU")
 	public void deleteU(PrintWriter out){
 		PageData pd = this.getPageData();
-		if(Jurisdiction.buttonJurisdiction(menuUrl, "del")){appuserService.deleteU(pd);}
+		if(Jurisdiction.buttonJurisdiction(menuUrl, "del")){appUserService.deleteU(pd);}
 		out.write("success");
 		out.close();
 	}
@@ -204,7 +207,7 @@ public class AppuserController extends BaseController {
 		if(null != USER_IDS && !"".equals(USER_IDS)){
 			String ArrayUSER_IDS[] = USER_IDS.split(",");
 			if(Jurisdiction.buttonJurisdiction(menuUrl, "del")){
-				appuserService.deleteAllU(ArrayUSER_IDS);
+				appUserService.deleteAllU(ArrayUSER_IDS);
 			}
 			pd.put("msg", "ok");
 		}else {
@@ -258,7 +261,7 @@ public class AppuserController extends BaseController {
 				
 				dataMap.put("titles", titles);
 				
-				List<PageData> userList = appuserService.listAllUser(pd);
+				List<PageData> userList = appUserService.listAllUser(pd);
 				List<PageData> varList = new ArrayList<PageData>(8);
 				for(int i=0;i<userList.size();i++){
 					PageData vpd = new PageData();

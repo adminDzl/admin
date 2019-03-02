@@ -137,6 +137,16 @@
     attach_url
     create_time
     update_time
-# 企业用户表
+# 17 企业用户表
+
+# 18 用户门禁权限表
+    id
+    user_id
+    gate_id
+    status
+    begain_time
+    end_time
+
+
 
 

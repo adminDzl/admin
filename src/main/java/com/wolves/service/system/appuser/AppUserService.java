@@ -7,8 +7,8 @@ import com.wolves.dao.DaoSupport;
 import com.wolves.entity.Page;
 import com.wolves.util.PageData;
 
-@Service("appuserService")
-public class AppuserService {
+@Service("appUserService")
+public class AppUserService {
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;

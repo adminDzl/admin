@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.wolves.controller.base.BaseController;
-import com.wolves.service.system.appuser.AppuserService;
+import com.wolves.service.system.appuser.AppUserService;
 import com.wolves.util.AppUtil;
 import com.wolves.util.PageData;
 import com.wolves.util.Tools;
@@ -27,8 +27,8 @@ import com.wolves.util.Tools;
 @RequestMapping(value="/appuser")
 public class IntAppuserController extends BaseController {
     
-	@Resource(name="appuserService")
-	private AppuserService appuserService;
+	@Resource(name="appUserService")
+	private AppUserService appUserService;
 	
 	/**
 	 * 根据用户名获取会员信息
@@ -44,7 +44,7 @@ public class IntAppuserController extends BaseController {
 		try{
 			if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){
 				if(AppUtil.checkParam("getAppuserByUsernmae", pd)){
-					pd = appuserService.findByUId(pd);
+					pd = appUserService.findByUId(pd);
 					
 					map.put("pd", pd);
 					result = (null == pd) ?  "02" :  "01";

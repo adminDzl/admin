@@ -54,7 +54,6 @@
 						<th class="center">描述</th>
 						<th class="center">企业认证</th>
 						<th class="center">企业租位</th>
-						<th class="center">企业logo</th>
 						<th class="center">创建时间</th>
 						<th class="center">修改时间</th>
 						<th class="center">操作</th>
@@ -71,12 +70,19 @@
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 										<td>${var.COMPANY_NAME}</td>
-										<td>${var.TYPE}</td>
-										<td>${var.STATUS}</td>
+										<td>
+											<c:if test="${var.TYPE == '0' }"><span class="label label-important arrowed-in">入驻公司</span></c:if>
+											<c:if test="${var.TYPE == '1' }"><span class="label label-success arrowed">园区公司</span></c:if>
+										</td>
+										<td>
+											<c:if test="${var.STATUS == '0' }"><span class="label label-important arrowed-in">待入驻</span></c:if>
+											<c:if test="${var.STATUS == '2' }"><span class="label label-important arrowed-in">拒绝入驻</span></c:if>
+											<c:if test="${var.STATUS == '1' }"><span class="label label-success arrowed">已入驻</span></c:if>
+											<c:if test="${var.STATUS == '2' }"><span class="label label-important arrowed-in">已退场</span></c:if>
+										</td>
 										<td>${var.DESCRIPTION}</td>
 										<td>${var.COMPANY_CERTIFY}</td>
 										<td>${var.PLACE_ID}</td>
-										<td>${var.LOGO}</td>
 										<td>${var.CREATE_TIME}</td>
 										<td>${var.UPDATE_TIME}</td>
 								<td style="width: 30px;" class="center">

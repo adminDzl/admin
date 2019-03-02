@@ -61,12 +61,11 @@
 						<th>序号</th>
 						<th>用户名</th>
 						<th>姓名</th>
+						<th>性别</th>
 						<th>所属公司</th>
 						<th>等级</th>
 						<th><i class="icon-time hidden-phone"></i>到期日期</th>
 						<th>年限</th>
-						<th><i class="icon-time hidden-phone"></i>最近登录</th>
-						<th>上次登录IP</th>
 						<th class="center">状态</th>
 						<th class="center">操作</th>
 					</tr>
@@ -84,12 +83,14 @@
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 								<td>${user.USERNAME }</td>
 								<td>${user.NAME }</td>
-								<td>${user.COMPANY }</td>
+								<td>
+									<c:if test="${user.SEX == '0' }"><span class="label label-important arrowed-in">女</span></c:if>
+									<c:if test="${user.SEX == '1' }"><span class="label label-success arrowed">男</span></c:if>
+								</td>
+								<td>${user.COMPANY_ID }</td>
 								<td>${user.ROLE_NAME }</td>
 								<td>${user.END_TIME }</td>
 								<td>${user.YEARS }</td>
-								<td>${user.LAST_LOGIN}</td>
-								<td>${user.IP}</td>
 								<td style="width: 60px;" class="center">
 									<c:if test="${user.STATUS == '0' }"><span class="label label-important arrowed-in">冻结</span></c:if>
 									<c:if test="${user.STATUS == '1' }"><span class="label label-success arrowed">正常</span></c:if>

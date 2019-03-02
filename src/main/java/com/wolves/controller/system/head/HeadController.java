@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.wolves.controller.base.BaseController;
-import com.wolves.service.system.appuser.AppuserService;
+import com.wolves.service.system.appuser.AppUserService;
 import com.wolves.service.system.user.UserService;
 import com.wolves.util.AppUtil;
 import com.wolves.util.Const;
@@ -32,8 +32,8 @@ public class HeadController extends BaseController {
 	
 	@Resource(name="userService")
 	private UserService userService;	
-	@Resource(name="appuserService")
-	private AppuserService appuserService;
+	@Resource(name="appUserService")
+	private AppUserService appUserService;
 	
 	/**
 	 * 获取头部信息
@@ -137,7 +137,7 @@ public class HeadController extends BaseController {
 			try {
 				List<PageData> userList = new ArrayList<PageData>();
 				
-				userList = "appuser".equals(fmsg) ? appuserService.listAllUser(pd):userService.listAllUser(pd);
+				userList = "appuser".equals(fmsg) ? appUserService.listAllUser(pd):userService.listAllUser(pd);
 				
 				zcount = userList.size();
 				try {
@@ -237,7 +237,7 @@ public class HeadController extends BaseController {
 					try {
 						List<PageData> userList = new ArrayList<PageData>();
 						
-						userList = "appuser".equals(fmsg) ? appuserService.listAllUser(pd):userService.listAllUser(pd);
+						userList = "appuser".equals(fmsg) ? appUserService.listAllUser(pd):userService.listAllUser(pd);
 						
 						zcount = userList.size();
 						try {
