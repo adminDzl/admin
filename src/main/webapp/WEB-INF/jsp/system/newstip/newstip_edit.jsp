@@ -111,17 +111,17 @@
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">新闻内容:</td>
-				<td><input type="text" name="NEWS_CONTENT" id="NEWS_CONTENT" value="${pd.NEWS_CONTENT}" maxlength="32" placeholder="这里输入新闻内容" title="新闻内容"/></td>
-			</tr>
-			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">新闻内容:</td>
 				<td>
-					<script id="editor" type="text/plain" style="width:400px;height:300px;"></script>
+                    <script id="editor" name="NEWS_CONTENT" value="${pd.NEWS_CONTENT}" type="text/plain" style="width:400px;height:300px;"></script>
 				</td>
-			</tr>
+            </tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">附件url:</td>
 				<td><input type="text" name="ATTACH_URL" id="ATTACH_URL" value="${pd.ATTACH_URL}" maxlength="32" placeholder="这里输入附件url" title="附件url"/></td>
+			</tr>
+			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;">状态:</td>
+                <td><input type="text" name="STATUS" id="STATUS" value="${pd.STATUS}" maxlength="32" placeholder="这里输入状态" title="状态"/></td>
 			</tr>
 			<tr>
 				<td style="text-align: center;" colspan="10">

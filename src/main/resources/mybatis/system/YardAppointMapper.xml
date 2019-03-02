@@ -11,7 +11,8 @@
 			END_TIME,	
 			BOOK_DURATION,	
 			BOOK_FEE,	
-			STATUS,	
+			STATUS,
+			NOTE,
 			CREATE_TIME,	
 			UPDATE_TIME,	
 			YARDAPPOINT_ID
@@ -23,7 +24,8 @@
 			#{END_TIME},	
 			#{BOOK_DURATION},	
 			#{BOOK_FEE},	
-			#{STATUS},	
+			#{STATUS},
+			#{NOTE},
 			now(),
 			now(),
 			#{YARDAPPOINT_ID}
@@ -43,6 +45,7 @@
 				BEGIN_TIME = #{BEGIN_TIME},
 				END_TIME = #{END_TIME},
 				STATUS = #{STATUS},
+				NOTE = #{NOTE},
 				UPDATE_TIME = now(),
 			YARDAPPOINT_ID = YARDAPPOINT_ID
 			where 
@@ -58,7 +61,8 @@
 			END_TIME,	
 			BOOK_DURATION,	
 			BOOK_FEE,	
-			STATUS,	
+			STATUS,
+			NOTE,
 			CREATE_TIME,	
 			UPDATE_TIME,	
 			YARDAPPOINT_ID
@@ -77,12 +81,16 @@
 				a.END_TIME,	
 				a.BOOK_DURATION,	
 				a.BOOK_FEE,	
-				a.STATUS,	
+				a.STATUS,
+				a.NOTE,
 				a.CREATE_TIME,	
 				a.UPDATE_TIME,	
-				a.YARDAPPOINT_ID
+				a.YARDAPPOINT_ID,
+				b.PLACE_TYPE,
+				b.POSITION
 		from 
 				YARD_APPOINT a
+				LEFT JOIN YARD b ON (a.PLACE_ID = b.YARD_ID)
 	</select>
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">
@@ -94,12 +102,16 @@
 				a.END_TIME,	
 				a.BOOK_DURATION,	
 				a.BOOK_FEE,	
-				a.STATUS,	
+				a.STATUS,
+				a.NOTE,
 				a.CREATE_TIME,	
 				a.UPDATE_TIME,	
-				a.YARDAPPOINT_ID
+				a.YARDAPPOINT_ID,
+				b.PLACE_TYPE,
+				b.POSITION
 		from 
 				YARD_APPOINT a
+				LEFT JOIN YARD b ON (a.PLACE_ID = b.YARD_ID)
 	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">

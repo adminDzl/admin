@@ -52,8 +52,8 @@
 						<th class="center">序号</th>
 						<th class="center">新闻类型</th>
 						<th class="center">新闻标题</th>
-						<th class="center">新闻内容</th>
 						<th class="center">附件url</th>
+						<th class="center">状态</th>
 						<th class="center">创建时间</th>
 						<th class="center">修改时间</th>
 						<th class="center">操作</th>
@@ -79,8 +79,8 @@
 											<td>项目申报</td>
 										</c:if>
 										<td>${var.NEWS_TITLE}</td>
-										<td>${var.NEWS_CONTENT}</td>
 										<td>${var.ATTACH_URL}</td>
+										<td>${var.STATUS}</td>
 										<td>${var.CREATE_TIME}</td>
 										<td>${var.UPDATE_TIME}</td>
 								<td style="width: 30px;" class="center">
@@ -204,8 +204,8 @@
 			 diag.Drag=true;
 			 diag.Title ="编辑";
 			 diag.URL = '<%=basePath%>newstip/goEdit.do?NEWSTIP_ID='+Id;
-			 diag.Width = 450;
-			 diag.Height = 355;
+             diag.Width = 600;
+             diag.Height = 555;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					 nextPage(${page.currentPage});

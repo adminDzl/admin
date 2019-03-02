@@ -57,6 +57,10 @@
 		<div id="zhongxin">
 		<table id="table_report" class="table table-striped table-bordered table-hover">
 			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;">申请编号:</td>
+				<td><input type="text" name="DECORATE_NO" id="DECORATE_NO" value="${pd.DECORATE_NO}" maxlength="32" placeholder="这里输入申请编号" title="申请编号"/></td>
+			</tr>
+			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">申请标题:</td>
 				<td><input type="text" name="TITLE" id="TITLE" value="${pd.TITLE}" maxlength="32" placeholder="这里输入申请标题" title="申请标题"/></td>
 			</tr>

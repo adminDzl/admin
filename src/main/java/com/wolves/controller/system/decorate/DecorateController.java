@@ -49,8 +49,7 @@ public class DecorateController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		pd.put("DECORATE_ID", this.get32UUID());
-		pd.put("DECORATE_NO", "");
-		pd.put("STATUS", "");
+		pd.put("STATUS", "1");
 		pd.put("CREATE_TIME", Tools.date2Str(new Date()));
 		pd.put("UPDATE_TIME", Tools.date2Str(new Date()));
 		decorateService.save(pd);
@@ -86,6 +85,7 @@ public class DecorateController extends BaseController {
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;}
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
+		pd.put("STATUS", "2");
 		decorateService.edit(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
