@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
+
+import com.wolves.service.system.CompanyService;
+import com.wolves.util.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -24,12 +27,6 @@ import com.wolves.entity.Page;
 import com.wolves.entity.system.Role;
 import com.wolves.service.system.appuser.AppUserService;
 import com.wolves.service.system.role.RoleService;
-import com.wolves.util.AppUtil;
-import com.wolves.util.Const;
-import com.wolves.util.Jurisdiction;
-import com.wolves.util.MD5;
-import com.wolves.util.ObjectExcelView;
-import com.wolves.util.PageData;
 
 @Controller
 @RequestMapping(value="/appuser")
@@ -43,6 +40,8 @@ public class AppuserController extends BaseController {
 	private AppUserService appUserService;
 	@Resource(name="roleService")
 	private RoleService roleService;
+	@Resource(name="companyService")
+	CompanyService companyService;
 
 	/**
 	 * 保存用户
@@ -174,6 +173,18 @@ public class AppuserController extends BaseController {
 		}
 		page.setPd(pd);
 		List<PageData>	userList = appUserService.listPdPageUser(page);
+		PageData companyPageData = new PageData();
+		for(PageData pageData : userList){
+			companyPageData.put("COMPANY_ID", pageData.getString("COMPANY_ID"));
+			companyPageData = companyService.findById(companyPageData);
+			String companyName;
+			if(null == companyPageData || "0".equals(companyPageData.getString("COMPANY_NAME"))){
+				companyName = "无公司人员";
+			} else {
+				companyName = companyPageData.getString("COMPANY_NAME");
+			}
+			pageData.put("COMPANY_NAME", companyName);
+		}
 		List<Role> roleList = roleService.listAllappERRoles();
 		mv.setViewName("system/appuser/appuser_list");
 		mv.addObject("userList", userList);

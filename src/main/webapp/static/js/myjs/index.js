@@ -1,7 +1,7 @@
 	$(function() {
 			if (typeof ($.cookie('menusf')) == "undefined") {
 				$("#menusf").attr("checked", true);
-				$("#sidebar").attr("class", "menu-min");
+				//$("#sidebar").attr("class", "menu-min");
 			} else {
 				$("#sidebar").attr("class", "");
 			}

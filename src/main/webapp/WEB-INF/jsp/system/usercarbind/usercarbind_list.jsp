@@ -16,7 +16,7 @@
 <div id="page-content" class="clearfix">
   <div class="row-fluid">
 	<div class="row-fluid">
-			<form action="${objectNameLower}/list.do" method="post" name="Form" id="Form">
+			<form action="usercarbind/list.do" method="post" name="Form" id="Form">
 			<table>
 				<tr>
 					<td>
@@ -25,8 +25,8 @@
 							<i class="icon-search"></i>
 						</span>
 					</td>
-					<td><input class="span10 date-picker" name="lastLoginStart" id="lastLoginStart" value="${r"${pd.lastLoginStart}"}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期"/></td>
-					<td><input class="span10 date-picker" name="lastLoginEnd" id="lastLoginEnd" value="${r"${pd.lastLoginEnd}"}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="结束日期"/></td>
+					<td><input class="span10 date-picker" name="lastLoginStart" id="lastLoginStart" value="${pd.lastLoginStart}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期"/></td>
+					<td><input class="span10 date-picker" name="lastLoginEnd" id="lastLoginEnd" value="${pd.lastLoginEnd}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="结束日期"/></td>
 					<td style="vertical-align:top;"> 
 					 	<select class="chzn-select" name="field2" id="field2" data-placeholder="请选择" style="vertical-align:top;width: 120px;">
 							<option value=""></option>
@@ -36,7 +36,7 @@
 					  	</select>
 					</td>
 					<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"  title="检索"><i class="icon-search"></i></button></td>
-					<c:if test="${r"${QX.cha == 1 }"}">
+					<c:if test="${QX.cha == 1 }">
 					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i class="icon-download-alt"></i></a></td>
 					</c:if>
 				</tr>
@@ -48,39 +48,49 @@
 						<label><input type="checkbox" id="zcheckbox" /><span class="lbl"></span></label>
 						</th>
 						<th class="center">序号</th>
-				<#list fieldList as var>
-						<th class="center">${var[2]}</th>
-				</#list>
+						<th class="center">姓名</th>
+						<th class="center">车牌号</th>
+						<th class="center">绑定状态</th>
+						<th class="center">备注</th>
+						<th class="center">申请时间</th>
+						<th class="center">审核时间</th>
 						<th class="center">操作</th>
 					</tr>
 				</thead>
 				<tbody>
 				<c:choose>
-					<c:when test="${r"${not empty varList}"}">
-						<c:if test="${r"${QX.cha == 1 }"}">
-						<c:forEach items="${r"${varList}"}" var="var" varStatus="vs">
+					<c:when test="${not empty varList}">
+						<c:if test="${QX.cha == 1 }">
+						<c:forEach items="${varList}" var="var" varStatus="vs">
 							<tr>
 								<td class='center' style="width: 30px;">
-									<label><input type='checkbox' name='ids' value="${r"${var."}${objectNameUpper}_ID${r"}"}" /><span class="lbl"></span></label>
+									<label><input type='checkbox' name='ids' value="${var.USER_CAR_BIND_ID}" /><span class="lbl"></span></label>
 								</td>
-								<td class='center' style="width: 30px;">${r"${vs.index+1}"}</td>
-								<#list fieldList as var>
-										<td>${r"${var."}${var[0]}${r"}"}</td>
-								</#list>
+								<td class='center' style="width: 30px;">${vs.index+1}</td>
+										<td>${var.NAME}</td>
+										<td>${var.CAR_NO}</td>
+										<td>
+											<c:if test="${var.STATUS == '0' }"><span class="label label-important arrowed-in">待审核</span></c:if>
+											<c:if test="${var.STATUS == '1' }"><span class="label label-success arrowed">成功</span></c:if>
+											<c:if test="${var.STATUS == '0' }"><span class="label label-important arrowed-in">审核拒绝</span></c:if>
+										</td>
+										<td>${var.REMARK}</td>
+										<td>${var.CREATE_TIME}</td>
+										<td>${var.UPDATE_TIME}</td>
 								<td style="width: 30px;" class="center">
 									<div class='hidden-phone visible-desktop btn-group'>
 									
-										<c:if test="${r"${QX.edit != 1 && QX.del != 1 }"}">
+										<c:if test="${QX.edit != 1 && QX.del != 1 }">
 										<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>
 										</c:if>
 										<div class="inline position-relative">
 										<button class="btn btn-mini btn-info" data-toggle="dropdown"><i class="icon-cog icon-only"></i></button>
 										<ul class="dropdown-menu dropdown-icon-only dropdown-light pull-right dropdown-caret dropdown-close">
-											<c:if test="${r"${QX.edit == 1 }"}">
-											<li><a style="cursor:pointer;" title="编辑" onclick="edit('${r"${var."}${objectNameUpper}_ID${r"}"}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a></li>
+											<c:if test="${QX.edit == 1 }">
+											<li><a style="cursor:pointer;" title="编辑" onclick="edit('${var.USER_CAR_BIND_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a></li>
 											</c:if>
-											<c:if test="${r"${QX.del == 1 }"}">
-											<li><a style="cursor:pointer;" title="删除" onclick="del('${r"${var."}${objectNameUpper}_ID${r"}"}');" class="tooltip-error" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-trash"></i></span> </a></li>
+											<c:if test="${QX.del == 1 }">
+											<li><a style="cursor:pointer;" title="删除" onclick="del('${var.USER_CAR_BIND_ID}');" class="tooltip-error" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-trash"></i></span> </a></li>
 											</c:if>
 										</ul>
 										</div>
@@ -89,7 +99,7 @@
 							</tr>
 						</c:forEach>
 						</c:if>
-						<c:if test="${r"${QX.cha == 0 }"}">
+						<c:if test="${QX.cha == 0 }">
 							<tr>
 								<td colspan="100" class="center">您无权查看</td>
 							</tr>
@@ -107,14 +117,14 @@
 		<table style="width:100%;">
 			<tr>
 				<td style="vertical-align:top;">
-					<c:if test="${r"${QX.add == 1 }"}">
+					<c:if test="${QX.add == 1 }">
 					<a class="btn btn-small btn-success" onclick="add();">新增</a>
 					</c:if>
-					<c:if test="${r"${QX.del == 1 }"}">
+					<c:if test="${QX.del == 1 }">
 					<a class="btn btn-small btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='icon-trash'></i></a>
 					</c:if>
 				</td>
-				<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${r"${page.pageStr}"}</div></td>
+				<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
 			</tr>
 		</table>
 		</div>
@@ -145,16 +155,16 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = '<%=basePath%>${objectNameLower}/goAdd.do';
+			 diag.URL = '<%=basePath%>usercarbind/goAdd.do';
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.CancelEvent = function(){
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 if('${r"${page.currentPage}"}' == '0'){
+					 if('${page.currentPage}' == '0'){
 						 top.jzts();
 						 setTimeout("self.location=self.location",100);
 					 }else{
-						 nextPage(${r"${page.currentPage}"});
+						 nextPage(${page.currentPage});
 					 }
 				}
 				diag.close();
@@ -165,9 +175,9 @@
 			bootbox.confirm("确定要删除吗?", function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>${objectNameLower}/delete.do?${objectNameUpper}_ID="+Id+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>usercarbind/delete.do?USER_CAR_BIND_ID="+Id+"&tm="+new Date().getTime();
 					$.get(url,function(data){
-						nextPage(${r"${page.currentPage}"});
+						nextPage(${page.currentPage});
 					});
 				}
 			});
@@ -177,12 +187,12 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="编辑";
-			 diag.URL = '<%=basePath%>${objectNameLower}/goEdit.do?${objectNameUpper}_ID='+Id;
+			 diag.URL = '<%=basePath%>usercarbind/goEdit.do?USER_CAR_BIND_ID='+Id;
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 nextPage(${r"${page.currentPage}"});
+					 nextPage(${page.currentPage});
 				}
 				diag.close();
 			 };
@@ -239,13 +249,13 @@
 							top.jzts();
 							$.ajax({
 								type: "POST",
-								url: '<%=basePath%>${objectNameLower}/deleteAll.do?tm='+new Date().getTime(),
+								url: '<%=basePath%>usercarbind/deleteAll.do?tm='+new Date().getTime(),
 						    	data: {DATA_IDS:str},
 								dataType:'json',
 								cache: false,
 								success: function(data){
 									 $.each(data.list, function(i, list){
-											nextPage(${r"${page.currentPage}"});
+											nextPage(${page.currentPage});
 									 });
 								}
 							});
@@ -255,7 +265,7 @@
 			});
 		}
 		function toExcel(){
-			window.location.href='<%=basePath%>${objectNameLower}/excel.do';
+			window.location.href='<%=basePath%>usercarbind/excel.do';
 		}
 		</script>
 	</body>

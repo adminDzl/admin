@@ -37,23 +37,54 @@
 	<!-- 修改 -->
 	<update id="editU" parameterType="pd">
 		update APP_USER
-			set USERNAME				= #{USERNAME},
-				NAME					= #{NAME},
-				SEX						= #{SEX}
-				ROLE_ID 				= #{ROLE_ID},
-				BZ						= #{BZ},
-				PHONE 					= #{PHONE},
-				SFID 					= #{SFID},
-				START_TIME	 			= #{START_TIME},
-				END_TIME 				= #{END_TIME},
-				YEARS					= #{YEARS},
-				STATUS 					= #{STATUS},
-				EMAIL					= #{EMAIL},
-				NUMBER 					= #{NUMBER},
-				COMPANY_ID              = #{COMPANY_ID},
-				POSITION				= #{POSITION}
+			set USER_ID = #{USER_ID}
+			<if test="USERNAME != null and USERNAME != ''">
+				,USERNAME = #{USERNAME}
+			</if>
+			<if test="NAME != null and NAME != ''">
+				,NAME = #{NAME}
+			</if>
+			<if test="SEX != null and SEX != ''">
+				,SEX = #{SEX}
+			</if>
+			<if test="ROLE_ID != null and ROLE_ID != ''">
+				,ROLE_ID = #{ROLE_ID}
+			</if>
+			<if test="BZ != null and BZ != ''">
+				,BZ	= #{BZ}
+			</if>
+			<if test="PHONE != null and PHONE != ''">
+				,PHONE = #{PHONE}
+			</if>
+			<if test="SFID != null and SFID != ''">
+				,SFID = #{SFID}
+			</if>
+			<if test="START_TIME != null and START_TIME != ''">
+				,START_TIME	= #{START_TIME}
+			</if>
+			<if test="END_TIME != null and END_TIME != ''">
+				,END_TIME = #{END_TIME}
+			</if>
+			<if test="YEARS != null and YEARS != ''">
+				,YEARS = #{YEARS}
+			</if>
+			<if test="STATUS != null and STATUS != ''">
+				,STATUS = #{STATUS}
+			</if>
+			<if test="EMAIL != null and EMAIL != ''">
+				,EMAIL = #{EMAIL}
+			</if>
+			<if test="NUMBER != null and NUMBER != ''">
+				,NUMBER = #{NUMBER}
+			</if>
+			<if test="COMPANY_ID != null and COMPANY_ID != ''">
+				,COMPANY_ID = #{COMPANY_ID}
+			</if>
+			<if test="POSITION != null and POSITION != ''">
+				,POSITION = #{POSITION}
+			</if>
 			<if test="PASSWORD != null and PASSWORD != ''">
-				,PASSWORD				= #{PASSWORD}
+				,PASSWORD = #{PASSWORD}
 			</if>
 			where 
 				USER_ID = #{USER_ID}

@@ -1,6 +1,6 @@
 $(function() {
 	if(typeof($.cookie('menusf')) == "undefined"){
-		$("#sidebar").attr("class","menu-min");
+		//$("#sidebar").attr("class","menu-min");
 	}else{
 		$("#sidebar").attr("class","");
 	}

@@ -87,7 +87,7 @@
 									<c:if test="${user.SEX == '0' }"><span class="label label-important arrowed-in">女</span></c:if>
 									<c:if test="${user.SEX == '1' }"><span class="label label-success arrowed">男</span></c:if>
 								</td>
-								<td>${user.COMPANY_ID }</td>
+								<td>${user.COMPANY_NAME }</td>
 								<td>${user.ROLE_NAME }</td>
 								<td>${user.END_TIME }</td>
 								<td>${user.YEARS }</td>
@@ -365,7 +365,7 @@
 			var lastLoginEnd = $("#lastLoginEnd").val();
 			var ROLE_ID = $("#role_id").val();
 			var STATUS = $("#STATUS").val();
-			window.location.href='<%=basePath%>happuser/excel.do?USERNAME='+USERNAME+'&lastLoginStart='+lastLoginStart+'&lastLoginEnd='+lastLoginEnd+'&ROLE_ID='+ROLE_ID+'&STATUS='+STATUS;
+			window.location.href='<%=basePath%>appuser/excel.do?USERNAME='+USERNAME+'&lastLoginStart='+lastLoginStart+'&lastLoginEnd='+lastLoginEnd+'&ROLE_ID='+ROLE_ID+'&STATUS='+STATUS;
 		}
 		</script>
 	</body>

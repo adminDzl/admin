@@ -186,7 +186,7 @@
 		var USERNAME = $("#loginname").val();
 		$.ajax({
 			type: "POST",
-			url: '<%=basePath%>happuser/hasU.do',
+			url: '<%=basePath%>appuser/hasU.do',
 	    	data: {USERNAME:USERNAME,tm:new Date().getTime()},
 			dataType:'json',
 			cache: false,
@@ -208,7 +208,7 @@
 		var EMAIL = $("#EMAIL").val();
 		$.ajax({
 			type: "POST",
-			url: '<%=basePath%>happuser/hasE.do',
+			url: '<%=basePath%>appuser/hasE.do',
 	    	data: {EMAIL:EMAIL,USERNAME:USERNAME,tm:new Date().getTime()},
 			dataType:'json',
 			cache: false,
@@ -231,7 +231,7 @@
 		var NUMBER = $("#NUMBER").val();
 		$.ajax({
 			type: "POST",
-			url: '<%=basePath%>happuser/hasN.do',
+			url: '<%=basePath%>appuser/hasN.do',
 	    	data: {NUMBER:NUMBER,USERNAME:USERNAME,tm:new Date().getTime()},
 			dataType:'json',
 			cache: false,
@@ -251,7 +251,7 @@
 </script>
 	</head>
 <body>
-	<form action="happuser/${msg }.do" name="userForm" id="userForm" method="post">
+	<form action="appuser/${msg }.do" name="userForm" id="userForm" method="post">
 		<input type="hidden" name="USER_ID" id="user_id" value="${pd.USER_ID }"/>
 		<div id="zhongxin">
 		<table>

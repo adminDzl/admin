@@ -3,7 +3,7 @@
 	String basePathl = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+pathl+"/";
 %>
 		<!-- 本页面涉及的js函数，都在head.jsp页面中     -->
-		<div id="sidebar" class="menu-min">
+		<div id="sidebar">
 
 				<div id="sidebar-shortcuts">
 
