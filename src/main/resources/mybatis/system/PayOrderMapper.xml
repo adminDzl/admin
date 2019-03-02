@@ -18,8 +18,8 @@
 			#{PAY_TIME},	
 			#{RETURN_TIME},	
 			#{PAY_STATUS},	
-			#{CREATE_TIME},	
-			#{UPDATE_TIME},	
+			now(),
+			now(),
 			#{PAYORDER_ID}
 		)
 	</insert>
@@ -38,6 +38,7 @@
 				PAY_TIME = #{PAY_TIME},
 				RETURN_TIME = #{RETURN_TIME},
 				PAY_STATUS = #{PAY_STATUS},
+				UPDATE_TIME = now(),
 			PAYORDER_ID = PAYORDER_ID
 			where 
 				PAYORDER_ID = #{PAYORDER_ID}

@@ -1,91 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="TipMsgMapper">
+<mapper namespace="PaymentMapper">
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
-		insert into TIP_MSGT(
-			MSG_TYPE,	
-			TO_USER,	
-			ALERT_TITLE,	
-			ALERT_CONTENT,	
+		insert into PAYMENT(
+			USER_ID,	
+			PAYMENT_TYPE,	
+			AMOUNT,	
+			PAYMENT_DATE,	
+			STATUS,	
 			CREATE_TIME,	
 			UPDATE_TIME,	
-			TIPMSG_ID
+			PAYMENT_ID
 		) values (
-			#{MSG_TYPE},	
-			#{TO_USER},	
-			#{ALERT_TITLE},	
-			#{ALERT_CONTENT},	
+			#{USER_ID},	
+			#{PAYMENT_TYPE},	
+			#{AMOUNT},	
+			#{PAYMENT_DATE},	
+			#{STATUS},	
 			now(),
 			now(),
-			#{TIPMSG_ID}
+			#{PAYMENT_ID}
 		)
 	</insert>
 	<!-- 删除-->
 	<delete id="delete" parameterType="pd">
-		delete from TIP_MSGT
+		delete from PAYMENT
 		where 
-			TIPMSG_ID = #{TIPMSG_ID}
+			PAYMENT_ID = #{PAYMENT_ID}
 	</delete>
 	<!-- 修改 -->
 	<update id="edit" parameterType="pd">
-		update  TIP_MSGT
+		update  PAYMENT
 			set 
-				MSG_TYPE = #{MSG_TYPE},
-				TO_USER = #{TO_USER},
-				ALERT_TITLE = #{ALERT_TITLE},
-				ALERT_CONTENT = #{ALERT_CONTENT},
+				USER_ID = #{USER_ID},
+				PAYMENT_TYPE = #{PAYMENT_TYPE},
+				AMOUNT = #{AMOUNT},
+				PAYMENT_DATE = #{PAYMENT_DATE},
 				UPDATE_TIME = now(),
-			TIPMSG_ID = TIPMSG_ID
+				STATUS = #{STATUS},
+			PAYMENT_ID = PAYMENT_ID
 			where 
-				TIPMSG_ID = #{TIPMSG_ID}
+				PAYMENT_ID = #{PAYMENT_ID}
 	</update>
 	<!-- 通过ID获取数据 -->
 	<select id="findById" parameterType="pd" resultType="pd">
 		select 
-			MSG_TYPE,	
-			TO_USER,	
-			ALERT_TITLE,	
-			ALERT_CONTENT,	
+			USER_ID,	
+			PAYMENT_TYPE,	
+			AMOUNT,	
+			PAYMENT_DATE,	
+			STATUS,	
 			CREATE_TIME,	
 			UPDATE_TIME,	
-			TIPMSG_ID
+			PAYMENT_ID
 		from 
-			TIP_MSGT
+			PAYMENT
 		where 
-			TIPMSG_ID = #{TIPMSG_ID}
+			PAYMENT_ID = #{PAYMENT_ID}
 	</select>
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
-				a.MSG_TYPE,	
-				a.TO_USER,	
-				a.ALERT_TITLE,	
-				a.ALERT_CONTENT,	
+				a.USER_ID,	
+				a.PAYMENT_TYPE,	
+				a.AMOUNT,	
+				a.PAYMENT_DATE,	
+				a.STATUS,	
 				a.CREATE_TIME,	
 				a.UPDATE_TIME,	
-				a.TIPMSG_ID
+				a.PAYMENT_ID
 		from 
-				TIP_MSGT a
+				PAYMENT a
 	</select>
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">
 		select
-				a.MSG_TYPE,	
-				a.TO_USER,	
-				a.ALERT_TITLE,	
-				a.ALERT_CONTENT,	
+				a.USER_ID,	
+				a.PAYMENT_TYPE,	
+				a.AMOUNT,	
+				a.PAYMENT_DATE,	
+				a.STATUS,	
 				a.CREATE_TIME,	
 				a.UPDATE_TIME,	
-				a.TIPMSG_ID
+				a.PAYMENT_ID
 		from 
-				TIP_MSGT a
+				PAYMENT a
 	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
-		delete from TIP_MSGT
+		delete from PAYMENT
 		where 
-			TIPMSG_ID in
+			PAYMENT_ID in
 		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
                  #{item}
 		</foreach>
