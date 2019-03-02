@@ -15,7 +15,7 @@
 			#{DECORATE_NO},	
 			#{TITLE},	
 			#{CONTENT},	
-			#{STATUS},	
+			#{STATUS},
 			now(),
 			now(),
 			#{DECORATE_ID}
@@ -34,6 +34,7 @@
 				  TITLE = #{TITLE},
 				CONTENT = #{CONTENT},
 				 STATUS = #{STATUS},
+			DECORATE_NO = #{DECORATE_NO},
 			UPDATE_TIME = now(),
 			DECORATE_ID = DECORATE_ID
 			where 

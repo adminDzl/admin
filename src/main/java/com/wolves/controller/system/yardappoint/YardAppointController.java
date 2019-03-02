@@ -55,8 +55,6 @@ public class YardAppointController extends BaseController {
 		pd.put("PLACE_ID", "");
 		//预定人ID
 		pd.put("APPLY_USER_ID", "");
-		//预定时长
-		pd.put("BOOK_DURATION", 0);
 		//预定金额
 		pd.put("BOOK_FEE", "");
 		//预定状态
