@@ -36,13 +36,13 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(value="/yard")
 public class YardController extends BaseController {
-	
-	String menuUrl = "yard/list.do"; //菜单地址(权限用)
+
+	/**
+	 * 菜单地址(权限用)
+	 */
+	String menuUrl = "yard/list.do";
 	@Resource(name="yardService")
 	private YardService yardService;
-
-	@Resource(name="picturesService")
-	private PicturesService picturesService;
 	
 	/**
 	 * 新增
@@ -70,7 +70,7 @@ public class YardController extends BaseController {
 	@ResponseBody
 	public Object imageUpload(@RequestParam(required=false) MultipartFile[] files) throws Exception{
 		logBefore(logger, "新增Pictures");
-		Map<String,String> map = new HashMap<String,String>();
+		Map<String,Object> map = new HashMap<String,Object>();
 		String fileAddress = DateUtil.getDays(), fileName = "";
 		List<PageData> pageDatas = new ArrayList<PageData>();
 		if (files != null && files.length > 0){
@@ -78,26 +78,34 @@ public class YardController extends BaseController {
 				if(Jurisdiction.buttonJurisdiction(menuUrl, "add")){
 					PageData pd = new PageData();
 					if (null != file && !file.isEmpty()) {
-						String filePath = PathUtil.getClasspath() + Const.FILEPATHIMG + fileAddress;		//文件上传路径
-						fileName = FileUpload.fileUp(file, filePath, this.get32UUID());				//执行上传
+						//文件上传路径
+						String filePath = PathUtil.getClasspath() + Const.FILEPATHIMG + fileAddress;
+						//执行上传
+						fileName = FileUpload.fileUp(file, filePath, this.get32UUID());
 					}else{
 						System.out.println("上传失败");
 					}
-					pd.put("PICTURES_ID", this.get32UUID());			//主键
-					pd.put("TITLE", "图片");							//标题
-					pd.put("NAME", fileName);							//文件名
-					pd.put("PATH", fileAddress + "/" + fileName);				//路径
-					pd.put("CREATETIME", Tools.date2Str(new Date()));	//创建时间
-					pd.put("MASTER_ID", "1");							//附属与
-					pd.put("BZ", "场地管理处上传");						//备注
+					//主键
+					pd.put("PICTURES_ID", this.get32UUID());
+					//标题
+					pd.put("TITLE", "场地管理图片");
+					//文件名
+					pd.put("NAME", fileName);
+					//路径
+					pd.put("PATH", fileAddress + "/" + fileName);
+					//创建时间
+					pd.put("CREATETIME", Tools.date2Str(new Date()));
+					//附属于
+					pd.put("MASTER_ID", "1");
+					//备注
+					pd.put("BZ", "场地管理处上传");
 					//加水印
-					picturesService.save(pd);
 					pageDatas.add(pd);
 				}
 			}
 		}
 		map.put("result", "ok");
-		map.put("callback", pageDatas.toString());
+		map.put("callback", pageDatas);
 		return map;
 	}
 	

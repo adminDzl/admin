@@ -105,11 +105,13 @@ public class FloorManController extends BaseController {
 		try{
 			pd = this.getPageData();
 			page.setPd(pd);
-			List<PageData>	varList = floormanService.list(page);	//列出FloorMan列表
+			//列出FloorMan列表
+			List<PageData>	varList = floormanService.list(page);
 			mv.setViewName("system/floorman/floorman_list");
 			mv.addObject("varList", varList);
 			mv.addObject("pd", pd);
-			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
+			//按钮权限
+			mv.addObject(Const.SESSION_QX,this.getHC());
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}

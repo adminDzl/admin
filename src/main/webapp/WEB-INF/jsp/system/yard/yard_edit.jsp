@@ -83,6 +83,31 @@
 		$("#zhongxin2").show();
 	}
 
+    function uploadImage(obj){
+        var files = obj.files ;
+        var formData = new FormData();
+        for(var i = 0;i<files.length;i++){
+            formData.append("files", files[i]);
+        }
+        $.ajax({
+            url: '<%=basePath%>yard/imageUpload.do',
+            type: "POST",
+            data:formData,
+            cache:false,         //不设置缓存
+            processData: false,  // 不处理数据
+            contentType: false,   // 不设置内容类型
+            success: function(data){
+                if (data.result === "ok"){
+					var fs = "";
+                    for(var i = 0;i<data.callback.length;i++){
+                        fs += data.callback[i].PATH+",";
+                    }
+                    $("#IMAGE_URL").val(fs.substring(0,fs.length-1))
+				}
+            }
+        });
+    }
+
 </script>
 	</head>
 <body>
@@ -101,10 +126,8 @@
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">图片:</td>
 				<td>
-					<div class="z_photo">
-						<div class="z_file">
-					<%--<div id="upload" class="butn butn-primary" onclick="uploadImage();">选择图片</div>--%>
-					<input name="IMAGE_URL" id="IMAGE_URL" value="${pd.IMAGE_URL}" placeholder="这里上传图片" title="图片url" type="file" accept="image/*" multiple="multiple" onchange="imgChange('z_photo','z_file');"/>
+					<input name="fileImage" id="fileImage" value="${pd.IMAGE_URL}" placeholder="这里上传图片" title="图片url" type="file" accept="image/*" multiple="multiple" onchange="uploadImage(this)"/>
+					<input name="IMAGE_URL" id="IMAGE_URL" value="" style="display: none"/>
 				</td>
 			</tr>
 
