@@ -41,10 +41,7 @@
 
 				var options = '';
 				$(data).each(function() {
-					options += '<option value="' + this.BUILD_NO
-							+ '" >' + this.BUILD_MASTER_NAME
-							+ '</option>';
-
+					options += '<option value="' + this.BUILD_NO +'" >' + this.BUILD_NO + '</option>';
 				});
 
 				pro.append(options);
