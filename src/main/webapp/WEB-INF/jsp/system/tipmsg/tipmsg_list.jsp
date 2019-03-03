@@ -48,7 +48,7 @@
 						<label><input type="checkbox" id="zcheckbox" /><span class="lbl"></span></label>
 						</th>
 						<th class="center">序号</th>
-						<th class="center">1-公告消息，2-进度提醒</th>
+						<th class="center">类型</th>
 						<th class="center">通知人群</th>
 						<th class="center">提醒标题</th>
 						<th class="center">提醒内容</th>
@@ -67,7 +67,12 @@
 									<label><input type='checkbox' name='ids' value="${var.TIPMSG_ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-										<td>${var.MSG_TYPE}</td>
+										<c:if test="${var.MSG_TYPE == 1}">
+											<td>公告消息</td>
+										</c:if>
+										<c:if test="${var.MSG_TYPE == 2}">
+											<td>进度提醒</td>
+										</c:if>
 										<td>${var.TO_USER}</td>
 										<td>${var.ALERT_TITLE}</td>
 										<td>${var.ALERT_CONTENT}</td>

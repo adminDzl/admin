@@ -38,7 +38,7 @@
 		if($("#PAYMENT_TYPE").val()==""){
 			$("#PAYMENT_TYPE").tips({
 				side:3,
-	            msg:'请输入类型（1-物业、2-水、3-电）',
+	            msg:'请输入缴费类型',
 	            bg:'#AE81FF',
 	            time:2
 	        });
@@ -91,8 +91,8 @@
 				<td><input type="text" name="USER_ID" id="USER_ID" value="${pd.USER_ID}" maxlength="32" placeholder="这里输入缴费单位id" title="缴费单位id"/></td>
 			</tr>
 			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">类型（1-物业、2-水、3-电）:</td>
-				<td><input type="number" name="PAYMENT_TYPE" id="PAYMENT_TYPE" value="${pd.PAYMENT_TYPE}" maxlength="32" placeholder="这里输入类型（1-物业、2-水、3-电）" title="类型（1-物业、2-水、3-电）"/></td>
+				<td style="width:70px;text-align: right;padding-top: 13px;">缴费类型:</td>
+				<td><input type="number" name="PAYMENT_TYPE" id="PAYMENT_TYPE" value="${pd.PAYMENT_TYPE}" maxlength="32" placeholder="这里输入缴费类型" title="缴费类型"/></td>
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">缴费金额:</td>

@@ -48,7 +48,7 @@
 						<label><input type="checkbox" id="zcheckbox" /><span class="lbl"></span></label>
 						</th>
 						<th class="center">序号</th>
-						<th class="center">类型（1-水电物业，2-停车费，3-场地预定费，4-一卡通费用）</th>
+						<th class="center">类型</th>
 						<th class="center">付费金额</th>
 						<th class="center">付费时间</th>
 						<th class="center">确认时间</th>
@@ -68,7 +68,18 @@
 									<label><input type='checkbox' name='ids' value="${var.PAYORDER_ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-										<td>${var.PAY_TYPE}</td>
+										<c:if test="${var.PAY_TYPE == 1}">
+											<td>水电物业</td>
+										</c:if>
+										<c:if test="${var.PAY_TYPE == 2}">
+											<td>停车费</td>
+										</c:if>
+										<c:if test="${var.PAY_TYPE == 3}">
+											<td>场地预定费</td>
+										</c:if>
+										<c:if test="${var.PAY_TYPE == 4}">
+											<td>一卡通费用</td>
+										</c:if>
 										<td>${var.PAY_AMOUNT}</td>
 										<td>${var.PAY_TIME}</td>
 										<td>${var.RETURN_TIME}</td>

@@ -49,7 +49,7 @@
 						</th>
 						<th class="center">序号</th>
 						<th class="center">缴费单位id</th>
-						<th class="center">类型（1-物业、2-水、3-电）</th>
+						<th class="center">类型</th>
 						<th class="center">缴费金额</th>
 						<th class="center">费用月度</th>
 						<th class="center">状态</th>
@@ -69,7 +69,15 @@
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 										<td>${var.USER_ID}</td>
-										<td>${var.PAYMENT_TYPE}</td>
+										<c:if test="${var.PAYMENT_TYPE == 1}">
+											<td>物业费</td>
+										</c:if>
+										<c:if test="${var.PAYMENT_TYPE == 2}">
+											<td>水费</td>
+										</c:if>
+										<c:if test="${var.PAYMENT_TYPE == 3}">
+											<td>电费</td>
+										</c:if>
 										<td>${var.AMOUNT}</td>
 										<td>${var.PAYMENT_DATE}</td>
 										<td>${var.STATUS}</td>

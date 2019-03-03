@@ -28,7 +28,7 @@
 			if($("#PAY_TYPE").val()==""){
 			$("#PAY_TYPE").tips({
 				side:3,
-	            msg:'请输入类型（1-水电物业，2-停车费，3-场地预定费，4-一卡通费用）',
+	            msg:'请输入付费类型',
 	            bg:'#AE81FF',
 	            time:2
 	        });
@@ -87,8 +87,8 @@
 		<div id="zhongxin">
 		<table id="table_report" class="table table-striped table-bordered table-hover">
 			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">类型（1-水电物业，2-停车费，3-场地预定费，4-一卡通费用）:</td>
-				<td><input type="number" name="PAY_TYPE" id="PAY_TYPE" value="${pd.PAY_TYPE}" maxlength="32" placeholder="这里输入类型（1-水电物业，2-停车费，3-场地预定费，4-一卡通费用）" title="类型（1-水电物业，2-停车费，3-场地预定费，4-一卡通费用）"/></td>
+				<td style="width:70px;text-align: right;padding-top: 13px;">付费类型:</td>
+				<td><input type="number" name="PAY_TYPE" id="PAY_TYPE" value="${pd.PAY_TYPE}" maxlength="32" placeholder="这里输入付费类型" title="付费类型"/></td>
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">付费金额:</td>

@@ -73,7 +73,15 @@
 									<label><input type='checkbox' name='ids' value="${var.YARD_ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-										<td>${var.PLACE_TYPE}</td>
+										<c:if test="${var.PLACE_TYPE == 1}">
+											<td>会议室</td>
+										</c:if>
+										<c:if test="${var.PLACE_TYPE == 2}">
+											<td>活动室</td>
+										</c:if>
+										<c:if test="${var.PLACE_TYPE == 3}">
+											<td>健身房</td>
+										</c:if>
 										<td>${var.POSITION}</td>
 										<td>${var.IMAGE_URL}</td>
 										<td>${var.EQUIPMENT}</td>
