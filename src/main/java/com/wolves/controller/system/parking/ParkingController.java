@@ -29,11 +29,16 @@ import com.wolves.util.Tools;
 import com.wolves.util.Jurisdiction;
 import com.wolves.service.system.parking.ParkingService;
 
+/**
+ * @author gf
+ */
 @Controller
 @RequestMapping(value="/parking")
 public class ParkingController extends BaseController {
 
-	//菜单地址(权限用)
+	/**
+	 * 菜单地址(权限用)
+	 */
 	String menuUrl = "parking/list.do";
 	@Resource(name="parkingService")
 	private ParkingService parkingService;

@@ -28,14 +28,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 /** 
  * 类名称：FloorManController
- * 创建人：FH 
  * 创建时间：2019-02-23
+ * @author gf
  */
 @Controller
 @RequestMapping(value="/floorman")
 public class FloorManController extends BaseController {
-	
-	String menuUrl = "floorman/list.do"; //菜单地址(权限用)
+
+	/**
+	 * 菜单地址(权限用)
+	 */
+	String menuUrl = "floorman/list.do";
 	@Resource(name="floormanService")
 	private FloorManService floormanService;
 	@Resource(name="buildmanService")
@@ -47,11 +50,13 @@ public class FloorManController extends BaseController {
 	@RequestMapping(value="/save")
 	public ModelAndView save() throws Exception{
 		logBefore(logger, "新增FloorMan");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
+		//校验权限
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;}
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd.put("FLOORMAN_ID", this.get32UUID());	//主键
+		//主键
+		pd.put("FLOORMAN_ID", this.get32UUID());
 		floormanService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
@@ -64,7 +69,8 @@ public class FloorManController extends BaseController {
 	@RequestMapping(value="/delete")
 	public void delete(PrintWriter out){
 		logBefore(logger, "删除FloorMan");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
+		//校验权限
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;}
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
@@ -83,7 +89,8 @@ public class FloorManController extends BaseController {
 	@RequestMapping(value="/edit")
 	public ModelAndView edit() throws Exception{
 		logBefore(logger, "修改FloorMan");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
+		//校验权限
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;}
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -171,7 +178,8 @@ public class FloorManController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
-			pd = floormanService.findById(pd);	//根据ID读取
+			//根据ID读取
+			pd = floormanService.findById(pd);
 			mv.setViewName("system/floorman/floorman_edit");
 			mv.addObject("msg", "edit");
 			mv.addObject("pd", pd);
@@ -188,7 +196,8 @@ public class FloorManController extends BaseController {
 	@ResponseBody
 	public Object deleteAll() {
 		logBefore(logger, "批量删除FloorMan");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "dell")){return null;} //校验权限
+		//校验权限
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "dell")){return null;}
 		PageData pd = new PageData();		
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {
@@ -212,7 +221,7 @@ public class FloorManController extends BaseController {
 		return AppUtil.returnObject(pd, map);
 	}
 	
-	/*
+	/**
 	 * 导出到excel
 	 * @return
 	 */
@@ -226,23 +235,23 @@ public class FloorManController extends BaseController {
 		try{
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
-			titles.add("id");	//1
-			titles.add("楼栋号");	//2
-			titles.add(" 楼层");	//3
-			titles.add("层长姓名");	//4
-			titles.add("联系方式");	//5
-			titles.add("创建时间");	//6
+			titles.add("id");
+			titles.add("楼栋号");
+			titles.add(" 楼层");
+			titles.add("层长姓名");
+			titles.add("联系方式");
+			titles.add("创建时间");
 			dataMap.put("titles", titles);
 			List<PageData> varOList = floormanService.listAll(pd);
 			List<PageData> varList = new ArrayList<PageData>();
 			for(int i=0;i<varOList.size();i++){
 				PageData vpd = new PageData();
-				vpd.put("var1", varOList.get(i).get("ID").toString());	//1
-				vpd.put("var2", varOList.get(i).getString("BUILD_NO"));	//2
-				vpd.put("var3", varOList.get(i).getString("FLOOR"));	//3
-				vpd.put("var4", varOList.get(i).getString("FLOOR_MASTER_NAME"));	//4
-				vpd.put("var5", varOList.get(i).getString("MASTER_TEL"));	//5
-				vpd.put("var6", varOList.get(i).getString("CREATE_TIME"));	//6
+				vpd.put("var1", varOList.get(i).get("ID").toString());
+				vpd.put("var2", varOList.get(i).getString("BUILD_NO"));
+				vpd.put("var3", varOList.get(i).getString("FLOOR"));
+				vpd.put("var4", varOList.get(i).getString("FLOOR_MASTER_NAME"));
+				vpd.put("var5", varOList.get(i).getString("MASTER_TEL"));
+				vpd.put("var6", varOList.get(i).getString("CREATE_TIME"));
 				varList.add(vpd);
 			}
 			dataMap.put("varList", varList);
@@ -256,7 +265,8 @@ public class FloorManController extends BaseController {
 	
 	/* ===============================权限================================== */
 	public Map<String, String> getHC(){
-		Subject currentUser = SecurityUtils.getSubject();  //shiro管理的session
+		//shiro管理的session
+		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession();
 		return (Map<String, String>)session.getAttribute(Const.SESSION_QX);
 	}

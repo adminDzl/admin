@@ -29,11 +29,16 @@ import com.wolves.util.Tools;
 import com.wolves.util.Jurisdiction;
 import com.wolves.service.system.usercarmonthcard.UserCarMonthCardService;
 
+/**
+ * @author gf
+ */
 @Controller
 @RequestMapping(value="/usercarmonthcard")
 public class UserCarMonthCardController extends BaseController {
 
-	//菜单地址(权限用)
+	/**
+	 * 菜单地址(权限用)
+	 */
 	String menuUrl = "usercarmonthcard/list.do";
 	@Resource(name="usercarmonthcardService")
 	private UserCarMonthCardService usercarmonthcardService;

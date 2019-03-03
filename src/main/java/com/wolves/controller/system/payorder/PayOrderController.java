@@ -29,11 +29,16 @@ import com.wolves.util.Tools;
 import com.wolves.util.Jurisdiction;
 import com.wolves.service.system.payorder.PayOrderService;
 
+/**
+ * @author gf
+ */
 @Controller
 @RequestMapping(value="/payorder")
 public class PayOrderController extends BaseController {
 
-	//菜单地址(权限用)
+	/**
+	 * 菜单地址(权限用)
+	 */
 	String menuUrl = "payorder/list.do";
 	@Resource(name="payorderService")
 	private PayOrderService payorderService;

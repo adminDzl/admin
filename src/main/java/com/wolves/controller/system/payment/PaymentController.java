@@ -29,11 +29,16 @@ import com.wolves.util.Tools;
 import com.wolves.util.Jurisdiction;
 import com.wolves.service.system.payment.PaymentService;
 
+/**
+ * @author gf
+ */
 @Controller
 @RequestMapping(value="/payment")
 public class PaymentController extends BaseController {
 
-	//菜单地址(权限用)
+	/**
+	 * 菜单地址(权限用)
+	 */
 	String menuUrl = "payment/list.do";
 	@Resource(name="paymentService")
 	private PaymentService paymentService;

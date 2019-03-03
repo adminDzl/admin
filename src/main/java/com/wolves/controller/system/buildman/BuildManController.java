@@ -27,14 +27,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 /** 
  * 类名称：BuildManController
- * 创建人：FH 
  * 创建时间：2019-02-23
+ * @author gf
  */
 @Controller
 @RequestMapping(value="/buildman")
 public class BuildManController extends BaseController {
-	
-	String menuUrl = "buildman/list.do"; //菜单地址(权限用)
+	/**
+	 * 菜单地址(权限用)
+	 */
+	String menuUrl = "buildman/list.do";
 	@Resource(name="buildmanService")
 	private BuildManService buildmanService;
 	
@@ -44,11 +46,13 @@ public class BuildManController extends BaseController {
 	@RequestMapping(value="/save")
 	public ModelAndView save() throws Exception{
 		logBefore(logger, "新增BuildMan");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
+		//校验权限
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;}
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd.put("BUILDMAN_ID", this.get32UUID());	//主键
+		//主键
+		pd.put("BUILDMAN_ID", this.get32UUID());
 		buildmanService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
@@ -61,7 +65,8 @@ public class BuildManController extends BaseController {
 	@RequestMapping(value="/delete")
 	public void delete(PrintWriter out){
 		logBefore(logger, "删除BuildMan");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
+		//校验权限
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;}
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
@@ -80,7 +85,8 @@ public class BuildManController extends BaseController {
 	@RequestMapping(value="/edit")
 	public ModelAndView edit() throws Exception{
 		logBefore(logger, "修改BuildMan");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
+		//校验权限
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;}
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -102,11 +108,13 @@ public class BuildManController extends BaseController {
 		try{
 			pd = this.getPageData();
 			page.setPd(pd);
-			List<PageData> varList = buildmanService.list(page);	//列出BuildMan列表
+			//列出BuildMan列表
+			List<PageData> varList = buildmanService.list(page);
 			mv.setViewName("system/buildman/buildman_list");
 			mv.addObject("varList", varList);
 			mv.addObject("pd", pd);
-			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
+			//按钮权限
+			mv.addObject(Const.SESSION_QX,this.getHC());
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
@@ -142,7 +150,8 @@ public class BuildManController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
-			pd = buildmanService.findById(pd);	//根据ID读取
+			//根据ID读取
+			pd = buildmanService.findById(pd);
 			mv.setViewName("system/buildman/buildman_edit");
 			mv.addObject("msg", "edit");
 			mv.addObject("pd", pd);
@@ -159,7 +168,8 @@ public class BuildManController extends BaseController {
 	@ResponseBody
 	public Object deleteAll() {
 		logBefore(logger, "批量删除BuildMan");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "dell")){return null;} //校验权限
+		//校验权限
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "dell")){return null;}
 		PageData pd = new PageData();		
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {
@@ -183,7 +193,7 @@ public class BuildManController extends BaseController {
 		return AppUtil.returnObject(pd, map);
 	}
 	
-	/*
+	/**
 	 * 导出到excel
 	 * @return
 	 */
@@ -197,21 +207,21 @@ public class BuildManController extends BaseController {
 		try{
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
-			titles.add("id");	//1
-			titles.add("楼栋号");	//2
-			titles.add("楼长姓名");	//3
-			titles.add("联系方式");	//4
-			titles.add("创建时间");	//5
+			titles.add("id");
+			titles.add("楼栋号");
+			titles.add("楼长姓名");
+			titles.add("联系方式");
+			titles.add("创建时间");
 			dataMap.put("titles", titles);
 			List<PageData> varOList = buildmanService.listAll(pd);
 			List<PageData> varList = new ArrayList<PageData>();
 			for(int i=0;i<varOList.size();i++){
 				PageData vpd = new PageData();
-				vpd.put("var1", varOList.get(i).get("ID").toString());	//1
-				vpd.put("var2", varOList.get(i).getString("BUILD_NO"));	//2
-				vpd.put("var3", varOList.get(i).getString("BUILD_MASTER_NAME"));	//3
-				vpd.put("var4", varOList.get(i).getString("MASTER_TEL"));	//4
-				vpd.put("var5", varOList.get(i).getString("CREATE_TIME"));	//5
+				vpd.put("var1", varOList.get(i).get("ID").toString());
+				vpd.put("var2", varOList.get(i).getString("BUILD_NO"));
+				vpd.put("var3", varOList.get(i).getString("BUILD_MASTER_NAME"));
+				vpd.put("var4", varOList.get(i).getString("MASTER_TEL"));
+				vpd.put("var5", varOList.get(i).getString("CREATE_TIME"));
 				varList.add(vpd);
 			}
 			dataMap.put("varList", varList);
@@ -225,7 +235,8 @@ public class BuildManController extends BaseController {
 	
 	/* ===============================权限================================== */
 	public Map<String, String> getHC(){
-		Subject currentUser = SecurityUtils.getSubject();  //shiro管理的session
+		//shiro管理的session
+		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession();
 		return (Map<String, String>)session.getAttribute(Const.SESSION_QX);
 	}

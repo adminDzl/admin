@@ -30,8 +30,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 /** 
  * 类名称：YardController
- * 创建人：FH 
  * 创建时间：2019-02-24
+ * @author gf
  */
 @Controller
 @RequestMapping(value="/yard")
@@ -50,13 +50,13 @@ public class YardController extends BaseController {
 	@RequestMapping(value="/save")
 	public ModelAndView save() throws Exception{
 		logBefore(logger, "新增Yard");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;}
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd.put("YARD_ID", this.get32UUID());	//主键
-		pd.put("CREATE_TIME", Tools.date2Str(new Date()));	//创建时间
-		pd.put("UPDATE_TIME", Tools.date2Str(new Date()));	//更新时间
+		pd.put("YARD_ID", this.get32UUID());
+		pd.put("CREATE_TIME", Tools.date2Str(new Date()));
+		pd.put("UPDATE_TIME", Tools.date2Str(new Date()));
 		yardService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
@@ -156,11 +156,13 @@ public class YardController extends BaseController {
 		try{
 			pd = this.getPageData();
 			page.setPd(pd);
-			List<PageData>	varList = yardService.list(page);	//列出Yard列表
+			//列出Yard列表
+			List<PageData>	varList = yardService.list(page);
 			mv.setViewName("system/yard/yard_list");
 			mv.addObject("varList", varList);
 			mv.addObject("pd", pd);
-			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
+			//按钮权限
+			mv.addObject(Const.SESSION_QX,this.getHC());
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
@@ -196,7 +198,8 @@ public class YardController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
-			pd = yardService.findById(pd);	//根据ID读取
+			//根据ID读取
+			pd = yardService.findById(pd);
 			mv.setViewName("system/yard/yard_edit");
 			mv.addObject("msg", "edit");
 			mv.addObject("pd", pd);
@@ -213,7 +216,8 @@ public class YardController extends BaseController {
 	@ResponseBody
 	public Object deleteAll() {
 		logBefore(logger, "批量删除Yard");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "dell")){return null;} //校验权限
+		//校验权限
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "dell")){return null;}
 		PageData pd = new PageData();		
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {
@@ -237,7 +241,7 @@ public class YardController extends BaseController {
 		return AppUtil.returnObject(pd, map);
 	}
 	
-	/*
+	/**
 	 * 导出到excel
 	 * @return
 	 */
@@ -251,25 +255,25 @@ public class YardController extends BaseController {
 		try{
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
-			titles.add("场地类型");	//1
-			titles.add("所处位置");	//2
-			titles.add("图片url");	//3
-			titles.add("设备描述");	//4
-			titles.add("价格");	//5
-			titles.add("创建时间");	//6
-			titles.add("更新时间");	//7
+			titles.add("场地类型");
+			titles.add("所处位置");
+			titles.add("图片url");
+			titles.add("设备描述");
+			titles.add("价格");
+			titles.add("创建时间");
+			titles.add("更新时间");
 			dataMap.put("titles", titles);
 			List<PageData> varOList = yardService.listAll(pd);
 			List<PageData> varList = new ArrayList<PageData>();
 			for(int i=0;i<varOList.size();i++){
 				PageData vpd = new PageData();
-				vpd.put("var1", varOList.get(i).get("PLACE_TYPE").toString());	//1
-				vpd.put("var2", varOList.get(i).getString("POSITION"));	//2
-				vpd.put("var3", varOList.get(i).getString("IMAGE_URL"));	//3
-				vpd.put("var4", varOList.get(i).getString("EQUIPMENT"));	//4
-				vpd.put("var5", varOList.get(i).getString("RENT_FEE"));	//5
-				vpd.put("var6", varOList.get(i).getString("CREATE_TIME"));	//6
-				vpd.put("var7", varOList.get(i).getString("UPDATE_TIME"));	//7
+				vpd.put("var1", varOList.get(i).get("PLACE_TYPE").toString());
+				vpd.put("var2", varOList.get(i).getString("POSITION"));
+				vpd.put("var3", varOList.get(i).getString("IMAGE_URL"));
+				vpd.put("var4", varOList.get(i).getString("EQUIPMENT"));
+				vpd.put("var5", varOList.get(i).getString("RENT_FEE"));
+				vpd.put("var6", varOList.get(i).getString("CREATE_TIME"));
+				vpd.put("var7", varOList.get(i).getString("UPDATE_TIME"));
 				varList.add(vpd);
 			}
 			dataMap.put("varList", varList);
@@ -283,7 +287,8 @@ public class YardController extends BaseController {
 	
 	/* ===============================权限================================== */
 	public Map<String, String> getHC(){
-		Subject currentUser = SecurityUtils.getSubject();  //shiro管理的session
+		//shiro管理的session
+		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession();
 		return (Map<String, String>)session.getAttribute(Const.SESSION_QX);
 	}

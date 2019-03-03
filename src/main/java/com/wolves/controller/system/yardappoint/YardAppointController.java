@@ -27,14 +27,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 /** 
  * 类名称：YardAppointController
- * 创建人：FH 
  * 创建时间：2019-02-24
+ * @author gf
  */
 @Controller
 @RequestMapping(value="/yardappoint")
 public class YardAppointController extends BaseController {
-	
-	String menuUrl = "yardappoint/list.do"; //菜单地址(权限用)
+
+	/**
+	 * 菜单地址(权限用)
+	 */
+	String menuUrl = "yardappoint/list.do";
 	@Resource(name="yardappointService")
 	private YardAppointService yardappointService;
 	
@@ -75,7 +78,7 @@ public class YardAppointController extends BaseController {
 	@RequestMapping(value="/delete")
 	public void delete(PrintWriter out){
 		logBefore(logger, "删除YardAppoint");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;}
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
@@ -94,7 +97,7 @@ public class YardAppointController extends BaseController {
 	@RequestMapping(value="/edit")
 	public ModelAndView edit() throws Exception{
 		logBefore(logger, "修改YardAppoint");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;}
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -116,11 +119,12 @@ public class YardAppointController extends BaseController {
 		try{
 			pd = this.getPageData();
 			page.setPd(pd);
-			List<PageData>	varList = yardappointService.list(page);	//列出YardAppoint列表
+			List<PageData>	varList = yardappointService.list(page);
 			mv.setViewName("system/yardappoint/yardappoint_list");
 			mv.addObject("varList", varList);
 			mv.addObject("pd", pd);
-			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
+			//按钮权限
+			mv.addObject(Const.SESSION_QX,this.getHC());
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
@@ -156,7 +160,8 @@ public class YardAppointController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
-			pd = yardappointService.findById(pd);	//根据ID读取
+			//根据ID读取
+			pd = yardappointService.findById(pd);
 			mv.setViewName("system/yardappoint/yardappoint_edit");
 			mv.addObject("msg", "edit");
 			mv.addObject("pd", pd);
@@ -173,7 +178,7 @@ public class YardAppointController extends BaseController {
 	@ResponseBody
 	public Object deleteAll() {
 		logBefore(logger, "批量删除YardAppoint");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "dell")){return null;} //校验权限
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "dell")){return null;}
 		PageData pd = new PageData();		
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {
@@ -197,7 +202,7 @@ public class YardAppointController extends BaseController {
 		return AppUtil.returnObject(pd, map);
 	}
 	
-	/*
+	/**
 	 * 导出到excel
 	 * @return
 	 */
@@ -211,31 +216,31 @@ public class YardAppointController extends BaseController {
 		try{
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
-			titles.add("场地ID");	//1
-			titles.add("预定人ID");	//2
-			titles.add("预约日期");	//3
-			titles.add("预定开始时间");	//4
-			titles.add("预约结束时间");	//5
-			titles.add("预定时长");	//6
-			titles.add("预定金额");	//7
-			titles.add("预定状态");	//8
-			titles.add("创建时间");	//9
-			titles.add("更新时间");	//10
+			titles.add("场地ID");
+			titles.add("预定人ID");
+			titles.add("预约日期");
+			titles.add("预定开始时间");
+			titles.add("预约结束时间");
+			titles.add("预定时长");
+			titles.add("预定金额");
+			titles.add("预定状态");
+			titles.add("创建时间");
+			titles.add("更新时间");
 			dataMap.put("titles", titles);
 			List<PageData> varOList = yardappointService.listAll(pd);
 			List<PageData> varList = new ArrayList<PageData>();
 			for(int i=0;i<varOList.size();i++){
 				PageData vpd = new PageData();
-				vpd.put("var1", varOList.get(i).getString("PLACE_ID"));	//1
-				vpd.put("var2", varOList.get(i).getString("APPLY_USER_ID"));	//2
-				vpd.put("var3", varOList.get(i).getString("PLACE_DATE"));	//3
-				vpd.put("var4", varOList.get(i).getString("BEGIN_TIME"));	//4
-				vpd.put("var5", varOList.get(i).getString("END_TIME"));	//5
-				vpd.put("var6", varOList.get(i).get("BOOK_DURATION").toString());	//6
-				vpd.put("var7", varOList.get(i).getString("BOOK_FEE"));	//7
-				vpd.put("var8", varOList.get(i).get("STATUS").toString());	//8
-				vpd.put("var9", varOList.get(i).getString("CREATE_TIME"));	//9
-				vpd.put("var10", varOList.get(i).getString("UPDATE_TIME"));	//10
+				vpd.put("var1", varOList.get(i).getString("PLACE_ID"));
+				vpd.put("var2", varOList.get(i).getString("APPLY_USER_ID"));
+				vpd.put("var3", varOList.get(i).getString("PLACE_DATE"));
+				vpd.put("var4", varOList.get(i).getString("BEGIN_TIME"));
+				vpd.put("var5", varOList.get(i).getString("END_TIME"));
+				vpd.put("var6", varOList.get(i).get("BOOK_DURATION").toString());
+				vpd.put("var7", varOList.get(i).getString("BOOK_FEE"));
+				vpd.put("var8", varOList.get(i).get("STATUS").toString());
+				vpd.put("var9", varOList.get(i).getString("CREATE_TIME"));
+				vpd.put("var10", varOList.get(i).getString("UPDATE_TIME"));
 				varList.add(vpd);
 			}
 			dataMap.put("varList", varList);
@@ -249,7 +254,8 @@ public class YardAppointController extends BaseController {
 	
 	/* ===============================权限================================== */
 	public Map<String, String> getHC(){
-		Subject currentUser = SecurityUtils.getSubject();  //shiro管理的session
+		//shiro管理的session
+		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession();
 		return (Map<String, String>)session.getAttribute(Const.SESSION_QX);
 	}

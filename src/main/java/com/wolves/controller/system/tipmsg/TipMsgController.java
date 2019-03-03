@@ -29,11 +29,16 @@ import com.wolves.util.Tools;
 import com.wolves.util.Jurisdiction;
 import com.wolves.service.system.tipmsg.TipMsgService;
 
+/**
+ * @author gf
+ */
 @Controller
 @RequestMapping(value="/tipmsg")
 public class TipMsgController extends BaseController {
 
-	//菜单地址(权限用)
+	/**
+	 * 菜单地址(权限用)
+	 */
 	String menuUrl = "tipmsg/list.do";
 	@Resource(name="tipmsgService")
 	private TipMsgService tipmsgService;

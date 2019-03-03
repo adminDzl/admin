@@ -29,11 +29,16 @@ import com.wolves.util.Tools;
 import com.wolves.util.Jurisdiction;
 import com.wolves.service.system.decorate.DecorateService;
 
+/**
+ * @author gf
+ */
 @Controller
 @RequestMapping(value="/decorate")
 public class DecorateController extends BaseController {
 
-	//菜单地址(权限用)
+	/**
+	 * 菜单地址(权限用)
+	 */
 	String menuUrl = "decorate/list.do";
 	@Resource(name="decorateService")
 	private DecorateService decorateService;
