@@ -15,6 +15,9 @@ import com.wolves.util.AppUtil;
 import com.wolves.util.MapDistance;
 import com.wolves.util.PageData;
 
+/**
+ * @author gf
+ */
 @Controller
 @RequestMapping(value="/tool")
 public class ToolController extends BaseController {
@@ -43,12 +46,15 @@ public class ToolController extends BaseController {
 		pd = this.getPageData();
 		String errInfo = "success",str = "",rTime="";
 		try{
-			long startTime = System.currentTimeMillis(); 					//请求起始时间_毫秒
+			//请求起始时间_毫秒
+			long startTime = System.currentTimeMillis();
 			URL url = new URL(pd.getString("serverUrl"));
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod(pd.getString("requestMethod"));		//请求类型  POST or GET	
+			//请求类型  POST or GET
+			connection.setRequestMethod(pd.getString("requestMethod"));
 			BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-			long endTime = System.currentTimeMillis(); 						//请求结束时间_毫秒
+			//请求结束时间_毫秒
+			long endTime = System.currentTimeMillis();
 			String temp = "";
 			while((temp = in.readLine()) != null){ 
 				str = str + temp;
@@ -58,9 +64,12 @@ public class ToolController extends BaseController {
 		catch(Exception e){
 			errInfo = "error";
 		}
-		map.put("errInfo", errInfo);	//状态信息
-		map.put("result", str);			//返回结果
-		map.put("rTime", rTime);		//服务器请求时间 毫秒
+		//状态信息
+		map.put("errInfo", errInfo);
+		//返回结果
+		map.put("result", str);
+		//服务器请求时间 毫秒
+		map.put("rTime", rTime);
 		return AppUtil.returnObject(new PageData(), map);
 	}
 	
