@@ -68,7 +68,7 @@
 						<th>用户名</th>
 						<th>姓名</th>
 						<th>职位</th>
-						<th><i class="icon-envelope"></i>邮箱</th>
+						<th>邮箱</th>
 						<th><i class="icon-time hidden-phone"></i>最近登录</th>
 						<th>上次登录IP</th>
 						<th class="center">操作</th>
@@ -93,21 +93,14 @@
 								<td><a>${user.USERNAME }</a></td>
 								<td>${user.NAME }</td>
 								<td>${user.ROLE_NAME }</td>
-								<c:if test="${QX.FX_QX == 1 }">
-								<td><a title="发送电子邮件" style="text-decoration:none;cursor:pointer;" onclick="sendEmail('${user.EMAIL }');">${user.EMAIL }&nbsp;<i class="icon-envelope"></i></a></td>
-								</c:if>
-								<c:if test="${QX.FX_QX != 1 }">
-								<td><a title="您无权发送电子邮件" style="text-decoration:none;cursor:pointer;">${user.EMAIL }&nbsp;<i class="icon-envelope"></i></a></td>
-								</c:if>
+								<td>${user.EMAIL }</td>
 								<td>${user.LAST_LOGIN}</td>
 								<td>${user.IP}</td>
 								<td style="width: 60px;">
 									<div class='hidden-phone visible-desktop btn-group'>
-										
-										<c:if test="${QX.FW_QX == 1 }">
-										<a class='btn btn-mini btn-warning' title="发送短信" onclick="sendSms('${user.PHONE }');"><i class='icon-envelope'></i></a>
-										</c:if>
-										
+										<%--<c:if test="${QX.FW_QX == 1 }">--%>
+										<%--<a class='btn btn-mini btn-warning' title="发送短信" onclick="sendSms('${user.PHONE }');"><i class='icon-envelope'></i></a>--%>
+										<%--</c:if>--%>
 										<c:if test="${QX.edit == 1 }">
 											<c:if test="${user.USERNAME != 'admin'}"><a class='btn btn-mini btn-info' title="编辑" onclick="editUser('${user.USER_ID }');"><i class='icon-edit'></i></a></c:if>
 											<c:if test="${user.USERNAME == 'admin'}"><a class='btn btn-mini btn-info' title="您不能编辑"><i class='icon-edit'></i></a></c:if>
@@ -153,12 +146,12 @@
 					<c:if test="${QX.add == 1 }">
 					<a class="btn btn-small btn-success" onclick="add();">新增</a>
 					</c:if>
-					<c:if test="${QX.FX_QX == 1 }">
-					<a title="批量发送电子邮件" class="btn btn-small btn-info" onclick="makeAll('确定要给选中的用户发送邮件吗?');"><i class="icon-envelope-alt"></i></a>
-					</c:if>
-					<c:if test="${QX.FW_QX == 1 }">
-					<a title="批量发送短信" class="btn btn-small btn-warning" onclick="makeAll('确定要给选中的用户发送短信吗?');"><i class="icon-envelope"></i></a>
-					</c:if>
+					<%--<c:if test="${QX.FX_QX == 1 }">--%>
+					<%--<a title="批量发送电子邮件" class="btn btn-small btn-info" onclick="makeAll('确定要给选中的用户发送邮件吗?');"><i class="icon-envelope-alt"></i></a>--%>
+					<%--</c:if>--%>
+					<%--<c:if test="${QX.FW_QX == 1 }">--%>
+					<%--<a title="批量发送短信" class="btn btn-small btn-warning" onclick="makeAll('确定要给选中的用户发送短信吗?');"><i class="icon-envelope"></i></a>--%>
+					<%--</c:if>--%>
 					<c:if test="${QX.del == 1 }">
 					<a title="批量删除" class="btn btn-small btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" ><i class='icon-trash'></i></a>
 					</c:if>
@@ -169,16 +162,9 @@
 		</div>
 		</form>
 	</div>
- 
- 
- 
- 
-	<!-- PAGE CONTENT ENDS HERE -->
-  </div><!--/row-->
-	
-</div><!--/#page-content-->
-</div><!--/.fluid-container#main-container-->
-		
+  </div>
+</div>
+</div>
 		<!-- 返回顶部  -->
 		<a href="#" id="btn-scroll-up" class="btn btn-small btn-inverse">
 			<i class="icon-double-angle-up icon-only"></i>
@@ -193,21 +179,14 @@
 		<script type="text/javascript" src="static/js/chosen.jquery.min.js"></script><!-- 下拉框 -->
 		<script type="text/javascript" src="static/js/bootstrap-datepicker.min.js"></script><!-- 日期框 -->
 		<script type="text/javascript" src="static/js/bootbox.min.js"></script><!-- 确认窗口 -->
-		<!-- 引入 -->
-		
-		
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script><!--提示框-->
 		<script type="text/javascript">
-		
 		$(top.hangge());
-		
 		//检索
 		function search(){
 			top.jzts();
 			$("#userForm").submit();
 		}
-		
-		
 		//去发送电子邮件页面
 		function sendEmail(EMAIL){
 			 top.jzts();
@@ -353,8 +332,6 @@
 						}else if(msg == '确定要给选中的用户发送短信吗?'){
 							sendSms(phones);
 						}
-						
-						
 					}
 				}
 			});
@@ -417,9 +394,7 @@
 			 };
 			 diag.show();
 		}
-		
 		</script>
-		
 	</body>
 </html>
 
