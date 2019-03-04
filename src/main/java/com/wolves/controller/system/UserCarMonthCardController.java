@@ -53,7 +53,7 @@ public class UserCarMonthCardController extends BaseController {
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;}
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
-		pd.put("USERCARMONTHCARD_ID", this.get32UUID());
+		pd.put("user_car_month_card_id", this.get32UUID());
 		pd.put("CREATE_TIME", Tools.date2Str(new Date()));
 		pd.put("UPDATE_TIME", Tools.date2Str(new Date()));
 		usercarmonthcardService.save(pd);

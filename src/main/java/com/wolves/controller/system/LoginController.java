@@ -105,18 +105,18 @@ public class LoginController extends BaseController {
 					pd.put("PASSWORD", passwd);
 					pd = userService.getUserByNameAndPwd(pd);
 					if(pd != null){
-						pd.put("LAST_LOGIN",DateUtil.getTime().toString());
+						pd.put("LAST_LOGIN", DateUtil.getTime());
 						userService.updateLastLogin(pd);
 						User user = new User();
-						user.setUSER_ID(pd.getString("USER_ID"));
-						user.setUSERNAME(pd.getString("USERNAME"));
-						user.setPASSWORD(pd.getString("PASSWORD"));
-						user.setNAME(pd.getString("NAME"));
-						user.setRIGHTS(pd.getString("RIGHTS"));
-						user.setROLE_ID(pd.getString("ROLE_ID"));
+						user.setUSER_ID(pd.getString("user_id"));
+						user.setUSERNAME(pd.getString("username"));
+						user.setPASSWORD(pd.getString("password"));
+						user.setNAME(pd.getString("name"));
+						user.setRIGHTS(pd.getString("rights"));
+						user.setROLE_ID(pd.getString("role_id"));
 						user.setLAST_LOGIN(pd.getString("LAST_LOGIN"));
-						user.setIP(pd.getString("IP"));
-						user.setSTATUS(pd.getString("STATUS"));
+						user.setIP(pd.getString("ip"));
+						user.setSTATUS(pd.getString("status"));
 						session.setAttribute(Const.SESSION_USER, user);
 						session.removeAttribute(Const.SESSION_SECURITY_CODE);
 						

@@ -11,7 +11,7 @@
 			CARD_STATUS,	
 			CREATE_TIME,	
 			UPDATE_TIME,	
-			USERCARMONTHCARD_ID
+			user_car_month_card_id
 		) values (
 			#{USER_ID},	
 			#{CARD_NO},	
@@ -20,14 +20,14 @@
 			#{CARD_STATUS},	
 			now(),
 			now(),
-			#{USERCARMONTHCARD_ID}
+			#{user_car_month_card_id}
 		)
 	</insert>
 	<!-- 删除-->
 	<delete id="delete" parameterType="pd">
 		delete from USER_CAR_MONTH_CARD
 		where 
-			USERCARMONTHCARD_ID = #{USERCARMONTHCARD_ID}
+			user_car_month_card_id = #{user_car_month_card_id}
 	</delete>
 	<!-- 修改 -->
 	<update id="edit" parameterType="pd">
@@ -39,9 +39,9 @@
 				USE_TIL_DATE = #{USE_TIL_DATE},
 				CARD_STATUS = #{CARD_STATUS},
 				UPDATE_TIME = now(),
-			USERCARMONTHCARD_ID = USERCARMONTHCARD_ID
+			user_car_month_card_id = user_car_month_card_id
 			where 
-				USERCARMONTHCARD_ID = #{USERCARMONTHCARD_ID}
+				user_car_month_card_id = #{user_car_month_card_id}
 	</update>
 	<!-- 通过ID获取数据 -->
 	<select id="findById" parameterType="pd" resultType="pd">
@@ -53,11 +53,11 @@
 			CARD_STATUS,	
 			CREATE_TIME,	
 			UPDATE_TIME,	
-			USERCARMONTHCARD_ID
+			user_car_month_card_id
 		from 
 			USER_CAR_MONTH_CARD
 		where 
-			USERCARMONTHCARD_ID = #{USERCARMONTHCARD_ID}
+			user_car_month_card_id = #{user_car_month_card_id}
 	</select>
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
@@ -69,7 +69,7 @@
 				a.CARD_STATUS,	
 				a.CREATE_TIME,	
 				a.UPDATE_TIME,	
-				a.USERCARMONTHCARD_ID
+				a.user_car_month_card_id
 		from 
 				USER_CAR_MONTH_CARD a
 	</select>
@@ -83,15 +83,15 @@
 				a.CARD_STATUS,	
 				a.CREATE_TIME,	
 				a.UPDATE_TIME,	
-				a.USERCARMONTHCARD_ID
+				a.user_car_month_card_id
 		from 
 				USER_CAR_MONTH_CARD a
 	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from USER_CAR_MONTH_CARD
-		where 
-			USERCARMONTHCARD_ID in
+		where
+		user_car_month_card_id in
 		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
                  #{item}
 		</foreach>
