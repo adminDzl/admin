@@ -1,4 +1,4 @@
-package com.wolves.controller.system.user;
+package com.wolves.controller.system;
 
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -362,25 +362,12 @@ public class UserController extends BaseController {
 		PageData pd = new PageData();
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;}
 		if (null != file && !file.isEmpty()) {
-			String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;
-			String fileName =  FileUpload.fileUp(file, filePath, "userexcel");
-			List<PageData> listPd = (List)ObjectExcelRead.readExcel(filePath, fileName, 2, 0, 0);
-			pd.put("RIGHTS", "");
-			pd.put("LAST_LOGIN", "");
-			pd.put("IP", "");
-			pd.put("STATUS", "0");
-			pd.put("SKIN", "default");
-			List<Role> roleList = roleService.listAllERRoles();
-			pd.put("ROLE_ID", roleList.get(0).getROLE_ID());
 			//文件上传路径
 			String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;
 			//执行上传
 			String fileName =  FileUpload.fileUp(file, filePath, "userexcel");
-
 			//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
 			List<PageData> listPd = (List)ObjectExcelRead.readExcel(filePath, fileName, 2, 0, 0);
-
-			/*存入数据库操作======================================*/
 			//权限
 			pd.put("RIGHTS", "");
 			//最后登录时间
