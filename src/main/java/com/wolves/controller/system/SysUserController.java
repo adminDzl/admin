@@ -43,7 +43,7 @@ import com.wolves.util.Tools;
 
 @Controller
 @RequestMapping(value="/user")
-public class UserController extends BaseController {
+public class SysUserController extends BaseController {
 
 	/**
 	 * 菜单地址(权限用)

@@ -1,4 +1,4 @@
-package com.wolves.controller.system.tools;
+package com.wolves.controller.system;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
