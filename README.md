@@ -146,6 +146,8 @@
     status
     begain_time
     end_time
+    
+alipay: https://docs.open.alipay.com/204
 
 
 
