@@ -17,7 +17,22 @@
 	</update>
 	<!-- 判断用户名和密码 -->
 	<select id="getUserInfo" parameterType="pd" resultType="pd" useCache="false"><!-- insert update delete (flushCache="true/false") -->
-		select * from SYS_USER 
+		select
+		USER_ID,
+		USERNAME,
+		PASSWORD,
+		NAME,
+		RIGHTS,
+		ROLE_ID,
+		LAST_LOGIN,
+		IP,
+		STATUS,
+		BZ,
+		SKIN,
+		EMAIL,
+		NUMBER,
+		PHONE
+		from SYS_USER
 		where 1=1
 		<if test="USERNAME != null and PASSWORD != null">
 	  	and	(
