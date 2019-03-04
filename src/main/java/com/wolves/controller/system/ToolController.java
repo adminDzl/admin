@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.wolves.controller.base.BaseController;
 import com.wolves.util.AppUtil;
-import com.wolves.util.MapDistance;
 import com.wolves.util.PageData;
 
 /**
@@ -42,8 +41,7 @@ public class ToolController extends BaseController {
 	@ResponseBody
 	public Object severTest(){
 		Map<String,String> map = new HashMap<String,String>();
-		PageData pd = new PageData();
-		pd = this.getPageData();
+		PageData pd = this.getPageData();
 		String errInfo = "success",str = "",rTime="";
 		try{
 			//请求起始时间_毫秒
@@ -95,48 +93,5 @@ public class ToolController extends BaseController {
 		mv.setViewName("system/tools/ztree");
 		mv.addObject("pd", pd);
 		return mv;
-	}
-	
-	/**
-	 * 地图页面
-	 */
-	@RequestMapping(value="/map")
-	public ModelAndView map() throws Exception{
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = this.getPageData();
-		mv.setViewName("system/tools/map");
-		mv.addObject("pd", pd);
-		return mv;
-	}
-	
-	/**
-	 * 获取地图坐标页面
-	 */
-	@RequestMapping(value="/mapXY")
-	public ModelAndView mapXY() throws Exception{
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = this.getPageData();
-		mv.setViewName("system/tools/mapXY");
-		mv.addObject("pd", pd);
-		return mv;
-	}
-	
-	/**
-	 *	根据经纬度计算距离
-	 */
-	@RequestMapping(value="/getDistance")
-	@ResponseBody
-	public Object getDistance(){
-		Map<String,String> map = new HashMap<String,String>();
-		PageData pd = this.getPageData();
-		String errInfo = "success",distance="";
-		try {
-			distance  = MapDistance.getDistance(pd.getString("ZUOBIAO_Y"),pd.getString("ZUOBIAO_X"),pd.getString("ZUOBIAO_Y2"),pd.getString("ZUOBIAO_X2"));
-		} catch (Exception e) {
-			errInfo = "error";
-		}
-		map.put("result", errInfo);
-		map.put("distance", distance);
-		return AppUtil.returnObject(new PageData(), map);
 	}
 }

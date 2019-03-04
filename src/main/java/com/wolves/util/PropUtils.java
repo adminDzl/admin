@@ -12,7 +12,6 @@ import java.util.Properties;
  */
 public class PropUtils {
 
-
     private static String ENV_FILENAME = "dbconfig.properties";
 
     private static Properties properties;
@@ -55,5 +54,4 @@ public class PropUtils {
         }
         throw new IllegalStateException("cannot find " + ENV_FILENAME + " anywhere");
     }
-
 }

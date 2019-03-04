@@ -26,12 +26,12 @@ public class SortUtil {
 	public static List sort(List sortList, String param1, String orderType){
 		Comparator mycmp1 = ComparableComparator.getInstance ();
 		if("desc".equals(orderType)){
-			mycmp1 = ComparatorUtils. reversedComparator(mycmp1); //逆序（默认为正序）
+			//逆序（默认为正序）
+			mycmp1 = ComparatorUtils. reversedComparator(mycmp1);
 		}
-		
 		ArrayList<Object> sortFields = new ArrayList<Object>();
-		sortFields.add( new BeanComparator(param1 , mycmp1)); //主排序（第一排序）
-
+		//主排序（第一排序）
+		sortFields.add( new BeanComparator(param1 , mycmp1));
 		ComparatorChain multiSort = new ComparatorChain(sortFields);
 		Collections.sort (sortList , multiSort);
 		
@@ -49,41 +49,34 @@ public class SortUtil {
 		Comparator mycmp1 = ComparableComparator.getInstance ();
 		Comparator mycmp2 = ComparableComparator.getInstance ();
 		if("desc".equals(orderType)){
-			mycmp1 = ComparatorUtils. reversedComparator(mycmp1); //逆序（默认为正序）
+			//逆序（默认为正序）
+			mycmp1 = ComparatorUtils. reversedComparator(mycmp1);
 		}
-		
 		ArrayList<Object> sortFields = new ArrayList<Object>();
-		sortFields.add( new BeanComparator(param1 , mycmp1)); //主排序（第一排序）
-		sortFields.add( new BeanComparator(param2 , mycmp2)); //主排序（第一排序）
-
+		//主排序（第一排序）
+		sortFields.add( new BeanComparator(param1 , mycmp1));
+		//主排序（第一排序）
+		sortFields.add( new BeanComparator(param2 , mycmp2));
 		ComparatorChain multiSort = new ComparatorChain(sortFields);
 		Collections.sort (sortList , multiSort);
-		
 		return sortList;
 	}
 	
 	public static List testMapSort(){
 		List sortList = new ArrayList();
-		
 		Map map = new HashMap();
 		map.put("name", "1");
 		map.put("age", "1");
-		
 		Map map2 = new HashMap();
 		map2.put("name", "2");
 		map2.put("age", "13");
-		
 		Map map1 = new HashMap();
 		map1.put("name", "2");
 		map1.put("age", "12");
-		
 		List list = new ArrayList();
 		list.add(map);
 		list.add(map1);
 		list.add(map2);
-		
-		//return sort(list, "age", "asc");
 		return sortParam2(list, "name", "age", "asc");
 	}
-	
 }

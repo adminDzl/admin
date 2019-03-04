@@ -22,7 +22,7 @@ public class Tools {
 	 */
 	public static int getRandomNum(){
 		 Random r = new Random();
-		 return r.nextInt(900000)+100000;//(Math.random()*(999999-100000)+100000)
+		 return r.nextInt(900000)+100000;
 	}
 	
 	/**
@@ -102,10 +102,8 @@ public class Tools {
 	 */
 	public static String getTimes(String StrDate){
 		String resultTimes = "";
-		
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	    java.util.Date now;
-	    
 	    try {
 	    	now = new Date();
 	    	java.util.Date date=df.parse(StrDate);
@@ -114,9 +112,7 @@ public class Tools {
 	    	long hour = (times/(60*60*1000)-day*24);
 	    	long min  = ((times/(60*1000))-day*24*60-hour*60);
 	    	long sec  = (times/1000-day*24*60*60-hour*60*60-min*60);
-	        
 	    	StringBuffer sb = new StringBuffer();
-	    	//sb.append("发表于：");
 	    	if(hour>0 ){
 	    		sb.append(hour+"小时前");
 	    	} else if(min>0){
@@ -124,7 +120,6 @@ public class Tools {
 	    	} else{
 	    		sb.append(sec+"秒前");
 	    	}
-	    		
 	    	resultTimes = sb.toString();
 	    } catch (ParseException e) {
 	    	e.printStackTrace();
@@ -135,10 +130,9 @@ public class Tools {
 	
 	/**
 	 * 写txt里的单行内容
-	 * @param content  写入的内容
 	 */
 	public static void writeFile(String fileP,String content){
-		String filePath = String.valueOf(Thread.currentThread().getContextClassLoader().getResource(""))+"../../";	//项目路径
+		String filePath = String.valueOf(Thread.currentThread().getContextClassLoader().getResource(""))+"../../";
 		filePath = (filePath.trim() + fileP.trim()).substring(6).trim();
 		if(filePath.indexOf(":") != 1){
 			filePath = File.separator + filePath;
@@ -157,7 +151,6 @@ public class Tools {
 	
 	/**
 	  * 验证邮箱
-	  * @param email
 	  */
 	 public static boolean checkEmail(String email){
 	  boolean flag = false;
@@ -189,9 +182,6 @@ public class Tools {
 	 
 	/**
 	 * 检测KEY是否正确
-	 * @param paraname  传入参数
-	 * @param FKEY		接收的 KEY
-	 * @return 为空则返回true，不否则返回false
 	 */
 	public static boolean checkKey(String paraname, String FKEY){
 		paraname = (null == paraname)? "":paraname;
@@ -203,8 +193,7 @@ public class Tools {
 	 */
 	public static String readTxtFile(String fileP) {
 		try {
-			
-			String filePath = String.valueOf(Thread.currentThread().getContextClassLoader().getResource(""))+"../../";	//项目路径
+			String filePath = String.valueOf(Thread.currentThread().getContextClassLoader().getResource(""))+"../../";
 			filePath = filePath.replaceAll("file:/", "");
 			filePath = filePath.replaceAll("%20", " ");
 			filePath = filePath.trim() + fileP.trim();
@@ -213,9 +202,11 @@ public class Tools {
 			}
 			String encoding = "utf-8";
 			File file = new File(filePath);
-			if (file.isFile() && file.exists()) { 		// 判断文件是否存在
+			// 判断文件是否存在
+			if (file.isFile() && file.exists()) {
 				InputStreamReader read = new InputStreamReader(
-				new FileInputStream(file), encoding);	// 考虑到编码格式
+				// 考虑到编码格式
+				new FileInputStream(file), encoding);
 				BufferedReader bufferedReader = new BufferedReader(read);
 				String lineTxt = null;
 				while ((lineTxt = bufferedReader.readLine()) != null) {
@@ -230,9 +221,4 @@ public class Tools {
 		}
 		return "";
 	}
-
-	public static void main(String[] args) {
-		System.out.println(getRandomNum());
-	}
-	
 }

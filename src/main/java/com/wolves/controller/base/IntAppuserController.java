@@ -13,14 +13,6 @@ import com.wolves.util.Tools;
 
 /**
   * 会员-接口类 
-  *    
-  * 相关参数协议：
-  * 00	请求失败
-  * 01	请求成功
-  * 02	返回空值
-  * 03	请求协议参数不完整    
-  * 04  用户名或密码错误
-  * 05  FKEY验证失败
  */
 @Controller
 @RequestMapping(value="/appuser")

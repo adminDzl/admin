@@ -3,10 +3,8 @@ package com.wolves.util;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -35,24 +33,27 @@ public class ObjectExcelView extends AbstractExcelView{
 		
 		List<String> titles = (List<String>) model.get("titles");
 		int len = titles.size();
-		HSSFCellStyle headerStyle = workbook.createCellStyle(); //标题样式
+		//标题样式
+		HSSFCellStyle headerStyle = workbook.createCellStyle();
 		headerStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 		headerStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-		HSSFFont headerFont = workbook.createFont();	//标题字体
+		//标题字体
+		HSSFFont headerFont = workbook.createFont();
 		headerFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 		headerFont.setFontHeightInPoints((short)11);
 		headerStyle.setFont(headerFont);
 		short width = 20,height=25*20;
 		sheet.setDefaultColumnWidth(width);
-		for(int i=0; i<len; i++){ //设置标题
+		//设置标题
+		for(int i=0; i<len; i++){
 			String title = titles.get(i);
 			cell = getCell(sheet, 0, i);
 			cell.setCellStyle(headerStyle);
 			setText(cell,title);
 		}
 		sheet.getRow(0).setHeight(height);
-		
-		HSSFCellStyle contentStyle = workbook.createCellStyle(); //内容样式
+		//内容样式
+		HSSFCellStyle contentStyle = workbook.createCellStyle();
 		contentStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 		List<PageData> varList = (List<PageData>) model.get("varList");
 		int varCount = varList.size();
@@ -64,9 +65,6 @@ public class ObjectExcelView extends AbstractExcelView{
 				cell.setCellStyle(contentStyle);
 				setText(cell,varstr);
 			}
-			
 		}
-		
 	}
-
 }

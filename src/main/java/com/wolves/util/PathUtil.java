@@ -3,7 +3,6 @@ package com.wolves.util;
 import java.io.File;
 
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -31,24 +30,19 @@ public class PathUtil {
 			String projectPath = PublicUtil.getPorjectPath().replaceAll("\\\\",
 					"/");
 			projectPath = splitString(projectPath, "bin/");
-
 			strBuf.append(projectPath);
 			strBuf.append("webapps/ROOT/");
 		}
-
 		strResult = strBuf.toString();
-
 		return strResult;
 	}
 
 	private static String splitString(String str, String param) {
 		String result = str;
-
 		if (str.contains(param)) {
 			int start = str.indexOf(param);
 			result = str.substring(0, start);
 		}
-
 		return result;
 	}
 	
@@ -76,22 +70,14 @@ public class PathUtil {
 	
 	public static String PathAddress() {
 		String strResult = "";
-
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
 				.getRequestAttributes()).getRequest();
-
 		StringBuffer strBuf = new StringBuffer();
-
 		strBuf.append(request.getScheme() + "://");
 		strBuf.append(request.getServerName() + ":");
 		strBuf.append(request.getServerPort() + "");
-
 		strBuf.append(request.getContextPath() + "/");
-
-		strResult = strBuf.toString();// +"ss/";//加入项目的名称
-
+		strResult = strBuf.toString();
 		return strResult;
 	}
-	
-	
 }

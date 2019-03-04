@@ -1,23 +1,13 @@
 package com.wolves.util;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
-import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-import java.nio.channels.FileChannel.MapMode;
 
 public class FileUtil {
-
-	public static void main(String[] args) {
-		String dirName = "d:/FH/topic/";// 创建目录
-		FileUtil.createDir(dirName);
-	}
 
 	/**
 	 * 创建目录
@@ -38,26 +28,6 @@ public class FileUtil {
 		} else {
 			return false;
 		}
-	}
-
-	/**
-	 * 删除文件
-	 * 
-	 * @param filePathAndName 文件路径及名称 如c:/fqf.txt
-	 */
-	public static void delFile(String filePathAndName) {
-		try {
-			String filePath = filePathAndName;
-			filePath = filePath.toString();
-			java.io.File myDelFile = new java.io.File(filePath);
-			myDelFile.delete();
-
-		} catch (Exception e) {
-			System.out.println("删除文件操作出错");
-			e.printStackTrace();
-
-		}
-
 	}
 
 	/**
@@ -86,40 +56,6 @@ public class FileUtil {
 		}
 		fi.close();
 		return buffer;
-	}
-
-	/**
-	 * 读取到字节数组1
-	 * @param filePath
-	 */
-	public static byte[] toByteArray(String filePath) throws IOException {
-
-		File f = new File(filePath);
-		if (!f.exists()) {
-			throw new FileNotFoundException(filePath);
-		}
-		ByteArrayOutputStream bos = new ByteArrayOutputStream((int) f.length());
-		BufferedInputStream in = null;
-		try {
-			in = new BufferedInputStream(new FileInputStream(f));
-			int buf_size = 1024;
-			byte[] buffer = new byte[buf_size];
-			int len = 0;
-			while (-1 != (len = in.read(buffer, 0, buf_size))) {
-				bos.write(buffer, 0, len);
-			}
-			return bos.toByteArray();
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw e;
-		} finally {
-			try {
-				in.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			bos.close();
-		}
 	}
 
 	/**
@@ -158,42 +94,6 @@ public class FileUtil {
 			}
 			try {
 				fs.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	/**
-	 * Mapped File way MappedByteBuffer 可以在处理大文件时，提升性能
-	 * 
-	 * @param filename
-	 * @return
-	 * @throws IOException
-	 */
-	public static byte[] toByteArray3(String filePath) throws IOException {
-
-		FileChannel fc = null;
-		RandomAccessFile rf = null;
-		try {
-			rf = new RandomAccessFile(filePath, "r");
-			fc = rf.getChannel();
-			MappedByteBuffer byteBuffer = fc.map(MapMode.READ_ONLY, 0,
-					fc.size()).load();
-			//System.out.println(byteBuffer.isLoaded());
-			byte[] result = new byte[(int) fc.size()];
-			if (byteBuffer.remaining() > 0) {
-				// System.out.println("remain");
-				byteBuffer.get(result, 0, byteBuffer.remaining());
-			}
-			return result;
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw e;
-		} finally {
-			try {
-				rf.close();
-				fc.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

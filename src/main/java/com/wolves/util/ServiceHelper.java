@@ -10,7 +10,6 @@ import com.wolves.service.system.user.UserService;
 public final class ServiceHelper {
 	
 	public static Object getService(String serviceName){
-		//WebApplicationContextUtils.
 		return Const.WEB_APP_CONTEXT.getBean(serviceName);
 	}
 	

@@ -21,7 +21,6 @@ import com.wolves.util.Const;
 import com.wolves.util.PageData;
 import com.wolves.util.SmsUtil;
 import com.wolves.util.Tools;
-import com.wolves.util.mail.SimpleMailSender;
 
 /**
  * @author
@@ -184,104 +183,6 @@ public class HeadController extends BaseController {
 				msg = "error";
 			} 
 		}	
-		pd.put("msg", msg);
-		pd.put("count", count);
-		pd.put("ecount", zcount-count);
-		pdList.add(pd);
-		map.put("list", pdList);
-		return AppUtil.returnObject(pd, map);
-	}
-	
-	/**
-	 * 去发送电子邮件页面
-	 */
-	@RequestMapping(value="/goSendEmail")
-	public ModelAndView goSendEmail() throws Exception{
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		mv.setViewName("system/head/send_email");
-		mv.addObject("pd", pd);
-		return mv;
-	}
-	
-	/**
-	 * 发送电子邮件
-	 */
-	@RequestMapping(value="/sendEmail")
-	@ResponseBody
-	public Object sendEmail(){
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		Map<String,Object> map = new HashMap<String,Object>();
-		String msg = "ok";
-		int count = 0;
-		int zcount = 0;
-		
-		String strEMAIL = Tools.readTxtFile(Const.EMAIL);
-		
-		List<PageData> pdList = new ArrayList<PageData>();
-		
-		String toEMAIL = pd.getString("EMAIL");
-		String TITLE = pd.getString("TITLE");
-		String CONTENT = pd.getString("CONTENT");
-		String TYPE = pd.getString("TYPE");
-		String isAll = pd.getString("isAll");
-		
-		String fmsg = pd.getString("fmsg");
-		
-		if(null != strEMAIL && !"".equals(strEMAIL)){
-			String strEM[] = strEMAIL.split(",fh,");
-			if(strEM.length == 4){
-				if("yes".endsWith(isAll)){
-					try {
-						List<PageData> userList = new ArrayList<PageData>();
-						
-						userList = "appuser".equals(fmsg) ? appUserService.listAllUser(pd):userService.listAllUser(pd);
-						
-						zcount = userList.size();
-						try {
-							for(int i=0;i<userList.size();i++){
-								if(Tools.checkEmail(userList.get(i).getString("EMAIL"))){
-									SimpleMailSender.sendEmail(strEM[0], strEM[1], strEM[2], strEM[3], userList.get(i).getString("EMAIL"), TITLE, CONTENT, TYPE);
-									count++;
-								}else{
-									continue;
-								}
-							}
-							msg = "ok";
-						} catch (Exception e) {
-							msg = "error";
-						}
-						
-					} catch (Exception e) {
-						msg = "error";
-					}
-				}else{
-					toEMAIL = toEMAIL.replaceAll("；", ";");
-					toEMAIL = toEMAIL.replaceAll(" ", "");
-					String[] arrTITLE = toEMAIL.split(";");
-					zcount = arrTITLE.length;
-					try {
-						for(int i=0;i<arrTITLE.length;i++){
-							if(Tools.checkEmail(arrTITLE[i])){
-								SimpleMailSender.sendEmail(strEM[0], strEM[1], strEM[2], strEM[3], arrTITLE[i], TITLE, CONTENT, TYPE);
-								count++;
-							}else{
-								continue;
-							}
-						}
-						msg = "ok";
-					} catch (Exception e) {
-						msg = "error";
-					} 
-				}	
-			}else{
-				msg = "error";
-			}
-		}else{
-			msg = "error";
-		}
 		pd.put("msg", msg);
 		pd.put("count", count);
 		pd.put("ecount", zcount-count);

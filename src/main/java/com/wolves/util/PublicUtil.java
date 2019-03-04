@@ -12,7 +12,6 @@ public class PublicUtil {
 	public static String getPorjectPath(){
 		String nowpath = "";
 		nowpath=System.getProperty("user.dir")+"/";
-		
 		return nowpath;
 	}
 	
@@ -24,11 +23,9 @@ public class PublicUtil {
 		try {
 			InetAddress inet = InetAddress.getLocalHost();
 			ip = inet.getHostAddress();
-			//System.out.println("本机的ip=" + ip);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-		
 		return ip;
 	}
 	

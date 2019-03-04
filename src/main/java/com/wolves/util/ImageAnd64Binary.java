@@ -12,9 +12,10 @@ import Decoder.BASE64Encoder;
 
 public class ImageAnd64Binary {
     public static void main(String[] args){
-    	
-		String imgSrcPath 	 = "d:/abc/123.jpg";     //生成64编码的图片的路径
-		String imgCreatePath = "E:\\apache-tomcat-6.0.37\\webapps/pro/ueditor2/jsp/upload1/20140318/480ace2bfc6e44608595bd4adbdeb067.jpg";     //将64编码生成图片的路径
+        //生成64编码的图片的路径
+		String imgSrcPath 	 = "d:/abc/123.jpg";
+        //将64编码生成图片的路径
+		String imgCreatePath = "E:\\apache-tomcat-6.0.37\\webapps/pro/ueditor2/jsp/upload1/20140318/480ace2bfc6e44608595bd4adbdeb067.jpg";
 		imgCreatePath=imgCreatePath.replaceAll("\\\\", "/");
 		System.out.println(imgCreatePath);
     	String strImg = getImageStr(imgSrcPath);
@@ -29,7 +30,6 @@ public class ImageAnd64Binary {
     public static String getImageStr(String imgSrcPath){
         InputStream in = null;
         byte[] data = null;
-        
         //读取图片字节数组
         try {
             in = new FileInputStream(imgSrcPath);        
@@ -39,11 +39,10 @@ public class ImageAnd64Binary {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
         //对字节数组Base64编码
         BASE64Encoder encoder = new BASE64Encoder();
-        
-        return encoder.encode(data);//返回Base64编码过的字节数组字符串
+        //返回Base64编码过的字节数组字符串
+        return encoder.encode(data);
     }
     
     /**
@@ -53,14 +52,16 @@ public class ImageAnd64Binary {
      * @return
      */
     public static boolean generateImage(String imgStr, String imgCreatePath){
-        if (imgStr == null) //图像数据为空
+        //图像数据为空
+        if (imgStr == null) {
             return false;
+        }
         BASE64Decoder decoder = new BASE64Decoder();
         try {
-            //Base64解码
             byte[] b = decoder.decodeBuffer(imgStr);
             for(int i=0;i<b.length;++i) {
-                if(b[i]<0) {//调整异常数据
+                //调整异常数据
+                if(b[i]<0) {
                     b[i]+=256;
                 }
             }
@@ -74,5 +75,4 @@ public class ImageAnd64Binary {
             return false;
         }
     }
-    
 }

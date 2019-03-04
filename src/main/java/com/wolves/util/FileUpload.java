@@ -3,7 +3,6 @@ package com.wolves.util;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.apache.commons.io.FileUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,7 +15,8 @@ public class FileUpload {
 	 * @return  文件名
 	 */
 	public static String fileUp(MultipartFile file, String filePath, String fileName){
-		String extName = ""; // 扩展名格式：
+		// 扩展名格式：
+		String extName = "";
 		try {
 			if (file.getOriginalFilename().lastIndexOf(".") >= 0){
 				extName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));

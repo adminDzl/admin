@@ -9,9 +9,7 @@ public class MD5 {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			md.update(str.getBytes());
 			byte b[] = md.digest();
-
 			int i;
-
 			StringBuffer buf = new StringBuffer("");
 			for (int offset = 0; offset < b.length; offset++) {
 				i = b[offset];
@@ -27,9 +25,5 @@ public class MD5 {
 
 		}
 		return str;
-	}
-	public static void main(String[] args) {
-		System.out.println(md5("31119@qq.com"+"123456"));
-		System.out.println(md5("mj1"));
 	}
 }

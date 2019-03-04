@@ -1,11 +1,9 @@
 package com.wolves.util;
 
-
 public class Logger {
 
 	private org.apache.log4j.Logger logger;
 
-	
 	/**
 	 * 构造方法，初始化Log4j的日志对象
 	 */
