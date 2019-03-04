@@ -1,4 +1,4 @@
-package com.wolves.controller.system;
+package com.wolves.controller.system.tools;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -15,6 +15,9 @@ import com.wolves.util.AppUtil;
 import com.wolves.util.MapDistance;
 import com.wolves.util.PageData;
 
+/**
+ * @author gf
+ */
 @Controller
 @RequestMapping(value="/tool")
 public class ToolController extends BaseController {
@@ -39,25 +42,33 @@ public class ToolController extends BaseController {
 	@ResponseBody
 	public Object severTest(){
 		Map<String,String> map = new HashMap<String,String>();
-		PageData pd = this.getPageData();
+		PageData pd = new PageData();
+		pd = this.getPageData();
 		String errInfo = "success",str = "",rTime="";
 		try{
+			//请求起始时间_毫秒
 			long startTime = System.currentTimeMillis();
 			URL url = new URL(pd.getString("serverUrl"));
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			//请求类型  POST or GET
 			connection.setRequestMethod(pd.getString("requestMethod"));
 			BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+			//请求结束时间_毫秒
 			long endTime = System.currentTimeMillis();
 			String temp = "";
 			while((temp = in.readLine()) != null){ 
 				str = str + temp;
 			}
 			rTime = String.valueOf(endTime - startTime); 
-		} catch( Exception e ){
+		}
+		catch(Exception e){
 			errInfo = "error";
 		}
+		//状态信息
 		map.put("errInfo", errInfo);
+		//返回结果
 		map.put("result", str);
+		//服务器请求时间 毫秒
 		map.put("rTime", rTime);
 		return AppUtil.returnObject(new PageData(), map);
 	}

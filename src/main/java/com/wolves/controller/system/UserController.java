@@ -1,4 +1,4 @@
-package com.wolves.controller.system;
+package com.wolves.controller.system.user;
 
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -44,7 +44,10 @@ import com.wolves.util.Tools;
 @Controller
 @RequestMapping(value="/user")
 public class UserController extends BaseController {
-	
+
+	/**
+	 * 菜单地址(权限用)
+	 */
 	String menuUrl = "user/listUsers.do";
 	@Resource(name="userService")
 	private UserService userService;
@@ -71,6 +74,7 @@ public class UserController extends BaseController {
 		pd.put("PASSWORD", new SimpleHash("SHA-1", pd.getString("USERNAME"), pd.getString("PASSWORD")).toString());
 		
 		if(null == userService.findByUId(pd)){
+			//判断新增权限
 			if(Jurisdiction.buttonJurisdiction(menuUrl, "add")){userService.saveU(pd);}
 			mv.addObject("msg","success");
 		}else{
@@ -368,6 +372,30 @@ public class UserController extends BaseController {
 			pd.put("SKIN", "default");
 			List<Role> roleList = roleService.listAllERRoles();
 			pd.put("ROLE_ID", roleList.get(0).getROLE_ID());
+			//文件上传路径
+			String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;
+			//执行上传
+			String fileName =  FileUpload.fileUp(file, filePath, "userexcel");
+
+			//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
+			List<PageData> listPd = (List)ObjectExcelRead.readExcel(filePath, fileName, 2, 0, 0);
+
+			/*存入数据库操作======================================*/
+			//权限
+			pd.put("RIGHTS", "");
+			//最后登录时间
+			pd.put("LAST_LOGIN", "");
+			//IP
+			pd.put("IP", "");
+			//状态
+			pd.put("STATUS", "0");
+			//默认皮肤
+			pd.put("SKIN", "default");
+
+			//列出所有二级角色
+			List<Role> roleList = roleService.listAllERRoles();
+			//设置角色ID为随便第一个
+			pd.put("ROLE_ID", roleList.get(0).getROLE_ID());
 			/**
 			 * var0 :编号
 			 * var1 :姓名
@@ -375,27 +403,36 @@ public class UserController extends BaseController {
 			 * var3 :邮箱
 			 * var4 :备注
 			 */
-			for(int i=0;i<listPd.size();i++){		
+			for(int i=0;i<listPd.size();i++){
+				//ID
 				pd.put("USER_ID", this.get32UUID());
+				//姓名
 				pd.put("NAME", listPd.get(i).getString("var1"));
+				//根据姓名汉字生成全拼
 				String USERNAME = GetPinyin.getPingYin(listPd.get(i).getString("var1"));
 				pd.put("USERNAME", USERNAME);	
 				if(userService.findByUId(pd) != null){
+					//判断用户名是否重复
 					USERNAME = GetPinyin.getPingYin(listPd.get(i).getString("var1"))+Tools.getRandomNum();
 					pd.put("USERNAME", USERNAME);
 				}
+				//备注
 				pd.put("BZ", listPd.get(i).getString("var4"));
+				//邮箱格式不对就跳过
 				if(Tools.checkEmail(listPd.get(i).getString("var3"))){
-					pd.put("EMAIL", listPd.get(i).getString("var3"));						
+					pd.put("EMAIL", listPd.get(i).getString("var3"));
+					//邮箱已存在就跳过
 					if(userService.findByUE(pd) != null){
 						continue;
 					}
 				}else{
 					continue;
 				}
-				
+				//编号已存在就跳过
 				pd.put("NUMBER", listPd.get(i).getString("var0"));
+				//手机号
 				pd.put("PHONE", listPd.get(i).getString("var2"));
+				//默认密码123
 				pd.put("PASSWORD", new SimpleHash("SHA-1", USERNAME, "123").toString());
 				if(userService.findByUN(pd) != null){
 					continue;
