@@ -12,7 +12,6 @@ import javax.annotation.Resource;
 
 import com.wolves.controller.base.BaseController;
 import com.wolves.entity.Page;
-import com.wolves.service.information.pictures.PicturesService;
 import com.wolves.service.system.yard.YardService;
 import com.wolves.util.*;
 import org.apache.shiro.SecurityUtils;

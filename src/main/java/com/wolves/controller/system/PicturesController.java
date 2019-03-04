@@ -25,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import com.wolves.controller.base.BaseController;
 import com.wolves.entity.Page;
-import com.wolves.service.information.pictures.PicturesService;
+import com.wolves.service.system.PicturesService;
 
 /** 
  * 类名称：PicturesController

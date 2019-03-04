@@ -1,4 +1,4 @@
-package com.wolves.service.information.pictures;
+package com.wolves.service.system;
 
 import java.util.List;
 import javax.annotation.Resource;
