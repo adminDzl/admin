@@ -50,7 +50,7 @@
 	<!-- 列出此角色下的所有用户 -->
 	<select id="listAllUByRid"  parameterType="pd" resultType="pd" >
 		select USER_ID
-		from SYS_USER
+		from USER
 		where 
 		ROLE_ID = #{ROLE_ID}
 	</select>
@@ -72,7 +72,7 @@
 			b.QX2,
 			b.QX3,
 			b.QX4
-		from SYS_ROLE a, SYS_GL_QX b, SYS_USER c
+		from SYS_ROLE a, SYS_GL_QX b, USER c
 		where 
 			a.QX_ID = b.GL_ID
 		and 
@@ -94,7 +94,7 @@
 			b.Q2,
 			b.Q3,
 			b.Q4
-		from SYS_ROLE a, SYS_USER_QX b, SYS_USER c
+		from SYS_ROLE a, SYS_USER_QX b, USER c
 		where 
 			a.QX_ID = b.U_ID
 		and 

@@ -5,13 +5,13 @@
     <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
 	<!-- 换皮肤-->
 	<update id="setSKIN" parameterType="pd" flushCache="false">
-		update SYS_USER set 
+		update USER set
 		SKIN = #{SKIN} 
 		where USERNAME = #{USERNAME}
 	</update>
 	<!-- 更新登录时间 -->
 	<update id="updateLastLogin" parameterType="pd" flushCache="false">
-		update SYS_USER set 
+		update USER set
 		LAST_LOGIN = #{LAST_LOGIN} 
 		where USER_ID = #{USER_ID}
 	</update>
@@ -22,6 +22,7 @@
 		USERNAME,
 		PASSWORD,
 		NAME,
+		SEX,
 		RIGHTS,
 		ROLE_ID,
 		LAST_LOGIN,
@@ -31,8 +32,17 @@
 		SKIN,
 		EMAIL,
 		NUMBER,
-		PHONE
-		from SYS_USER
+		PHONE,
+		SFID,
+		START_TIME,
+		END_TIME,
+		YEARS,
+		COMPANY_ID,
+		POSITION,
+		IS_BIND_ID_CARD,
+		ID_CARD_FRONT_URL,
+		ID_CARD_BACK_URL
+		from USER
 		where 1=1
 		<if test="USERNAME != null and PASSWORD != null">
 	  	and	(
@@ -49,7 +59,7 @@
 	</select>
 	<!-- 存入IP -->
 	<update id="saveIP" parameterType="pd" flushCache="false">
-		update SYS_USER 
+		update USER
 			set 
 				IP = #{IP}
 			where 
@@ -57,14 +67,20 @@
 	</update>
 	<!-- 修改 -->
 	<update id="editU" parameterType="pd" flushCache="false">
-		update  SYS_USER
+		update  USER
 			set USERNAME				= #{USERNAME},
 				NAME 					= #{NAME},
+				SEX                     = #{SEX},
 				ROLE_ID 				= #{ROLE_ID},
 				BZ						= #{BZ},
 				EMAIL					= #{EMAIL},
 				NUMBER					= #{NUMBER},
-				PHONE					= #{PHONE}
+				PHONE					= #{PHONE},
+				SFID                    = #{SFID},
+				POSITION                = #{POSITION},
+				IS_BIND_ID_CARD         = #{IS_BIND_ID_CARD},
+				ID_CARD_FRONT_URL       = #{ID_CARD_FRONT_URL},
+				ID_CARD_BACK_URL        = #{ID_CARD_BACK_URL}
 			<if test="PASSWORD != null and PASSWORD != ''">
 				,PASSWORD				= #{PASSWORD}
 			</if>
@@ -78,6 +94,7 @@
 			USERNAME,
 			PASSWORD,
 			NAME,
+			SEX,
 			RIGHTS,
 			ROLE_ID,
 			LAST_LOGIN,
@@ -87,19 +104,29 @@
 			SKIN,
 			EMAIL,
 			NUMBER,
-			PHONE
+			PHONE,
+			SFID,
+			START_TIME,
+			END_TIME,
+			YEARS,
+			COMPANY_ID,
+			POSITION,
+			IS_BIND_ID_CARD,
+			ID_CARD_FRONT_URL,
+			ID_CARD_BACK_URL
 		from 
-			SYS_USER
+			USER
 		where 
 			USER_ID = #{USER_ID}
 	</select>
 	<!-- 通过邮箱获取数据 -->
 	<select id="findByUE" parameterType="pd" resultType="pd" useCache="false">
-		select 
+		select
 			USER_ID,
 			USERNAME,
 			PASSWORD,
 			NAME,
+			SEX,
 			RIGHTS,
 			ROLE_ID,
 			LAST_LOGIN,
@@ -109,9 +136,18 @@
 			SKIN,
 			EMAIL,
 			NUMBER,
-			PHONE
-		from 
-			SYS_USER
+			PHONE,
+			SFID,
+			START_TIME,
+			END_TIME,
+			YEARS,
+			COMPANY_ID,
+			POSITION,
+			IS_BIND_ID_CARD,
+			ID_CARD_FRONT_URL,
+			ID_CARD_BACK_URL
+		from
+			USER
 		where 
 			EMAIL = #{EMAIL}
 		<if test="USERNAME != null and USERNAME != ''">
@@ -120,11 +156,12 @@
 	</select>
 	<!-- 通过编号获取数据 -->
 	<select id="findByUN" parameterType="pd" resultType="pd" useCache="false">
-		select 
+		select
 			USER_ID,
 			USERNAME,
 			PASSWORD,
 			NAME,
+			SEX,
 			RIGHTS,
 			ROLE_ID,
 			LAST_LOGIN,
@@ -134,9 +171,18 @@
 			SKIN,
 			EMAIL,
 			NUMBER,
-			PHONE
-		from 
-			SYS_USER
+			PHONE,
+			SFID,
+			START_TIME,
+			END_TIME,
+			YEARS,
+			COMPANY_ID,
+			POSITION,
+			IS_BIND_ID_CARD,
+			ID_CARD_FRONT_URL,
+			ID_CARD_BACK_URL
+		from
+		USER
 		where 
 			NUMBER = #{NUMBER}
 		<if test="USERNAME != null and USERNAME != ''">
@@ -150,6 +196,7 @@
 			USERNAME,
 			PASSWORD,
 			NAME,
+			SEX,
 			RIGHTS,
 			ROLE_ID,
 			LAST_LOGIN,
@@ -159,19 +206,29 @@
 			SKIN,
 			EMAIL,
 			NUMBER,
-			PHONE
+			PHONE,
+			SFID,
+			START_TIME,
+			END_TIME,
+			YEARS,
+			COMPANY_ID,
+			POSITION,
+			IS_BIND_ID_CARD,
+			ID_CARD_FRONT_URL,
+			ID_CARD_BACK_URL
 		from 
-			SYS_USER
+			USER
 		where 
 			USERNAME = #{USERNAME}
 	</select>
 	<!-- 新增用户 -->
 	<insert id="saveU" parameterType="pd" flushCache="false">
-		insert into SYS_USER (
+		insert into USER (
 			USER_ID,
 			USERNAME,
 			PASSWORD,
 			NAME,
+			SEX,
 			RIGHTS,
 			ROLE_ID,
 			LAST_LOGIN,
@@ -181,12 +238,22 @@
 			SKIN,
 			EMAIL,
 			NUMBER,
-			PHONE
+			PHONE,
+			SFID,
+			START_TIME,
+			END_TIME,
+			YEARS,
+			COMPANY_ID,
+			POSITION,
+			IS_BIND_ID_CARD,
+			ID_CARD_FRONT_URL,
+			ID_CARD_BACK_URL
 		) values (
 			#{USER_ID},
 			#{USERNAME},
 			#{PASSWORD},
 			#{NAME},
+			#{SEX},
 			#{RIGHTS},
 			#{ROLE_ID},
 			#{LAST_LOGIN},
@@ -196,7 +263,16 @@
 			#{SKIN},
 			#{EMAIL},
 			#{NUMBER},
-			#{PHONE}
+			#{PHONE},
+			#{SFID},
+			#{START_TIME},
+			#{END_TIME},
+			#{YEARS},
+			#{COMPANY_ID},
+			#{POSITION},
+			#{IS_BIND_ID_CARD},
+			#{ID_CARD_FRONT_URL},
+			#{ID_CARD_BACK_URL}
 		)
 	</insert>
 	<!-- 用户列表(用户组) -->
@@ -212,7 +288,7 @@
 				u.PHONE,
 				r.ROLE_ID,
 				r.ROLE_NAME
-		from SYS_USER u, SYS_ROLE r 
+		from USER u, SYS_ROLE r
 		where u.ROLE_ID = r.ROLE_ID 
 		and u.USERNAME != 'admin'
 		and (r.ROLE_ID != '7' and r.PARENT_ID != '7')
@@ -254,7 +330,7 @@
 				u.PHONE,
 				r.ROLE_ID,
 				r.ROLE_NAME
-		from SYS_USER u, SYS_ROLE r 
+		from USER u, SYS_ROLE r
 		where u.ROLE_ID = r.ROLE_ID 
 		and u.USERNAME != 'admin'
 		and (r.ROLE_ID != '7' and r.PARENT_ID != '7')
@@ -285,13 +361,13 @@
 	</select>
 	<!-- 删除用户 -->
 	<delete id="deleteU" parameterType="pd" flushCache="false">
-		delete from SYS_USER
+		delete from USER
 		where 
 			USER_ID = #{USER_ID}
 	</delete>
 	<!-- 批量删除用户 -->
 	<delete id="deleteAllU" parameterType="String" flushCache="false">
-		delete from SYS_USER
+		delete from USER
 		where 
 			USER_ID in
   			 <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
