@@ -4,69 +4,6 @@
 			  <a class="brand"><small><i class="icon-leaf"></i> ${pd.SYSNAME}</small> </a>
 			  
 			  <ul class="nav ace-nav pull-right">
-			  
-			  
-					<li class="grey">
-						<a href="javascript:alert('预留功能,待开发');" class="dropdown-toggle" data-toggle="dropdown">
-							<i class="icon-tasks"></i>
-							<span class="badge">1</span>
-						</a>
-						<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-closer">
-							<li class="nav-header">
-								<i class="icon-ok"></i> 4 任务完成
-							</li>
-							
-							<li>
-								<a href="javascript:alert('预留功能,待开发');">
-									<div class="clearfix">
-										<span class="pull-left">软件更新</span>
-										<span class="pull-right">65%</span>
-									</div>
-									<div class="progress progress-mini"><div class="bar" style="width:65%"></div></div>
-								</a>
-							</li>
-							
-							<li>
-								<a href="javascript:alert('预留功能,待开发');">
-									<div class="clearfix">
-										<span class="pull-left">软件更新</span>
-										<span class="pull-right">35%</span>
-									</div>
-									<div class="progress progress-mini progress-danger"><div class="bar" style="width:35%"></div></div>
-								</a>
-							</li>
-							
-							<li>
-								<a href="javascript:alert('预留功能,待开发');">
-									<div class="clearfix">
-										<span class="pull-left">运行测试</span>
-										<span class="pull-right">15%</span>
-									</div>
-									<div class="progress progress-mini progress-warning"><div class="bar" style="width:15%"></div></div>
-								</a>
-							</li>
-							
-							<li>
-								<a href="javascript:alert('预留功能,待开发');">
-									<div class="clearfix">
-										<span class="pull-left">Bug 修复</span>
-										<span class="pull-right">90%</span>
-									</div>
-									<div class="progress progress-mini progress-success progress-striped active"><div class="bar" style="width:90%"></div></div>
-								</a>
-							</li>
-							
-							<li>
-								<a href="javascript:alert('预留功能,待开发');">
-									查看任务明细
-									<i class="icon-arrow-right"></i>
-								</a>
-							</li>
-						</ul>
-					</li>
-					
-					
-					
 					<li class="green">
 						<a href="javascript:alert('预留功能,待开发');" class="dropdown-toggle" data-toggle="dropdown">
 							<i class="icon-envelope-alt icon-animated-vertical icon-only"></i>
@@ -131,14 +68,6 @@
 	
 						</ul>
 					</li>
-					
-					
-					<li class="purple" onclick="creatw();">
-						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-							<i class="icon-bell-alt icon-animated-bell icon-only"></i>
-						</a>
-					</li>
-					
 					
 					<li class="light-blue user-profile">
 						<a class="user-menu dropdown-toggle" href="javascript:;" data-toggle="dropdown">

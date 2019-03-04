@@ -9,9 +9,9 @@
 
 					<div id="sidebar-shortcuts-large">
 
-						<button class="btn btn-small btn-success" onclick="changeMenu();" title="切换菜单"><i class="icon-pencil"></i></button>
+						<button class="btn btn-small btn-success" title="系统首页" onclick="window.open('<%=basePathl%>main/index');"><i class="icon-home"></i></button>
 
-						<button class="btn btn-small btn-info" title="UI实例" onclick="window.open('<%=basePathl%>static/UI_new');"><i class="icon-eye-open"></i></button>
+						<button class="btn btn-small btn-info" title="园区概览" onclick="window.open('<%=basePathl%>static/UI_new');"><i class="icon-eye-open"></i></button>
 
 						<button class="btn btn-small btn-warning" title="数据字典" id="adminzidian" onclick="zidian();"><i class="icon-book"></i></button>
 						
@@ -29,17 +29,8 @@
 						<span class="btn btn-danger"></span>
 					</div>
 
-				</div><!-- #sidebar-shortcuts -->
-
-
+				</div>
 				<ul class="nav nav-list">
-
-					<li class="active" id="fhindex">
-					  <a href="main/index"><i class="icon-dashboard"></i><span>后台首页</span></a>
-					</li>
-
-
-
 			<c:forEach items="${menuList}" var="menu">
 				<c:if test="${menu.hasMenu}">
 				<li id="lm${menu.MENU_ID }">

@@ -65,28 +65,6 @@ $(function(){
 		}
 	});
 });
-
-//在线总数
-var userCount = 0;
-function getUserCount(){
-	websocket.send('[count]'+user);
-	return userCount;
-}
-//用户列表
-var userlist = "";
-function getUserlist(){
-	websocket.send('[getUserlist]'+user);
-	return userlist;
-}
-//强制下线
-function goOut(msg){
-	alert(msg);
-	window.location.href=locat+"/logout";
-}
-//强制某用户下线
-function goOutUser(theuser){
-	websocket.send('[goOut]'+theuser);
-}
 //换肤
 function hf(b){
 	
@@ -197,7 +175,6 @@ function menu(){
 
 //切换菜单
 function changeMenu(){
-	websocket.send('[leave]'+user);
 	window.location.href=locat+'/main/yes';
 }
 
