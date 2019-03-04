@@ -1,70 +1,69 @@
 ﻿<div class="navbar navbar-inverse">
-		  <div class="navbar-inner">
-		   <div class="container-fluid">
-			  <a class="brand"><small><i class="icon-leaf"></i> ${pd.SYSNAME}</small> </a>
-			  
-			  <ul class="nav ace-nav pull-right">
-					<li class="green">
-						<a href="javascript:alert('预留功能,待开发');" class="dropdown-toggle" data-toggle="dropdown">
-							<i class="icon-envelope-alt icon-animated-vertical icon-only"></i>
-							<span class="badge badge-success">1</span>
-						</a>
-						<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-closer">
-							<li class="nav-header">
-								<i class="icon-envelope"></i> 5 条信件
-							</li>
+	<div class="navbar-inner">
+		<div class="container-fluid">
+			<a class="brand"><small><i class="icon-leaf"></i> ${pd.SYSNAME}</small> </a>
+			<ul class="nav ace-nav pull-right">
+				<li class="green">
+					<a href="javascript:alert('预留功能,待开发');" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-envelope-alt icon-animated-vertical icon-only"></i>
+						<span class="badge badge-success">1</span>
+					</a>
+					<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-closer">
+						<li class="nav-header">
+							<i class="icon-envelope"></i> 5 条信件
+						</li>
 							
-							<li>
-								<a href="javascript:alert('预留功能,待开发');">
-									<img alt="Alex's Avatar" class="msg-photo" src="static/avatars/avatar.png" />
-									<span class="msg-body">
-										<span class="msg-title">
-											<span class="blue">张三:</span>
+						<li>
+							<a href="javascript:alert('预留功能,待开发');">
+								<img alt="Alex's Avatar" class="msg-photo" src="static/avatars/avatar.png" />
+								<span class="msg-body">
+									<span class="msg-title">
+										<span class="blue">张三:</span>
 											你好，我们在哪里吃饭? ...
-										</span>
-										<span class="msg-time">
-											<i class="icon-time"></i> <span>1个月以前</span>
-										</span>
 									</span>
-								</a>
-							</li>
-							
-							<li>
-								<a href="javascript:alert('预留功能,待开发');">
-									<img alt="Susan's Avatar" class="msg-photo" src="static/avatars/avatar3.png" />
-									<span class="msg-body">
-										<span class="msg-title">
-											<span class="blue">李四:</span>
-											你在哪上班? ...
-										</span>
-										<span class="msg-time">
-											<i class="icon-time"></i> <span>20分钟前</span>
-										</span>
+									<span class="msg-time">
+										<i class="icon-time"></i> <span>1个月以前</span>
 									</span>
-								</a>
-							</li>
+								</span>
+							</a>
+						</li>
 							
-							<li>
-								<a href="javascript:alert('预留功能,待开发');">
-									<img alt="Bob's Avatar" class="msg-photo" src="static/avatars/avatar4.png" />
-									<span class="msg-body">
-										<span class="msg-title">
-											<span class="blue">王五:</span>
-											你好，我对你很感兴趣 ...
-										</span>
-										<span class="msg-time">
-											<i class="icon-time"></i> <span>下午 3:15 </span>
-										</span>
+						<li>
+							<a href="javascript:alert('预留功能,待开发');">
+								<img alt="Susan's Avatar" class="msg-photo" src="static/avatars/avatar3.png" />
+								<span class="msg-body">
+									<span class="msg-title">
+										<span class="blue">李四:</span>
+										你在哪上班? ...
 									</span>
-								</a>
-							</li>
+									<span class="msg-time">
+										<i class="icon-time"></i> <span>20分钟前</span>
+									</span>
+								</span>
+							</a>
+						</li>
 							
-							<li>
-								<a href="javascript:alert('预留功能,待开发');">
-									查看所有信件
-									<i class="icon-arrow-right"></i>
-								</a>
-							</li>									
+						<li>
+							<a href="javascript:alert('预留功能,待开发');">
+								<img alt="Bob's Avatar" class="msg-photo" src="static/avatars/avatar4.png" />
+								<span class="msg-body">
+									<span class="msg-title">
+										<span class="blue">王五:</span>
+										你好，我对你很感兴趣 ...
+									</span>
+									<span class="msg-time">
+										<i class="icon-time"></i> <span>下午 3:15 </span>
+									</span>
+								</span>
+							</a>
+						</li>
+							
+						<li>
+							<a href="javascript:alert('预留功能,待开发');">
+								查看所有信件
+								<i class="icon-arrow-right"></i>
+							</a>
+						</li>
 	
 						</ul>
 					</li>
@@ -84,11 +83,8 @@
 							<li><a href="logout"><i class="icon-off"></i> 退出</a></li>
 						</ul>
 					</li>
-			  </ul><!--/.ace-nav-->
-		   </div><!--/.container-fluid-->
-		  </div><!--/.navbar-inner-->
-		</div><!--/.navbar-->
-	
-	
-		<!--引入属于此页面的js -->
-		<script type="text/javascript" src="static/js/myjs/head.js"></script>
+			  </ul>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="static/js/myjs/head.js"></script>

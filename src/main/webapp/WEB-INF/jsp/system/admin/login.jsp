@@ -61,30 +61,13 @@
 				</div>
 				<div class="form-actions">
 					<div style="width:86%;padding-left:8%;">
-
-						<%--<div style="float: left;">--%>
-							<%--<i><img src="static/login/yan.png" /></i>--%>
-						<%--</div>--%>
-						<%--<div style="float: left;" class="codediv">--%>
-							<%--<input type="text" name="code" id="code" class="login_code"--%>
-								<%--style="height:16px; padding-top:0px;" />--%>
-						<%--</div>--%>
-						<%--<div style="float: left;">--%>
-							<%--<i><img style="height:22px;" id="codeImg" alt="点击更换"--%>
-								<%--title="点击更换" src="" /></i>--%>
-						<%--</div>--%>
-
 						<span class="pull-right" style="padding-right:3%;"><a
 							href="javascript:quxiao();" class="btn btn-success">取消</a></span> <span
 							class="pull-right"><a onclick="severCheck();"
 							class="flip-link btn btn-info" id="to-recover">登录</a></span>
-
 					</div>
 				</div>
-
 			</form>
-
-
 			<div class="controls">
 				<div class="main_input_box">
 					<font color="white"><span id="nameerr">Copyright © FH
@@ -99,11 +82,9 @@
 			<div data-src="static/login/images/banner_slide_02.jpg"></div>
 			<div data-src="static/login/images/banner_slide_03.jpg"></div>
 		</div>
-		<!-- #camera_wrap_3 -->
 	</div>
 
 	<script type="text/javascript">
-	
 		//服务器校验
 		function severCheck(){
 			if(check()){
@@ -150,11 +131,6 @@
 				});
 			}
 		}
-	
-//		$(document).ready(function() {
-//			changeCode();
-//			$("#codeImg").bind("click", changeCode);
-//		});
 
 		$(document).keyup(function(event) {
 			if (event.keyCode == 13) {
@@ -201,18 +177,6 @@
 				$("#password").focus();
 				return false;
 			}
-//			if ($("#code").val() == "") {
-//
-//				$("#code").tips({
-//					side : 1,
-//					msg : '验证码不得为空',
-//					bg : '#AE81FF',
-//					time : 3
-//				});
-//
-//				$("#code").focus();
-//				return false;
-//			}
 
 			$("#loginbox").tips({
 				side : 1,
@@ -265,7 +229,6 @@
 		});
 	</script>
 	<script>
-		//TOCMAT重启之后 点击左侧列表跳转登录首页 
 		if (window != top) {
 			top.location.href = location.href;
 		}
@@ -280,5 +243,4 @@
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 	<script type="text/javascript" src="static/js/jquery.cookie.js"></script>
 </body>
-
 </html>

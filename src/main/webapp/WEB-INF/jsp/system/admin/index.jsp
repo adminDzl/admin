@@ -19,7 +19,6 @@
 </head>
 <body>
 	<%@ include file="head.jsp"%>
-	<div id="websocket_button"></div>
 	<div class="container-fluid" id="main-container">
 		<a href="#" id="menu-toggler"><span></span></a>
 		<%@ include file="left.jsp"%>
