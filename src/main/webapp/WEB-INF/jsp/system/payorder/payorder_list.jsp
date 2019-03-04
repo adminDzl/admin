@@ -68,18 +68,12 @@
 									<label><input type='checkbox' name='ids' value="${var.PAYORDER_ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-										<c:if test="${var.PAY_TYPE == 1}">
-											<td>水电物业</td>
-										</c:if>
-										<c:if test="${var.PAY_TYPE == 2}">
-											<td>停车费</td>
-										</c:if>
-										<c:if test="${var.PAY_TYPE == 3}">
-											<td>场地预定费</td>
-										</c:if>
-										<c:if test="${var.PAY_TYPE == 4}">
-											<td>一卡通费用</td>
-										</c:if>
+										<td>
+											<c:if test="${var.PAY_TYPE == 1}"><span class="label label-success arrowed">水电物业</span></c:if>
+											<c:if test="${var.PAY_TYPE == 2}"><span class="label label-success arrowed">停车费</span></c:if>
+											<c:if test="${var.PAY_TYPE == 3}"><span class="label label-success arrowed">场地预定费</span></c:if>
+											<c:if test="${var.PAY_TYPE == 4}"><span class="label label-success arrowed">一卡通费用</span></c:if>
+										</td>
 										<td>${var.PAY_AMOUNT}</td>
 										<td>${var.PAY_TIME}</td>
 										<td>${var.RETURN_TIME}</td>

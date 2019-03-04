@@ -67,12 +67,10 @@
 									<label><input type='checkbox' name='ids' value="${var.TIPMSG_ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-										<c:if test="${var.MSG_TYPE == 1}">
-											<td>公告消息</td>
-										</c:if>
-										<c:if test="${var.MSG_TYPE == 2}">
-											<td>进度提醒</td>
-										</c:if>
+										<td>
+											<c:if test="${var.MSG_TYPE == 1}"><span class="label label-success arrowed">公告消息</span></c:if>
+											<c:if test="${var.MSG_TYPE == 2}"><span class="label label-success arrowed">进度提醒</span></c:if>
+										</td>
 										<td>${var.TO_USER}</td>
 										<td>${var.ALERT_TITLE}</td>
 										<td>${var.ALERT_CONTENT}</td>

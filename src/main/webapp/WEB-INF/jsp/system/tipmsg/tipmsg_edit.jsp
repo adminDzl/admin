@@ -28,7 +28,7 @@
 			if($("#MSG_TYPE").val()==""){
 			$("#MSG_TYPE").tips({
 				side:3,
-	            msg:'请输入1-公告消息，2-进度提醒',
+	            msg:'请输入消息类型',
 	            bg:'#AE81FF',
 	            time:2
 	        });
@@ -77,8 +77,8 @@
 		<div id="zhongxin">
 		<table id="table_report" class="table table-striped table-bordered table-hover">
 			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">1-公告消息，2-进度提醒:</td>
-				<td><input type="number" name="MSG_TYPE" id="MSG_TYPE" value="${pd.MSG_TYPE}" maxlength="32" placeholder="这里输入1-公告消息，2-进度提醒" title="1-公告消息，2-进度提醒"/></td>
+				<td style="width:70px;text-align: right;padding-top: 13px;">消息类型:</td>
+				<td><input type="number" name="MSG_TYPE" id="MSG_TYPE" value="${pd.MSG_TYPE}" maxlength="32" placeholder="这里输消息类型" title="消息类型"/></td>
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">通知人群:</td>

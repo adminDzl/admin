@@ -72,12 +72,10 @@
 									<label><input type='checkbox' name='ids' value="${var.NEWSTIP_ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-										<c:if test="${var.NEWS_TYPE == 1}">
-											<td>新闻</td>
-										</c:if>
-										<c:if test="${var.NEWS_TYPE == 2}">
-											<td>项目申报</td>
-										</c:if>
+										<td>
+											<c:if test="${var.NEWS_TYPE == 1}"><span class="label label-success arrowed">新闻</span></c:if>
+											<c:if test="${var.NEWS_TYPE == 2}"><span class="label label-success arrowed">项目申报</span></c:if>
+										</td>
 										<td>${var.NEWS_TITLE}</td>
 										<td>${var.ATTACH_URL}</td>
 										<td>${var.STATUS}</td>

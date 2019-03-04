@@ -69,15 +69,11 @@
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 										<td>${var.USER_ID}</td>
-										<c:if test="${var.PAYMENT_TYPE == 1}">
-											<td>物业费</td>
-										</c:if>
-										<c:if test="${var.PAYMENT_TYPE == 2}">
-											<td>水费</td>
-										</c:if>
-										<c:if test="${var.PAYMENT_TYPE == 3}">
-											<td>电费</td>
-										</c:if>
+										<td>
+											<c:if test="${var.PAYMENT_TYPE == 1}"><span class="label label-success arrowed">物业费</span></c:if>
+											<c:if test="${var.PAYMENT_TYPE == 2}"><span class="label label-success arrowed">水费</span></c:if>
+											<c:if test="${var.PAYMENT_TYPE == 3}"><span class="label label-success arrowed">电费</span></c:if>
+										</td>
 										<td>${var.AMOUNT}</td>
 										<td>${var.PAYMENT_DATE}</td>
 										<td>${var.STATUS}</td>
