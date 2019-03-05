@@ -143,4 +143,12 @@ public class UserService {
 		return (Integer) dao.save("UserMapper.saveUser", user);
 	}
 
+	/**
+	 * 根据电话号码查询用户
+	 */
+	public com.wolves.entity.app.User getUserByPhone(com.wolves.entity.app.User user){
+
+		return (com.wolves.entity.app.User) dao.findForObject("UserMapper.getUserByPhone", user);
+	}
+
 }

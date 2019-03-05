@@ -145,4 +145,9 @@
 		#{ID_CARD_BACK_URL}
 		)
 	</insert>
+
+	<!--根据电话号码查询数据-->
+	<select id="getUserByPhone" parameterType="com.wolves.entity.app.User" resultMap="UserResultMap">
+		SELECT * FROM USER WHERE PHONE = #{phone}
+	</select>
 </mapper>

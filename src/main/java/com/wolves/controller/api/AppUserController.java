@@ -124,6 +124,16 @@ public class AppUserController extends BaseController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
+        //验证该账号是否被人使用
+        User user = new User();
+        user.setPhone(telephone);
+        user = userService.getUserByPhone(user);
+        if (StringUtils.isNotEmpty(user.getUserId())){
+            result.setMsg("该手机号码已被注册");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+
         String code = registerDTO.getCode();
         if (StringUtils.isEmpty(code)){
             result.setMsg("请填写手机验证码");
@@ -174,18 +184,18 @@ public class AppUserController extends BaseController {
         //获取ip
         HttpServletRequest request = this.getRequest();
         //保存数据
-        User user = new User();
-        user.setUserId(this.get32UUID());
-        user.setUsername(telephone);
-        user.setPassword(encrypt);
-        user.setPhone(telephone);
-        user.setName(name);
-        user.setSex(sex);
-        user.setIdCardFrontUrl(idCardFrontUrl);
-        user.setIdCardBackUrl(idCardBackUrl);
-        user.setIp(Tools.getIpAddr(request));
+        User userInfo = new User();
+        userInfo.setUserId(this.get32UUID());
+        userInfo.setUsername(telephone);
+        userInfo.setPassword(encrypt);
+        userInfo.setPhone(telephone);
+        userInfo.setName(name);
+        userInfo.setSex(sex);
+        userInfo.setIdCardFrontUrl(idCardFrontUrl);
+        userInfo.setIdCardBackUrl(idCardBackUrl);
+        userInfo.setIp(Tools.getIpAddr(request));
         //身份证已经绑定
-        Integer i = userService.saveUser(user);
+        Integer i = userService.saveUser(userInfo);
         if (i < 0){
             result.setMsg("注册失败");
             result.setResult(ResultCode.FAIL);
@@ -224,8 +234,8 @@ public class AppUserController extends BaseController {
         //重置密码
         String encrypt = new SimpleHash("SHA-1", telephone, password).toString();
         User user = new User();
-        user.setUserId("");
         user.setPhone(telephone);
+        user = userService.getUserByPhone(user);
         user.setPassword(encrypt);
 
         //返回结果
