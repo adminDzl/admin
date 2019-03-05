@@ -28,7 +28,6 @@
 		<table class="center" style="width:100%;">
 			<tr height="35">
 				<c:if test="${QX.add == 1 }">
-				<td style="width:69px;"><a href="javascript:addRole();" class="btn btn-small btn-success">新增</a></td>
 				</c:if>
 					<c:choose>
 					<c:when test="${not empty roleList}">
