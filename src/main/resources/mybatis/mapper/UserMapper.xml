@@ -32,16 +32,58 @@
 		<result column="ROLE_ID" property="ROLE_ID"/>
 		<result column="SKIN" property="SKIN"/>
 	</resultMap>
+
+	<resultMap type="com.wolves.entity.app.User" id="UserResultMap">
+		<id column="user_id" property="userId"/>
+		<result column="token" property="token"/>
+		<result column="username" property="username"/>
+		<result column="password" property="password"/>
+		<result column="name" property="name"/>
+		<result column="sex" property="sex"/>
+		<result column="rights" property="rights"/>
+		<result column="role_id" property="roleId"/>
+		<result column="last_login" property="lastLogin"/>
+		<result column="ip" property="ip"/>
+		<result column="status" property="status"/>
+		<result column="bz" property="bz"/>
+		<result column="skin" property="skin"/>
+		<result column="email" property="email"/>
+		<result column="number" property="number"/>
+		<result column="phone" property="phone"/>
+		<result column="sfid" property="sfid"/>
+		<result column="start_time" property="startTime"/>
+		<result column="end_time" property="endTime"/>
+		<result column="years" property="years"/>
+		<result column="company_id" property="companyId"/>
+		<result column="position" property="position"/>
+		<result column="is_bind_id_card" property="isBindIdCard"/>
+		<result column="id_card_front_url" property="idCardFrontUrl"/>
+		<result column="id_card_back_url" property="idCardBackUrl"/>
+	</resultMap>
 	
 	<!-- 判断用户名和密码 -->
 	<select id="getUserInfo" parameterType="User" resultMap="userResultMap">
 		select * from USER
 		where 1=1
 		<if test="USERNAME!=null and PASSWORD!=null">
-		and USERNAME = #{USERNAME} and PASSWORD=#{PASSWORD}
+		and USERNAME = #{USERNAME,jdbcType=VARCHAR} and PASSWORD=#{PASSWORD,jdbcType=VARCHAR}
 		</if>
 		<if test="USER_ID!=null and USER_ID>0">
-		and USER_ID = #{USER_ID}
+		and USER_ID = #{USER_ID,jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<select id="getUser" parameterType="com.wolves.entity.app.User" resultMap="UserResultMap">
+		select * from USER
+		where 1=1
+		<if test="username!=null and password!=null">
+			and username = #{username,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
+		</if>
+		<if test="user_id!=null and user_id>0">
+			and user_id = #{user_id,jdbcType=VARCHAR}
+		</if>
+		<if test="token != null">
+			and token = #{token,jdbcType=VARCHAR}
 		</if>
 	</select>
 	
@@ -64,7 +106,12 @@
 
 	<update id="updateLastLogin" parameterType="User">
 		update USER set
-		LAST_LOGIN=#{LAST_LOGIN} 
+		LAST_LOGIN=#{LAST_LOGIN,jdbcType=DATE}
 		where USER_ID=#{USER_ID}
+	</update>
+
+	<!--更新token-->
+	<update id="updateTokenById" parameterType="com.wolves.entity.app.User">
+		update USER SET last_login = now(), token = #{token,jdbcType=VARCHAR} where user_id = #{userId,jdbcType=VARCHAR}
 	</update>
 </mapper>

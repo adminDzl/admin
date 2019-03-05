@@ -12,6 +12,10 @@ public class Result {
     public String msg;
     protected Object data;
 
+    public Result(){
+
+    }
+
     public Result(String msg) {
         this.result = ResultCode.FAIL;
         this.msg = msg;

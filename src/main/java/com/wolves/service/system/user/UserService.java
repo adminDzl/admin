@@ -117,4 +117,20 @@ public class UserService {
 	public User getUserAndRoleById(String USER_ID)   {
 		return (User) dao.findForObject("UserMapper.getUserAndRoleById", USER_ID);
 	}
+
+	/**
+	 * app登陆
+	 */
+	public com.wolves.entity.app.User selectUserByModel(com.wolves.entity.app.User user){
+		return (com.wolves.entity.app.User)dao.findForObject("UserXMapper.getUser", user);
+	}
+
+	/**
+	 * 更新登录时间，及token
+	 */
+	public Integer updateTokenById(com.wolves.entity.app.User user) {
+
+		return (Integer) dao.update("UserXMapper.updateTokenById", user);
+	}
+
 }

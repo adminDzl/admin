@@ -1,5 +1,18 @@
 package com.wolves.controller.api;
 
+import com.alibaba.fastjson.JSONObject;
+import com.wolves.controller.base.BaseController;
+import com.wolves.dto.user.LoginDTO;
+import com.wolves.entity.app.User;
+import com.wolves.framework.common.Result;
+import com.wolves.framework.common.ResultCode;
+import com.wolves.service.system.user.UserService;
+import com.wolves.util.PageData;
+import com.wolves.util.StringUtils;
+import com.wolves.util.UuidUtil;
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,21 +25,88 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/api/user")
-public class AppUserController {
+public class AppUserController extends BaseController {
+
+    @Autowired
+    private UserService userService;
 
     /**
      * 登陆,返回token
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public void login(){
-
+    public Result login(@RequestBody LoginDTO loginDTO){
+        Result result = new Result();
+        if (StringUtils.isEmpty(loginDTO.getTelephone())){
+            result.setMsg("登陆账号为空");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        if (StringUtils.isEmpty(loginDTO.getPassword())){
+            result.setMsg("登陆密码为空");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        //加密密码
+        String password = new SimpleHash("SHA-1", loginDTO.getTelephone(), loginDTO.getPassword()).toString();
+        User user = new User();
+        user.setPhone(loginDTO.getTelephone());
+        user.setPassword(password);
+        //验证签名
+        //查询
+        user = userService.selectUserByModel(user);
+        String token = "";
+        if (user == null){
+            result.setMsg("登陆失败");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }else {
+            //生成token
+            token = UuidUtil.get32UUID();
+            //更新user表中token
+            user.setToken(token);
+            userService.updateTokenById(user);
+        }
+        //返回token
+        result.setMsg("登陆成功");
+        result.setResult(ResultCode.SUCCESS);
+        result.setData(token);
+        return result;
     }
 
     /**
      * 登出,清空token
      */
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public void logout(){
+    public Result logout(@RequestBody JSONObject jsonObject){
+        Result result = new Result();
+        //判断token是否有效
+        String token = jsonObject.getString("token");
+        if (org.apache.commons.lang.StringUtils.isEmpty(token)){
+            result.setMsg("登出失败");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        User user = new User();
+        user.setToken(token);
+        user = userService.selectUserByModel(user);
+        if (user == null){
+            result.setMsg("用户错误");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }else {
+            //更新user表中token制空
+            user.setToken("");
+            userService.updateTokenById(user);
+        }
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("登出成功");
+        return result;
+    }
+
+    /**
+     * 客户注册
+     */
+    public void register(){
 
     }
 

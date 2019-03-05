@@ -31,6 +31,9 @@ import com.wolves.util.PageData;
 import com.wolves.util.RightsHelper;
 import com.wolves.util.Tools;
 
+/**
+ * @author gf
+ */
 @Controller
 public class LoginController extends BaseController {
 

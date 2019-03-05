@@ -17,6 +17,7 @@ public class DaoSupport implements DAO {
 	/**
 	 * 保存对象
 	 */
+	@Override
 	public Object save(String str, Object obj){
 		return sqlSessionTemplate.insert(str, obj);
 	}
@@ -31,6 +32,7 @@ public class DaoSupport implements DAO {
 	/**
 	 * 修改对象
 	 */
+	@Override
 	public Object update(String str, Object obj){
 		return sqlSessionTemplate.update(str, obj);
 	}
@@ -66,6 +68,7 @@ public class DaoSupport implements DAO {
 	/**
 	 * 删除对象 
 	 */
+	@Override
 	public Object delete(String str, Object obj) {
 		return sqlSessionTemplate.delete(str, obj);
 	}
@@ -73,6 +76,7 @@ public class DaoSupport implements DAO {
 	/**
 	 * 查找对象
 	 */
+	@Override
 	public Object findForObject(String str, Object obj) {
 		return sqlSessionTemplate.selectOne(str, obj);
 	}
@@ -80,10 +84,12 @@ public class DaoSupport implements DAO {
 	/**
 	 * 查找对象
 	 */
+	@Override
 	public Object findForList(String str, Object obj) {
 		return sqlSessionTemplate.selectList(str, obj);
 	}
 	
+	@Override
 	public Object findForMap(String str, Object obj, String key, String value) {
 		return sqlSessionTemplate.selectMap(str, obj, key);
 	}

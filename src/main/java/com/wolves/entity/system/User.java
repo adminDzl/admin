@@ -16,7 +16,7 @@ public class User {
 	private Role role;
 	private Page page;
 	private String SKIN;
-	
+
 	public String getSKIN() {
 		return SKIN;
 	}
