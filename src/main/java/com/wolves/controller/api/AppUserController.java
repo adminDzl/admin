@@ -2,13 +2,17 @@ package com.wolves.controller.api;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wolves.controller.base.BaseController;
+import com.wolves.dto.user.ForgetDTO;
 import com.wolves.dto.user.LoginDTO;
+import com.wolves.dto.user.RegisterDTO;
 import com.wolves.entity.app.User;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
+import com.wolves.service.system.SmsService;
 import com.wolves.service.system.user.UserService;
 import com.wolves.util.PageData;
 import com.wolves.util.StringUtils;
+import com.wolves.util.Tools;
 import com.wolves.util.UuidUtil;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 个人中心相关接口
@@ -29,6 +35,8 @@ public class AppUserController extends BaseController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private SmsService smsService;
 
     /**
      * 登陆,返回token
@@ -106,8 +114,147 @@ public class AppUserController extends BaseController {
     /**
      * 客户注册
      */
-    public void register(){
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public Result register(@RequestBody RegisterDTO registerDTO){
+        Result result = new Result();
+        //获取数据，判断数据数据是否为空
+        String telephone = registerDTO.getTelephone();
+        if (StringUtils.isEmpty(telephone)){
+            result.setMsg("请填写手机号码");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        String code = registerDTO.getCode();
+        if (StringUtils.isEmpty(code)){
+            result.setMsg("请填写手机验证码");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        PageData pageData = smsService.selectOneByPhone(telephone);
+        String smsCode = pageData.getString("CODE");
+        //判断手机验证码是否存在
+        if (!code.equals(smsCode)){
+            result.setMsg("填写的手机验证码不正确");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        //判断身份证是否为空
+        String idCardFrontUrl = registerDTO.getIdCardFrontUrl();
+        if (StringUtils.isEmpty(idCardFrontUrl)){
+            result.setMsg("请上传身份证正面照");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        String idCardBackUrl = registerDTO.getIdCardBackUrl();
+        if (StringUtils.isEmpty(idCardBackUrl)){
+            result.setMsg("请上传身份证背面照");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        String password = registerDTO.getPassword();
+        if (StringUtils.isEmpty(password)){
+            result.setMsg("请填写用户密码");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        //加密用户密码
+        String encrypt = new SimpleHash("SHA-1", telephone, password).toString();
+        String name = registerDTO.getName();
+        if (StringUtils.isEmpty(name)){
+            result.setMsg("请填写用户姓名");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        String sex = registerDTO.getSex();
+        if (StringUtils.isEmpty(sex)){
+            result.setMsg("请选择用户性别");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        //获取ip
+        HttpServletRequest request = this.getRequest();
+        //保存数据
+        User user = new User();
+        user.setUserId(this.get32UUID());
+        user.setUsername(telephone);
+        user.setPassword(encrypt);
+        user.setPhone(telephone);
+        user.setName(name);
+        user.setSex(sex);
+        user.setIdCardFrontUrl(idCardFrontUrl);
+        user.setIdCardBackUrl(idCardBackUrl);
+        user.setIp(Tools.getIpAddr(request));
+        //身份证已经绑定
+        Integer i = userService.saveUser(user);
+        if (i < 0){
+            result.setMsg("注册失败");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        //返回结果
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("注册成功");
+        return result;
+    }
 
+    /**
+     * 忘记密码
+     */
+    @RequestMapping(value = "/forget", method = RequestMethod.POST)
+    public Result forgetPassword(@RequestBody ForgetDTO forgetDTO){
+        Result result = new Result();
+        //获取参数
+        String password = forgetDTO.getPassword();
+        String telephone = forgetDTO.getTelephone();
+        Boolean isTrue = Tools.checkMobileNumber(telephone);
+        if (!isTrue){
+            result.setMsg("请输入正确的手机号码");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        String code = forgetDTO.getCode();
+        PageData pageData = smsService.selectOneByPhone(telephone);
+        String smsCode = pageData.getString("CODE");
+        //判断手机验证码是否存在
+        if (!code.equals(smsCode)){
+            result.setMsg("填写的手机验证码不正确");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        //重置密码
+        String encrypt = new SimpleHash("SHA-1", telephone, password).toString();
+        User user = new User();
+        user.setUserId("");
+        user.setPhone(telephone);
+        user.setPassword(encrypt);
+
+        //返回结果
+        return result;
+    }
+
+    /**
+     * 获取验证码
+     */
+    @RequestMapping(value = "/getCode", method = RequestMethod.POST)
+    public Result getCode(@RequestBody JSONObject jsonObject){
+        Result result = new Result();
+        //获取手机号码
+        String telephone = jsonObject.getString("phone");
+        //验证手机号
+        Boolean isTrue = Tools.checkMobileNumber(telephone);
+        if (!isTrue){
+            result.setMsg("请输入正确的手机号码");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        //生成验证码
+        Integer code = Tools.getRandomNum();
+        //保存记录
+        smsService.sendSms(telephone, 1, code.toString(), "您的验证码是：4625【煦睿科技】");
+        //返回结果
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("发送成功");
+        return result;
     }
 
     /**

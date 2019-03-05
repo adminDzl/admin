@@ -9,7 +9,9 @@
 			ALERT_TITLE,	
 			ALERT_CONTENT,	
 			CREATE_TIME,	
-			UPDATE_TIME,	
+			UPDATE_TIME,
+				  `TYPE`,
+				  `READ`,
 			TIPMSG_ID
 		) values (
 			#{MSG_TYPE},	
@@ -18,6 +20,8 @@
 			#{ALERT_CONTENT},	
 			now(),
 			now(),
+			#{TYPE},
+			#{READ},
 			#{TIPMSG_ID}
 		)
 	</insert>
@@ -48,7 +52,9 @@
 			ALERT_TITLE,	
 			ALERT_CONTENT,	
 			CREATE_TIME,	
-			UPDATE_TIME,	
+			UPDATE_TIME,
+				`TYPE`,
+				`READ`,
 			TIPMSG_ID
 		from 
 			TIP_MSG
@@ -63,7 +69,9 @@
 				a.ALERT_TITLE,	
 				a.ALERT_CONTENT,	
 				a.CREATE_TIME,	
-				a.UPDATE_TIME,	
+				a.UPDATE_TIME,
+				a.`TYPE`,
+				a.`READ`,
 				a.TIPMSG_ID
 		from 
 				TIP_MSG a
@@ -76,7 +84,9 @@
 				a.ALERT_TITLE,	
 				a.ALERT_CONTENT,	
 				a.CREATE_TIME,	
-				a.UPDATE_TIME,	
+				a.UPDATE_TIME,
+				a.`TYPE`,
+				a.`READ`,
 				a.TIPMSG_ID
 		from 
 				TIP_MSG a
@@ -90,4 +100,21 @@
                  #{item}
 		</foreach>
 	</delete>
+
+	<!--查询最近的三条消息-->
+	<select id="getMsgByUser" parameterType="pd" resultType="pd">
+		SELECT 	a.MSG_TYPE,
+				a.TO_USER,
+				a.ALERT_TITLE,
+				a.ALERT_CONTENT,
+				a.CREATE_TIME,
+				a.UPDATE_TIME,
+				a.`TYPE`,
+				a.`READ`,
+				a.TIPMSG_ID
+		FROM
+				TIP_MSG a
+		WHERE  a.TO_USER = #{userId}
+		ORDER BY a.CREATE_TIME DESC LIMIT 3;
+	</select>
 </mapper>

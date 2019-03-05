@@ -2,6 +2,8 @@ package com.wolves.service.system.user;
 
 import java.util.List;
 import javax.annotation.Resource;
+
+import com.wolves.dto.user.RegisterDTO;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
 import com.wolves.entity.Page;
@@ -122,7 +124,7 @@ public class UserService {
 	 * app登陆
 	 */
 	public com.wolves.entity.app.User selectUserByModel(com.wolves.entity.app.User user){
-		return (com.wolves.entity.app.User)dao.findForObject("UserXMapper.getUser", user);
+		return (com.wolves.entity.app.User)dao.findForObject("UserMapper.getUser", user);
 	}
 
 	/**
@@ -130,7 +132,15 @@ public class UserService {
 	 */
 	public Integer updateTokenById(com.wolves.entity.app.User user) {
 
-		return (Integer) dao.update("UserXMapper.updateTokenById", user);
+		return (Integer) dao.update("UserMapper.updateTokenById", user);
+	}
+
+	/**
+	 * 保存APP客户
+	 */
+	public Integer saveUser(com.wolves.entity.app.User user){
+
+		return (Integer) dao.save("UserMapper.saveUser", user);
 	}
 
 }

@@ -114,4 +114,35 @@
 	<update id="updateTokenById" parameterType="com.wolves.entity.app.User">
 		update USER SET last_login = now(), token = #{token,jdbcType=VARCHAR} where user_id = #{userId,jdbcType=VARCHAR}
 	</update>
+
+	<!--保存App客户-->
+	<insert id="saveUser" parameterType="com.wolves.entity.app.User" flushCache="false">
+		insert into USER (
+		USER_ID,
+		USERNAME,
+		PASSWORD,
+		NAME,
+		SEX,
+		LAST_LOGIN,
+		IP,
+		STATUS,
+		PHONE,
+		IS_BIND_ID_CARD,
+		ID_CARD_FRONT_URL,
+		ID_CARD_BACK_URL
+		) values (
+		#{USER_ID},
+		#{USERNAME},
+		#{PASSWORD},
+		#{NAME},
+		#{SEX},
+		#{LAST_LOGIN},
+		#{IP},
+		#{STATUS},
+		#{PHONE},
+		#{IS_BIND_ID_CARD},
+		#{ID_CARD_FRONT_URL},
+		#{ID_CARD_BACK_URL}
+		)
+	</insert>
 </mapper>

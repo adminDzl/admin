@@ -214,4 +214,18 @@ public class TipMsgController extends BaseController {
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(format,true));
 	}
+
+	@RequestMapping(value="/getMes")
+	public ModelAndView getMes(){
+		logBefore(logger, "去head页面");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+
+		List<PageData> list = tipmsgService.getMsgByUser(pd);
+
+		mv.setViewName("system/admin/head");
+		mv.addObject("varList", list);
+		mv.addObject("pd", pd);
+		return mv;
+	}
 }

@@ -61,5 +61,13 @@ public class TipMsgService {
 	public void deleteAll(String[] ArrayDATA_IDS){
 		dao.delete("TipMsgMapper.deleteAll", ArrayDATA_IDS);
 	}
+
+	/**
+	 * 查询最近的三条消息
+	 */
+	public List<PageData> getMsgByUser(PageData pd){
+
+		return (List<PageData>) dao.findForList("TipMsgMapper.getMsgByUser", pd);
+	}
 }
 
