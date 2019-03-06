@@ -151,4 +151,11 @@ public class UserService {
 		return (com.wolves.entity.app.User) dao.findForObject("UserMapper.getUserByPhone", user);
 	}
 
+	/**
+	 * 根据toe可能查询用户
+	 */
+	public com.wolves.entity.app.User getUserByToken(com.wolves.entity.app.User user){
+
+		return (com.wolves.entity.app.User) dao.findForObject("UserMapper.getUserByToken", user);
+	}
 }

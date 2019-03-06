@@ -150,4 +150,9 @@
 	<select id="getUserByPhone" parameterType="com.wolves.entity.app.User" resultMap="UserResultMap">
 		SELECT * FROM USER WHERE PHONE = #{phone}
 	</select>
+
+	<!--根据token 查询用户数据-->
+	<select id="getUserByToken" parameterType="com.wolves.entity.app.User" resultMap="UserResultMap">
+		  SELECT * FROM USER WHERE token = #{token}
+	</select>
 </mapper>
