@@ -250,6 +250,7 @@ public class AppUserController extends BaseController {
         Result result = new Result();
         //获取手机号码
         String telephone = jsonObject.getString("phone");
+        String type = jsonObject.getString("type");
         //验证手机号
         Boolean isTrue = Tools.checkMobileNumber(telephone);
         if (!isTrue){
@@ -257,10 +258,10 @@ public class AppUserController extends BaseController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
-        //生成验证码
+        //生成验证码,1.注册，2登陆，3忘记密码
         Integer code = Tools.getRandomNum();
         //保存记录
-        smsService.sendSms(telephone, 1, code.toString(), "您的验证码是：4625【煦睿科技】");
+        smsService.sendSms(telephone, Integer.valueOf(type), code.toString(), "您的验证码是：%s【煦睿科技】");
         //返回结果
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("发送成功");
