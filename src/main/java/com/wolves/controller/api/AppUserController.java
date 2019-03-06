@@ -2,6 +2,7 @@ package com.wolves.controller.api;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wolves.controller.base.BaseController;
+import com.wolves.dto.FloorManDTO;
 import com.wolves.dto.user.ForgetDTO;
 import com.wolves.dto.user.LoginDTO;
 import com.wolves.dto.user.RegisterDTO;
@@ -9,6 +10,7 @@ import com.wolves.entity.app.User;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
 import com.wolves.service.system.SmsService;
+import com.wolves.service.system.floorman.FloorManService;
 import com.wolves.service.system.user.UserService;
 import com.wolves.util.PageData;
 import com.wolves.util.StringUtils;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 个人中心相关接口
@@ -37,6 +40,8 @@ public class AppUserController extends BaseController {
     private UserService userService;
     @Autowired
     private SmsService smsService;
+    @Autowired
+    private FloorManService floorManService;
 
     /**
      * 登陆,返回token
@@ -312,8 +317,13 @@ public class AppUserController extends BaseController {
      * 客服列表
      */
     @RequestMapping(value = "/serviceMan", method = RequestMethod.POST)
-    public void serviceMan(){
+    public Result serviceMan(){
+        Result result = new Result();
 
+        result.setData(floorManService.getFloorMan());
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("发送成功");
+        return result;
     }
 
     /**
@@ -328,6 +338,6 @@ public class AppUserController extends BaseController {
      */
     @RequestMapping(value = "/report", method = RequestMethod.POST)
     public void report(){
-
+        Result result = new Result();
     }
 }

@@ -2,6 +2,8 @@ package com.wolves.service.system.floorman;
 
 import java.util.List;
 import javax.annotation.Resource;
+
+import com.wolves.dto.FloorManDTO;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
 import com.wolves.entity.Page;
@@ -60,6 +62,13 @@ public class FloorManService {
 	*/
 	public void deleteAll(String[] ArrayDATA_IDS) {
 		dao.delete("FloorManMapper.deleteAll", ArrayDATA_IDS);
+	}
+
+	/**
+	 * 查询客服列表
+	 */
+	public List<FloorManDTO> getFloorMan(){
+		return (List<FloorManDTO>) dao.findForList("FloorManMapper.selectFloorMan", null);
 	}
 }
 

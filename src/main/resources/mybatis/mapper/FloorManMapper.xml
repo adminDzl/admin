@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="FloorManMapper">
+
+	<resultMap type="com.wolves.dto.FloorManDTO" id="FloorManResultMap">
+		<result column="build_no" property="buildNo"/>
+		<result column="build_master_name" property="buildMasterName"/>
+		<result column="master_tel" property="masterTel"/>
+		<result column="floor" property="floor"/>
+		<result column="floor_master_name" property="floorMasterName"/>
+		<result column="tel" property="tel"/>
+		<result column="create_time" property="createTime"/>
+	</resultMap>
+
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into FLOOR_MAN(
@@ -90,4 +101,18 @@
                  #{item}
 		</foreach>
 	</delete>
+
+	<select id="selectFloorMan" parameterType="com.wolves.dto.FloorManDTO" resultMap="FloorManResultMap">
+		select
+				b.build_no,
+				b.build_master_name,
+				b.master_tel,
+				a.floor,
+				a.floor_master_name,
+				a.master_tel AS tel,
+				a.create_time
+		from
+				FLOOR_MAN a
+				LEFT JOIN BUILD_MAN b ON (b.BUILD_NO = a.BUILD_NO)
+	</select>
 </mapper>
