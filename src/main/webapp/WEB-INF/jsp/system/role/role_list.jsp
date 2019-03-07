@@ -26,24 +26,24 @@
 			<%--<c:if test="${QX.edit == 1 }">--%>
 			<%--<a class="btn btn-mini btn-info" onclick="editRole('${pd.ROLE_ID }');">修改组名称<i class="icon-arrow-right  icon-on-right"></i></a>--%>
 			<%--</c:if>--%>
-				<%--<c:choose>--%>
-					<%--<c:when test="${pd.ROLE_ID == '99'}">--%>
-					<%--</c:when>--%>
-					<%--<c:otherwise>--%>
-					<%--<c:if test="${QX.edit == 1 }">--%>
-					<%--<a class="btn btn-mini btn-purple" onclick="editRights('${pd.ROLE_ID }');"><i class="icon-pencil"></i>组菜单权限</a>--%>
-					<%--</c:if>--%>
-					<%--</c:otherwise>--%>
-				<%--</c:choose>--%>
-				<%--<c:choose> --%>
-					<%--<c:when test="${pd.ROLE_ID == '6' or pd.ROLE_ID == '4' or pd.ROLE_ID == '1' or pd.ROLE_ID == '7'}">--%>
-					<%--</c:when>--%>
-					<%--<c:otherwise>--%>
-					 <%--<c:if test="${QX.del == 1 }">--%>
-					 <%--<a class='btn btn-mini btn-danger' title="删除" onclick="delRole('${pd.ROLE_ID }','z','${pd.ROLE_NAME }');"><i class='icon-trash'></i></a>--%>
-					 <%--</c:if>--%>
-					<%--</c:otherwise>--%>
-				<%--</c:choose>--%>
+				<c:choose>
+					<c:when test="${pd.ROLE_ID == '99'}">
+					</c:when>
+					<c:otherwise>
+					<c:if test="${QX.edit == 1 }">
+					<a class="btn btn-mini btn-purple" onclick="editRights('${pd.ROLE_ID }');"><i class="icon-pencil"></i>组菜单权限</a>
+					</c:if>
+					</c:otherwise>
+				</c:choose>
+				<c:choose>
+					<c:when test="${pd.ROLE_ID == '6' or pd.ROLE_ID == '4' or pd.ROLE_ID == '1' or pd.ROLE_ID == '7'}">
+					</c:when>
+					<c:otherwise>
+					 <c:if test="${QX.del == 1 }">
+					 <a class='btn btn-mini btn-danger' title="删除" onclick="delRole('${pd.ROLE_ID }','z','${pd.ROLE_NAME }');"><i class='icon-trash'></i></a>
+					 </c:if>
+					</c:otherwise>
+				</c:choose>
 			</td>
 			</tr>
 			<tr height="7px;"><td colspan="100"></td></tr>
