@@ -168,8 +168,8 @@
 			 diag.Drag=true;
 			 diag.Title ="新增";
 			 diag.URL = '<%=basePath%>newstip/goAdd.do';
-			 diag.Width = 600;
-			 diag.Height = 555;
+			 diag.Width = 800;
+			 diag.Height = 655;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					 if('${page.currentPage}' == '0'){
@@ -202,8 +202,8 @@
 			 diag.Drag=true;
 			 diag.Title ="编辑";
 			 diag.URL = '<%=basePath%>newstip/goEdit.do?NEWSTIP_ID='+Id;
-             diag.Width = 600;
-             diag.Height = 555;
+             diag.Width = 800;
+             diag.Height = 655;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					 nextPage(${page.currentPage});

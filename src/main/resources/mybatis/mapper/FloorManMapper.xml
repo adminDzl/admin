@@ -52,8 +52,7 @@
 
 	<!-- 通过ID获取数据 -->
 	<select id="findById" parameterType="pd" resultType="pd">
-		select 
-			ID,	
+		select
 			BUILD_NO,	
 			FLOOR,	
 			FLOOR_MASTER_NAME,	

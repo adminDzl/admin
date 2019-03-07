@@ -54,6 +54,7 @@ public class NewsTipController extends BaseController {
 		pd = this.getPageData();
 		//主键
 		pd.put("NEWSTIP_ID", this.get32UUID());
+		pd.put("STATUS", 1);
 		newstipService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
@@ -84,6 +85,7 @@ public class NewsTipController extends BaseController {
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;}
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
+		pd.put("STATUS", 1);
 		newstipService.edit(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
