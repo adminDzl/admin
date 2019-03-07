@@ -22,7 +22,7 @@
 					<td>
 						<span class="input-icon">
 							<input autocomplete="off" id="nav-search-input" type="text" name="field1" value="" placeholder="这里输入关键词" />
-							<i id="nav-search-icon" class="icon-search"></i>
+							<i class="icon-search"></i>
 						</span>
 					</td>
 					<td><input class="span10 date-picker" name="lastLoginStart" id="lastLoginStart" value="${pd.lastLoginStart}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期"/></td>
@@ -35,9 +35,9 @@
 							<option value="">2</option>
 					  	</select>
 					</td>
-					<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"  title="检索"><i id="nav-search-icon" class="icon-search"></i></button></td>
+					<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"  title="检索"><i class="icon-search"></i></button></td>
 					<c:if test="${QX.cha == 1 }">
-					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="icon-download-alt"></i></a></td>
+					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i class="icon-download-alt"></i></a></td>
 					</c:if>
 				</tr>
 			</table>
@@ -49,6 +49,7 @@
 						</th>
 						<th class="center">序号</th>
 						<th class="center">编号</th>
+						<th class="center">申请人</th>
 						<th class="center">申请标题</th>
 						<th class="center">申请内容</th>
 						<th class="center">审核状态</th>
@@ -67,15 +68,15 @@
 									<label><input type='checkbox' name='ids' value="${var.DECORATE_ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-										<td>${var.DECORATE_NO}</td>
-										<td>${var.TITLE}</td>
-										<td>${var.CONTENT}</td>
-										<td>${var.STATUS}</td>
-										<td>${var.CREATE_TIME}</td>
-										<td>${var.UPDATE_TIME}</td>
+									<td>${var.DECORATE_NO}</td>
+									<th>${var.USER_ID}</th>
+									<td>${var.TITLE}</td>
+									<td>${var.CONTENT}</td>
+									<td>${var.STATUS}</td>
+									<td>${var.CREATE_TIME}</td>
+									<td>${var.UPDATE_TIME}</td>
 								<td style="width: 30px;" class="center">
 									<div class='hidden-phone visible-desktop btn-group'>
-									
 										<c:if test="${QX.edit != 1 && QX.del != 1 }">
 										<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>
 										</c:if>

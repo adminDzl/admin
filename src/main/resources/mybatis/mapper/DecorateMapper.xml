@@ -4,7 +4,8 @@
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into DECORATE(
-			DECORATE_NO,	
+			DECORATE_NO,
+			USER_ID,
 			TITLE,	
 			CONTENT,	
 			STATUS,	
@@ -12,7 +13,8 @@
 			UPDATE_TIME,	
 			DECORATE_ID
 		) values (
-			#{DECORATE_NO},	
+			#{DECORATE_NO},
+			#{USER_ID},
 			#{TITLE},	
 			#{CONTENT},	
 			#{STATUS},
@@ -30,7 +32,8 @@
 	<!-- 修改 -->
 	<update id="edit" parameterType="pd">
 		update  DECORATE
-			set 
+			set
+				USER_ID = #{USER_ID},
 				  TITLE = #{TITLE},
 				CONTENT = #{CONTENT},
 				 STATUS = #{STATUS},
@@ -42,7 +45,8 @@
 	</update>
 	<!-- 通过ID获取数据 -->
 	<select id="findById" parameterType="pd" resultType="pd">
-		select 
+		select
+			USER_ID,
 			DECORATE_NO,	
 			TITLE,	
 			CONTENT,	
@@ -58,7 +62,8 @@
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
-				a.DECORATE_NO,	
+				a.DECORATE_NO,
+				a.USER_ID,
 				a.TITLE,	
 				a.CONTENT,	
 				a.STATUS,	
@@ -71,7 +76,8 @@
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">
 		select
-				a.DECORATE_NO,	
+				a.DECORATE_NO,
+				a.USER_ID,
 				a.TITLE,	
 				a.CONTENT,	
 				a.STATUS,	

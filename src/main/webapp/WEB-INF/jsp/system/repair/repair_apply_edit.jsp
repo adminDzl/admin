@@ -87,6 +87,10 @@
 		<div id="zhongxin">
 		<table id="table_report" class="table table-striped table-bordered table-hover">
 			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;">报修人:</td>
+				<td><input type="text" name="USER_ID" id="USER_ID" value="${pd.USER_ID}" /></td>
+			</tr>
+			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">报修内容:</td>
 				<td><input type="text" name="APPLY_CONTENT" id="APPLY_CONTENT" value="${pd.APPLY_CONTENT}" maxlength="32" placeholder="这里输入报修内容" title="报修内容"/></td>
 			</tr>
