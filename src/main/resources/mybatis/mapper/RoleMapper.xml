@@ -43,7 +43,7 @@
 			EDIT_QX,
 			CHA_QX,
 			QX_ID
-		from SYS_ROLE 
+		from SYS_ROLE
 		where 
 		 	PARENT_ID = '7'
 	</select>
@@ -51,13 +51,6 @@
 	<select id="listAllUByRid"  parameterType="pd" resultType="pd" >
 		select USER_ID
 		from USER
-		where 
-		ROLE_ID = #{ROLE_ID}
-	</select>
-	<!-- 列出此角色下的所有会员 -->
-	<select id="listAllAppUByRid"  parameterType="pd" resultType="pd" >
-		select USER_ID
-		from SYS_APP_USER
 		where 
 		ROLE_ID = #{ROLE_ID}
 	</select>

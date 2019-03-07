@@ -25,26 +25,6 @@
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 <script type="text/javascript">
 	function save(){
-			if($("#APPLY_TYPE").val()==""){
-			$("#APPLY_TYPE").tips({
-				side:3,
-	            msg:'请输入报修类型',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#APPLY_TYPE").focus();
-			return false;
-		}
-		if($("#ORDER_TIME").val()==""){
-			$("#ORDER_TIME").tips({
-				side:3,
-	            msg:'请输入预约时间',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#ORDER_TIME").focus();
-			return false;
-		}
 		if($("#APPLY_CONTENT").val()==""){
 			$("#APPLY_CONTENT").tips({
 				side:3,
@@ -106,14 +86,6 @@
 		<input type="hidden" name="REPAIR_APPLY_ID" id="REPAIR_APPLY_ID" value="${pd.REPAIR_APPLY_ID}"/>
 		<div id="zhongxin">
 		<table id="table_report" class="table table-striped table-bordered table-hover">
-			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">报修类型:</td>
-				<td><input type="number" name="APPLY_TYPE" id="APPLY_TYPE" value="${pd.APPLY_TYPE}" maxlength="32" placeholder="这里输入报修类型" title="报修类型"/></td>
-			</tr>
-			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">预约时间:</td>
-				<td><input class="span10 date-picker" name="ORDER_TIME" id="ORDER_TIME" value="${pd.ORDER_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="预约时间" title="预约时间"/></td>
-			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">报修内容:</td>
 				<td><input type="text" name="APPLY_CONTENT" id="APPLY_CONTENT" value="${pd.APPLY_CONTENT}" maxlength="32" placeholder="这里输入报修内容" title="报修内容"/></td>

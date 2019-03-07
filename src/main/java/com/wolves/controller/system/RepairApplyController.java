@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
-
 import com.wolves.service.system.repair.RepairApplyService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.wolves.controller.base.BaseController;
-import com.wolves.entity.Page;
+import com.wolves.entity.system.Page;
 import com.wolves.util.AppUtil;
 import com.wolves.util.ObjectExcelView;
 import com.wolves.util.Const;
@@ -167,8 +166,6 @@ public class RepairApplyController extends BaseController {
 		try{
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
-			titles.add("报修类型");
-			titles.add("预约时间");
 			titles.add("报修内容");
 			titles.add("上传图片");
 			titles.add("报修状态");
@@ -179,8 +176,6 @@ public class RepairApplyController extends BaseController {
 			List<PageData> varList = new ArrayList<PageData>();
 			for(int i=0;i<varOList.size();i++){
 				PageData vpd = new PageData();
-				vpd.put("var1", varOList.get(i).get("APPLY_TYPE").toString());
-				vpd.put("var2", varOList.get(i).getString("ORDER_TIME"));
 				vpd.put("var3", varOList.get(i).getString("APPLY_CONTENT"));
 				vpd.put("var4", varOList.get(i).getString("IMAGE_URLS"));
 				vpd.put("var5", varOList.get(i).getString("APPLY_STATUS"));

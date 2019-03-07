@@ -48,8 +48,7 @@
 						<label><input type="checkbox" id="zcheckbox" /><span class="lbl"></span></label>
 						</th>
 						<th class="center">序号</th>
-						<th class="center">报修类型</th>
-						<th class="center">预约时间</th>
+						<th class="center">申请人</th>
 						<th class="center">报修内容</th>
 						<th class="center">上传图片</th>
 						<th class="center">报修状态</th>
@@ -68,13 +67,12 @@
 									<label><input type='checkbox' name='ids' value="${var.REPAIR_APPLY_ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-										<td>${var.APPLY_TYPE}</td>
-										<td>${var.ORDER_TIME}</td>
-										<td>${var.APPLY_CONTENT}</td>
-										<td>${var.IMAGE_URLS}</td>
-										<td>${var.APPLY_STATUS}</td>
-										<td>${var.CREATE_TIME}</td>
-										<td>${var.UPDATE_TIME}</td>
+									<th>${var.USER_ID}</th>
+									<td>${var.APPLY_CONTENT}</td>
+									<td>${var.IMAGE_URLS}</td>
+									<td>${var.APPLY_STATUS}</td>
+									<td>${var.CREATE_TIME}</td>
+									<td>${var.UPDATE_TIME}</td>
 								<td style="width: 30px;" class="center">
 									<div class='hidden-phone visible-desktop btn-group'>
 									

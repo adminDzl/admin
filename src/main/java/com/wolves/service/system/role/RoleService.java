@@ -51,14 +51,6 @@ public class RoleService{
 		return (List<PageData>) dao.findForList("RoleMapper.listAllUByRid", pd);
 		
 	}
-
-	/**
-	 * 列出此角色下的所有会员
-	 */
-	public List<PageData> listAllAppUByRid(PageData pd) {
-		return (List<PageData>) dao.findForList("RoleMapper.listAllAppUByRid", pd);
-		
-	}
 	
 	/**
 	 * 列出此部门的所有下级

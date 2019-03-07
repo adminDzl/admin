@@ -65,7 +65,7 @@
 						<th>创建时间</th>
 						<th>属于</th>
 						<th>备注</th>
-						<th class="center">操作</th>
+						<th>操作</th>
 					</tr>
 				</thead>
 										
@@ -81,26 +81,24 @@
 									<label><input type='checkbox' name='ids' value="${var.PICTURES_ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-										<td>
-										<a href="<%=basePath%>uploadFiles/uploadImgs/${var.PATH}" title="${var.TITLE}" class="bwGal"><img src="<%=basePath%>uploadFiles/uploadImgs/${var.PATH}" alt="${var.TITLE}" width="100"></a>
-										</td>
-										<td>${var.TITLE}</td>
-										<td>${var.PICTURES_ID}</td>
-										<td>${var.CREATETIME}</td>
-										<td>${var.MASTER_ID}</td>
-										<td>${var.BZ}</td>
+								<td>
+									<a href="<%=basePath%>uploadFiles/uploadImgs/${var.PATH}" title="${var.TITLE}" class="bwGal"><img src="<%=basePath%>uploadFiles/uploadImgs/${var.PATH}" alt="${var.TITLE}" width="100"></a>
+								</td>
+								<td>${var.TITLE}</td>
+								<td>${var.PICTURES_ID}</td>
+								<td>${var.CREATETIME}</td>
+								<td>${var.MASTER_ID}</td>
+								<td>${var.BZ}</td>
 								<td style="width: 30px;" class="center">
-										<c:if test="${QX.edit != 1 && QX.del != 1 }">
+									<c:if test="${QX.edit != 1 && QX.del != 1 }">
 										<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>
-										</c:if>
-										<div>
-											<c:if test="${QX.edit == 1 }">
-											<li><a style="cursor:pointer;" title="编辑" onclick="edit('${var.PICTURES_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a></li>
-											</c:if>
-											<c:if test="${QX.del == 1 }">
-											<li><a style="cursor:pointer;" title="删除" onclick="del('${var.PICTURES_ID}','${var.PATH}');" class="tooltip-error" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-trash"></i></span> </a></li>
-											</c:if>
-										</div>
+									</c:if>
+									<c:if test="${QX.edit == 1 }">
+										<a style="cursor:pointer;" title="编辑" onclick="edit('${var.PICTURES_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a>
+									</c:if>
+									<c:if test="${QX.del == 1 }">
+										<a style="cursor:pointer;" title="删除" onclick="del('${var.PICTURES_ID}','${var.PATH}');" class="tooltip-error" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-trash"></i></span> </a>
+									</c:if>
 								</td>
 							</tr>
 						

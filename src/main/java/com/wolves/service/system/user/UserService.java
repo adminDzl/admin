@@ -3,10 +3,9 @@ package com.wolves.service.system.user;
 import java.util.List;
 import javax.annotation.Resource;
 
-import com.wolves.dto.user.RegisterDTO;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
-import com.wolves.entity.Page;
+import com.wolves.entity.system.Page;
 import com.wolves.entity.system.User;
 import com.wolves.util.PageData;
 

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.wolves.controller.base.BaseController;
-import com.wolves.entity.Page;
+import com.wolves.entity.system.Page;
 import com.wolves.entity.system.Menu;
 import com.wolves.entity.system.Role;
 import com.wolves.service.system.menu.MenuService;
@@ -341,10 +341,13 @@ public class RoleController extends BaseController {
 				errInfo = "false";
 			}else{
 				List<PageData> userlist = roleService.listAllUByRid(pd);
-				List<PageData> appuserlist = roleService.listAllAppUByRid(pd);
-				if(userlist.size() > 0 || appuserlist.size() > 0){
+				if(userlist.size() > 0){
 					errInfo = "false2";
-				}else{roleService.deleteRoleById(ROLE_ID);roleService.deleteKeFuById(ROLE_ID);roleService.deleteGById(ROLE_ID);errInfo = "success";
+				}else{
+					roleService.deleteRoleById(ROLE_ID);
+					roleService.deleteKeFuById(ROLE_ID);
+					roleService.deleteGById(ROLE_ID);
+					errInfo = "success";
 				}
 			}
 		}

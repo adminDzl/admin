@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.wolves.controller.base.BaseController;
-import com.wolves.entity.Page;
+import com.wolves.entity.system.Page;
 import com.wolves.service.system.CompanyService;
 
 @Controller

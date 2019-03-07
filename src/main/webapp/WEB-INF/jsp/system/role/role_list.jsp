@@ -15,65 +15,35 @@
 <body>
 		
 <div class="container-fluid" id="main-container">
-
-		
 <div id="page-content">
-						
   <div class="row-fluid">
-
 	<div class="row-fluid">
-	
 	<div>
-	<div id="breadcrumbs">
-		<table class="center" style="width:100%;">
-			<tr height="35">
-				<c:if test="${QX.add == 1 }">
-				</c:if>
-					<c:choose>
-					<c:when test="${not empty roleList}">
-					<c:forEach items="${roleList}" var="role" varStatus="vs">
-						<td style="width:100px;" class="center" <c:choose><c:when test="${pd.ROLE_ID == role.ROLE_ID}">bgcolor="#FFC926" onMouseOut="javascript:this.bgColor='#FFC926';"</c:when><c:otherwise>bgcolor="#E5E5E5" onMouseOut="javascript:this.bgColor='#E5E5E5';"</c:otherwise></c:choose>  onMouseMove="javascript:this.bgColor='#FFC926';" >
-							<a href="role.do?ROLE_ID=${role.ROLE_ID }" style="text-decoration:none; display:block;"><li class=" icon-group"></li>&nbsp;<font color="#666666">${role.ROLE_NAME }</font></a>
-						</td>
-						<td style="width:5px;"></td>
-					</c:forEach>
-					</c:when>
-					<c:otherwise>
-						<tr>
-						<td colspan="100">没有相关数据</td>
-						</tr>
-					</c:otherwise>
-					</c:choose>
-				<td></td>
-			</tr>
-		</table>
-	</div>	
 		<table>
 			<tr height="7px;"><td colspan="100"></td></tr>
 			<tr>
-			<td><font color="#808080">本组：</font></td>
 			<td>
-			<c:if test="${QX.edit == 1 }">
-			<a class="btn btn-mini btn-info" onclick="editRole('${pd.ROLE_ID }');">修改组名称<i class="icon-arrow-right  icon-on-right"></i></a>
-			</c:if>
-				<c:choose>
-					<c:when test="${pd.ROLE_ID == '99'}">
-					</c:when>
-					<c:otherwise>
-					<c:if test="${QX.edit == 1 }">
-					<a class="btn btn-mini btn-purple" onclick="editRights('${pd.ROLE_ID }');"><i class="icon-pencil"></i>组菜单权限</a>
-					</c:if>
-					</c:otherwise>
-				</c:choose>
-				<c:choose> 
-					<c:when test="${pd.ROLE_ID == '6' or pd.ROLE_ID == '4' or pd.ROLE_ID == '1' or pd.ROLE_ID == '7'}">
-					</c:when>
-					<c:otherwise>
-					 <c:if test="${QX.del == 1 }">
-					 <a class='btn btn-mini btn-danger' title="删除" onclick="delRole('${pd.ROLE_ID }','z','${pd.ROLE_NAME }');"><i class='icon-trash'></i></a>
-					 </c:if>
-					</c:otherwise>
-				</c:choose>
+			<%--<c:if test="${QX.edit == 1 }">--%>
+			<%--<a class="btn btn-mini btn-info" onclick="editRole('${pd.ROLE_ID }');">修改组名称<i class="icon-arrow-right  icon-on-right"></i></a>--%>
+			<%--</c:if>--%>
+				<%--<c:choose>--%>
+					<%--<c:when test="${pd.ROLE_ID == '99'}">--%>
+					<%--</c:when>--%>
+					<%--<c:otherwise>--%>
+					<%--<c:if test="${QX.edit == 1 }">--%>
+					<%--<a class="btn btn-mini btn-purple" onclick="editRights('${pd.ROLE_ID }');"><i class="icon-pencil"></i>组菜单权限</a>--%>
+					<%--</c:if>--%>
+					<%--</c:otherwise>--%>
+				<%--</c:choose>--%>
+				<%--<c:choose> --%>
+					<%--<c:when test="${pd.ROLE_ID == '6' or pd.ROLE_ID == '4' or pd.ROLE_ID == '1' or pd.ROLE_ID == '7'}">--%>
+					<%--</c:when>--%>
+					<%--<c:otherwise>--%>
+					 <%--<c:if test="${QX.del == 1 }">--%>
+					 <%--<a class='btn btn-mini btn-danger' title="删除" onclick="delRole('${pd.ROLE_ID }','z','${pd.ROLE_NAME }');"><i class='icon-trash'></i></a>--%>
+					 <%--</c:if>--%>
+					<%--</c:otherwise>--%>
+				<%--</c:choose>--%>
 			</td>
 			</tr>
 			<tr height="7px;"><td colspan="100"></td></tr>
@@ -87,11 +57,6 @@
 			<th class="center">序号</th>
 			<th>角色</th>
 			<c:if test="${QX.edit == 1 }">
-			<th class="center" bgcolor="#FFBF00">备用</th>
-			<th class="center" bgcolor="#EFFFBF">备用</th>
-			<th class="center" bgcolor="#BFEFFF">邮件</th>
-			<th class="center" bgcolor="#EFBFFF">短信</th>
-			<th class="center" bgcolor="#BFEFFF" title="每天可发条数">站内信</th>
 			<th class="center">增</th>
 			<th class="center">删</th>
 			<th class="center">改</th>
@@ -127,13 +92,6 @@
 				<td class='center' style="width:30px;">${vs.index+1}</td>
 				<td id="ROLE_NAMETd${var.ROLE_ID }">${var.ROLE_NAME }</td>
 				<c:if test="${QX.edit == 1 }">
-				<td style="width:60px;" class="center"><label><input type="checkbox" class="ace-switch ace-switch-3" id="qx1${vs.index+1}" <c:if test="${qx1 == 1 }">checked="checked"</c:if> onclick="kf_qx1(this.id,'${var.QX_ID}','kfqx1')" /><span class="lbl"></span></label></td>
-				<td style="width:60px;" class="center"><label><input type="checkbox" class="ace-switch ace-switch-3" id="qx2${vs.index+1}" <c:if test="${qx2 == 1 }">checked="checked"</c:if>  onclick="kf_qx2(this.id,'${var.QX_ID}','kfqx2')"/><span class="lbl"></span></label></td>
-				<td style="width:60px;" class="center"><label><input type="checkbox" class="ace-switch ace-switch-3" id="qx3${vs.index+1}" <c:if test="${fx_qx == 1 }">checked="checked"</c:if>  onclick="kf_qx3(this.id,'${var.QX_ID}','fxqx')"/><span class="lbl"></span></label></td>
-				<td style="width:60px;" class="center"><label><input type="checkbox" class="ace-switch ace-switch-3" id="qx4${vs.index+1}" <c:if test="${fw_qx == 1 }">checked="checked"</c:if>  onclick="kf_qx4(this.id,'${var.QX_ID}','fwqx')"/><span class="lbl"></span></label></td>
-				
-				<td style="width:55px;" class="center"><input title="每天可发条数" name="xinjian" id="xj${vs.index+1}" value="${c1 }" style="width:30px;height:100%;text-align:center; padding-top: 0px;padding-bottom: 0px;" onkeyup="c1(this.id,'c1',this.value,'${var.QX_ID}')" type="number"/></td>
-				
 				<td style="width:30px;"><a onclick="roleButton('${var.ROLE_ID }','add_qx');" class="btn btn-warning btn-mini" title="分配新增权限"><i class="icon-wrench icon-2x icon-only"></i></a></td>
 				<td style="width:30px;"><a onclick="roleButton('${var.ROLE_ID }','del_qx');" class="btn btn-warning btn-mini" title="分配删除权限"><i class="icon-wrench icon-2x icon-only"></i></a></td>
 				<td style="width:30px;"><a onclick="roleButton('${var.ROLE_ID }','edit_qx');" class="btn btn-warning btn-mini" title="分配修改权限"><i class="icon-wrench icon-2x icon-only"></i></a></td>
@@ -187,16 +145,9 @@
 		</c:if>
 		</div>
 	</div>
- 
- 
- 
- 
-	<!-- PAGE CONTENT ENDS HERE -->
   </div><!--/row-->
-	
 </div><!--/#page-content-->
 </div><!--/.fluid-container#main-container-->
-		
 		<!-- 返回顶部  -->
 		<a href="#" id="btn-scroll-up" class="btn btn-small btn-inverse">
 			<i class="icon-double-angle-up icon-only"></i>

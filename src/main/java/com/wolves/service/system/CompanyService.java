@@ -4,7 +4,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
-import com.wolves.entity.Page;
+import com.wolves.entity.system.Page;
 import com.wolves.util.PageData;
 
 @Service("companyService")

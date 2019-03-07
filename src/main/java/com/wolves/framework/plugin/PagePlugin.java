@@ -29,7 +29,7 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 
-import com.wolves.entity.Page;
+import com.wolves.entity.system.Page;
 import com.wolves.util.ReflectHelper;
 import com.wolves.util.Tools;
 

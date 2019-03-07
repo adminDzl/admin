@@ -1,7 +1,5 @@
 package com.wolves.entity.system;
 
-import com.wolves.entity.Page;
-
 public class User {
 
 	private String USER_ID;

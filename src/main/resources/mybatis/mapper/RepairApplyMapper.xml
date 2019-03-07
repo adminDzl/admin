@@ -4,8 +4,7 @@
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into REPAIR_APPLY(
-			APPLY_TYPE,	
-			ORDER_TIME,	
+			USER_ID,
 			APPLY_CONTENT,	
 			IMAGE_URLS,	
 			APPLY_STATUS,	
@@ -13,8 +12,7 @@
 			UPDATE_TIME,	
 			REPAIR_APPLY_ID
 		) values (
-			#{APPLY_TYPE},	
-			#{ORDER_TIME},	
+			#{USER_ID},
 			#{APPLY_CONTENT},	
 			#{IMAGE_URLS},	
 			#{APPLY_STATUS},	
@@ -32,9 +30,8 @@
 	<!-- 修改 -->
 	<update id="edit" parameterType="pd">
 		update  REPAIR_APPLY
-			set 
-				APPLY_TYPE = #{APPLY_TYPE},
-				ORDER_TIME = #{ORDER_TIME},
+			set
+				USER_ID = #{USER_ID},
 				APPLY_CONTENT = #{APPLY_CONTENT},
 				IMAGE_URLS = #{IMAGE_URLS},
 				APPLY_STATUS = #{APPLY_STATUS},
@@ -46,9 +43,8 @@
 	</update>
 	<!-- 通过ID获取数据 -->
 	<select id="findById" parameterType="pd" resultType="pd">
-		select 
-			APPLY_TYPE,	
-			ORDER_TIME,	
+		select
+			USER_ID,
 			APPLY_CONTENT,	
 			IMAGE_URLS,	
 			APPLY_STATUS,	
@@ -63,30 +59,28 @@
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
-				a.APPLY_TYPE,	
-				a.ORDER_TIME,	
-				a.APPLY_CONTENT,	
-				a.IMAGE_URLS,	
-				a.APPLY_STATUS,	
-				a.CREATE_TIME,	
-				a.UPDATE_TIME,	
-				a.REPAIR_APPLY_ID
+			a.USER_ID,
+			a.APPLY_CONTENT,
+			a.IMAGE_URLS,
+			a.APPLY_STATUS,
+			a.CREATE_TIME,
+			a.UPDATE_TIME,
+			a.REPAIR_APPLY_ID
 		from 
-				REPAIR_APPLY a
+			REPAIR_APPLY a
 	</select>
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">
 		select
-				a.APPLY_TYPE,	
-				a.ORDER_TIME,	
-				a.APPLY_CONTENT,	
-				a.IMAGE_URLS,	
-				a.APPLY_STATUS,	
-				a.CREATE_TIME,	
-				a.UPDATE_TIME,	
-				a.REPAIR_APPLY_ID
-		from 
-				REPAIR_APPLY a
+			a.USER_ID,
+			a.APPLY_CONTENT,
+			a.IMAGE_URLS,
+			a.APPLY_STATUS,
+			a.CREATE_TIME,
+			a.UPDATE_TIME,
+			a.REPAIR_APPLY_ID
+		from
+			REPAIR_APPLY a
 	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">

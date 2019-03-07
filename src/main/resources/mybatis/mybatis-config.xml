@@ -15,7 +15,7 @@
 		<typeAlias type="com.wolves.entity.system.Role" alias="Role"/>
 		<typeAlias type="com.wolves.entity.system.Menu" alias="Menu"/>
 		<typeAlias type="com.wolves.util.PageData" alias="pd"/>
-		<typeAlias type="com.wolves.entity.Page" alias="Page"/>
+		<typeAlias type="com.wolves.entity.system.Page" alias="Page"/>
 	</typeAliases>
 	
 	<plugins>

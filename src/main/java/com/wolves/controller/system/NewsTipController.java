@@ -11,7 +11,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import com.wolves.controller.base.BaseController;
-import com.wolves.entity.Page;
+import com.wolves.entity.system.Page;
 import com.wolves.service.system.newstip.NewsTipService;
 import com.wolves.util.*;
 import org.apache.shiro.SecurityUtils;

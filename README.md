@@ -1,9 +1,6 @@
 # 1.报修单 repair_apply
 	id
 	apply_no 工单编号
-	type(1巡检报修、2弱电报修、3门禁报修、4其他报修)
-	order_date（预约上门日期）
-	order_time（预约上门时间）
 	repair_content
 	image_urls
 	create_time
@@ -146,6 +143,15 @@
     status
     begain_time
     end_time
+ 
+# 19 车位管理 parking_lot
+    id
+    lot_no 车位号
+    location 位置
+    user_id 用户
+    status
+    
+    
     
 alipay: https://docs.open.alipay.com/204
 

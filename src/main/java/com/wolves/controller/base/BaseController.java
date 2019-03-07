@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
-import com.wolves.entity.Page;
+import com.wolves.entity.system.Page;
 import com.wolves.util.Logger;
 import com.wolves.util.PageData;
 import com.wolves.util.UuidUtil;
