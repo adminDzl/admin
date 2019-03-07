@@ -27,8 +27,7 @@
 <script type="text/javascript">
 	//栋长列表
 	function getBuildMan() {
-		$("#BUILD_NO").empty();//先清空避免重复查询，此段也可省略
-
+        $("#BUILD_NO").empty();//先清空避免重复查询，此段也可省略
 		$.ajax({
 			type: "POST",
 			url: '<%=basePath%>floorman/listBuildManAll.do',
@@ -38,13 +37,12 @@
 			cache: false,
 			success: function(data){
 				var pro = $('#BUILD_NO');
-
 				var options = '';
 				$(data).each(function() {
 					options += '<option value="' + this.BUILD_NO +'" >' + this.BUILD_NO + '</option>';
 				});
 
-				pro.append(options);
+				pro.append(options); //获得要赋值的select的id，进行赋值
 			}
 		});
     }
@@ -96,7 +94,15 @@
 		$("#zhongxin").hide();
 		$("#zhongxin2").show();
 	}
-	
+
+//    $(function(){
+//        var bulid = document.getElementById("bulid").value;/* 如果你用的“变量”是input的话，这里就要写成.value了 */
+//		if (bulid === "" || bulid === null){
+//            $('#BUILD_NO').html("<option value=''>请选择</option>");
+//		}else {
+//            $('#BUILD_NO').html("<option value='"+bulid+"'>"+bulid+"</option>"); //获得要赋值的select的id，进行赋值
+//        }
+//    });
 </script>
 	</head>
 <body>
@@ -108,9 +114,10 @@
 				<td style="width:70px;text-align: right;padding-top: 13px;">楼栋号:</td>
 				<td>
 					<select class="selectpicker show-tick form-control" name="BUILD_NO" id="BUILD_NO"
-							value="${pd.BUILD_NO}" maxlength="32" placeholder="这里选择楼栋号" title="楼栋号" onclick="getBuildMan()">
-						<option value =" ">请选择</option>
+							maxlength="32" placeholder="这里选择楼栋号" title="楼栋号" onclick="getBuildMan()" >
+						<option value=''>请选择</option>
 					</select>
+					<input type="hidden" value="${pd.BUILD_NO}" id="bulid"/>
 				</td>
 			</tr>
 			<tr>
