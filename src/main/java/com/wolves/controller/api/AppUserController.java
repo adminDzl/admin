@@ -274,6 +274,13 @@ public class AppUserController extends BaseController {
     }
 
     /**
+     * 绑定车牌
+     */
+    public void bingCar(){
+
+    }
+
+    /**
      * 我的企业信息
      */
     @RequestMapping(value = "/orgInfo", method = RequestMethod.POST)
