@@ -92,6 +92,15 @@
 		$("#zhongxin").hide();
 		$("#zhongxin2").show();
 	}
+
+    $(function(){
+        window.setTimeout(setContent,1000);//一秒后再调用赋值方法
+    });
+
+    //给ueditor插入值
+    function setContent(){
+        UE.getEditor('editor').execCommand('insertHtml', $('#testcon').html());
+    }
 	
 </script>
 	</head>
@@ -112,7 +121,10 @@
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">新闻内容:</td>
 				<td>
-                    <script id="editor" name="NEWS_CONTENT" value="${pd.NEWS_CONTENT}" type="text/plain" style="width:400px;height:300px;"></script>
+                    <textarea id="editor" name="NEWS_CONTENT" type="text/plain" style="width: 400px; height: 300px; margin: 0 auto;" ></textarea >
+					<code id="testcon" style="display:none;">
+						${pd.NEWS_CONTENT}
+					</code>
 				</td>
             </tr>
 			<tr>
