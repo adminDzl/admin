@@ -10,7 +10,10 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 
+import com.wolves.dto.FloorManAllDTO;
 import com.wolves.entity.system.Page;
+import com.wolves.service.system.buildman.BuildManService;
+import com.wolves.service.system.floorman.FloorManService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -39,6 +42,10 @@ public class RoomController extends BaseController {
 	String menuUrl = "room/list.do";
 	@Resource(name="roomService")
 	private RoomService roomService;
+	@Resource(name="floormanService")
+	private FloorManService floormanService;
+	@Resource(name="buildmanService")
+	private BuildManService buildmanService;
 	
 	/**
 	 * 新增
@@ -115,6 +122,7 @@ public class RoomController extends BaseController {
 		mv.setViewName("system/room/room_edit");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
+		mv.addObject("buildman",buildmanService.listAll(pd));
 		return mv;
 	}	
 	
@@ -130,9 +138,21 @@ public class RoomController extends BaseController {
 		mv.setViewName("system/room/room_edit");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
+		mv.addObject("buildman",buildmanService.listAll(pd));
 		return mv;
-	}	
-	
+	}
+
+	/**
+	 * 请求查询楼层
+	 */
+	@RequestMapping(value="/getFloorMan")
+	@ResponseBody
+	public List<FloorManAllDTO> getFloorMan(){
+		PageData pd = this.getPageData();
+		String buildNo = pd.getString("buildNo");
+		return floormanService.getAllFloorMan(buildNo);
+	}
+
 	/**
 	 * 批量删除
 	 */

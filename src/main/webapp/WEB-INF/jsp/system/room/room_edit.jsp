@@ -39,6 +39,25 @@
 		$("#zhongxin").hide();
 		$("#zhongxin2").show();
 	}
+
+
+	
+	function getFloorMan() {
+		var buildNo = $("#BUILD_NO").val();//得到第一个下拉列表的值
+		if(buildNo != null && "" != buildNo){
+			//通过ajax传入后台，把orderTypeName数据传到后端
+			var url = '<%=basePath%>room/getFloorMan.do';
+
+			$.post(url,{"buildNo":buildNo},function(data){
+				var option;
+				$.each(data,function(i,n){//循环，i为下标从0开始，n为集合中对应的第i个对象
+					option += '<option value="'+n.floormanId+'">'+n.floor+'</option>';
+				});
+				$("#floorMan_Id").html(option);//将循环拼接的字符串插入第二个下拉列表
+			});
+
+		}
+	}
 </script>
 	</head>
 <body>
@@ -46,6 +65,26 @@
 		<input type="hidden" name="ROOM_ID" id="ROOM_ID" value="${pd.ROOM_ID}"/>
 		<div id="zhongxin">
 		<table id="table_report" class="table table-striped table-bordered table-hover">
+			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;">楼栋:</td>
+				<td>
+					<select name="BUILD_NO" id="BUILD_NO" maxlength="32" placeholder="这里选择楼栋" title="楼栋" value="${pd.BUILD_NO}" onchange="getFloorMan();">
+						<option value=''>请选择</option>
+						<c:forEach items="${buildman}" varStatus="status" var="item">
+							<option value="${item.BUILD_NO }">${item.BUILD_NO }</option>
+						</c:forEach>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;">楼层:</td>
+				<td>
+					<select name="floorMan_Id" id="floorMan_Id" maxlength="32" placeholder="这里选择楼层" title="楼层" >
+						<option value=''>请选择</option>
+
+					</select>
+				</td>
+			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">房间号:</td>
 				<td><input type="text" name="ROOM_NAME" id="ROOM_NAME" value="${pd.ROOM_NAME}" maxlength="32" placeholder="这里输入房间号" title="房间号"/></td>

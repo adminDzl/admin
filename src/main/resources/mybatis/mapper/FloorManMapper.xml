@@ -12,6 +12,13 @@
 		<result column="create_time" property="createTime"/>
 	</resultMap>
 
+	<resultMap type="com.wolves.dto.FloorManAllDTO" id="FloorManAllResultMap">
+		<result column="floorman_id" property="floormanId"/>
+		<result column="floor" property="floor"/>
+		<result column="floor_master_name" property="floorMasterName"/>
+		<result column="master_tel" property="masterTel"/>
+	</resultMap>
+
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into FLOOR_MAN(
@@ -113,5 +120,16 @@
 		from
 				FLOOR_MAN a
 				LEFT JOIN BUILD_MAN b ON (b.BUILD_NO = a.BUILD_NO)
+	</select>
+
+	<select id="selectFloorManByBuildNo" parameterType="com.wolves.dto.FloorManAllDTO" resultMap="FloorManAllResultMap">
+		select
+				a.floorman_id,
+				a.floor,
+				a.floor_master_name,
+				a.master_tel
+		from
+				FLOOR_MAN a
+		WHERE a.build_no = #{buildNo}
 	</select>
 </mapper>
