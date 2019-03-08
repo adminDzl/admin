@@ -111,20 +111,6 @@ public class FloorManController extends BaseController {
 		mv.addObject(Const.SESSION_QX,this.getHC());
 		return mv;
 	}
-
-	/**
-	 * 查询全部栋长列表
-	 */
-	@RequestMapping(value="/listBuildManAll")
-	@ResponseBody
-	public Object listBuildManAll(Page page){
-		logBefore(logger, "列表BuildMan");
-		List<PageData> varList = new ArrayList<PageData>();
-		PageData pd = this.getPageData();
-		page.setPd(pd);
-		varList = buildmanService.listAll(pd);
-		return varList;
-	}
 	
 	/**
 	 * 去新增页面
@@ -137,6 +123,7 @@ public class FloorManController extends BaseController {
 		mv.setViewName("system/floorman/floorman_edit");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
+		mv.addObject("buildman",buildmanService.listAll(pd));
 		return mv;
 	}	
 	
@@ -153,6 +140,7 @@ public class FloorManController extends BaseController {
 		mv.setViewName("system/floorman/floorman_edit");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
+		mv.addObject("buildman",buildmanService.listAll(pd));
 		return mv;
 	}	
 	
