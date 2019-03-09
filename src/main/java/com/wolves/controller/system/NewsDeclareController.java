@@ -181,7 +181,7 @@ public class NewsDeclareController extends BaseController {
         titles.add("创建时间");
         titles.add("修改时间");
         dataMap.put("titles", titles);
-        List<PageData> varOList = newstipService.listAll(pd);
+        List<PageData> varOList = newstipService.listDeclareAll(pd);
         List<PageData> varList = new ArrayList<PageData>();
         for(int i=0;i<varOList.size();i++){
             PageData vpd = new PageData();
