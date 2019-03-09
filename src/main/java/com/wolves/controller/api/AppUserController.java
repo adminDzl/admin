@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.wolves.common.LicensePlateEnum;
 import com.wolves.common.StatusEnum;
 import com.wolves.controller.base.BaseController;
-import com.wolves.dto.FloorManDTO;
 import com.wolves.dto.user.ForgetDTO;
 import com.wolves.dto.user.LoginDTO;
 import com.wolves.dto.user.RegisterDTO;
@@ -24,9 +23,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /**
