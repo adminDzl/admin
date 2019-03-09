@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wolves.common.LicensePlateEnum;
 import com.wolves.common.StatusEnum;
 import com.wolves.controller.base.BaseController;
+import com.wolves.dto.ApplyYardDTO;
 import com.wolves.dto.user.ForgetDTO;
 import com.wolves.dto.user.LoginDTO;
 import com.wolves.dto.user.RegisterDTO;
@@ -14,12 +15,13 @@ import com.wolves.service.system.SmsService;
 import com.wolves.service.system.appuser.UserCarBindService;
 import com.wolves.service.system.floorman.FloorManService;
 import com.wolves.service.system.user.UserService;
+import com.wolves.service.system.yard.YardService;
+import com.wolves.service.system.yardappoint.YardAppointService;
 import com.wolves.util.PageData;
 import com.wolves.util.StringUtils;
 import com.wolves.util.Tools;
 import com.wolves.util.UuidUtil;
 import org.apache.shiro.crypto.hash.SimpleHash;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -30,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Map;
+import java.util.HashMap;
 
 /**
  * 个人中心相关接口
@@ -41,14 +44,18 @@ import java.util.Map;
 @RequestMapping(value = "/api/user")
 public class AppUserController extends BaseController {
 
-    @Autowired
+    @Resource(name="userService")
     private UserService userService;
-    @Autowired
+    @Resource(name="smsService")
     private SmsService smsService;
-    @Autowired
+    @Resource(name="floorManService")
     private FloorManService floorManService;
     @Resource(name="usercarbindService")
     private UserCarBindService usercarbindService;
+    @Resource(name="yardService")
+    private YardService yardService;
+    @Resource(name="yardappointService")
+    private YardAppointService yardappointService;
 
     /**
      * 登陆,返回token
@@ -321,7 +328,7 @@ public class AppUserController extends BaseController {
         }
 
         //存入数据
-        PageData pd = this.getPageData();
+        PageData pd = new PageData();
         pd.put("USERCARBIND_ID", this.get32UUID());
         pd.put("STATUS", StatusEnum.INIT.getKey());
         pd.put("USER_ID",user.getUserId());
@@ -364,24 +371,59 @@ public class AppUserController extends BaseController {
      * 我的缴费
      */
     @RequestMapping(value = "/payment", method = RequestMethod.POST)
-    public void payment(){
+    public Result payment(){
 
+        return null;
     }
 
     /**
      * 我的预约
      */
     @RequestMapping(value = "/appoint", method = RequestMethod.POST)
-    public void appoint(){
+    public Result appoint(@RequestHeader("Authorization") String token){
 
+        return null;
     }
 
     /**
      * 提交预约
      */
     @RequestMapping(value = "/createAppoint", method = RequestMethod.POST)
-    public void createAppoint(){
+    public Result createAppoint(@RequestHeader("Authorization") String token,
+                                @RequestBody ApplyYardDTO applyYardDTO){
+        Result result = new Result();
+        //使用token获取登陆人信息
+        User user = new User();
+        if (StringUtils.isNotEmpty(token)){
+            user.setToken(token);
+            user = userService.getUserByToken(user);
+        }
+        PageData pd = new PageData();
+        //主键
+        pd.put("YARDAPPOINT_ID", this.get32UUID());
+        //场地ID
+        pd.put("PLACE_ID", applyYardDTO.getYardId());
+        //预定人ID
+        pd.put("APPLY_USER_ID", user.getUserId());
+        //预定金额
+        pd.put("BOOK_FEE", applyYardDTO.getAmount());
+        //预定状态
+        pd.put("STATUS", StatusEnum.INIT.getKey());
+        //预定日期
+        pd.put("PLACE_DATE", applyYardDTO.getPlaceDate());
+        //开始时间
+        pd.put("BEGIN_TIME", applyYardDTO.getBeginTime());
+        //结束时间
+        pd.put("END_TIME", applyYardDTO.getEndTime());
+        //时长
+        pd.put("BOOK_DURATION", applyYardDTO.getDuration());
+        //备注
+        pd.put("NOTE", applyYardDTO.getNote());
+        yardappointService.save(pd);
 
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("预约成功");
+        return result;
     }
 
     /**
@@ -390,6 +432,36 @@ public class AppUserController extends BaseController {
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     public void info(){
 
+    }
+
+    /**
+     * 查询场地
+     * @param jsonObject
+     * @return
+     */
+    @RequestMapping(value = "/getYard", method = RequestMethod.POST)
+    public Result getYard(@RequestBody JSONObject jsonObject){
+        Result result = new Result();
+        Integer page = jsonObject.getInteger("page");
+        if (page < 0){
+            result.setMsg("页数必须大于0");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        Integer size = jsonObject.getInteger("size");
+        if (size == 0 || size < 0){
+            result.setMsg("条数必须大于0");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("start", (page - 1) * size);
+        params.put("size", size);
+
+        result.setData(yardService.selectYard(params));
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("提交成功");
+        return result;
     }
 
     /**

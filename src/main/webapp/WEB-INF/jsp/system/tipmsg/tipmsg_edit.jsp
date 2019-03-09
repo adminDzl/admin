@@ -78,7 +78,13 @@
 		<table id="table_report" class="table table-striped table-bordered table-hover">
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">消息类型:</td>
-				<td><input type="number" name="MSG_TYPE" id="MSG_TYPE" value="${pd.MSG_TYPE}" maxlength="32" placeholder="这里输消息类型" title="消息类型"/></td>
+				<td>
+					<select name="MSG_TYPE" id="MSG_TYPE" maxlength="32" placeholder="这里输消息类型" title="消息类型" value="${pd.MSG_TYPE}" >
+						<option value=''>请选择</option>
+						<option value="1">公告消息</option>
+						<option value="2">进度提醒</option>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">通知人群:</td>
