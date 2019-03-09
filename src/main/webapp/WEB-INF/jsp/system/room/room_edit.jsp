@@ -25,7 +25,27 @@
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 <script type="text/javascript">
 	function save(){
-			if($("#ROOM_NAME").val()==""){
+        if($("#BUILD_NO").val()==""){
+            $("#BUILD_NO").tips({
+                side:3,
+                msg:'请选择楼栋',
+                bg:'#AE81FF',
+                time:2
+            });
+            $("#BUILD_NO").focus();
+            return false;
+        }
+        if($("#ROOM_NAME").val()==""){
+            $("#ROOM_NAME").tips({
+                side:3,
+                msg:'请输入房间号',
+                bg:'#AE81FF',
+                time:2
+            });
+            $("#ROOM_NAME").focus();
+            return false;
+        }
+		if($("#ROOM_NAME").val()==""){
 			$("#ROOM_NAME").tips({
 				side:3,
 	            msg:'请输入房间号',
@@ -43,19 +63,24 @@
 
 	
 	function getFloorMan() {
+
 		var buildNo = $("#BUILD_NO").val();//得到第一个下拉列表的值
-		if(buildNo != null && "" != buildNo){
+		if(buildNo !== null && "" !== buildNo){
 			//通过ajax传入后台，把orderTypeName数据传到后端
 			var url = '<%=basePath%>room/getFloorMan.do';
 
 			$.post(url,{"buildNo":buildNo},function(data){
-				var option;
+				var option = '<option value="">请选择</option>';
 				$.each(data,function(i,n){//循环，i为下标从0开始，n为集合中对应的第i个对象
 					option += '<option value="'+n.floormanId+'">'+n.floor+'</option>';
 				});
-				$("#floorMan_Id").html(option);//将循环拼接的字符串插入第二个下拉列表
+				$("#FLOORMAN_ID").html(option);//将循环拼接的字符串插入第二个下拉列表
 			});
 
+		}else {
+            $("#FLOORMAN_ID").find("option").remove();
+            var option = '<option value="">请选择</option>';
+            $("#FLOORMAN_ID").html(option);//将循环拼接的字符串插入第二个下拉列表
 		}
 	}
 </script>
@@ -68,7 +93,7 @@
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">楼栋:</td>
 				<td>
-					<select name="BUILD_NO" id="BUILD_NO" maxlength="32" placeholder="这里选择楼栋" title="楼栋" value="${pd.BUILD_NO}" onchange="getFloorMan();">
+					<select name="BUILD_NO" id="BUILD_NO" maxlength="32" placeholder="这里选择楼栋" title="楼栋" value="${pd.build_no}" onchange="getFloorMan();">
 						<option value=''>请选择</option>
 						<c:forEach items="${buildman}" varStatus="status" var="item">
 							<option value="${item.BUILD_NO }">${item.BUILD_NO }</option>
@@ -79,7 +104,7 @@
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">楼层:</td>
 				<td>
-					<select name="floorMan_Id" id="floorMan_Id" maxlength="32" placeholder="这里选择楼层" title="楼层" >
+					<select name="FLOORMAN_ID" id="FLOORMAN_ID" maxlength="32" placeholder="这里选择楼层" title="楼层" value="pd.floorman_id">
 						<option value=''>请选择</option>
 
 					</select>

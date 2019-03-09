@@ -58,7 +58,6 @@ public class RoomController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		pd.put("ROOM_ID", this.get32UUID());
-		pd.put("FLOORMAN_ID", "");
 		roomService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");

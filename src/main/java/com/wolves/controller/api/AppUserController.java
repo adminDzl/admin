@@ -1,6 +1,8 @@
 package com.wolves.controller.api;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wolves.common.LicensePlateEnum;
+import com.wolves.common.StatusEnum;
 import com.wolves.controller.base.BaseController;
 import com.wolves.dto.FloorManDTO;
 import com.wolves.dto.user.ForgetDTO;
@@ -10,6 +12,7 @@ import com.wolves.entity.app.User;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
 import com.wolves.service.system.SmsService;
+import com.wolves.service.system.appuser.UserCarBindService;
 import com.wolves.service.system.floorman.FloorManService;
 import com.wolves.service.system.user.UserService;
 import com.wolves.util.PageData;
@@ -18,13 +21,13 @@ import com.wolves.util.Tools;
 import com.wolves.util.UuidUtil;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 个人中心相关接口
@@ -42,11 +45,14 @@ public class AppUserController extends BaseController {
     private SmsService smsService;
     @Autowired
     private FloorManService floorManService;
+    @Resource(name="usercarbindService")
+    private UserCarBindService usercarbindService;
 
     /**
      * 登陆,返回token
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ResponseBody
     public Result login(@RequestBody LoginDTO loginDTO){
         Result result = new Result();
         if (StringUtils.isEmpty(loginDTO.getTelephone())){
@@ -90,6 +96,7 @@ public class AppUserController extends BaseController {
      * 登出,清空token
      */
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @ResponseBody
     public Result logout(@RequestBody JSONObject jsonObject){
         Result result = new Result();
         //判断token是否有效
@@ -120,6 +127,7 @@ public class AppUserController extends BaseController {
      * 客户注册
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @ResponseBody
     public Result register(@RequestBody RegisterDTO registerDTO){
         Result result = new Result();
         //获取数据，判断数据数据是否为空
@@ -216,6 +224,7 @@ public class AppUserController extends BaseController {
      * 忘记密码
      */
     @RequestMapping(value = "/forget", method = RequestMethod.POST)
+    @ResponseBody
     public Result forgetPassword(@RequestBody ForgetDTO forgetDTO){
         Result result = new Result();
         //获取参数
@@ -251,6 +260,7 @@ public class AppUserController extends BaseController {
      * 获取验证码
      */
     @RequestMapping(value = "/getCode", method = RequestMethod.POST)
+    @ResponseBody
     public Result getCode(@RequestBody JSONObject jsonObject){
         Result result = new Result();
         //获取手机号码
@@ -274,10 +284,54 @@ public class AppUserController extends BaseController {
     }
 
     /**
+     * 查询车牌简称
+     */
+    @RequestMapping(value = "/getLicensePlate", method = RequestMethod.POST)
+    @ResponseBody
+    public Result getLicensePlate(){
+        Result result = new Result();
+        Map<String, Object> map = LicensePlateEnum.queryAll();
+
+        result.setData(map);
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("查询成功");
+        return result;
+    }
+
+    /**
      * 绑定车牌
      */
-    public void bingCar(){
+    @RequestMapping(value = "/bingCar", method = RequestMethod.POST)
+    @ResponseBody
+    public Result bingCar(@RequestHeader("Authorization") String token, @RequestBody JSONObject jsonObject){
+        Result result = new Result();
+        //使用token获取登陆人信息
+        User user = new User();
+        if (StringUtils.isNotEmpty(token)){
+            user.setToken(token);
+            user = userService.getUserByToken(user);
+        }
+        String plate = jsonObject.getString("plate");
+        if (StringUtils.isEmpty(plate.trim())){
+            result.setMsg("请填写你的车牌号");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
 
+        //存入数据
+        PageData pd = this.getPageData();
+        pd.put("USERCARBIND_ID", this.get32UUID());
+        pd.put("STATUS", StatusEnum.INIT.getKey());
+        pd.put("USER_ID",user.getUserId());
+        pd.put("CAR_NO",plate);
+        pd.put("CREATE_TIME", Tools.date2Str(new Date()));
+        pd.put("UPDATE_TIME", Tools.date2Str(new Date()));
+        usercarbindService.save(pd);
+
+        //返回结果
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("提交成功");
+        return result;
     }
 
     /**

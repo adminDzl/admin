@@ -6,11 +6,15 @@
 		insert into ROOM(
 			FLOORMAN_ID,	
 			ROOM_NAME,	
-			ROOM_ID
+			ROOM_ID,
+			create_time,
+			update_time
 		) values (
 			#{FLOORMAN_ID},	
 			#{ROOM_NAME},	
-			#{ROOM_ID}
+			#{ROOM_ID},
+			now(),
+			now()
 		)
 	</insert>
 	<!-- 删除-->
@@ -24,6 +28,7 @@
 		update  ROOM
 			set 
 				ROOM_NAME = #{ROOM_NAME},
+				update_time = now(),
 			ROOM_ID = ROOM_ID
 			where 
 				ROOM_ID = #{ROOM_ID}
@@ -41,12 +46,15 @@
 	</select>
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
-		select
-				a.FLOORMAN_ID,	
-				a.ROOM_NAME,	
-				a.ROOM_ID
-		from 
-				ROOM a
+		SELECT
+			a.FLOORMAN_ID,
+			a.ROOM_NAME,
+			a.ROOM_ID,
+			f.floor,
+			f.build_no
+		FROM
+			ROOM a
+		LEFT JOIN floor_man f ON (f.floorman_id = a.floorman_id)
 	</select>
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">

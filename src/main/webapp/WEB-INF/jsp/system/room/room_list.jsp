@@ -48,7 +48,8 @@
 						<label><input type="checkbox" id="zcheckbox" /><span class="lbl"></span></label>
 						</th>
 						<th class="center">序号</th>
-						<th class="center">楼层ID</th>
+						<th class="center">楼栋</th>
+						<th class="center">楼层</th>
 						<th class="center">房间号</th>
 						<th class="center">操作</th>
 					</tr>
@@ -63,7 +64,8 @@
 									<label><input type='checkbox' name='ids' value="${var.ROOM_ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-										<td>${var.FLOORMAN_ID}</td>
+										<td>${var.build_no}</td>
+										<td>${var.floor}</td>
 										<td>${var.ROOM_NAME}</td>
 								<td style="width: 30px;" class="center">
 									<div class='hidden-phone visible-desktop btn-group'>
