@@ -29,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
  * 类名称：NewsTipController
  * 创建人：FH 
  * 创建时间：2019-02-23
+ * @author gf
  */
 @Controller
 @RequestMapping(value="/newstip")
@@ -93,7 +94,7 @@ public class NewsTipController extends BaseController {
 	}
 	
 	/**
-	 * 列表
+	 * 查询新闻列表
 	 */
 	@RequestMapping(value="/list")
 	public ModelAndView list(Page page){
@@ -155,7 +156,7 @@ public class NewsTipController extends BaseController {
 		String DATA_IDS = pd.getString("DATA_IDS");
 		if(null != DATA_IDS && !"".equals(DATA_IDS)){
 			String ArrayDATA_IDS[] = DATA_IDS.split(",");
-			newstipService.deleteAll(ArrayDATA_IDS);
+			newstipService.deleteNewAll(ArrayDATA_IDS);
 			pd.put("msg", "ok");
 		}else{
 			pd.put("msg", "no");
@@ -178,7 +179,7 @@ public class NewsTipController extends BaseController {
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
 		titles.add("id");
-		titles.add("新闻类型（1.新闻 2.项目申报）");
+		titles.add("新闻类型");
 		titles.add("新闻标题");
 		titles.add("新闻内容");
 		titles.add("附件url");

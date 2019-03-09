@@ -36,17 +36,32 @@ public class NewsTipService {
 	}
 	
 	/**
-	*列表
+	* 新闻列表
 	*/
 	public List<PageData> list(Page page) {
 		return (List<PageData>)dao.findForList("NewsTipMapper.datalistPage", page);
 	}
+
+	/**
+	 * 项目申报
+	 * @return
+	 */
+	public List<PageData> declarelistPage(Page page){
+		return (List<PageData>)dao.findForList("NewsTipMapper.declarelistPage", page);
+	}
 	
 	/**
-	*列表(全部)
+	*列表(全部新闻)
 	*/
-	public List<PageData> listAll(PageData pd) {
-		return (List<PageData>)dao.findForList("NewsTipMapper.listAll", pd);
+	public List<PageData> listNewAll(PageData pd) {
+		return (List<PageData>)dao.findForList("NewsTipMapper.listNewAll", pd);
+	}
+
+	/**
+	 *列表(全部项目)
+	 */
+	public List<PageData> listDeclareAll(PageData pd) {
+		return (List<PageData>)dao.findForList("NewsTipMapper.listDeclareAll", pd);
 	}
 	
 	/**
@@ -57,10 +72,17 @@ public class NewsTipService {
 	}
 	
 	/**
-	* 批量删除
+	* 新闻批量删除
 	*/
-	public void deleteAll(String[] ArrayDATA_IDS) {
-		dao.delete("NewsTipMapper.deleteAll", ArrayDATA_IDS);
+	public void deleteNewAll(String[] ArrayDATA_IDS) {
+		dao.delete("NewsTipMapper.deleteNewAll", ArrayDATA_IDS);
+	}
+
+	/**
+	 * 项目申报批量删除
+	 */
+	public void deleteDeclareAll(String[] ArrayDATA_IDS) {
+		dao.delete("NewsTipMapper.deleteDeclareAll", ArrayDATA_IDS);
 	}
 }
 

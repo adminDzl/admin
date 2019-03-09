@@ -337,6 +337,14 @@ public class AppUserController extends BaseController {
     }
 
     /**
+     * 查看历史停车记录
+     */
+    @RequestMapping(value = "/myParkHistory", method = RequestMethod.POST)
+    public void myParkHistory(){
+
+    }
+
+    /**
      * 我的企业信息
      */
     @RequestMapping(value = "/orgInfo", method = RequestMethod.POST)
@@ -365,6 +373,14 @@ public class AppUserController extends BaseController {
      */
     @RequestMapping(value = "/appoint", method = RequestMethod.POST)
     public void appoint(){
+
+    }
+
+    /**
+     * 提交预约
+     */
+    @RequestMapping(value = "/createAppoint", method = RequestMethod.POST)
+    public void createAppoint(){
 
     }
 

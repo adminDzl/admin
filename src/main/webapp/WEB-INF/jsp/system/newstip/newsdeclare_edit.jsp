@@ -105,7 +105,7 @@
 </script>
 	</head>
 <body>
-	<form action="newstip/${msg }.do" name="Form" id="Form" method="post">
+	<form action="declare/${msg }.do" name="Form" id="Form" method="post">
 		<input type="hidden" name="NEWSTIP_ID" id="NEWSTIP_ID" value="${pd.NEWSTIP_ID}"/>
 		<div id="zhongxin">
 		<table id="table_report" class="table table-striped table-bordered table-hover">
@@ -114,7 +114,7 @@
 				<td style="width:70px;text-align: right;padding-top: 13px;">新闻标题:</td>
 				<td>
 					<input type="text" name="NEWS_TITLE" id="NEWS_TITLE" value="${pd.NEWS_TITLE}" maxlength="32" placeholder="这里输入新闻标题" title="新闻标题"/>
-					<input type="number" name="NEWS_TYPE" id="NEWS_TYPE" value="1" style="display: none"/>
+					<input type="number" name="NEWS_TYPE" id="NEWS_TYPE" value="2" style="display: none"/>
 				</td>
 			</tr>
 			<tr>

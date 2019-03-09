@@ -59,7 +59,7 @@
 		where 
 			NEWSTIP_ID = #{NEWSTIP_ID}
 	</select>
-	<!-- 列表 -->
+	<!-- 查询新闻列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
 				a.NEWS_TYPE,	
@@ -72,9 +72,25 @@
 				a.NEWSTIP_ID
 		from 
 				NEWS_TIP a
+		WHERE a.NEWS_TYPE = 1
 	</select>
-	<!-- 列表(全部) -->
-	<select id="listAll" parameterType="pd" resultType="pd">
+	<!--查询项目申报-->
+	<select id="declarelistPage" parameterType="page" resultType="pd">
+		select
+		a.NEWS_TYPE,
+		a.NEWS_TITLE,
+		a.NEWS_CONTENT,
+		a.ATTACH_URL,
+		a.STATUS,
+		a.CREATE_TIME,
+		a.UPDATE_TIME,
+		a.NEWSTIP_ID
+		from
+		NEWS_TIP a
+		WHERE a.NEWS_TYPE = 2
+	</select>
+	<!-- 列表(全部新闻) -->
+	<select id="listNewAll" parameterType="pd" resultType="pd">
 		select
 				a.NEWS_TYPE,	
 				a.NEWS_TITLE,	
@@ -86,14 +102,39 @@
 				a.NEWSTIP_ID
 		from 
 				NEWS_TIP a
+		WHERE a.NEWS_TYPE = 1
 	</select>
-	<!-- 批量删除 -->
-	<delete id="deleteAll" parameterType="String">
+	<!-- 列表(全部项目) -->
+	<select id="listDeclareAll" parameterType="pd" resultType="pd">
+		select
+			a.NEWS_TYPE,
+			a.NEWS_TITLE,
+			a.NEWS_CONTENT,
+			a.ATTACH_URL,
+			a.STATUS,
+			a.CREATE_TIME,
+			a.UPDATE_TIME,
+			a.NEWSTIP_ID
+		from
+			NEWS_TIP a
+		WHERE a.NEWS_TYPE = 2
+	</select>
+	<!-- 新闻批量删除 -->
+	<delete id="deleteNewAll" parameterType="String">
 		delete from NEWS_TIP
-		where 
-			NEWSTIP_ID in
+		where
+		NEWS_TYPE = 1 AND NEWSTIP_ID in
 		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
                  #{item}
+		</foreach>
+	</delete>
+	<!--项目申报批量删除-->
+	<delete id="deleteDeclareAll" parameterType="String">
+		delete from NEWS_TIP
+		where
+		NEWS_TYPE = 2 AND NEWSTIP_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+			#{item}
 		</foreach>
 	</delete>
 </mapper>
