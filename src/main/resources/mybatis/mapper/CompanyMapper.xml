@@ -83,6 +83,23 @@
 				a.COMPANY_ID
 		from 
 				COMPANY a
+		WHERE 1=1
+		<if test="pd.COMPANY_NAME != '' and pd.COMPANY_NAME != null ">
+			AND a.COMPANY_NAME LIKE concat(concat('%',#{pd.COMPANY_NAME, jdbcType=VARCHAR}),'%')
+		</if>
+		<if test="pd.lastLoginStart != '' and pd.lastLoginStart != null ">
+			<![CDATA[  AND DATE_FORMAT(a.create_time, '%Y-%m-%d') >= DATE_FORMAT(#{pd.lastLoginStart, jdbcType=VARCHAR}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="pd.lastLoginEnd != '' and pd.lastLoginEnd != null ">
+			<![CDATA[  AND DATE_FORMAT(a.create_time, '%Y-%m-%d') <= DATE_FORMAT(#{pd.lastLoginEnd, jdbcType=VARCHAR}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="pd.STATUS != '' and pd.STATUS != null ">
+			AND a.STATUS = #{pd.STATUS, jdbcType=INTEGER}
+		</if>
+		<if test="pd.TYPE != '' and pd.TYPE != null ">
+			AND a.TYPE = #{pd.TYPE, jdbcType=INTEGER}
+		</if>
+		ORDER BY a.create_time DESC
 	</select>
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">

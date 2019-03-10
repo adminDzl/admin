@@ -21,18 +21,19 @@
 				<tr>
 					<td>
 						<span class="input-icon">
-							<input autocomplete="off" id="nav-search-input" type="text" name="field1" value="" placeholder="这里输入关键词" />
+							<input autocomplete="off" id="nav-search-input" type="text" name="NAME" value="" placeholder="这里输入车主姓名" />
 							<i class="icon-search"></i>
 						</span>
 					</td>
 					<td><input class="span10 date-picker" name="lastLoginStart" id="lastLoginStart" value="${pd.lastLoginStart}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期"/></td>
 					<td><input class="span10 date-picker" name="lastLoginEnd" id="lastLoginEnd" value="${pd.lastLoginEnd}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="结束日期"/></td>
 					<td style="vertical-align:top;"> 
-					 	<select class="chzn-select" name="field2" id="field2" data-placeholder="请选择" style="vertical-align:top;width: 120px;">
+					 	<select class="chzn-select" name="STATUS" id="STATUS" data-placeholder="请选择状态" style="vertical-align:top;width: 120px;">
 							<option value=""></option>
 							<option value="">全部</option>
-							<option value="">1</option>
-							<option value="">2</option>
+							<option value="0">待审核</option>
+							<option value="1">绑定成功</option>
+							<option value="2">审核拒绝</option>
 					  	</select>
 					</td>
 					<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"  title="检索"><i class="icon-search"></i></button></td>
@@ -71,8 +72,8 @@
 										<td>${var.CAR_NO}</td>
 										<td>
 											<c:if test="${var.STATUS == '0' }"><span class="label label-important arrowed-in">待审核</span></c:if>
-											<c:if test="${var.STATUS == '1' }"><span class="label label-success arrowed">成功</span></c:if>
-											<c:if test="${var.STATUS == '0' }"><span class="label label-important arrowed-in">审核拒绝</span></c:if>
+											<c:if test="${var.STATUS == '1' }"><span class="label label-success arrowed">绑定成功</span></c:if>
+											<c:if test="${var.STATUS == '2' }"><span class="label label-important arrowed-in">审核拒绝</span></c:if>
 										</td>
 										<td>${var.REMARK}</td>
 										<td>${var.CREATE_TIME}</td>
