@@ -48,7 +48,7 @@ public class AppUserController extends BaseController {
     private UserService userService;
     @Resource(name="smsService")
     private SmsService smsService;
-    @Resource(name="floorManService")
+    @Resource(name="floormanService")
     private FloorManService floorManService;
     @Resource(name="usercarbindService")
     private UserCarBindService usercarbindService;
