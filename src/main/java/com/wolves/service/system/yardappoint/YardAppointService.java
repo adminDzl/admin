@@ -1,9 +1,11 @@
 package com.wolves.service.system.yardappoint;
 
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 
 import com.wolves.dao.DaoSupport;
+import com.wolves.dto.AppointmentDTO;
 import com.wolves.entity.system.Page;
 import com.wolves.util.PageData;
 import org.springframework.stereotype.Service;
@@ -61,6 +63,16 @@ public class YardAppointService {
 	*/
 	public void deleteAll(String[] ArrayDATA_IDS){
 		dao.delete("YardAppointMapper.deleteAll", ArrayDATA_IDS);
+	}
+
+	/**
+	 * 根据用户id查询
+	 * @param params
+	 * @return
+	 */
+	public List<AppointmentDTO> selectAppointment(Map<String,Object> params){
+
+		return (List<AppointmentDTO>) dao.findForList("YardAppointMapper.selectAppointment", params);
 	}
 }
 

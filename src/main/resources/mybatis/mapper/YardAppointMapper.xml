@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="YardAppointMapper">
+
+	<resultMap type="com.wolves.dto.AppointmentDTO" id="appointmentResultMap">
+		<id column="yardappoint_id" property="yardappointId"/>
+		<result column="place_type" property="placeType"/>
+		<result column="position" property="position"/>
+		<result column="place_date" property="placeDate"/>
+		<result column="begin_time" property="beginTime"/>
+		<result column="end_time" property="endTime"/>
+		<result column="book_duration" property="duration"/>
+		<result column="book_fee" property="fee"/>
+		<result column="status" property="status"/>
+		<result column="note" property="note"/>
+		<result column="create_time" property="createTime"/>
+	</resultMap>
+
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into YARD_APPOINT(
@@ -122,4 +137,26 @@
                  #{item}
 		</foreach>
 	</delete>
+
+	<!--通过userId查询预约信息-->
+	<select id="selectAppointment" parameterType="com.wolves.dto.AppointmentDTO" resultMap="appointmentResultMap">
+		SELECT
+			a.yardappoint_id,
+			y.place_type,
+			y.position,
+			a.place_date,
+			a.begin_time,
+			a.end_time,
+			a.book_duration,
+			a.book_fee,
+			a.status,
+			a.note,
+			a.create_time
+		FROM
+			yard_appoint a
+		LEFT JOIN yard y ON (a.place_id = y.yard_id)
+		WHERE
+			apply_user_id = #{params.userId}
+		LIMIT ${params.start}, ${params.size};
+	</select>
 </mapper>

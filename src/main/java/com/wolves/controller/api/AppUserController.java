@@ -5,6 +5,8 @@ import com.wolves.common.LicensePlateEnum;
 import com.wolves.common.StatusEnum;
 import com.wolves.controller.base.BaseController;
 import com.wolves.dto.ApplyYardDTO;
+import com.wolves.dto.AppointmentDTO;
+import com.wolves.dto.PageDataDTO;
 import com.wolves.dto.user.ForgetDTO;
 import com.wolves.dto.user.LoginDTO;
 import com.wolves.dto.user.RegisterDTO;
@@ -31,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -203,6 +206,12 @@ public class AppUserController extends BaseController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
+        String email = registerDTO.getEmail();
+        if (StringUtils.isEmpty(email)){
+            result.setMsg("请填写用户邮箱地址");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
         //获取ip
         HttpServletRequest request = this.getRequest();
         //保存数据
@@ -216,6 +225,7 @@ public class AppUserController extends BaseController {
         userInfo.setIdCardFrontUrl(idCardFrontUrl);
         userInfo.setIdCardBackUrl(idCardBackUrl);
         userInfo.setIp(Tools.getIpAddr(request));
+        userInfo.setEmail(email);
         //身份证已经绑定
         Integer i = userService.saveUser(userInfo);
         if (i < 0){
@@ -347,7 +357,7 @@ public class AppUserController extends BaseController {
      * 查看历史停车记录
      */
     @RequestMapping(value = "/myParkHistory", method = RequestMethod.POST)
-    public void myParkHistory(){
+    public void myParkHistory(@RequestHeader("Authorization") String token, @RequestBody JSONObject jsonObject){
 
     }
 
@@ -355,24 +365,36 @@ public class AppUserController extends BaseController {
      * 我的企业信息
      */
     @RequestMapping(value = "/orgInfo", method = RequestMethod.POST)
-    public void orgInfo(){
-
+    public void orgInfo(@RequestHeader("Authorization") String token){
+        User user = new User();
+        if (StringUtils.isNotEmpty(token)){
+            user.setToken(token);
+            user = userService.getUserByToken(user);
+        }
     }
 
     /**
      * 我的报修
      */
     @RequestMapping(value = "/repair", method = RequestMethod.POST)
-    public void repair(){
-
+    public void repair(@RequestHeader("Authorization") String token){
+        User user = new User();
+        if (StringUtils.isNotEmpty(token)){
+            user.setToken(token);
+            user = userService.getUserByToken(user);
+        }
     }
 
     /**
      * 我的缴费
      */
     @RequestMapping(value = "/payment", method = RequestMethod.POST)
-    public Result payment(){
-
+    public Result payment(@RequestHeader("Authorization") String token){
+        User user = new User();
+        if (StringUtils.isNotEmpty(token)){
+            user.setToken(token);
+            user = userService.getUserByToken(user);
+        }
         return null;
     }
 
@@ -380,9 +402,35 @@ public class AppUserController extends BaseController {
      * 我的预约
      */
     @RequestMapping(value = "/appoint", method = RequestMethod.POST)
-    public Result appoint(@RequestHeader("Authorization") String token){
+    public Result appoint(@RequestHeader("Authorization") String token, @RequestBody PageDataDTO pageDataDTO){
+        Result result = new Result();
+        Integer page = pageDataDTO.getPage();
+        if (page < 0){
+            result.setMsg("页数必须大于0");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        Integer size = pageDataDTO.getSize();
+        if (size == 0 || size < 0){
+            result.setMsg("条数必须大于0");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        User user = new User();
+        if (StringUtils.isNotEmpty(token)){
+            user.setToken(token);
+            user = userService.getUserByToken(user);
+        }
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("userId", user.getUserId());
+        params.put("start", (page - 1) * size);
+        params.put("size", size);
+        List<AppointmentDTO> list = yardappointService.selectAppointment(params);
 
-        return null;
+        result.setData(list);
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("提交成功");
+        return result;
     }
 
     /**
@@ -430,25 +478,25 @@ public class AppUserController extends BaseController {
      * 修改个人信息
      */
     @RequestMapping(value = "/info", method = RequestMethod.POST)
-    public void info(){
+    public void info(@RequestHeader("Authorization") String token){
 
     }
 
     /**
      * 查询场地
-     * @param jsonObject
+     * @param pageDataDTO
      * @return
      */
     @RequestMapping(value = "/getYard", method = RequestMethod.POST)
-    public Result getYard(@RequestBody JSONObject jsonObject){
+    public Result getYard(@RequestBody PageDataDTO pageDataDTO){
         Result result = new Result();
-        Integer page = jsonObject.getInteger("page");
+        Integer page = pageDataDTO.getPage();
         if (page < 0){
             result.setMsg("页数必须大于0");
             result.setResult(ResultCode.FAIL);
             return result;
         }
-        Integer size = jsonObject.getInteger("size");
+        Integer size = pageDataDTO.getSize();
         if (size == 0 || size < 0){
             result.setMsg("条数必须大于0");
             result.setResult(ResultCode.FAIL);

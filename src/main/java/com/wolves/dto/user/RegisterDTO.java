@@ -20,6 +20,8 @@ public class RegisterDTO {
 
     private String username;
 
+    private String email;
+
     public String getTelephone() {
         return telephone;
     }
@@ -84,6 +86,14 @@ public class RegisterDTO {
         this.username = username;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "RegisterDTO{" +
@@ -95,6 +105,7 @@ public class RegisterDTO {
                 ", name='" + name + '\'' +
                 ", sex='" + sex + '\'' +
                 ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }
