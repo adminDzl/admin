@@ -22,18 +22,19 @@
 				<tr>
 					<td>
 						<span class="input-icon">
-							<input autocomplete="off" id="nav-search-input" type="text" name="field1" value="" placeholder="这里输入关键词" />
+							<input autocomplete="off" id="nav-search-input" type="text" name="POSITION" value="" placeholder="这里输入场地" />
 							<i id="nav-search-icon" class="icon-search"></i>
 						</span>
 					</td>
 					<td><input class="span10 date-picker" name="lastLoginStart" id="lastLoginStart" value="${pd.lastLoginStart}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期"/></td>
 					<td><input class="span10 date-picker" name="lastLoginEnd" id="lastLoginEnd" value="${pd.lastLoginEnd}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="结束日期"/></td>
 					<td style="vertical-align:top;"> 
-					 	<select class="chzn-select" name="field2" id="field2" data-placeholder="请选择" style="vertical-align:top;width: 120px;">
+					 	<select class="chzn-select" name="STATUS" id="STATUS" data-placeholder="请选择预订状态" style="vertical-align:top;width: 120px;">
 							<option value=""></option>
 							<option value="">全部</option>
-							<option value="">1</option>
-							<option value="">2</option>
+							<option value="1">待审批</option>
+							<option value="2">已通过</option>
+							<option value="3">已驳回</option>
 					  	</select>
 					</td>
 					<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"  title="检索"><i id="nav-search-icon" class="icon-search"></i></button></td>
@@ -84,9 +85,9 @@
 										<td>${var.BOOK_DURATION}</td>
 										<td>${var.BOOK_FEE}</td>
 										<td>
-											<c:if test="${var.STATUS == 1 }"><span class="label label-success arrowed">已申请</span></c:if>
-											<c:if test="${var.STATUS == 2 }"><span class="label label-success arrowed">已成功</span></c:if>
-											<c:if test="${var.STATUS == 3 }"><span class="label label-important arrowed-in">已退回</span></c:if>
+											<c:if test="${var.STATUS == 1 }"><span class="label label-success arrowed">待审批</span></c:if>
+											<c:if test="${var.STATUS == 2 }"><span class="label label-success arrowed">已通过</span></c:if>
+											<c:if test="${var.STATUS == 3 }"><span class="label label-important arrowed-in">已驳回</span></c:if>
 										</td>
 										<td>${var.CREATE_TIME}</td>
 										<td>${var.UPDATE_TIME}</td>

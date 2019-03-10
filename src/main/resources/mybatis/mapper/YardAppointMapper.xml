@@ -106,6 +106,20 @@
 		from 
 				YARD_APPOINT a
 				LEFT JOIN YARD b ON (a.PLACE_ID = b.YARD_ID)
+		WHERE 1=1
+		<if test="pd.POSITION != '' and pd.POSITION != null ">
+			AND b.POSITION LIKE concat(concat('%',#{pd.POSITION, jdbcType=VARCHAR}),'%')
+		</if>
+		<if test="pd.lastLoginStart != '' and pd.lastLoginStart != null ">
+			<![CDATA[  AND DATE_FORMAT(a.create_time, '%Y-%m-%d') >= DATE_FORMAT(#{pd.lastLoginStart, jdbcType=VARCHAR}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="pd.lastLoginEnd != '' and pd.lastLoginEnd != null ">
+			<![CDATA[  AND DATE_FORMAT(a.create_time, '%Y-%m-%d') <= DATE_FORMAT(#{pd.lastLoginEnd, jdbcType=VARCHAR}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="pd.STATUS != '' and pd.STATUS != null ">
+			AND a.STATUS = #{pd.STATUS, jdbcType=INTEGER}
+		</if>
+		ORDER BY a.create_time DESC
 	</select>
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">

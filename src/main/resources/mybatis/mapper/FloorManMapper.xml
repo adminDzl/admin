@@ -83,6 +83,17 @@
 				a.FLOORMAN_ID
 		from 
 				FLOOR_MAN a
+		WHERE 1=1
+		<if test="pd.FLOOR_MASTER_NAME != '' and pd.FLOOR_MASTER_NAME != null ">
+			AND a.FLOOR_MASTER_NAME = #{pd.FLOOR_MASTER_NAME, jdbcType=VARCHAR}
+		</if>
+		<if test="pd.lastLoginStart != '' and pd.lastLoginStart != null ">
+			<![CDATA[  AND DATE_FORMAT(a.create_time, '%Y-%m-%d') >= DATE_FORMAT(#{pd.lastLoginStart, jdbcType=VARCHAR}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="pd.lastLoginEnd != '' and pd.lastLoginEnd != null ">
+			<![CDATA[  AND DATE_FORMAT(a.create_time, '%Y-%m-%d') <= DATE_FORMAT(#{pd.lastLoginEnd, jdbcType=VARCHAR}, '%Y-%m-%d') ]]>
+		</if>
+		ORDER BY a.create_time DESC
 	</select>
 
 	<!-- 列表(全部) -->

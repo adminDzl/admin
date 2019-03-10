@@ -75,6 +75,20 @@
 				a.TIPMSG_ID
 		from 
 				TIP_MSG a
+		WHERE 1=1
+		<if test="pd.ALERT_TITLE != '' and pd.ALERT_TITLE != null ">
+			AND a.ALERT_TITLE = #{pd.ALERT_TITLE, jdbcType=VARCHAR}
+		</if>
+		<if test="pd.lastLoginStart != '' and pd.lastLoginStart != null ">
+			<![CDATA[  AND DATE_FORMAT(a.create_time, '%Y-%m-%d') >= DATE_FORMAT(#{pd.lastLoginStart, jdbcType=VARCHAR}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="pd.lastLoginEnd != '' and pd.lastLoginEnd != null ">
+			<![CDATA[  AND DATE_FORMAT(a.create_time, '%Y-%m-%d') <= DATE_FORMAT(#{pd.lastLoginEnd, jdbcType=VARCHAR}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="pd.MSG_TYPE != '' and pd.MSG_TYPE != null ">
+			AND a.MSG_TYPE = #{pd.MSG_TYPE, jdbcType=INTEGER}
+		</if>
+		ORDER BY a.create_time DESC
 	</select>
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">
