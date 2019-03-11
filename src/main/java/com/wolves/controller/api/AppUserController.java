@@ -25,13 +25,11 @@ import com.wolves.util.Tools;
 import com.wolves.util.UuidUtil;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +43,7 @@ import java.util.HashMap;
  */
 @RestController
 @RequestMapping(value = "/api/user")
-public class AppUserController extends BaseController {
+public class AppUserController {
 
     @Resource(name="userService")
     private UserService userService;
@@ -212,11 +210,9 @@ public class AppUserController extends BaseController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
-        //获取ip
-        HttpServletRequest request = this.getRequest();
         //保存数据
         User userInfo = new User();
-        userInfo.setUserId(this.get32UUID());
+        userInfo.setUserId(UuidUtil.get32UUID());
         userInfo.setUsername(telephone);
         userInfo.setPassword(encrypt);
         userInfo.setPhone(telephone);
@@ -224,7 +220,7 @@ public class AppUserController extends BaseController {
         userInfo.setSex(sex);
         userInfo.setIdCardFrontUrl(idCardFrontUrl);
         userInfo.setIdCardBackUrl(idCardBackUrl);
-        userInfo.setIp(Tools.getIpAddr(request));
+        userInfo.setIp("");
         userInfo.setEmail(email);
         //身份证已经绑定
         Integer i = userService.saveUser(userInfo);
@@ -305,7 +301,7 @@ public class AppUserController extends BaseController {
     /**
      * 查询车牌简称
      */
-    @RequestMapping(value = "/getLicensePlate", method = RequestMethod.POST)
+    @RequestMapping(value = "/getLicensePlate", method = RequestMethod.GET)
     @ResponseBody
     public Result getLicensePlate(){
         Result result = new Result();
@@ -339,7 +335,7 @@ public class AppUserController extends BaseController {
 
         //存入数据
         PageData pd = new PageData();
-        pd.put("USERCARBIND_ID", this.get32UUID());
+        pd.put("USERCARBIND_ID", UuidUtil.get32UUID());
         pd.put("STATUS", StatusEnum.INIT.getKey());
         pd.put("USER_ID",user.getUserId());
         pd.put("CAR_NO",plate);
@@ -448,7 +444,7 @@ public class AppUserController extends BaseController {
         }
         PageData pd = new PageData();
         //主键
-        pd.put("YARDAPPOINT_ID", this.get32UUID());
+        pd.put("YARDAPPOINT_ID", UuidUtil.get32UUID());
         //场地ID
         pd.put("PLACE_ID", applyYardDTO.getYardId());
         //预定人ID
