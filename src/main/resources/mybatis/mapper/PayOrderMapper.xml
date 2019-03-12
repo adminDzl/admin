@@ -4,7 +4,8 @@
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into PAY_ORDER(
-			PAY_TYPE,	
+			PAY_TYPE,
+			USER_ID,
 			PAY_AMOUNT,	
 			PAY_TIME,	
 			RETURN_TIME,	
@@ -13,7 +14,8 @@
 			UPDATE_TIME,	
 			PAYORDER_ID
 		) values (
-			#{PAY_TYPE},	
+			#{PAY_TYPE},
+			#{USER_ID},
 			#{PAY_AMOUNT},	
 			#{PAY_TIME},	
 			#{RETURN_TIME},	
@@ -34,6 +36,7 @@
 		update  PAY_ORDER
 			set 
 				PAY_TYPE = #{PAY_TYPE},
+				USER_ID = #{USER_ID},
 				PAY_AMOUNT = #{PAY_AMOUNT},
 				PAY_TIME = #{PAY_TIME},
 				RETURN_TIME = #{RETURN_TIME},
@@ -46,7 +49,8 @@
 	<!-- 通过ID获取数据 -->
 	<select id="findById" parameterType="pd" resultType="pd">
 		select 
-			PAY_TYPE,	
+			PAY_TYPE,
+			USER_ID,
 			PAY_AMOUNT,	
 			PAY_TIME,	
 			RETURN_TIME,	
@@ -62,7 +66,8 @@
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
-				a.PAY_TYPE,	
+				a.PAY_TYPE,
+				a.USER_ID,
 				a.PAY_AMOUNT,	
 				a.PAY_TIME,	
 				a.RETURN_TIME,	
@@ -76,7 +81,8 @@
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">
 		select
-				a.PAY_TYPE,	
+				a.PAY_TYPE,
+				a.USER_ID,
 				a.PAY_AMOUNT,	
 				a.PAY_TIME,	
 				a.RETURN_TIME,	
