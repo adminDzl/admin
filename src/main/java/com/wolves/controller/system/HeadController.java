@@ -143,9 +143,9 @@ public class HeadController extends BaseController {
 					for(int i=0;i<userList.size();i++){
 						if(Tools.checkMobileNumber(userList.get(i).getString("PHONE"))){
 							if("1".equals(TYPE)){
-								SmsUtil.sendSms1(userList.get(i).getString("PHONE"), CONTENT);
+								//SmsUtil.sendSms1(userList.get(i).getString("PHONE"), CONTENT);
 							}else{
-								SmsUtil.sendSms2(userList.get(i).getString("PHONE"), CONTENT);
+								//SmsUtil.sendSms2(userList.get(i).getString("PHONE"), CONTENT);
 							}
 							count++;
 						}else{
@@ -169,9 +169,9 @@ public class HeadController extends BaseController {
 				for(int i=0;i<arrTITLE.length;i++){
 					if(Tools.checkMobileNumber(arrTITLE[i])){
 						if("1".equals(TYPE)){
-							SmsUtil.sendSms1(arrTITLE[i], CONTENT);
+							//SmsUtil.sendSms1(arrTITLE[i], CONTENT);
 						}else{
-							SmsUtil.sendSms2(arrTITLE[i], CONTENT);
+							//SmsUtil.sendSms2(arrTITLE[i], CONTENT);
 						}
 						count++;
 					}else{
