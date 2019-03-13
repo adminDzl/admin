@@ -1,5 +1,11 @@
 package com.wolves.service.pay;
 
+import com.wolves.dto.OrderDTO;
+import com.wolves.dto.pay.WxResultDTO;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @author xulu
  * @date 2019/2/28
@@ -7,7 +13,7 @@ package com.wolves.service.pay;
  */
 public interface PayService {
 
-    public void pay();
+    public WxResultDTO pay(HttpServletRequest request, String token, OrderDTO orderDTO);
 
-    public void reback();
+    public void reback(HttpServletRequest request, HttpServletResponse response);
 }

@@ -1,13 +1,20 @@
 package com.wolves.service.pay;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wolves.common.PayTypeEnum;
 import com.wolves.common.WxPayStatusEnum;
+import com.wolves.dto.OrderDTO;
+import com.wolves.dto.pay.WxResultDTO;
 import com.wolves.entity.app.PayOrder;
+import com.wolves.entity.app.User;
+import com.wolves.service.system.user.UserService;
 import com.wolves.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
@@ -19,32 +26,45 @@ import java.util.*;
  * @date 2019/2/28
  * @link https://github.com/xulu163
  */
+@Service("wechatPayService")
 public class WechatPayService implements PayService {
     /** 本地IP */
     String LOCAL_NET_IP = "0:0:0:0:0:0:0:1";
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Override
-    public void pay() {
+    @Resource(name="userService")
+    private UserService userService;
 
+    @Override
+    public WxResultDTO pay(HttpServletRequest request, String token, OrderDTO orderDTO) {
+
+        return this.unifiedOrder(request, token, orderDTO);
     }
 
     @Override
-    public void reback() {
+    public void reback(HttpServletRequest request, HttpServletResponse response) {
 
+        this.wxPayNotify(request, response);
     }
 
     /**
      * 统一下单
      * @param request
      * @param token
-     * @param payOrder
+     * @param orderDTO
      */
     @Transactional(rollbackFor = RuntimeException.class)
-    public void unifiedOrder(HttpServletRequest request, String token, PayOrder payOrder){
+    private WxResultDTO unifiedOrder(HttpServletRequest request, String token, OrderDTO orderDTO){
+        User user = new User();
+        if (StringUtils.isNotEmpty(token)){
+            user.setToken(token);
+            user = userService.getUserByToken(user);
+        }
         try {
             PayOrder order = new PayOrder();
+            WxResultDTO wxResultDTO = new WxResultDTO();
+
             SortedMap<Object,Object> parameters = new TreeMap<Object,Object>();
             //APPID
             parameters.put("appid", WxConfigUtil.AppId);
@@ -52,8 +72,8 @@ public class WechatPayService implements PayService {
             parameters.put("mch_id", WxConfigUtil.MchId);
             parameters.put("device_info", "WEB");
             String nonce_str = PayCommonUtil.createNoncestr();
-
             //随机字符串
+            wxResultDTO.setNonceStr(nonce_str);
             parameters.put("nonce_str", nonce_str);
             String sign = PayCommonUtil.createSign("UTF-8", parameters);
             // 签名
@@ -61,14 +81,13 @@ public class WechatPayService implements PayService {
             //默认MD5，非必传
             parameters.put("sign_type", "MD5");
             //商品描述
-            parameters.put("body", WxConfigUtil.body);
+            parameters.put("body", PayTypeEnum.queryValueByKey(orderDTO.getType().toString()));
             String trade_no = UuidUtil.get32UUID();
             order.setPayorderId(trade_no);
             //商户订单号
             parameters.put("out_trade_no", trade_no);
             //标价金额 接口单位为分，账单则为元，如10分，对应账单为0.1元
-            parameters.put("total_fee", payOrder.getPayAmount());
-
+            parameters.put("total_fee", orderDTO.getAmount());
             logger.warn("unifiedOrder ======> ip" + request.getHeader("x-forwarded-for"));
             String reqIp = PublicUtil.getIpAddr(request);
             if (!LOCAL_NET_IP.equals(reqIp)) {
@@ -89,11 +108,11 @@ public class WechatPayService implements PayService {
                     //throw new OureaException(OureaException.Type.PAY_WX_PRE_SIGN_ERROR, OureaException.Type.PAY_WX_PRE_SIGN_ERROR.getError()+"~");
                 }
                 long timeStamp = System.currentTimeMillis();
-//                payRespDTO.setTimeStamp(timeStamp+"");
+                wxResultDTO.setTimeStamp(timeStamp+"");
 
                 String packages = "prepay_id=" + prepay_id;
-//                payRespDTO.setPackages(packages);
-//                payRespDTO.setPrepayId(prepay_id);
+                wxResultDTO.setPackages(packages);
+                wxResultDTO.setPrepayId(prepay_id);
 
                 parameters = new TreeMap<Object,Object>();
                 //APPID
@@ -107,19 +126,19 @@ public class WechatPayService implements PayService {
                 //随机字符串
                 parameters.put("timeStamp", timeStamp);
                 String paySign = PayCommonUtil.createSign("UTF-8", parameters);
-//                payRespDTO.setPaySign(paySign);
-//                payRespDTO.setSignType(WX_DEFAULT_SIGN_TYPE);
+                wxResultDTO.setPaySign(paySign);
+                wxResultDTO.setSignType("MD5");
 
                 //充值记录
-                order.setUserId(payOrder.getUserId());
-                order.setPayType(payOrder.getPayType());
-                order.setPayAmount(payOrder.getPayAmount());
+                order.setUserId(user.getUserId());
+                order.setPayType(orderDTO.getType());
+                order.setPayAmount(orderDTO.getAmount());
                 order.setPayStatus(Integer.valueOf(WxPayStatusEnum.INIT.getKey()));
                 order.setPayTime(new Date());
 
                 //保存
 
-//                return payRespDTO;
+                return wxResultDTO;
             }
 //            throw new OureaException(OureaException.Type.PAY_WX_PRE_ORDER_ERROR, OureaException.Type.PAY_WX_PRE_ORDER_ERROR.getError()+"~");
         } catch (Exception e) {
@@ -130,6 +149,7 @@ public class WechatPayService implements PayService {
 //            }
 //            throw new OureaException(OureaException.Type.PAY_WX_PRE_ORDER_ERROR, OureaException.Type.PAY_WX_PRE_ORDER_ERROR.getError());
         }
+        return null;
     }
 
     /**
@@ -139,7 +159,7 @@ public class WechatPayService implements PayService {
      * @param response
      */
     @Transactional(rollbackFor = RuntimeException.class)
-    public void wxPayNotify(HttpServletRequest request,HttpServletResponse response) {
+    private void wxPayNotify(HttpServletRequest request,HttpServletResponse response) {
         String inputLine = "";
         String notityXml = "";
         try {
@@ -166,8 +186,8 @@ public class WechatPayService implements PayService {
                 }
                 packageParams.put(parameter, v);
             }
-            // 账号信息
-            String key = WxConfigUtil.API_KEY; // key
+            // 账号信息,key
+            String key = WxConfigUtil.API_KEY;
 
 //            logger.debug("回调响应的结果==>" + ReflectionToStringBuilder.toString(packageParams));
             //判断签名是否正确
@@ -186,12 +206,14 @@ public class WechatPayService implements PayService {
                     String device_info = (String)packageParams.get("device_info");
                     String transaction_id = (String)packageParams.get("transaction_id");
                     String time_end = (String)packageParams.get("time_end");
-                    String total_fee = (String)packageParams.get("total_fee");//需要做处理
+                    //需要做处理
+                    String total_fee = (String)packageParams.get("total_fee");
 
 
-                    //微信支付回调业务逻辑
-                    BigDecimal orderAmount = BigDecimal.ZERO;//new BigDecimal(total_fee).divide(WX_UNIT);
-                    PayOrder order = new PayOrder();//根据查询out_trade_no
+                    //微信支付回调业务逻辑,new BigDecimal(total_fee).divide(WX_UNIT)
+                    BigDecimal orderAmount = BigDecimal.ZERO;
+                    //根据查询out_trade_no
+                    PayOrder order = new PayOrder();
                     if (null != order) {
 
                         logger.warn("orderAmount==" + orderAmount + ", dbAmount==" + order.getPayAmount() + ", equals==" + orderAmount.compareTo(order.getPayAmount()));
