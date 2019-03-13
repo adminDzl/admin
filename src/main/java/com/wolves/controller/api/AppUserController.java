@@ -1,6 +1,7 @@
 package com.wolves.controller.api;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonObject;
 import com.wolves.common.LicensePlateEnum;
 import com.wolves.common.StatusEnum;
 import com.wolves.controller.base.BaseController;
@@ -534,5 +535,27 @@ public class AppUserController {
     @RequestMapping(value = "/report", method = RequestMethod.POST)
     public void report(){
         Result result = new Result();
+    }
+
+    /**
+     * 设置邮箱
+     */
+    @RequestMapping(value = "setEmail", method = RequestMethod.POST)
+    public void setEmail(@RequestHeader("Authorization") String token,
+                         @RequestBody JsonObject jsonObject){
+
+
+
+    }
+
+    /**
+     * 修改邮箱
+     */
+    @RequestMapping(value = "editEmail", method = RequestMethod.POST)
+    public void editEmail(@RequestHeader("Authorization") String token,
+                         @RequestBody JsonObject jsonObject){
+
+
+
     }
 }
