@@ -138,7 +138,7 @@ public class WechatPayService implements PayService {
      * @param request
      * @param response
      */
-    @Transactional
+    @Transactional(rollbackFor = RuntimeException.class)
     public void wxPayNotify(HttpServletRequest request,HttpServletResponse response) {
         String inputLine = "";
         String notityXml = "";
