@@ -102,10 +102,12 @@
 				a.UPDATE_TIME,	
 				a.YARDAPPOINT_ID,
 				b.PLACE_TYPE,
-				b.POSITION
+				b.POSITION,
+				u.USERNAME
 		from 
 				YARD_APPOINT a
-				LEFT JOIN YARD b ON (a.PLACE_ID = b.YARD_ID)
+		LEFT JOIN YARD b ON (a.PLACE_ID = b.YARD_ID)
+		LEFT JOIN USER u ON (u.USER_ID = a.APPLY_USER_ID)
 		WHERE 1=1
 		<if test="pd.POSITION != '' and pd.POSITION != null ">
 			AND b.POSITION LIKE concat(concat('%',#{pd.POSITION, jdbcType=VARCHAR}),'%')

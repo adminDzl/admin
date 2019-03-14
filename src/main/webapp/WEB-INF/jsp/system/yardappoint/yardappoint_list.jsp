@@ -78,7 +78,7 @@
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 										<td>${var.POSITION}</td>
-										<td>${var.APPLY_USER_ID}</td>
+										<td>${var.USERNAME}</td>
 										<td>${var.PLACE_DATE}</td>
 										<td>${var.BEGIN_TIME}</td>
 										<td>${var.END_TIME}</td>
