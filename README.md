@@ -150,6 +150,24 @@
     location 位置
     user_id 用户
     status
+
+# 20 app_role角色
+    id
+    role_name
+    company_id
+# 21 app_resource资源
+    id
+    resource_name
+    resuorce_type 0公司，1门禁
+    company_id
+# 22 app_user_role
+    id
+    user_id
+    app_role_id
+# 23 app_role_resource
+    id
+    role_id
+    resource_id
     
     
     
