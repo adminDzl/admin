@@ -62,6 +62,7 @@ public class WechatPayService implements PayService {
             user = userService.getUserByToken(user);
         }
         try {
+            //这里插入缴费记录，按照缴费单
             PayOrder order = new PayOrder();
             WxResultDTO wxResultDTO = new WxResultDTO();
 

@@ -2,6 +2,8 @@ package com.wolves.service.system.appuser;
 
 import java.util.List;
 import javax.annotation.Resource;
+
+import com.wolves.dto.UserCarBindDTO;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
 import com.wolves.entity.system.Page;
@@ -60,6 +62,16 @@ public class UserCarBindService {
 	*/
 	public void deleteAll(String[] ArrayDATA_IDS){
 		dao.delete("UserCarBindMapper.deleteAll", ArrayDATA_IDS);
+	}
+
+	/**
+	 *  通过客户id查询
+	 * @param userId
+	 * @return
+	 */
+	public UserCarBindDTO selectCarBindByUserId(String userId){
+
+		return (UserCarBindDTO)dao.findForObject("UserCarBindMapper.selectCarBindByUserId", userId);
 	}
 }
 

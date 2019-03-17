@@ -17,6 +17,7 @@ import com.wolves.service.system.appuser.UserCarBindService;
 import com.wolves.service.system.floorman.FloorManService;
 import com.wolves.service.system.newstip.NewsTipService;
 import com.wolves.service.system.parking.ParkingService;
+import com.wolves.service.system.payorder.PayOrderService;
 import com.wolves.service.system.user.UserService;
 import com.wolves.service.system.yard.YardService;
 import com.wolves.service.system.yardappoint.YardAppointService;
@@ -62,6 +63,8 @@ public class AppUserController {
     private ParkingService parkingService;
     @Resource(name="newstipService")
     private NewsTipService newsTipService;
+    @Resource(name="payorderService")
+    private PayOrderService payOrderService;
 
     /**
      * 登陆,返回token
@@ -373,6 +376,13 @@ public class AppUserController {
             user.setToken(token);
             user = userService.getUserByToken(user);
         }
+        //判断是否已经绑定车牌
+        UserCarBindDTO userCarBindDTO = usercarbindService.selectCarBindByUserId(user.getUserId());
+        if (userCarBindDTO == null){
+            result.setMsg("请绑定车辆信息");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userId", user.getUserId());
         params.put("start", (page - 1) * size);
@@ -413,13 +423,38 @@ public class AppUserController {
      * 我的缴费
      */
     @RequestMapping(value = "/payment", method = RequestMethod.POST)
-    public Result payment(@RequestHeader("Authorization") String token){
+    public Result payment(@RequestHeader("Authorization") String token,
+                          @RequestBody PageDataDTO pageDataDTO){
+        Result result = new Result();
+        Integer page = pageDataDTO.getPage();
+        if (page < 0){
+            result.setMsg("页数必须大于0");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        Integer size = pageDataDTO.getSize();
+        if (size == 0 || size < 0){
+            result.setMsg("条数必须大于0");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+
         User user = new User();
         if (StringUtils.isNotEmpty(token)){
             user.setToken(token);
             user = userService.getUserByToken(user);
         }
-        return null;
+
+        //查询缴费记录
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("userId", user.getUserId());
+        params.put("start", (page - 1) * size);
+        params.put("size", size);
+
+        result.setData(payOrderService.selectPayOrderByUserId(params));
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("查询成功");
+        return result;
     }
 
     /**
@@ -642,6 +677,8 @@ public class AppUserController {
     }
 
     //统一申请
+
+    //查询站内信
 
     /**
      * 数据报表

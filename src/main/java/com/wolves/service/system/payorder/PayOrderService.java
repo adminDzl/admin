@@ -1,7 +1,10 @@
 package com.wolves.service.system.payorder;
 
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
+
+import com.wolves.entity.app.PayOrder;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
 import com.wolves.entity.system.Page;
@@ -60,6 +63,11 @@ public class PayOrderService {
 	*/
 	public void deleteAll(String[] ArrayDATA_IDS){
 		dao.delete("PayOrderMapper.deleteAll", ArrayDATA_IDS);
+	}
+
+	public List<PayOrder> selectPayOrderByUserId(Map<String, Object> params){
+
+		return (List<PayOrder>)dao.findForList("PayOrderMapper.selectPayOrderByUserId", params);
 	}
 }
 
