@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="TipMsgMapper">
+
+	<resultMap type="com.wolves.dto.user.TipMsgDTO" id="ResultMap">
+		<id column="tipmsg_id" property="tipMsgId"/>
+		<result column="type" property="type"/>
+		<result column="msg_type" property="msgType"/>
+		<result column="to_user" property="toUser"/>
+		<result column="alert_title" property="alertTitle"/>
+		<result column="read" property="read"/>
+		<result column="alert_content" property="alertContent"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+	</resultMap>
+
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into TIP_MSG(
@@ -130,5 +143,22 @@
 				TIP_MSG a
 		WHERE  a.TO_USER = #{userId}
 		ORDER BY a.CREATE_TIME DESC LIMIT 3;
+	</select>
+
+	<!--查询站内信列表-->
+	<select id="selectTipMsg" parameterType="com.wolves.dto.user.TipMsgDTO" resultMap="ResultMap">
+		SELECT
+			*
+		FROM tip_msg
+		ORDER BY create_time DESC
+		LIMIT #{params.start}, #{params.size}
+	</select>
+
+	<!--查询站内信详情-->
+	<select id="selectTipMsgById" parameterType="com.wolves.dto.user.TipMsgDTO" resultMap="ResultMap">
+		SELECT
+			*
+		FROM tip_msg
+		WHERE tipmsg_id = #{tipMsgId}
 	</select>
 </mapper>

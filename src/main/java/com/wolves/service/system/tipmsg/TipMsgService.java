@@ -1,7 +1,10 @@
 package com.wolves.service.system.tipmsg;
 
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
+
+import com.wolves.dto.user.TipMsgDTO;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
 import com.wolves.entity.system.Page;
@@ -68,6 +71,25 @@ public class TipMsgService {
 	public List<PageData> getMsgByUser(PageData pd){
 
 		return (List<PageData>) dao.findForList("TipMsgMapper.getMsgByUser", pd);
+	}
+
+	/**
+	 *  查询列表
+	 * @param params
+	 * @return
+	 */
+	public List<TipMsgDTO> selectTipMsg(Map<String, Object> params){
+		return (List<TipMsgDTO>) dao.findForList("TipMsgMapper.selectTipMsg", params);
+	}
+
+	/**
+	 * 查询详情
+	 * @param tipMsgId
+	 * @return
+	 */
+	public TipMsgDTO selectTipMsgById(String tipMsgId){
+
+		return (TipMsgDTO) dao.findForObject("TipMsgMapper.selectTipMsgById", tipMsgId);
 	}
 }
 

@@ -19,6 +19,7 @@ import com.wolves.service.system.newstip.NewsTipService;
 import com.wolves.service.system.parking.ParkingService;
 import com.wolves.service.system.payorder.PayOrderService;
 import com.wolves.service.system.repair.RepairApplyService;
+import com.wolves.service.system.tipmsg.TipMsgService;
 import com.wolves.service.system.user.UserService;
 import com.wolves.service.system.yard.YardService;
 import com.wolves.service.system.yardappoint.YardAppointService;
@@ -68,6 +69,8 @@ public class AppUserController {
     private PayOrderService payOrderService;
     @Resource(name="repairApplyService")
     private RepairApplyService repairApplyService;
+    @Resource(name="tipmsgService")
+    private TipMsgService tipMsgService;
 
     /**
      * 登陆,返回token
@@ -722,7 +725,60 @@ public class AppUserController {
 
     //统一申请
 
-    //查询站内信
+    /**
+     * 查询站内信
+     * @param token
+     * @param pageDataDTO
+     * @return
+     */
+    @RequestMapping(value = "/tipMsg", method = RequestMethod.POST)
+    public Result tipMsg(@RequestHeader("Authorization") String token,
+                       @RequestBody PageDataDTO pageDataDTO){
+        Result result = new Result();
+        Integer page = pageDataDTO.getPage();
+        if (page < 0){
+            result.setResult(ResultCode.FAIL);
+            result.setMsg("页数必须大于0");
+            return result;
+        }
+        Integer size = pageDataDTO.getSize();
+        if (size == 0 || size < 0){
+            result.setMsg("条数必须大于0");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("start", (page - 1) * size);
+        params.put("size", size);
+
+        result.setData(tipMsgService.selectTipMsg(params));
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("查询成功");
+        return result;
+    }
+
+    /**
+     * 查询站内信详情
+     * @param token
+     * @param jsonObject
+     * @return
+     */
+    @RequestMapping(value = "/tipMsgDetail", method = RequestMethod.POST)
+    public Result tipMsgDetail(@RequestHeader("Authorization") String token,
+                             @RequestBody JSONObject jsonObject){
+        Result result = new Result();
+        String tipMsgId = jsonObject.getString("tipMsgId");
+        if (StringUtils.isEmpty(tipMsgId)){
+            result.setResult(ResultCode.FAIL);
+            result.setMsg("rtipMsgId不能为空");
+            return result;
+        }
+
+        result.setData(tipMsgService.selectTipMsgById(tipMsgId));
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("查询成功");
+        return result;
+    }
 
     /**
      * 数据报表
