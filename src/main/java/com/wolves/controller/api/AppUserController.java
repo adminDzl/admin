@@ -557,7 +557,12 @@ public class AppUserController {
         return result;
     }
 
-    //项目申报
+    /**
+     * 项目申报
+     * @param token
+     * @param pageDataDTO
+     * @return
+     */
     @RequestMapping(value = "/declare", method = RequestMethod.POST)
     public Result declare(@RequestHeader("Authorization") String token,
                         @RequestBody PageDataDTO pageDataDTO){
@@ -586,7 +591,12 @@ public class AppUserController {
         return result;
     }
 
-    //新闻
+    /**
+     * 新闻
+     * @param token
+     * @param pageDataDTO
+     * @return
+     */
     @RequestMapping(value = "/news", method = RequestMethod.POST)
     public Result news(@RequestHeader("Authorization") String token,
                           @RequestBody PageDataDTO pageDataDTO){
@@ -615,6 +625,12 @@ public class AppUserController {
         return result;
     }
 
+    /**
+     * 查询详情
+     * @param token
+     * @param jsonObject
+     * @return
+     */
     @RequestMapping(value = "/detailsById", method = RequestMethod.POST)
     public Result detailsById(@RequestHeader("Authorization") String token,
                             @RequestBody JSONObject jsonObject){
@@ -631,6 +647,8 @@ public class AppUserController {
         result.setMsg("查询成功");
         return result;
     }
+
+    //统一申请
 
     /**
      * 数据报表
