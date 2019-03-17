@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="NewsTipMapper">
+
+	<resultMap type="com.wolves.dto.NewsTipDTO" id="ResultMap">
+		<id column="newstip_id" property="newstipId"/>
+		<result column="news_title" property="newsTitle"/>
+		<result column="news_content" property="newsContent"/>
+		<result column="attach_url" property="attachUrl"/>
+		<result column="create_time" property="createTime"/>
+	</resultMap>
+
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into NEWS_TIP(
@@ -137,4 +146,28 @@
 			#{item}
 		</foreach>
 	</delete>
+
+	<select id="selectNewsByType" parameterType="com.wolves.dto.NewsTipDTO" resultMap="ResultMap">
+		SELECT
+			newstip_id,
+			news_title,
+			news_content,
+			attach_url,
+			create_time
+		FROM news_tip
+		WHERE status = 1 AND news_type = #{params.newsType}
+		ORDER BY create_time DESC
+		LIMIT #{params.start}, #{params.size}
+	</select>
+
+	<select id="selectNewsById" parameterType="com.wolves.dto.NewsTipDTO" resultMap="ResultMap">
+		SELECT
+			newstip_id,
+			news_title,
+			news_content,
+			attach_url,
+			create_time
+		FROM news_tip
+		WHERE status = 1 AND newstip_id = #{newstipId}
+	</select>
 </mapper>

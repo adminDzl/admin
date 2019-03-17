@@ -3,11 +3,9 @@ package com.wolves.controller.api;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.JsonObject;
 import com.wolves.common.LicensePlateEnum;
+import com.wolves.common.NewsTypeEnum;
 import com.wolves.common.StatusEnum;
-import com.wolves.controller.base.BaseController;
-import com.wolves.dto.ApplyYardDTO;
-import com.wolves.dto.AppointmentDTO;
-import com.wolves.dto.PageDataDTO;
+import com.wolves.dto.*;
 import com.wolves.dto.user.ForgetDTO;
 import com.wolves.dto.user.LoginDTO;
 import com.wolves.dto.user.RegisterDTO;
@@ -17,6 +15,8 @@ import com.wolves.framework.common.ResultCode;
 import com.wolves.service.system.SmsService;
 import com.wolves.service.system.appuser.UserCarBindService;
 import com.wolves.service.system.floorman.FloorManService;
+import com.wolves.service.system.newstip.NewsTipService;
+import com.wolves.service.system.parking.ParkingService;
 import com.wolves.service.system.user.UserService;
 import com.wolves.service.system.yard.YardService;
 import com.wolves.service.system.yardappoint.YardAppointService;
@@ -58,6 +58,10 @@ public class AppUserController {
     private YardService yardService;
     @Resource(name="yardappointService")
     private YardAppointService yardappointService;
+    @Resource(name="parkingService")
+    private ParkingService parkingService;
+    @Resource(name="newstipService")
+    private NewsTipService newsTipService;
 
     /**
      * 登陆,返回token
@@ -269,6 +273,8 @@ public class AppUserController {
         user.setPassword(encrypt);
 
         //返回结果
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("修改成功");
         return result;
     }
 
@@ -354,8 +360,36 @@ public class AppUserController {
      * 查看历史停车记录
      */
     @RequestMapping(value = "/myParkHistory", method = RequestMethod.POST)
-    public void myParkHistory(@RequestHeader("Authorization") String token, @RequestBody JSONObject jsonObject){
+    public Result myParkHistory(@RequestHeader("Authorization") String token,
+                              @RequestBody PageDataDTO pageDataDTO){
+        Result result = new Result();
+        Integer page = pageDataDTO.getPage();
+        if (page < 0){
+            result.setMsg("页数必须大于0");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        Integer size = pageDataDTO.getSize();
+        if (size == 0 || size < 0){
+            result.setMsg("条数必须大于0");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        User user = new User();
+        if (StringUtils.isNotEmpty(token)){
+            user.setToken(token);
+            user = userService.getUserByToken(user);
+        }
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("userId", user.getUserId());
+        params.put("start", (page - 1) * size);
+        params.put("size", size);
+        List<UserParkingDTO> userParkingDTOs = parkingService.selectParking(params);
 
+        result.setData(userParkingDTOs);
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("查询成功");
+        return result;
     }
 
     /**
@@ -399,7 +433,8 @@ public class AppUserController {
      * 我的预约
      */
     @RequestMapping(value = "/appoint", method = RequestMethod.POST)
-    public Result appoint(@RequestHeader("Authorization") String token, @RequestBody PageDataDTO pageDataDTO){
+    public Result appoint(@RequestHeader("Authorization") String token,
+                          @RequestBody PageDataDTO pageDataDTO){
         Result result = new Result();
         Integer page = pageDataDTO.getPage();
         if (page < 0){
@@ -519,6 +554,81 @@ public class AppUserController {
         result.setData(floorManService.getFloorMan());
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("发送成功");
+        return result;
+    }
+
+    //项目申报
+    @RequestMapping(value = "/declare", method = RequestMethod.POST)
+    public Result declare(@RequestHeader("Authorization") String token,
+                        @RequestBody PageDataDTO pageDataDTO){
+        Result result = new Result();
+        Integer page = pageDataDTO.getPage();
+        if (page < 0){
+            result.setMsg("页数必须大于0");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        Integer size = pageDataDTO.getSize();
+        if (size == 0 || size < 0){
+            result.setMsg("条数必须大于0");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("newsType", NewsTypeEnum.declare.getKey());
+        params.put("start", (page - 1) * size);
+        params.put("size", size);
+        List<NewsTipDTO> list = newsTipService.selectNewsByType(params);
+
+        result.setData(list);
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("查询成功");
+        return result;
+    }
+
+    //新闻
+    @RequestMapping(value = "/news", method = RequestMethod.POST)
+    public Result news(@RequestHeader("Authorization") String token,
+                          @RequestBody PageDataDTO pageDataDTO){
+        Result result = new Result();
+        Integer page = pageDataDTO.getPage();
+        if (page < 0){
+            result.setResult(ResultCode.FAIL);
+            result.setMsg("页数必须大于0");
+            return result;
+        }
+        Integer size = pageDataDTO.getSize();
+        if (size == 0 || size < 0){
+            result.setMsg("条数必须大于0");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("newsType", NewsTypeEnum.news.getKey());
+        params.put("start", (page - 1) * size);
+        params.put("size", size);
+        List<NewsTipDTO> list = newsTipService.selectNewsByType(params);
+
+        result.setData(list);
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("查询成功");
+        return result;
+    }
+
+    @RequestMapping(value = "/detailsById", method = RequestMethod.POST)
+    public Result detailsById(@RequestHeader("Authorization") String token,
+                            @RequestBody JSONObject jsonObject){
+        Result result = new Result();
+        String newstipId = jsonObject.getString("newstipId");
+        if (StringUtils.isEmpty(newstipId)){
+            result.setResult(ResultCode.FAIL);
+            result.setMsg("newstipId不能为空");
+            return result;
+        }
+
+        result.setData(newsTipService.selectNewsById(newstipId));
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("查询成功");
         return result;
     }
 

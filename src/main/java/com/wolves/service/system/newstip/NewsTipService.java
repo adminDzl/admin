@@ -1,9 +1,11 @@
 package com.wolves.service.system.newstip;
 
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 
 import com.wolves.dao.DaoSupport;
+import com.wolves.dto.NewsTipDTO;
 import com.wolves.entity.system.Page;
 import com.wolves.util.PageData;
 import org.springframework.stereotype.Service;
@@ -83,6 +85,25 @@ public class NewsTipService {
 	 */
 	public void deleteDeclareAll(String[] ArrayDATA_IDS) {
 		dao.delete("NewsTipMapper.deleteDeclareAll", ArrayDATA_IDS);
+	}
+
+	/**
+	 * 查询
+	 * @param params
+	 * @return
+	 */
+	public List<NewsTipDTO> selectNewsByType(Map<String,Object> params){
+		return (List<NewsTipDTO>)dao.findForList("NewsTipMapper.selectNewsByType", params);
+	}
+
+	/**
+	 * 根据id查询
+	 * @param newstipId
+	 * @return
+	 */
+	public NewsTipDTO selectNewsById(String newstipId){
+
+		return (NewsTipDTO)dao.findForObject("NewsTipMapper.selectNewsById", newstipId);
 	}
 }
 

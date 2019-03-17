@@ -1,7 +1,10 @@
 package com.wolves.service.system.parking;
 
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
+
+import com.wolves.dto.UserParkingDTO;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
 import com.wolves.entity.system.Page;
@@ -60,6 +63,16 @@ public class ParkingService {
 	*/
 	public void deleteAll(String[] ArrayDATA_IDS){
 		dao.delete("ParkingMapper.deleteAll", ArrayDATA_IDS);
+	}
+
+	/**
+	 * 查询停车记录
+	 * @param params
+	 * @return
+	 */
+	public List<UserParkingDTO> selectParking(Map<String,Object> params){
+
+		return (List<UserParkingDTO>) dao.findForList("ParkingMapper.selectParking", params);
 	}
 }
 
