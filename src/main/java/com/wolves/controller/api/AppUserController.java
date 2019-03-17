@@ -67,7 +67,6 @@ public class AppUserController {
      * 登陆,返回token
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    @ResponseBody
     public Result login(@RequestBody LoginDTO loginDTO){
         Result result = new Result();
         if (StringUtils.isEmpty(loginDTO.getTelephone())){
@@ -111,7 +110,6 @@ public class AppUserController {
      * 登出,清空token
      */
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    @ResponseBody
     public Result logout(@RequestBody JSONObject jsonObject){
         Result result = new Result();
         //判断token是否有效
@@ -142,7 +140,6 @@ public class AppUserController {
      * 客户注册
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    @ResponseBody
     public Result register(@RequestBody RegisterDTO registerDTO){
         Result result = new Result();
         //获取数据，判断数据数据是否为空
@@ -244,7 +241,6 @@ public class AppUserController {
      * 忘记密码
      */
     @RequestMapping(value = "/forget", method = RequestMethod.POST)
-    @ResponseBody
     public Result forgetPassword(@RequestBody ForgetDTO forgetDTO){
         Result result = new Result();
         //获取参数
@@ -282,7 +278,6 @@ public class AppUserController {
      * 获取验证码
      */
     @RequestMapping(value = "/getCode", method = RequestMethod.POST)
-    @ResponseBody
     public Result getCode(@RequestBody JSONObject jsonObject){
         Result result = new Result();
         //获取手机号码
@@ -309,7 +304,6 @@ public class AppUserController {
      * 查询车牌简称
      */
     @RequestMapping(value = "/getLicensePlate", method = RequestMethod.GET)
-    @ResponseBody
     public Result getLicensePlate(){
         Result result = new Result();
         Map<String, Object> map = LicensePlateEnum.queryAll();
@@ -324,7 +318,6 @@ public class AppUserController {
      * 绑定车牌
      */
     @RequestMapping(value = "/bingCar", method = RequestMethod.POST)
-    @ResponseBody
     public Result bingCar(@RequestHeader("Authorization") String token, @RequestBody JSONObject jsonObject){
         Result result = new Result();
         //使用token获取登陆人信息
