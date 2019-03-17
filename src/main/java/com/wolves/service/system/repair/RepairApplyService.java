@@ -1,7 +1,11 @@
 package com.wolves.service.system.repair;
 
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
+
+import com.wolves.dto.user.RepairApplyDTO;
+import com.wolves.dto.user.RepairApplyDetailDTO;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
 import com.wolves.entity.system.Page;
@@ -60,6 +64,24 @@ public class RepairApplyService {
 	*/
 	public void deleteAll(String[] ArrayDATA_IDS){
 		dao.delete("RepairApplyMapper.deleteAll", ArrayDATA_IDS);
+	}
+
+	/**
+	 * 查询报修列表
+	 * @param params
+	 * @return
+	 */
+	public List<RepairApplyDTO> selectRepairApplyByUserId(Map<String, Object> params){
+		return (List<RepairApplyDTO>) dao.findForList("RepairApplyMapper.selectRepairApplyByUserId", params);
+	}
+
+	/**
+	 *  查询报修详情
+	 * @param repairApplyId
+	 * @return
+	 */
+	public RepairApplyDetailDTO selectRepairApplyById(String repairApplyId){
+		return (RepairApplyDetailDTO)dao.findForObject("RepairApplyMapper.selectRepairApplyById", repairApplyId);
 	}
 }
 
