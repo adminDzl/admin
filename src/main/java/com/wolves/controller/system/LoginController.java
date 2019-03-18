@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
+import com.wolves.util.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -24,12 +26,6 @@ import com.wolves.entity.system.User;
 import com.wolves.service.system.menu.MenuService;
 import com.wolves.service.system.role.RoleService;
 import com.wolves.service.system.user.UserService;
-import com.wolves.util.AppUtil;
-import com.wolves.util.Const;
-import com.wolves.util.DateUtil;
-import com.wolves.util.PageData;
-import com.wolves.util.RightsHelper;
-import com.wolves.util.Tools;
 
 /**
  * @author gf
@@ -104,7 +100,7 @@ public class LoginController extends BaseController {
 				String PASSWORD  = KEYDATA[1];
 				pd.put("USERNAME", USERNAME);
 //				if(Tools.notEmpty(sessionCode) && sessionCode.equalsIgnoreCase(code)){
-					String passwd = new SimpleHash("SHA-1", USERNAME, PASSWORD).toString();
+					String passwd = MD5.md5(PASSWORD);
 					pd.put("PASSWORD", passwd);
 					pd = userService.getUserByNameAndPwd(pd);
 					if(pd != null){

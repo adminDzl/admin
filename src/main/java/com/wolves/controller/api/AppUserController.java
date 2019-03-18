@@ -23,10 +23,7 @@ import com.wolves.service.system.tipmsg.TipMsgService;
 import com.wolves.service.system.user.UserService;
 import com.wolves.service.system.yard.YardService;
 import com.wolves.service.system.yardappoint.YardAppointService;
-import com.wolves.util.PageData;
-import com.wolves.util.StringUtils;
-import com.wolves.util.Tools;
-import com.wolves.util.UuidUtil;
+import com.wolves.util.*;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
@@ -93,7 +90,7 @@ public class AppUserController {
             return result;
         }
         //加密密码
-        String password = new SimpleHash("SHA-1", telephone, pwd).toString();
+        String password = MD5.md5(pwd);
         User user = new User();
         user.setPhone(telephone);
         user.setPassword(password);
@@ -206,7 +203,7 @@ public class AppUserController {
             return result;
         }
         //加密用户密码
-        String encrypt = new SimpleHash("SHA-1", telephone, password).toString();
+        String encrypt = MD5.md5(password);
         String name = registerDTO.getName();
         if (StringUtils.isEmpty(name)){
             result.setMsg("请填写用户姓名");
@@ -275,7 +272,7 @@ public class AppUserController {
             return result;
         }
         //重置密码
-        String encrypt = new SimpleHash("SHA-1", telephone, password).toString();
+        String encrypt = MD5.md5(password);
         User user = new User();
         user.setPhone(telephone);
         user = userService.getUserByPhone(user);

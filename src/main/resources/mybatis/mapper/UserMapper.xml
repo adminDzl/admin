@@ -33,7 +33,7 @@
 		<result column="SKIN" property="SKIN"/>
 	</resultMap>
 
-	<resultMap type="com.wolves.entity.app.User" id="UserResultMap">
+	<resultMap type="com.wolves.entity.app.User" id="UserResultMap2">
 		<id column="user_id" property="userId"/>
 		<result column="token" property="token"/>
 		<result column="username" property="username"/>
@@ -73,14 +73,14 @@
 		</if>
 	</select>
 
-	<select id="getUser" parameterType="com.wolves.entity.app.User" resultMap="UserResultMap">
+	<select id="getUser" parameterType="com.wolves.entity.app.User" resultMap="UserResultMap2">
 		select * from USER
 		where 1=1
-		<if test="username!=null and password!=null">
-			and username = #{username,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
+		<if test="phone!=null and password!=null">
+			and phone = #{phone,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
 		</if>
-		<if test="user_id!=null and user_id>0">
-			and user_id = #{user_id,jdbcType=VARCHAR}
+		<if test="userId!=null and userId>0">
+			and user_id = #{userId,jdbcType=VARCHAR}
 		</if>
 		<if test="token != null">
 			and token = #{token,jdbcType=VARCHAR}
@@ -147,12 +147,12 @@
 	</insert>
 
 	<!--根据电话号码查询数据-->
-	<select id="getUserByPhone" parameterType="com.wolves.entity.app.User" resultMap="UserResultMap">
+	<select id="getUserByPhone" parameterType="com.wolves.entity.app.User" resultMap="UserResultMap2">
 		SELECT * FROM USER WHERE PHONE = #{phone}
 	</select>
 
 	<!--根据token 查询用户数据-->
-	<select id="getUserByToken" parameterType="com.wolves.entity.app.User" resultMap="UserResultMap">
+	<select id="getUserByToken" parameterType="com.wolves.entity.app.User" resultMap="UserResultMap2">
 		  SELECT * FROM USER WHERE token = #{token}
 	</select>
 </mapper>

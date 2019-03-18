@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+
+import com.wolves.util.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.session.Session;
@@ -29,17 +31,6 @@ import com.wolves.entity.system.Role;
 import com.wolves.service.system.menu.MenuService;
 import com.wolves.service.system.role.RoleService;
 import com.wolves.service.system.user.UserService;
-import com.wolves.util.AppUtil;
-import com.wolves.util.Const;
-import com.wolves.util.FileDownload;
-import com.wolves.util.FileUpload;
-import com.wolves.util.GetPinyin;
-import com.wolves.util.Jurisdiction;
-import com.wolves.util.ObjectExcelRead;
-import com.wolves.util.PageData;
-import com.wolves.util.ObjectExcelView;
-import com.wolves.util.PathUtil;
-import com.wolves.util.Tools;
 
 @Controller
 @RequestMapping(value="/user")
@@ -71,7 +62,7 @@ public class SysUserController extends BaseController {
 		pd.put("STATUS", "0");
 		pd.put("SKIN", "default");
 		
-		pd.put("PASSWORD", new SimpleHash("SHA-1", pd.getString("USERNAME"), pd.getString("PASSWORD")).toString());
+		pd.put("PASSWORD", MD5.md5(pd.getString("PASSWORD")));
 		
 		if(null == userService.findByUId(pd)){
 			//判断新增权限
@@ -141,7 +132,7 @@ public class SysUserController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		if(pd.getString("PASSWORD") != null && !"".equals(pd.getString("PASSWORD"))){
-			pd.put("PASSWORD", new SimpleHash("SHA-1", pd.getString("USERNAME"), pd.getString("PASSWORD")).toString());
+			pd.put("PASSWORD", MD5.md5(pd.getString("PASSWORD")));
 		}
 		if(Jurisdiction.buttonJurisdiction(menuUrl, "edit")){userService.editU(pd);}
 		mv.addObject("msg","success");
@@ -420,7 +411,7 @@ public class SysUserController extends BaseController {
 				//手机号
 				pd.put("PHONE", listPd.get(i).getString("var2"));
 				//默认密码123
-				pd.put("PASSWORD", new SimpleHash("SHA-1", USERNAME, "123").toString());
+				pd.put("PASSWORD", MD5.md5("123"));
 				if(userService.findByUN(pd) != null){
 					continue;
 				}
@@ -442,5 +433,9 @@ public class SysUserController extends BaseController {
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession();
 		return (Map<String, String>)session.getAttribute(Const.SESSION_QX);
+	}
+
+	public static void main(String[] args){
+		System.out.println(MD5.md5("1"));
 	}
 }
