@@ -30,6 +30,8 @@ import com.wolves.util.UuidUtil;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,7 +48,7 @@ import java.util.HashMap;
  * @link https://github.com/xulu163
  */
 @RestController
-@RequestMapping(value = "/api/user")
+@RequestMapping(value = "/app/user")
 public class AppUserController {
 
     @Resource(name="userService")
@@ -76,22 +78,24 @@ public class AppUserController {
      * 登陆,返回token
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public Result login(@RequestBody LoginDTO loginDTO){
+    public Result login(@RequestBody LoginDTO dto){
         Result result = new Result();
-        if (StringUtils.isEmpty(loginDTO.getTelephone())){
+        String telephone = dto.getTelephone();
+        String pwd = dto.getPassword();
+        if (StringUtils.isEmpty(telephone)){
             result.setMsg("登陆账号为空");
             result.setResult(ResultCode.FAIL);
             return result;
         }
-        if (StringUtils.isEmpty(loginDTO.getPassword())){
+        if (StringUtils.isEmpty(pwd)){
             result.setMsg("登陆密码为空");
             result.setResult(ResultCode.FAIL);
             return result;
         }
         //加密密码
-        String password = new SimpleHash("SHA-1", loginDTO.getTelephone(), loginDTO.getPassword()).toString();
+        String password = new SimpleHash("SHA-1", telephone, pwd).toString();
         User user = new User();
-        user.setPhone(loginDTO.getTelephone());
+        user.setPhone(telephone);
         user.setPassword(password);
         //验证签名
         //查询
@@ -286,12 +290,12 @@ public class AppUserController {
     /**
      * 获取验证码
      */
-    @RequestMapping(value = "/getCode", method = RequestMethod.POST)
-    public Result getCode(@RequestBody JSONObject jsonObject){
+    @RequestMapping(value = "/getCode", method = RequestMethod.POST, produces = "application/json")
+    public Result getCode(){
         Result result = new Result();
         //获取手机号码
-        String telephone = jsonObject.getString("phone");
-        String type = jsonObject.getString("type");
+        String telephone = "13918147924";//jsonObject.getString("phone");
+        String type = "1";//jsonObject.getString("type");
         //验证手机号
         Boolean isTrue = Tools.checkMobileNumber(telephone);
         if (!isTrue){
@@ -301,8 +305,9 @@ public class AppUserController {
         }
         //生成验证码,1.注册，2登陆，3忘记密码
         Integer code = Tools.getRandomNum();
+        String msg = "您的验证码是：code【煦睿科技】".replaceAll("code", code.toString());
         //保存记录
-        smsService.sendSms(telephone, Integer.valueOf(type), code.toString(), "您的验证码是：%s【煦睿科技】");
+        smsService.sendSms(telephone, Integer.valueOf(type), code.toString(), msg);
         //返回结果
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("发送成功");

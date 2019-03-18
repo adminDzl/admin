@@ -1,9 +1,13 @@
 package com.wolves.dto.user;
 
+import java.io.Serializable;
+
 /**
- * Created by gf on 2019/3/5.
+ *
+ * @author gf
+ * @date 2019/3/5
  */
-public class LoginDTO {
+public class LoginDTO implements Serializable{
 
     private String telephone;
 

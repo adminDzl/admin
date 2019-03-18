@@ -77,7 +77,7 @@ public class Const {
 	/**
 	 * 不对匹配该值的访问路径拦截（正则）
 	 */
-	public static final String NO_INTERCEPTOR_PATH = ".*/((login)|(logout)|(code)|(api)|(weixin)|(static)|(main)|(websocket)).*";
+	public static final String NO_INTERCEPTOR_PATH = ".*/((login)|(logout)|(code)|(api)|(app)|(weixin)|(static)|(main)|(websocket)).*";
 	/**
 	 * 该值会在web容器启动时由WebAppContextListener初始化
 	 */

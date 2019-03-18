@@ -30,7 +30,7 @@ import com.wolves.service.system.role.RoleService;
 
 @Controller
 @RequestMapping(value="/appuser")
-public class AppuserController extends BaseController {
+public class UserController extends BaseController {
 
 	/**
 	 * 菜单地址(权限用)
