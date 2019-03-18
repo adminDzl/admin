@@ -53,7 +53,7 @@ public class Uploader {
 		this.setMaxSize(Uploader.MAX_SIZE);
 
 		HashMap<String, String> tmp = this.errorInfo;
-		tmp.put("SUCCESS", "SUCCESS"); // 默认成功
+		tmp.put("SUCCESS", "SUCCESS");
 		// 未包含文件上传域
 		tmp.put("NOFILE",
 				"\\u672a\\u5305\\u542b\\u6587\\u4ef6\\u4e0a\\u4f20\\u57df");
@@ -80,7 +80,7 @@ public class Uploader {
 
 	}
 
-	public void upload() throws Exception {
+	public void upload() {
 		boolean isMultipart = ServletFileUpload
 				.isMultipartContent(this.request);
 		if (!isMultipart) {

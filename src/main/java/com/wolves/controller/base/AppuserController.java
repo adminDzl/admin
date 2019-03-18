@@ -16,7 +16,7 @@ import com.wolves.util.Tools;
  */
 @Controller
 @RequestMapping(value="/appuser")
-public class IntAppuserController extends BaseController {
+public class AppuserController extends BaseController {
     
 	@Resource(name="appUserService")
 	private AppUserService appUserService;

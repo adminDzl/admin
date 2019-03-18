@@ -1,4 +1,4 @@
-package com.wolves.util;
+package com.wolves.common;
 
 public class Constants {
 
@@ -23,10 +23,14 @@ public class Constants {
 		PICTURE_SAVE_FILE_PATH = pICTURE_SAVE_FILE_PATH;
 	}
 
-
 	public static void main(String[] args) {
 		Constants.setPICTURE_SAVE_FILE_PATH("D:/Tomcat 6.0/webapps/FH/topic/");
 		Constants.setPICTURE_VISIT_FILE_PATH("http://192.168.1.225:8888/FH/topic/");
 	}
+
+	/**
+	 * 验证码类短信
+	 */
+	public static Integer SMS_TYPE = 1;
 	
 }
