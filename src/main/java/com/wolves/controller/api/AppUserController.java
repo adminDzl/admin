@@ -288,11 +288,11 @@ public class AppUserController {
      * 获取验证码
      */
     @RequestMapping(value = "/getCode", method = RequestMethod.POST, produces = "application/json")
-    public Result getCode(){
+    public Result getCode(@RequestBody JSONObject jsonObject){
         Result result = new Result();
         //获取手机号码
-        String telephone = "13918147924";//jsonObject.getString("phone");
-        String type = "1";//jsonObject.getString("type");
+        String telephone = jsonObject.getString("phone");
+        String type = jsonObject.getString("type");
         //验证手机号
         Boolean isTrue = Tools.checkMobileNumber(telephone);
         if (!isTrue){
