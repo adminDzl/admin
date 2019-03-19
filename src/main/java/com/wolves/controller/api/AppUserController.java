@@ -120,10 +120,9 @@ public class AppUserController {
      * 登出,清空token
      */
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public Result logout(@RequestBody JSONObject jsonObject){
+    public Result logout(@RequestHeader("Authorization") String token){
         Result result = new Result();
         //判断token是否有效
-        String token = jsonObject.getString("token");
         if (org.apache.commons.lang.StringUtils.isEmpty(token)){
             result.setMsg("登出失败");
             result.setResult(ResultCode.FAIL);
@@ -251,7 +250,8 @@ public class AppUserController {
      * 忘记密码
      */
     @RequestMapping(value = "/forget", method = RequestMethod.POST)
-    public Result forgetPassword(@RequestBody ForgetDTO forgetDTO){
+    public Result forgetPassword(@RequestHeader("Authorization") String token,
+                                 @RequestBody ForgetDTO forgetDTO){
         Result result = new Result();
         //获取参数
         String password = forgetDTO.getPassword();
@@ -336,6 +336,10 @@ public class AppUserController {
         if (StringUtils.isNotEmpty(token)){
             user.setToken(token);
             user = userService.getUserByToken(user);
+        }else {
+            result.setMsg("请填写token");
+            result.setResult(ResultCode.FAIL);
+            return result;
         }
         String plate = jsonObject.getString("plate");
         if (StringUtils.isEmpty(plate.trim())){
@@ -346,12 +350,11 @@ public class AppUserController {
 
         //存入数据
         PageData pd = new PageData();
-        pd.put("USERCARBIND_ID", UuidUtil.get32UUID());
+        pd.put("USER_CAR_BIND_ID", UuidUtil.get32UUID());
         pd.put("STATUS", StatusEnum.INIT.getKey());
         pd.put("USER_ID",user.getUserId());
         pd.put("CAR_NO",plate);
-        pd.put("CREATE_TIME", Tools.date2Str(new Date()));
-        pd.put("UPDATE_TIME", Tools.date2Str(new Date()));
+        pd.put("REMARK","");
         usercarbindService.save(pd);
 
         //返回结果
@@ -383,6 +386,10 @@ public class AppUserController {
         if (StringUtils.isNotEmpty(token)){
             user.setToken(token);
             user = userService.getUserByToken(user);
+        }else {
+            result.setMsg("请填写 token");
+            result.setResult(ResultCode.FAIL);
+            return result;
         }
         //判断是否已经绑定车牌
         UserCarBindDTO userCarBindDTO = usercarbindService.selectCarBindByUserId(user.getUserId());
@@ -438,6 +445,10 @@ public class AppUserController {
         if (StringUtils.isNotEmpty(token)){
             user.setToken(token);
             user = userService.getUserByToken(user);
+        }else {
+            result.setMsg("请填写token了");
+            result.setResult(ResultCode.FAIL);
+            return result;
         }
 
         Map<String, Object> params = new HashMap<String, Object>();
@@ -492,6 +503,10 @@ public class AppUserController {
         if (StringUtils.isNotEmpty(token)){
             user.setToken(token);
             user = userService.getUserByToken(user);
+        }else {
+            result.setMsg("请填写 token了");
+            result.setResult(ResultCode.FAIL);
+            return result;
         }
 
         //查询缴费记录
@@ -529,6 +544,10 @@ public class AppUserController {
         if (StringUtils.isNotEmpty(token)){
             user.setToken(token);
             user = userService.getUserByToken(user);
+        }else {
+            result.setMsg("请填写token 了");
+            result.setResult(ResultCode.FAIL);
+            return result;
         }
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userId", user.getUserId());
