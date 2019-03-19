@@ -5,6 +5,7 @@ import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
 import com.wolves.util.PageData;
 import com.wolves.util.SmsUtil;
+import com.wolves.util.UuidUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,7 +62,6 @@ public class SmsService {
         pdNew.put("PHONE", tel);
         pdNew.put("CODE", code);
         pdNew.put("CONTENT", msg);
-        pdNew.put("CREAT_TIME", new Date());
         pdNew.put("SMS_STATUS", smsStatus);
         dao.save("SmsLogMapper.save", pdNew);
         return result;

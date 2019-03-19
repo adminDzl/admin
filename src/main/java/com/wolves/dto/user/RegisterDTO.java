@@ -18,8 +18,6 @@ public class RegisterDTO {
 
     private String sex;
 
-    private String username;
-
     private String email;
 
     public String getTelephone() {
@@ -78,14 +76,6 @@ public class RegisterDTO {
         this.sex = sex;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -104,7 +94,6 @@ public class RegisterDTO {
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", sex='" + sex + '\'' +
-                ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }

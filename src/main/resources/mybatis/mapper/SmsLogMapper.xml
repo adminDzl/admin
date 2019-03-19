@@ -4,19 +4,20 @@
 	<!-- 短信发送记录-->
 	<insert id="save" parameterType="pd">
 		insert into SMS_LOG(
-			ID,
 			SMS_TYPE,
 			PHONE,
 			CODE,
 			CONTENT,
-			SMS_STATUS
-			CREATE_TIME
+			SMS_STATUS,
+			CREATE_TIME,
+			UPDATE_TIME
 		) values (
 			#{SMS_TYPE},
 			#{PHONE},
 			#{CODE},
 			#{CONTENT},
-			#{SMS_STATUS}
+			#{SMS_STATUS},
+			now(),
 			now()
 		)
 	</insert>

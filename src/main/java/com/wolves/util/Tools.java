@@ -170,15 +170,13 @@ public class Tools {
 	  * 验证手机号码
 	  */
 	 public static boolean checkMobileNumber(String mobileNumber){
-	  boolean flag = false;
-	  try{
-	    Pattern regex = Pattern.compile("^(((13[0-9])|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8})|(0\\d{2}-\\d{8})|(0\\d{3}-\\d{7})$");
-	    Matcher matcher = regex.matcher(mobileNumber);
-	    flag = matcher.matches();
-	   }catch(Exception e){
-	    flag = false;
-	   }
-	  return flag;
+		 Pattern p = null;
+		 Matcher m = null;
+		 boolean b = false;
+		 p = Pattern.compile("^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[013678])|(18[0,5-9]))\\d{8}$"); // 验证手机号
+		 m = p.matcher(mobileNumber);
+		 b = m.matches();
+		 return b;
 	 }
 	 
 	/**

@@ -163,7 +163,7 @@ public class AppUserController {
         User user = new User();
         user.setPhone(telephone);
         user = userService.getUserByPhone(user);
-        if (StringUtils.isNotEmpty(user.getUserId())){
+        if (user != null && StringUtils.isNotEmpty(user.getUserId())){
             result.setMsg("该手机号码已被注册");
             result.setResult(ResultCode.FAIL);
             return result;
@@ -225,7 +225,7 @@ public class AppUserController {
         //保存数据
         User userInfo = new User();
         userInfo.setUserId(UuidUtil.get32UUID());
-        userInfo.setUsername(telephone);
+        userInfo.setUsername(name);
         userInfo.setPassword(encrypt);
         userInfo.setPhone(telephone);
         userInfo.setName(name);

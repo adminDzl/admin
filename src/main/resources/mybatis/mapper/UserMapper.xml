@@ -129,20 +129,22 @@
 		PHONE,
 		IS_BIND_ID_CARD,
 		ID_CARD_FRONT_URL,
-		ID_CARD_BACK_URL
+		ID_CARD_BACK_URL,
+		EMAIL
 		) values (
-		#{USER_ID},
-		#{USERNAME},
-		#{PASSWORD},
-		#{NAME},
-		#{SEX},
-		#{LAST_LOGIN},
-		#{IP},
-		#{STATUS},
-		#{PHONE},
-		#{IS_BIND_ID_CARD},
-		#{ID_CARD_FRONT_URL},
-		#{ID_CARD_BACK_URL}
+		#{userId},
+		#{username},
+		#{password},
+		#{name},
+		#{sex},
+		#{lastLogin},
+		#{ip},
+		#{status},
+		#{phone},
+		#{isBindIdCard},
+		#{idCardFrontUrl},
+		#{idCardBackUrl},
+		#{email}
 		)
 	</insert>
 
