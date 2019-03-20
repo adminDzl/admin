@@ -12,6 +12,7 @@ import com.wolves.dto.user.RegisterDTO;
 import com.wolves.entity.app.User;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
+import com.wolves.service.system.CompanyService;
 import com.wolves.service.system.SmsService;
 import com.wolves.service.system.appuser.UserCarBindService;
 import com.wolves.service.system.floorman.FloorManService;
@@ -69,6 +70,8 @@ public class AppUserController {
     private RepairApplyService repairApplyService;
     @Resource(name="tipmsgService")
     private TipMsgService tipMsgService;
+    @Resource(name = "companyService")
+    private CompanyService companyService;
 
     /**
      * 登陆,返回token
@@ -407,13 +410,24 @@ public class AppUserController {
      * 我的企业信息
      */
     @RequestMapping(value = "/orgInfo", method = RequestMethod.POST)
-    public void orgInfo(@RequestHeader("Authorization") String token){
-        User user = new User();
-        if (StringUtils.isNotEmpty(token)){
-            user.setToken(token);
-            user = userService.getUserByToken(user);
+    public Result orgInfo(@RequestHeader("Authorization") String token){
+        Result result = new Result();
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
         }
+
+        result.setData(companyService.selectCompanyById(user.getCompanyId()));
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("查询成功");
+        return result;
     }
+
+    /**
+     * 创建企业
+     */
 
     /**
      * 我的报修
@@ -452,6 +466,12 @@ public class AppUserController {
         return result;
     }
 
+    /**
+     * 我的保修明细
+     * @param token
+     * @param jsonObject
+     * @return
+     */
     @RequestMapping(value = "/repairDetail", method = RequestMethod.POST)
     public Result repairDetail(@RequestHeader("Authorization") String token,
                              @RequestBody JSONObject jsonObject){

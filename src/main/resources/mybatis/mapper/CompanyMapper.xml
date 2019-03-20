@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="CompanyMapper">
+
+	<resultMap type="com.wolves.dto.user.CompanyDTO" id="ResultMap">
+		<id column="company_id" property="companyId"/>
+		<result column="company_name" property="companyName"/>
+		<result column="type" property="type"/>
+		<result column="status" property="status"/>
+		<result column="description" property="description"/>
+		<result column="company_certify" property="companyCertify"/>
+		<result column="place_id" property="placeId"/>
+		<result column="logo" property="logo"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+	</resultMap>
+
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into COMPANY(
@@ -126,4 +140,11 @@
                  #{item}
 		</foreach>
 	</delete>
+
+	<select id="selectCompanyById" parameterType="com.wolves.dto.user.CompanyDTO" resultMap="ResultMap">
+		SELECT
+		  *
+		FROM company
+		WHERE type = 1 AND status = 1 AND company_id = #{companyId}
+	</select>
 </mapper>

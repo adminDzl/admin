@@ -2,6 +2,8 @@ package com.wolves.service.system;
 
 import java.util.List;
 import javax.annotation.Resource;
+
+import com.wolves.dto.user.CompanyDTO;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
 import com.wolves.entity.system.Page;
@@ -60,6 +62,15 @@ public class CompanyService {
 	*/
 	public void deleteAll(String[] ArrayDATA_IDS){
 		dao.delete("CompanyMapper.deleteAll", ArrayDATA_IDS);
+	}
+
+	/**
+	 * 查询企业
+	 * @param companyId
+	 * @return
+	 */
+	public CompanyDTO selectCompanyById(String companyId){
+		return (CompanyDTO) dao.findForObject("CompanyMapper.selectCompanyById", companyId);
 	}
 }
 
