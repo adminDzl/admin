@@ -3,6 +3,7 @@ package com.wolves.service.system.user;
 import java.util.List;
 import javax.annotation.Resource;
 
+import com.wolves.util.StringUtils;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
 import com.wolves.entity.system.Page;
@@ -156,5 +157,15 @@ public class UserService {
 	public com.wolves.entity.app.User getUserByToken(com.wolves.entity.app.User user){
 
 		return (com.wolves.entity.app.User) dao.findForObject("UserMapper.getUserByToken", user);
+	}
+
+	public com.wolves.entity.app.User getUser(String token){
+
+		com.wolves.entity.app.User user = new com.wolves.entity.app.User();
+		if (StringUtils.isNotEmpty(token)){
+			user.setToken(token);
+			user = this.getUserByToken(user);
+		}
+		return user;
 	}
 }

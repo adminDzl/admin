@@ -332,12 +332,9 @@ public class AppUserController {
     public Result bingCar(@RequestHeader("Authorization") String token, @RequestBody JSONObject jsonObject){
         Result result = new Result();
         //使用token获取登陆人信息
-        User user = new User();
-        if (StringUtils.isNotEmpty(token)){
-            user.setToken(token);
-            user = userService.getUserByToken(user);
-        }else {
-            result.setMsg("请填写token");
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
             result.setResult(ResultCode.FAIL);
             return result;
         }
@@ -382,12 +379,9 @@ public class AppUserController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
-        User user = new User();
-        if (StringUtils.isNotEmpty(token)){
-            user.setToken(token);
-            user = userService.getUserByToken(user);
-        }else {
-            result.setMsg("请填写 token");
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
             result.setResult(ResultCode.FAIL);
             return result;
         }
@@ -441,12 +435,9 @@ public class AppUserController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
-        User user = new User();
-        if (StringUtils.isNotEmpty(token)){
-            user.setToken(token);
-            user = userService.getUserByToken(user);
-        }else {
-            result.setMsg("请填写token了");
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
             result.setResult(ResultCode.FAIL);
             return result;
         }
@@ -466,6 +457,13 @@ public class AppUserController {
     public Result repairDetail(@RequestHeader("Authorization") String token,
                              @RequestBody JSONObject jsonObject){
         Result result = new Result();
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+
         String repairApplyId = jsonObject.getString("repairApplyId");
         if (StringUtils.isEmpty(repairApplyId)){
             result.setResult(ResultCode.FAIL);
@@ -499,12 +497,9 @@ public class AppUserController {
             return result;
         }
 
-        User user = new User();
-        if (StringUtils.isNotEmpty(token)){
-            user.setToken(token);
-            user = userService.getUserByToken(user);
-        }else {
-            result.setMsg("请填写 token了");
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
             result.setResult(ResultCode.FAIL);
             return result;
         }
@@ -540,12 +535,9 @@ public class AppUserController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
-        User user = new User();
-        if (StringUtils.isNotEmpty(token)){
-            user.setToken(token);
-            user = userService.getUserByToken(user);
-        }else {
-            result.setMsg("请填写token 了");
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
             result.setResult(ResultCode.FAIL);
             return result;
         }
@@ -569,12 +561,9 @@ public class AppUserController {
                                 @RequestBody ApplyYardDTO applyYardDTO){
         Result result = new Result();
         //使用token获取登陆人信息
-        User user = new User();
-        if (StringUtils.isNotEmpty(token)){
-            user.setToken(token);
-            user = userService.getUserByToken(user);
-        }else {
-            result.setMsg("请填写token 信息");
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
             result.setResult(ResultCode.FAIL);
             return result;
         }
@@ -620,8 +609,16 @@ public class AppUserController {
      * @return
      */
     @RequestMapping(value = "/getYard", method = RequestMethod.POST)
-    public Result getYard(@RequestBody PageDataDTO pageDataDTO){
+    public Result getYard(@RequestHeader("Authorization") String token,
+                          @RequestBody PageDataDTO pageDataDTO){
         Result result = new Result();
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+
         Integer page = pageDataDTO.getPage();
         if (page < 0){
             result.setMsg("页数必须大于0");
@@ -648,8 +645,14 @@ public class AppUserController {
      * 客服列表
      */
     @RequestMapping(value = "/serviceMan", method = RequestMethod.POST)
-    public Result serviceMan(){
-        Result result = new Result();
+    public Result serviceMan(@RequestHeader("Authorization") String token){
+        Result result = new Result();;
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
 
         result.setData(floorManService.getFloorMan());
         result.setResult(ResultCode.SUCCESS);
@@ -676,6 +679,12 @@ public class AppUserController {
         Integer size = pageDataDTO.getSize();
         if (size == 0 || size < 0){
             result.setMsg("条数必须大于0");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
             result.setResult(ResultCode.FAIL);
             return result;
         }
@@ -713,6 +722,12 @@ public class AppUserController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("newsType", NewsTypeEnum.news.getKey());
         params.put("start", (page - 1) * size);
@@ -741,7 +756,12 @@ public class AppUserController {
             result.setMsg("newstipId不能为空");
             return result;
         }
-
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
         result.setData(newsTipService.selectNewsById(newstipId));
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("查询成功");
@@ -772,6 +792,12 @@ public class AppUserController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("start", (page - 1) * size);
         params.put("size", size);
@@ -798,7 +824,12 @@ public class AppUserController {
             result.setMsg("rtipMsgId不能为空");
             return result;
         }
-
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
         result.setData(tipMsgService.selectTipMsgById(tipMsgId));
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("查询成功");
