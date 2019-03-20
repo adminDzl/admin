@@ -155,9 +155,9 @@
 			attach_url,
 			create_time
 		FROM news_tip
-		WHERE status = 1 AND news_type = #{params.newsType}
+		WHERE status = 1 AND news_type = #{newsType}
 		ORDER BY create_time DESC
-		LIMIT #{params.start}, #{params.size}
+		LIMIT #{start}, #{size}
 	</select>
 
 	<select id="selectNewsById" parameterType="com.wolves.dto.NewsTipDTO" resultMap="ResultMap">

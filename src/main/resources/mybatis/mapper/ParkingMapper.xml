@@ -113,8 +113,8 @@
 		fee
 		FROM
 			parking
-		WHERE user_id = #{params.userId}
+		WHERE user_id = #{userId}
 		ORDER BY create_time DESC
-		LIMIT #{params.start}, #{params.size}
+		LIMIT #{start}, #{size}
 	</select>
 </mapper>

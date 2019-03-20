@@ -132,6 +132,8 @@
 		a.yard_id
 		from
 		YARD a
-		WHERE 1=1 limit ${params.start}, #{params.size}
+		WHERE 1=1
+		ORDER BY a.create_time DESC
+		limit ${start}, #{size}
 	</select>
 </mapper>

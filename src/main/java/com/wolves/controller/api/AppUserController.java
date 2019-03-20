@@ -573,6 +573,10 @@ public class AppUserController {
         if (StringUtils.isNotEmpty(token)){
             user.setToken(token);
             user = userService.getUserByToken(user);
+        }else {
+            result.setMsg("请填写token 信息");
+            result.setResult(ResultCode.FAIL);
+            return result;
         }
         PageData pd = new PageData();
         //主键

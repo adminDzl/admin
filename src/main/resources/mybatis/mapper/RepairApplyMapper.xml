@@ -13,7 +13,7 @@
 		<result column="apply_content" property="applyContent"/>
 		<result column="image_urls" property="imageUrls"/>
 		<result column="apply_status" property="applyStatus"/>
-		<result column="create_time" property="createTime"/>
+		<result column="create_time" property="createTimne"/>
 	</resultMap>
 
 	<!-- 新增-->
@@ -115,9 +115,9 @@
 			apply_status,
 			create_time
 		FROM repair_apply
-		WHERE user_id = #{params.userId}
+		WHERE user_id = #{userId}
 		ORDER BY create_time DESC
-		LIMIT #{params.start}, #{params.size}
+		LIMIT #{start}, #{size}
 	</select>
 
 	<!--根据id查询详情-->

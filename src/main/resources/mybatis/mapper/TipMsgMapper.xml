@@ -151,7 +151,7 @@
 			*
 		FROM tip_msg
 		ORDER BY create_time DESC
-		LIMIT #{params.start}, #{params.size}
+		LIMIT #{start}, #{size}
 	</select>
 
 	<!--查询站内信详情-->

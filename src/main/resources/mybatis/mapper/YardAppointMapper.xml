@@ -172,7 +172,7 @@
 			yard_appoint a
 		LEFT JOIN yard y ON (a.place_id = y.yard_id)
 		WHERE
-			apply_user_id = #{params.userId}
-		LIMIT ${params.start}, ${params.size};
+			apply_user_id = #{userId}
+		LIMIT ${start}, ${size};
 	</select>
 </mapper>

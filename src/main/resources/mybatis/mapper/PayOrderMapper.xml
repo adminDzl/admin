@@ -129,8 +129,8 @@
 		create_time,
 		update_time
 		from pay_order
-		where user_id = #{params.userId}
+		where user_id = #{userId}
 		ORDER BY create_time DESC
-		LIMIT #{params.start}, #{params.size}
+		LIMIT #{start}, #{size}
 	</select>
 </mapper>
