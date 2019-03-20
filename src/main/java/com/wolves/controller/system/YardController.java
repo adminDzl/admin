@@ -53,7 +53,7 @@ public class YardController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd.put("YARD_ID", this.get32UUID());
+		pd.put("YARD_ID", UuidUtil.get32UUID());
 		pd.put("CREATE_TIME", Tools.date2Str(new Date()));
 		pd.put("UPDATE_TIME", Tools.date2Str(new Date()));
 		yardService.save(pd);

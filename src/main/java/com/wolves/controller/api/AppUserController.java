@@ -33,10 +33,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.*;
 
 /**
  * 个人中心相关接口
@@ -769,6 +768,47 @@ public class AppUserController {
     }
 
     //统一申请
+
+    /**
+     * 上传图片
+     * @param files
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/imageUpload")
+    public Result imageUpload(@RequestParam(required=false) MultipartFile[] files) throws Exception{
+        Result result = new Result();
+
+        String fileAddress = DateUtil.getDays(), fileName = "";
+        List<Map<String,Object>> pageDatas = new ArrayList<Map<String,Object>>();
+        if (files != null && files.length > 0){
+            for (MultipartFile file : files){
+                Map<String,Object> params = new HashMap<String, Object>();
+                if (null != file && !file.isEmpty()) {
+                    //文件上传路径
+                    String filePath = PathUtil.getClasspath() + Const.FILEPATHIMG + fileAddress;
+                    //执行上传
+                    fileName = FileUpload.fileUp(file, filePath, UuidUtil.get32UUID());
+                }else{
+                    System.out.println("上传失败");
+                }
+                //主键
+                params.put("PICTURES_ID", UuidUtil.get32UUID());
+                //文件名
+                params.put("NAME", fileName);
+                //路径
+                params.put("PATH", fileAddress + "/" + fileName);
+                //创建时间
+                params.put("CREATETIME", Tools.date2Str(new Date()));
+                pageDatas.add(params);
+            }
+        }
+
+        result.setData(pageDatas);
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("上传成功");
+        return result;
+    }
 
     /**
      * 查询站内信
