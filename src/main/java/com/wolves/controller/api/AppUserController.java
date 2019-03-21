@@ -26,6 +26,8 @@ import com.wolves.service.system.user.UserService;
 import com.wolves.service.system.yard.YardService;
 import com.wolves.service.system.yardappoint.YardAppointService;
 import com.wolves.util.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,6 +50,7 @@ import java.util.*;
  */
 @RestController
 @RequestMapping(value = "/app/user")
+@Api(tags="AppUserController",description="user的控制层")
 public class AppUserController {
 
     @Resource(name="userService")
@@ -78,8 +81,8 @@ public class AppUserController {
     /**
      * 登陆,返回token
      */
+    @ApiOperation(httpMethod="POST",value="登陆",notes="登陆")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    @ResponseBody
     public Result login(@RequestBody LoginDTO dto){
         Result result = new Result();
         String telephone = dto.getTelephone();

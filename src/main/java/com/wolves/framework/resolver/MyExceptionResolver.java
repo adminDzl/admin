@@ -10,7 +10,6 @@ public class MyExceptionResolver implements HandlerExceptionResolver{
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request,
 			HttpServletResponse response, Object handler, Exception ex) {
-		// TODO Auto-generated method stub
 		System.out.println("==============异常开始=============");
 		ex.printStackTrace();
 		System.out.println("==============异常结束=============");

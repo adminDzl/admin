@@ -68,7 +68,7 @@
 		<servlet-name>springMvc</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-	
+
 	<!-- Shiro filter start -->
 	<filter>
 		<filter-name>shiroFilter</filter-name>

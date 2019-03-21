@@ -14,9 +14,19 @@
 	<mvc:resources mapping="/admin/**" location="/,/admin/" />
 	<mvc:resources mapping="/static/**" location="/,/static/" />
 	<mvc:resources mapping="/plugins/**" location="/,/plugins/" />
-	<mvc:resources mapping="/uploadFiles/**" location="/,/uploadFiles/" /> 
+	<mvc:resources mapping="/uploadFiles/**" location="/,/uploadFiles/" />
 
-	<!-- 访问拦截  -->  
+	<!-- 启用注解 -->
+	<context:annotation-config/>
+	<!--将静态资源交由默认的servlet处理-->
+	<mvc:default-servlet-handler/>
+	<!--重要！配置swagger资源不被拦截-->
+	<mvc:resources mapping="swagger-ui.html" location="classpath:/META-INF/resources/" />
+	<mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/" />
+	<!--重要！将你的SwaggerConfig配置类注入-->
+	<bean id="swaggerConfig" class="com.wolves.framework.config.SwaggerConfig"/>
+
+	<!-- 访问拦截  -->
   	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**/**"/>
