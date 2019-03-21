@@ -2,9 +2,7 @@ package com.wolves.controller.api;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.JsonObject;
-import com.wolves.common.LicensePlateEnum;
-import com.wolves.common.NewsTypeEnum;
-import com.wolves.common.StatusEnum;
+import com.wolves.common.*;
 import com.wolves.dto.*;
 import com.wolves.dto.user.CompanyDTO;
 import com.wolves.dto.user.ForgetDTO;
@@ -15,10 +13,8 @@ import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
 import com.wolves.service.system.CompanyService;
 import com.wolves.service.system.SmsService;
-import com.wolves.service.system.appuser.UserCarBindService;
 import com.wolves.service.system.floorman.FloorManService;
 import com.wolves.service.system.newstip.NewsTipService;
-import com.wolves.service.system.parking.ParkingService;
 import com.wolves.service.system.payorder.PayOrderService;
 import com.wolves.service.system.repair.RepairApplyService;
 import com.wolves.service.system.tipmsg.TipMsgService;
@@ -59,14 +55,10 @@ public class AppUserController {
     private SmsService smsService;
     @Resource(name="floormanService")
     private FloorManService floorManService;
-    @Resource(name="usercarbindService")
-    private UserCarBindService usercarbindService;
     @Resource(name="yardService")
     private YardService yardService;
     @Resource(name="yardappointService")
     private YardAppointService yardappointService;
-    @Resource(name="parkingService")
-    private ParkingService parkingService;
     @Resource(name="newstipService")
     private NewsTipService newsTipService;
     @Resource(name="payorderService")
@@ -182,7 +174,7 @@ public class AppUserController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
-        PageData pageData = smsService.selectOneByPhone(telephone);
+        PageData pageData = smsService.selectOneByPhone(telephone, Integer.valueOf(SmsTypeEnum.login.getKey()));
         String smsCode = pageData.getString("CODE");
         //判断手机验证码是否存在
         if (!code.equals(smsCode)){
@@ -278,7 +270,7 @@ public class AppUserController {
             return result;
         }
         String code = forgetDTO.getCode();
-        PageData pageData = smsService.selectOneByPhone(telephone);
+        PageData pageData = smsService.selectOneByPhone(telephone, Integer.valueOf(SmsTypeEnum.forget.getKey()));
         String smsCode = pageData.getString("CODE");
         //判断手机验证码是否存在
         if (!code.equals(smsCode)){
@@ -325,99 +317,6 @@ public class AppUserController {
         //返回结果
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("发送成功");
-        return result;
-    }
-
-    /**
-     * 查询车牌简称
-     */
-    @RequestMapping(value = "/getLicensePlate", method = RequestMethod.GET)
-    public Result getLicensePlate(){
-        Result result = new Result();
-        Map<String, Object> map = LicensePlateEnum.queryAll();
-
-        result.setData(map);
-        result.setResult(ResultCode.SUCCESS);
-        result.setMsg("查询成功");
-        return result;
-    }
-
-    /**
-     * 绑定车牌
-     */
-    @RequestMapping(value = "/bingCar", method = RequestMethod.POST)
-    public Result bingCar(@RequestHeader("Authorization") String token, @RequestBody JSONObject jsonObject){
-        Result result = new Result();
-        //使用token获取登陆人信息
-        User user = userService.getUser(token);
-        if (user == null){
-            result.setMsg("请登录");
-            result.setResult(ResultCode.FAIL);
-            return result;
-        }
-        String plate = jsonObject.getString("plate");
-        if (StringUtils.isEmpty(plate.trim())){
-            result.setMsg("请填写你的车牌号");
-            result.setResult(ResultCode.FAIL);
-            return result;
-        }
-
-        //存入数据
-        PageData pd = new PageData();
-        pd.put("USER_CAR_BIND_ID", UuidUtil.get32UUID());
-        pd.put("STATUS", StatusEnum.INIT.getKey());
-        pd.put("USER_ID",user.getUserId());
-        pd.put("CAR_NO",plate);
-        pd.put("REMARK","");
-        usercarbindService.save(pd);
-
-        //返回结果
-        result.setResult(ResultCode.SUCCESS);
-        result.setMsg("提交成功");
-        return result;
-    }
-
-    /**
-     * 查看历史停车记录
-     */
-    @RequestMapping(value = "/myParkHistory", method = RequestMethod.POST)
-    public Result myParkHistory(@RequestHeader("Authorization") String token,
-                              @RequestBody PageDataDTO pageDataDTO){
-        Result result = new Result();
-        Integer page = pageDataDTO.getPage();
-        if (page < 0){
-            result.setMsg("页数必须大于0");
-            result.setResult(ResultCode.FAIL);
-            return result;
-        }
-        Integer size = pageDataDTO.getSize();
-        if (size == 0 || size < 0){
-            result.setMsg("条数必须大于0");
-            result.setResult(ResultCode.FAIL);
-            return result;
-        }
-        User user = userService.getUser(token);
-        if (user == null){
-            result.setMsg("请登录");
-            result.setResult(ResultCode.FAIL);
-            return result;
-        }
-        //判断是否已经绑定车牌
-        UserCarBindDTO userCarBindDTO = usercarbindService.selectCarBindByUserId(user.getUserId());
-        if (userCarBindDTO == null){
-            result.setMsg("请绑定车辆信息");
-            result.setResult(ResultCode.FAIL);
-            return result;
-        }
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("userId", user.getUserId());
-        params.put("start", (page - 1) * size);
-        params.put("size", size);
-        List<UserParkingDTO> userParkingDTOs = parkingService.selectParking(params);
-
-        result.setData(userParkingDTOs);
-        result.setResult(ResultCode.SUCCESS);
-        result.setMsg("查询成功");
         return result;
     }
 
@@ -473,10 +372,13 @@ public class AppUserController {
             return result;
         }
         CompanyDTO companyDTO = new CompanyDTO();
+        companyDTO.setType(Integer.valueOf(CompanyTypeEnum.out.getKey()));
+        companyDTO.setStatus(Integer.valueOf(StatusEnum.INIT.getKey()));
         companyDTO.setCompanyName(name);
+        companyDTO.setCompanyId(UuidUtil.get32UUID());
         companyService.saveCompany(companyDTO);
         result.setResult(ResultCode.SUCCESS);
-        result.setMsg("查询成功");
+        result.setMsg("保存成功");
         return result;
     }
 
@@ -864,13 +766,13 @@ public class AppUserController {
                     System.out.println("上传失败");
                 }
                 //主键
-                params.put("PICTURES_ID", UuidUtil.get32UUID());
+                params.put("pictures_id", UuidUtil.get32UUID());
                 //文件名
-                params.put("NAME", fileName);
+                params.put("name", fileName);
                 //路径
-                params.put("PATH", fileAddress + "/" + fileName);
+                params.put("path", fileAddress + "/" + fileName);
                 //创建时间
-                params.put("CREATETIME", Tools.date2Str(new Date()));
+                params.put("createTime", Tools.date2Str(new Date()));
                 pageDatas.add(params);
             }
         }

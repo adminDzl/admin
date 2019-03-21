@@ -166,7 +166,9 @@
 		COMPANY_NAME,
 		TYPE,
 		STATUS,
+		<if test="logo != null">
 		LOGO,
+		</if>
 		CREATE_TIME,
 		UPDATE_TIME,
 		COMPANY_ID
@@ -174,7 +176,9 @@
 		#{companyName},
 		#{type},
 		#{status},
+		<if test="logo != null">
 		#{logo},
+		</if>
 		now(),
 		now(),
 		#{companyId}

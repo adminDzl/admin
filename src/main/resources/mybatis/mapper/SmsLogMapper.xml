@@ -89,7 +89,7 @@
 			a.UPDATE_TIME
 		from
 			SMS_LOG a
-		where a.PHONE=#{PHONE} order by a.CREATE_TIME DESC limit 1
+		where a.PHONE=#{PHONE} AND a.SMS_TYPE = #{systemType} order by a.CREATE_TIME DESC limit 1
 	</select>
 
 </mapper>

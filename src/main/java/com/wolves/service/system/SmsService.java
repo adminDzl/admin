@@ -71,9 +71,10 @@ public class SmsService {
      * 根据手机号查询最新的短信发送记录
      * @param phone
      */
-    public PageData selectOneByPhone(String phone){
+    public PageData selectOneByPhone(String phone, Integer systemType){
         PageData pd = new PageData();
         pd.put("PHONE", phone);
+        pd.put("systemType", systemType);
         return (PageData)dao.findForObject("SmsLogMapper.selectOneByPhone", pd);
     }
 }
