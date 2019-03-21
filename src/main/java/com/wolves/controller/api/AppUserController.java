@@ -280,6 +280,8 @@ public class AppUserController {
         user = userService.getUserByPhone(user);
         user.setPassword(encrypt);
 
+        userService.updateTokenById(user);
+
         //返回结果
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("修改成功");
@@ -423,6 +425,11 @@ public class AppUserController {
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("查询成功");
         return result;
+    }
+
+    @RequestMapping(value = "/createCompany", method = RequestMethod.POST)
+    public void createCompany(@RequestHeader("Authorization") String token){
+
     }
 
     /**
@@ -795,7 +802,7 @@ public class AppUserController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value="/imageUpload")
+    @RequestMapping(value="/imageUpload", method = RequestMethod.POST)
     public Result imageUpload(@RequestParam(required=false) MultipartFile[] files) throws Exception{
         Result result = new Result();
 

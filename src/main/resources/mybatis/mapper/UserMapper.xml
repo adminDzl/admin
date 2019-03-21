@@ -112,7 +112,16 @@
 
 	<!--更新token-->
 	<update id="updateTokenById" parameterType="com.wolves.entity.app.User">
-		update USER SET last_login = now(), token = #{token,jdbcType=VARCHAR} where user_id = #{userId,jdbcType=VARCHAR}
+		update
+		USER
+		SET last_login = now()
+		<if test="token != null">
+		, token = #{token,jdbcType=VARCHAR}
+		</if>
+		<if test="password != null">
+		, password = #{password, jdbcType=VARCHAR}
+		</if>
+		where user_id = #{userId,jdbcType=VARCHAR}
 	</update>
 
 	<!--保存App客户-->
