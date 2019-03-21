@@ -26,13 +26,16 @@ import com.wolves.service.system.yard.YardService;
 import com.wolves.service.system.yardappoint.YardAppointService;
 import com.wolves.util.*;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -77,6 +80,7 @@ public class AppUserController {
      * 登陆,返回token
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ResponseBody
     public Result login(@RequestBody LoginDTO dto){
         Result result = new Result();
         String telephone = dto.getTelephone();
