@@ -227,6 +227,12 @@ public class AppUserController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
+        String companyId = registerDTO.getCompanyId();
+        if (StringUtils.isEmpty(companyId)){
+            result.setMsg("请选择公司");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
         //保存数据
         User userInfo = new User();
         userInfo.setUserId(UuidUtil.get32UUID());
@@ -237,6 +243,7 @@ public class AppUserController {
         userInfo.setSex(sex);
         userInfo.setIdCardFrontUrl(idCardFrontUrl);
         userInfo.setIdCardBackUrl(idCardBackUrl);
+        userInfo.setCompanyId(companyId);
         userInfo.setIp("");
         userInfo.setEmail(email);
         //身份证已经绑定

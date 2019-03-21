@@ -139,7 +139,8 @@
 		IS_BIND_ID_CARD,
 		ID_CARD_FRONT_URL,
 		ID_CARD_BACK_URL,
-		EMAIL
+		EMAIL,
+		COMPANY_ID
 		) values (
 		#{userId},
 		#{username},
@@ -153,7 +154,8 @@
 		#{isBindIdCard},
 		#{idCardFrontUrl},
 		#{idCardBackUrl},
-		#{email}
+		#{email},
+		#{companyId}
 		)
 	</insert>
 

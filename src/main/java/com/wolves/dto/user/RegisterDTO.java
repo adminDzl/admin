@@ -4,6 +4,9 @@ package com.wolves.dto.user;
  * Created by Administrator on 2019/3/5.
  */
 public class RegisterDTO {
+
+    private String companyId;
+
     private String telephone;
 
     private String code;
@@ -19,6 +22,14 @@ public class RegisterDTO {
     private String sex;
 
     private String email;
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
 
     public String getTelephone() {
         return telephone;
@@ -87,7 +98,8 @@ public class RegisterDTO {
     @Override
     public String toString() {
         return "RegisterDTO{" +
-                "telephone='" + telephone + '\'' +
+                "companyId='" + companyId + '\'' +
+                ", telephone='" + telephone + '\'' +
                 ", code='" + code + '\'' +
                 ", idCardFrontUrl='" + idCardFrontUrl + '\'' +
                 ", idCardBackUrl='" + idCardBackUrl + '\'' +
