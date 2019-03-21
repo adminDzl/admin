@@ -6,6 +6,7 @@ import com.wolves.common.LicensePlateEnum;
 import com.wolves.common.NewsTypeEnum;
 import com.wolves.common.StatusEnum;
 import com.wolves.dto.*;
+import com.wolves.dto.user.CompanyDTO;
 import com.wolves.dto.user.ForgetDTO;
 import com.wolves.dto.user.LoginDTO;
 import com.wolves.dto.user.RegisterDTO;
@@ -453,8 +454,27 @@ public class AppUserController {
      * 创建企业
      */
     @RequestMapping(value = "/createCompany", method = RequestMethod.POST)
-    public void createCompany(@RequestHeader("Authorization") String token){
-
+    public Result createCompany(@RequestHeader("Authorization") String token,
+                              @RequestBody JSONObject jsonObject){
+        Result result = new Result();
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        String name = jsonObject.getString("name");
+        if (StringUtils.isEmpty(name)){
+            result.setResult(ResultCode.FAIL);
+            result.setMsg("请填写企业名称");
+            return result;
+        }
+        CompanyDTO companyDTO = new CompanyDTO();
+        companyDTO.setCompanyName(name);
+        companyService.saveCompany(companyDTO);
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("查询成功");
+        return result;
     }
 
     /**

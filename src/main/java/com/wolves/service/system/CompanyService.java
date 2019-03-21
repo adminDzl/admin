@@ -82,5 +82,14 @@ public class CompanyService {
 
 		return (List<BaseCompanyDTO>) dao.findForList("CompanyMapper.selectAllCompany", null);
 	}
+
+	/**
+	 * 保存
+	 * @param companyDTO
+	 */
+	public void saveCompany(CompanyDTO companyDTO){
+
+		dao.save("CompanyMapper.saveCompany", companyDTO);
+	}
 }
 

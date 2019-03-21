@@ -160,4 +160,24 @@
 		FROM company
 		WHERE type = 2 AND status != 2
 	</select>
+
+	<insert id="saveCompany" parameterType="com.wolves.dto.user.CompanyDTO" flushCache="false">
+		insert into COMPANY(
+		COMPANY_NAME,
+		TYPE,
+		STATUS,
+		LOGO,
+		CREATE_TIME,
+		UPDATE_TIME,
+		COMPANY_ID
+		) values (
+		#{companyName},
+		#{type},
+		#{status},
+		#{logo},
+		now(),
+		now(),
+		#{companyId}
+		)
+	</insert>
 </mapper>
