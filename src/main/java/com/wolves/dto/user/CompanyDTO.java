@@ -3,13 +3,11 @@ package com.wolves.dto.user;
 import java.util.Date;
 
 /**
- * Created by Administrator on 2019/3/20.
+ *
+ * @author Administrator
+ * @date 2019/3/20
  */
-public class CompanyDTO {
-
-    private String companyId;
-
-    private String companyName;
+public class CompanyDTO extends BaseCompanyDTO{
 
     private Integer type;
 
@@ -26,22 +24,6 @@ public class CompanyDTO {
     private Date createTime;
 
     private Date updateTime;
-
-    public String getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
 
     public Integer getType() {
         return type;

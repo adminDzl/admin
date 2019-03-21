@@ -25,8 +25,6 @@ import com.wolves.service.system.user.UserService;
 import com.wolves.service.system.yard.YardService;
 import com.wolves.service.system.yardappoint.YardAppointService;
 import com.wolves.util.*;
-import org.apache.shiro.crypto.hash.SimpleHash;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -438,14 +436,26 @@ public class AppUserController {
         return result;
     }
 
-    @RequestMapping(value = "/createCompany", method = RequestMethod.POST)
-    public void createCompany(@RequestHeader("Authorization") String token){
+    /**
+     * 查询企业信息
+     */
+    @RequestMapping(value = "/allCompany", method = RequestMethod.POST)
+    public Result allCompany(){
+        Result result = new Result();
 
+        result.setData(companyService.selectAllCompany());
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("查询成功");
+        return result;
     }
 
     /**
      * 创建企业
      */
+    @RequestMapping(value = "/createCompany", method = RequestMethod.POST)
+    public void createCompany(@RequestHeader("Authorization") String token){
+
+    }
 
     /**
      * 我的报修

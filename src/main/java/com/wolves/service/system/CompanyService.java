@@ -3,6 +3,7 @@ package com.wolves.service.system;
 import java.util.List;
 import javax.annotation.Resource;
 
+import com.wolves.dto.user.BaseCompanyDTO;
 import com.wolves.dto.user.CompanyDTO;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
@@ -71,6 +72,15 @@ public class CompanyService {
 	 */
 	public CompanyDTO selectCompanyById(String companyId){
 		return (CompanyDTO) dao.findForObject("CompanyMapper.selectCompanyById", companyId);
+	}
+
+	/**
+	 * 查询所有的企业
+	 * @return
+	 */
+	public List<BaseCompanyDTO> selectAllCompany(){
+
+		return (List<BaseCompanyDTO>) dao.findForList("CompanyMapper.selectAllCompany", null);
 	}
 }
 
