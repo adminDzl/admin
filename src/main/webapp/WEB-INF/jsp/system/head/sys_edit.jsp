@@ -27,15 +27,12 @@
 		<script type="text/javascript" src="plugins/uploadify/jquery.uploadify.v2.1.4.min.js"></script>
 		<!-- 上传图片插件 -->
 		<script type="text/javascript">
-		var jsessionid = "<%=session.getId()%>";  //勿删，uploadify兼容火狐用到
+		var jsessionid = "<%=session.getId()%>";
 		</script>
 		<!--引入属于此页面的js -->
-		<script type="text/javascript" src="static/js/myjs/sys.js"></script>	
-
+		<script type="text/javascript" src="static/js/myjs/sys.js"></script>
 		<!--提示框-->
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
-
-
 	</head>
 <body>
 
@@ -44,13 +41,11 @@
 	<div class="tabbable">
             <ul class="nav nav-tabs" id="myTab">
               <li class="active"><a data-toggle="tab" href="#home"><i class="green icon-home bigger-110"></i>配置</a></li>
-              <%--<li><a data-toggle="tab" href="#profile"><i class="green icon-cog bigger-110"></i>配置 NO2</a></li>--%>
-              <%--<li><a data-toggle="tab" href="#profile3"><i class="green icon-cog bigger-110"></i>配置 NO3</a></li>--%>
             </ul>
             <div class="tab-content">
 			  <div id="home" class="tab-pane in active">
 				<form action="head/saveSys.do" name="Form" id="Form" method="post">
-				<table id="table_report" class="table table-striped table-bordered table-hover">
+				<table id="table_report1" class="table table-striped table-bordered table-hover">
 					<tr>
 						<td style="width:70px;text-align: right;padding-top: 13px;">系统名称:</td>
 						<td><input type="text" name="YSYNAME" id="YSYNAME" value="${pd.YSYNAME }" placeholder="这里输入系统名称" style="width:90%" title="系统名称"/></td>
@@ -59,30 +54,8 @@
 						<td><input type="number" name="COUNTPAGE" id="COUNTPAGE" value="${pd.COUNTPAGE }" placeholder="这里输入每页条数" style="width:90%" title="每页条数"/></td>
 					</tr>
 				</table>
-				
-				<table id="table_report" class="table table-striped table-bordered table-hover">
-					<tr>
-						<td style="text-align: center;" colspan="100">
-							邮件服务器配置
-						</td>
-					</tr>
-					<tr>
-						<td style="width:50px;text-align: right;padding-top: 13px;">SMTP:</td>
-						<td><input type="text" name="SMTP" id="SMTP" value="${pd.SMTP }" placeholder="例如:smtp.qq.com" style="width:90%" title="SMTP"/></td>
 
-						<td style="width:50px;text-align: right;padding-top: 13px;">端口:</td>
-						<td><input type="number" name="PORT" id="PORT" value="${pd.PORT }" placeholder="一般为：25" style="width:90%" title="端口"/></td>
-					</tr>
-					<tr>
-						<td style="width:50px;text-align: right;padding-top: 13px;">邮箱:</td>
-						<td><input type="email" name="EMAIL" id="EMAIL" value="${pd.EMAIL }" placeholder="请输入邮件服务器邮箱" style="width:90%" title="邮箱"/></td>
-
-						<td style="width:50px;text-align: right;padding-top: 13px;">密码:</td>
-						<td><input type="password" name="PAW" id="PAW" value="${pd.PAW }" placeholder="请输入邮箱密码" style="width:90%" title="密码"/></td>
-					</tr>
-				</table>
-
-				<table id="table_report" class="table table-striped table-bordered table-hover">
+				<table id="table_report2" class="table table-striped table-bordered table-hover">
 					<tr>
 						<td style="text-align: center;" colspan="100">
 							短信接口&nbsp;(短信商一&nbsp;<a href="http://www.dxton.com/" target="_blank">官网</a>)
@@ -119,103 +92,9 @@
 				</table>
 				</form>
 			  </div>
-			  <%--<div id="profile" class="tab-pane">--%>
-			  	<%--<form action="head/saveSys2.do" name="Form2" id="Form2" method="post">--%>
-				<%--<table id="table_report" class="table table-striped table-bordered table-hover">--%>
-					<%--<tr>--%>
-						<%--<td style="text-align: center;" colspan="100">--%>
-							<%--文字水印配置--%>
-							<%--<label style="float:left;padding-left: 15px;"><input name="fcheckbox" class="ace-checkbox-2" type="checkbox" id="check1" onclick="openThis1();" /><span class="lbl">开启</span></label>--%>
-						<%--</td>--%>
-					<%--</tr>--%>
-					<%--<tr>--%>
-						<%--<td style="width:50px;text-align: right;padding-top: 12px;">内容:</td>--%>
-						<%--<td><input type="text" name="fcontent" id="fcontent" value="${pd.fcontent }"  style="width:90%" title="水印文字内容"/></td>--%>
-						<%--<td style="width:50px;text-align: right;padding-top: 12px;">字号:</td>--%>
-						<%--<td><input type="number" name="fontSize" id="fontSize" value="${pd.fontSize }"  style="width:90%" title="字号"/></td>--%>
-					<%--</tr>--%>
-					<%--<tr>--%>
-						<%--<td style="width:50px;text-align: right;padding-top: 12px;">X坐标:</td>--%>
-						<%--<td><input type="number" name="fontX" id="fontX" value="${pd.fontX }"  style="width:90%" title="X坐标"/></td>--%>
-						<%--<td style="width:50px;text-align: right;padding-top: 12px;">Y坐标:</td>--%>
-						<%--<td><input type="number" name="fontY" id="fontY" value="${pd.fontY }"  style="width:90%" title="Y坐标"/></td>--%>
-					<%--</tr>--%>
-				<%--</table>--%>
-
-				<%--<table id="table_report" class="table table-striped table-bordered table-hover">--%>
-					<%--<tr>--%>
-						<%--<td style="text-align: center;" colspan="100">--%>
-							<%--图片水印配置--%>
-							<%--<label style="float:left;padding-left: 15px;"><input name="fcheckbox" class="ace-checkbox-2" type="checkbox" id="check2" onclick="openThis2();" /><span class="lbl">开启</span></label>--%>
-						<%--</td>--%>
-					<%--</tr>--%>
-					<%--<tr>--%>
-						<%--<td style="width:50px;text-align: right;padding-top: 12px;">X坐标:</td>--%>
-						<%--<td><input type="number" name="imgX" id="imgX" value="${pd.imgX }" style="width:90%" title="X坐标"/></td>--%>
-						<%--<td style="width:50px;text-align: right;padding-top: 12px;">Y坐标:</td>--%>
-						<%--<td><input type="number" name="imgY" id="imgY" value="${pd.imgY }"  style="width:90%" title="Y坐标"/></td>--%>
-					<%--</tr>--%>
-					<%--<tr>--%>
-						<%--<td style="width:50px;text-align: right;padding-top: 12px;">水印:</td>--%>
-						<%--<td colspan="10">--%>
-						<%--<div style="float:left;"><img src="<%=basePath%>uploadFiles/uploadImgs/${pd.imgUrl}"  width="100"/></div>--%>
-						<%--<div style="float:right;"><input type="file" name="TP_URL" id="uploadify1" keepDefaultStyle = "true"/></div>--%>
-						<%--</td>--%>
-					<%--</tr>--%>
-				<%--</table>--%>
-
-				<%--<table class="center" style="width:100%" >--%>
-					<%--<tr>--%>
-						<%--<td style="text-align: center;" colspan="100">--%>
-							<%--<a class="btn btn-mini btn-primary" onclick="save2();">保存</a>--%>
-							<%--<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>--%>
-						<%--</td>--%>
-					<%--</tr>--%>
-				<%--</table>--%>
-				<%--<input type="hidden" name="isCheck1" id="isCheck1" value="${pd.isCheck1 }"/>--%>
-				<%--<input type="hidden" name="isCheck2" id="isCheck2" value="${pd.isCheck2 }"/>--%>
-				<%--<input type="hidden" name="imgUrl" id="imgUrl" value="${pd.imgUrl }"/>--%>
-				<%--<input type="hidden" value="no" id="hasTp1" />--%>
-				<%--</form>--%>
-			  <%--</div>--%>
-
-
-			  <%--<div id="profile3" class="tab-pane">--%>
-			  	<%--<form action="head/saveSys3.do" name="Form3" id="Form3" method="post">--%>
-				<%--<table id="table_report" class="table table-striped table-bordered table-hover">--%>
-					<%--<tr>--%>
-						<%--<td style="text-align: center;" colspan="100">--%>
-							<%--微信接口配置--%>
-						<%--</td>--%>
-					<%--</tr>--%>
-					<%--<tr>--%>
-						<%--<td style="width:120px;text-align: right;padding-top: 12px;">URL(服务器地址):</td>--%>
-						<%--<td><input type="text" name="WXURL" id="WXURL" value="<%=basePath%>weixin/index " disabled="disabled"  style="width:90%" title="URL(服务器地址)必须是域名，ip地址验证通不过"/></td>--%>
-					<%--</tr>--%>
-					<%--<tr>--%>
-						<%--<td style="width:120px;text-align: right;padding-top: 12px;">Token(令牌):</td>--%>
-						<%--<td><input type="text" name="Token" id="Token" value="${pd.Token }"  style="width:90%" title="URL(服务器地址)"/></td>--%>
-					<%--</tr>--%>
-				<%--</table>--%>
-
-				<%--<table class="center" style="width:100%" >--%>
-					<%--<tr>--%>
-						<%--<td style="text-align: center;" colspan="100">--%>
-							<%--<a class="btn btn-mini btn-primary" onclick="save3();">保存</a>--%>
-							<%--<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>--%>
-						<%--</td>--%>
-					<%--</tr>--%>
-				<%--</table>--%>
-				<%--</form>--%>
-			  <%--</div>--%>
-
-
             </div>
 	</div>
- </div><!--/span-->
-
-
-
+ </div>
 </div>
 		
 <div id="zhongxin2" class="center" style="display:none"><br/><br/><br/><br/><img src="static/images/jiazai.gif" /><br/><h4 class="lighter block green"></h4></div>

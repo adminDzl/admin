@@ -337,14 +337,6 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/jpush-java-libraryV2.jar</systemPath>
 		</dependency>
-		<!-- mail -->
-		<dependency>
-			<groupId>mail</groupId>
-			<artifactId>mail</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/mail.jar</systemPath>
-		</dependency>
 		<!--mybatis-ehcache-1.0.3 -->
 		<dependency>
 			<groupId>mybatis-ehcache</groupId>
