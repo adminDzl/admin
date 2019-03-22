@@ -1,13 +1,23 @@
 package com.wolves.dto.user;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
- * Created by Administrator on 2019/3/5.
+ *
+ * @author Administrator
+ * @date 2019/3/5
  */
+@ApiModel(description = "忘记密码")
 public class ForgetDTO {
+
+    @ApiModelProperty(name = "telephone",value = "手机号码")
     private String telephone;
 
+    @ApiModelProperty(name = "code",value = "验证码")
     private String code;
 
+    @ApiModelProperty(name = "password",value = "密码")
     private String password;
 
     public String getTelephone() {

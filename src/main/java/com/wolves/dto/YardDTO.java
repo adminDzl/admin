@@ -1,25 +1,40 @@
 package com.wolves.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * Created by Administrator on 2019/3/9.
+ *
+ * @author Administrator
+ * @date 2019/3/9
  */
+@ApiModel(description = "申请场地信息")
 public class YardDTO {
 
+    @ApiModelProperty(name = "yardId",value = "场地ID")
     private String yardId;
 
+    @ApiModelProperty(name = "placeType",value = "场地类型（1.会议室，2.活动室，3健身房）")
     private Integer placeType;
 
+    @ApiModelProperty(name = "position",value = "所处位置")
     private String position;
 
+    @ApiModelProperty(name = "imageUrl",value = "图片地址")
     private String imageUrl;
 
+    @ApiModelProperty(name = "equipment",value = "设备描述")
     private String equipment;
 
+    @ApiModelProperty(name = "rentFee",value = "价格")
     private BigDecimal rentFee;
 
+    @ApiModelProperty(name = "createTime",value = "创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
 
     public String getYardId() {

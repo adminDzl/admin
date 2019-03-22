@@ -1,16 +1,26 @@
 package com.wolves.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
- * Created by Administrator on 2019/3/8.
+ *
+ * @author Administrator
+ * @date 2019/3/8
  */
+@ApiModel(description = "申请场地信息")
 public class FloorManAllDTO {
 
+    @ApiModelProperty(name = "floormanId",value = "ID")
     private String floormanId;
 
+    @ApiModelProperty(name = "floor",value = "楼层")
     private String floor;
 
+    @ApiModelProperty(name = "floorMasterName",value = "楼层负责人")
     private String floorMasterName;
 
+    @ApiModelProperty(name = "masterTel",value = "联系号码")
     private String masterTel;
 
     public String getFloormanId() {

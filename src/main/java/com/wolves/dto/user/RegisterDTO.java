@@ -1,26 +1,41 @@
 package com.wolves.dto.user;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
- * Created by Administrator on 2019/3/5.
+ *
+ * @author Administrator
+ * @date 2019/3/5
  */
+@ApiModel(description = "注册信息")
 public class RegisterDTO {
 
+    @ApiModelProperty(name = "companyId",value = "公司id")
     private String companyId;
 
+    @ApiModelProperty(name = "telephone",value = "手机号码")
     private String telephone;
 
+    @ApiModelProperty(name = "code",value = "验证码")
     private String code;
 
+    @ApiModelProperty(name = "idCardFrontUrl",value = "身份证正面照")
     private String idCardFrontUrl;
 
+    @ApiModelProperty(name = "idCardBackUrl",value = "身份证反面照")
     private String idCardBackUrl;
 
+    @ApiModelProperty(name = "password",value = "密码")
     private String password;
 
+    @ApiModelProperty(name = "name",value = "姓名")
     private String name;
 
+    @ApiModelProperty(name = "sex",value = "性别(男,女)")
     private String sex;
 
+    @ApiModelProperty(name = "email",value = "邮箱地址")
     private String email;
 
     public String getCompanyId() {

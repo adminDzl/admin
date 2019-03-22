@@ -16,6 +16,8 @@ import com.wolves.util.PageData;
 import com.wolves.util.StringUtils;
 import com.wolves.util.UuidUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,6 +62,9 @@ public class CarController {
      * 我的车辆信息
      */
     @ApiOperation(httpMethod="POST",value="我的车辆信息",notes="我的车辆信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+    })
     @RequestMapping(value = "/myCar", method = RequestMethod.POST)
     public Result myCar(@RequestHeader("Authorization") String token){
         Result result = new Result();
@@ -81,6 +86,10 @@ public class CarController {
      * 绑定车牌
      */
     @ApiOperation(httpMethod="POST",value="绑定车牌",notes="绑定车牌")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+            @ApiImplicitParam(name = "jsonObject",value = "{\"plate\":\"车牌号\"}",required = true,paramType = "body",dataType = "JSONObject")
+    })
     @RequestMapping(value = "/bingCar", method = RequestMethod.POST)
     public Result bingCar(@RequestHeader("Authorization") String token, @RequestBody JSONObject jsonObject){
         Result result = new Result();
@@ -117,6 +126,10 @@ public class CarController {
      * 查看历史停车记录
      */
     @ApiOperation(httpMethod="POST",value="查看历史停车记录",notes="查看历史停车记录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+            @ApiImplicitParam(name = "pageDataDTO",value = "传入参数",required = true,paramType = "body",dataType = "PageDataDTO")
+    })
     @RequestMapping(value = "/myParkHistory", method = RequestMethod.POST)
     public Result myParkHistory(@RequestHeader("Authorization") String token,
                                 @RequestBody PageDataDTO pageDataDTO){

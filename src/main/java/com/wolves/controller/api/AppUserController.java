@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.gson.JsonObject;
 import com.wolves.common.*;
 import com.wolves.dto.*;
-import com.wolves.dto.user.CompanyDTO;
-import com.wolves.dto.user.ForgetDTO;
-import com.wolves.dto.user.LoginDTO;
-import com.wolves.dto.user.RegisterDTO;
+import com.wolves.dto.user.*;
 import com.wolves.entity.app.User;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
@@ -23,6 +20,8 @@ import com.wolves.service.system.yard.YardService;
 import com.wolves.service.system.yardappoint.YardAppointService;
 import com.wolves.util.*;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
@@ -74,6 +73,9 @@ public class AppUserController {
      * 登陆,返回token
      */
     @ApiOperation(httpMethod="POST",value="登陆",notes="登陆")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "dto",value = "传入参数",required = true,paramType = "body",dataType = "LoginDTO")
+    })
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Result login(@RequestBody LoginDTO dto){
         Result result = new Result();
@@ -120,6 +122,9 @@ public class AppUserController {
      * 登出,清空token
      */
     @ApiOperation(httpMethod="POST",value="登出",notes="登出")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+    })
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public Result logout(@RequestHeader("Authorization") String token){
         Result result = new Result();
@@ -150,6 +155,9 @@ public class AppUserController {
      * 客户注册
      */
     @ApiOperation(httpMethod="POST",value="客户注册",notes="客户注册")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "registerDTO",value = "传入参数",required = true,paramType = "body",dataType = "RegisterDTO")
+    })
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public Result register(@RequestBody RegisterDTO registerDTO){
         Result result = new Result();
@@ -259,6 +267,10 @@ public class AppUserController {
      * 忘记密码
      */
     @ApiOperation(httpMethod="POST",value="忘记密码",notes="忘记密码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+            @ApiImplicitParam(name = "forgetDTO",value = "传入参数",required = true,paramType = "body",dataType = "ForgetDTO")
+    })
     @RequestMapping(value = "/forget", method = RequestMethod.POST)
     public Result forgetPassword(@RequestHeader("Authorization") String token,
                                  @RequestBody ForgetDTO forgetDTO){
@@ -300,12 +312,15 @@ public class AppUserController {
      * 获取验证码
      */
     @ApiOperation(httpMethod="POST",value="获取验证码",notes="获取验证码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "smsDataDTO",value = "传入参数",required = true,paramType = "body",dataType = "SmsDataDTO")
+    })
     @RequestMapping(value = "/getCode", method = RequestMethod.POST, produces = "application/json")
-    public Result getCode(@RequestBody JSONObject jsonObject){
+    public Result getCode(@RequestBody SmsDataDTO smsDataDTO){
         Result result = new Result();
         //获取手机号码
-        String telephone = jsonObject.getString("phone");
-        String type = jsonObject.getString("type");
+        String telephone = smsDataDTO.getPhone();
+        String type = smsDataDTO.getType().toString();
         //验证手机号
         Boolean isTrue = Tools.checkMobileNumber(telephone);
         if (!isTrue){
@@ -328,9 +343,12 @@ public class AppUserController {
      * 我的企业信息
      */
     @ApiOperation(httpMethod="POST",value="我的企业信息",notes="我的企业信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+    })
     @RequestMapping(value = "/orgInfo", method = RequestMethod.POST)
-    public Result orgInfo(@RequestHeader("Authorization") String token){
-        Result result = new Result();
+    public Result<CompanyDTO> orgInfo(@RequestHeader("Authorization") String token){
+        Result<CompanyDTO> result = new Result<CompanyDTO>();
         User user = userService.getUser(token);
         if (user == null){
             result.setMsg("请登录");
@@ -349,8 +367,8 @@ public class AppUserController {
      */
     @ApiOperation(httpMethod="POST",value="查询企业信息",notes="查询企业信息")
     @RequestMapping(value = "/allCompany", method = RequestMethod.POST)
-    public Result allCompany(){
-        Result result = new Result();
+    public Result<List<BaseCompanyDTO>> allCompany(){
+        Result<List<BaseCompanyDTO>> result = new Result<List<BaseCompanyDTO>>();
 
         result.setData(companyService.selectAllCompany());
         result.setResult(ResultCode.SUCCESS);
@@ -362,6 +380,10 @@ public class AppUserController {
      * 创建企业
      */
     @ApiOperation(httpMethod="POST",value="创建企业",notes="创建企业")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+            @ApiImplicitParam(name = "jsonObject",value = "{\"name\":\"公司名称\"}",required = true,paramType = "body",dataType = "JSONObject")
+    })
     @RequestMapping(value = "/createCompany", method = RequestMethod.POST)
     public Result createCompany(@RequestHeader("Authorization") String token,
                               @RequestBody JSONObject jsonObject){
@@ -392,11 +414,15 @@ public class AppUserController {
     /**
      * 我的报修
      */
-    @ApiOperation(httpMethod="POST",value="我的报修",notes="我的报修")
+    @ApiOperation(httpMethod="POST",value="我的报修",notes="我的报修列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+            @ApiImplicitParam(name = "pageDataDTO",value = "传入参数",required = true,paramType = "body",dataType = "PageDataDTO")
+    })
     @RequestMapping(value = "/repair", method = RequestMethod.POST)
-    public Result repair(@RequestHeader("Authorization") String token,
+    public Result<List<RepairApplyDTO>> repair(@RequestHeader("Authorization") String token,
                        @RequestBody PageDataDTO pageDataDTO){
-        Result result = new Result();
+        Result<List<RepairApplyDTO>> result = new Result<List<RepairApplyDTO>>();
         Integer page = pageDataDTO.getPage();
         if (page < 0){
             result.setMsg("页数必须大于0");

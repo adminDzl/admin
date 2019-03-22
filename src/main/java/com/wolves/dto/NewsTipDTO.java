@@ -1,20 +1,33 @@
 package com.wolves.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.Date;
 
 /**
- * Created by Administrator on 2019/3/17.
+ *
+ * @author Administrator
+ * @date 2019/3/17
  */
+@ApiModel(description = "申请场地信息")
 public class NewsTipDTO {
 
+    @ApiModelProperty(name = "newstipId",value = "Id")
     private String newstipId;
 
+    @ApiModelProperty(name = "newsTitle",value = "标题")
     private String newsTitle;
 
+    @ApiModelProperty(name = "newsContent",value = "内容")
     private String newsContent;
 
+    @ApiModelProperty(name = "attachUrl",value = "链接")
     private String attachUrl;
 
+    @ApiModelProperty(name = "createTime",value = "创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
 
     public String getNewstipId() {
@@ -55,5 +68,16 @@ public class NewsTipDTO {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    @Override
+    public String toString() {
+        return "NewsTipDTO{" +
+                "newstipId='" + newstipId + '\'' +
+                ", newsTitle='" + newsTitle + '\'' +
+                ", newsContent='" + newsContent + '\'' +
+                ", attachUrl='" + attachUrl + '\'' +
+                ", createTime=" + createTime +
+                '}';
     }
 }

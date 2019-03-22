@@ -1,11 +1,20 @@
 package com.wolves.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
- * Created by gf on 2019/3/10.
+ *
+ * @author gf
+ * @date 2019/3/10
  */
+@ApiModel(description = "分页")
 public class PageDataDTO {
+
+    @ApiModelProperty(name = "page",value = "页数")
     private Integer page;
 
+    @ApiModelProperty(name = "size",value = "条数")
     private Integer size;
 
     public Integer getPage() {

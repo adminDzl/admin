@@ -1,5 +1,9 @@
 package com.wolves.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -8,28 +12,44 @@ import java.util.Date;
  * @author gf
  * @date 2019/3/10
  */
+@ApiModel(description = "申请场地信息")
 public class AppointmentDTO {
 
+    @ApiModelProperty(name = "yardappointId",value = "ID")
     private String yardappointId;
 
+    @ApiModelProperty(name = "placeType",value = "场地类型（1.会议室，2.活动室，3健身房）")
     private Integer placeType;
 
+    @ApiModelProperty(name = "position",value = "所处位置")
     private String position;
 
+    @ApiModelProperty(name = "placeDate",value = "场地ID")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date placeDate;
 
+    @ApiModelProperty(name = "beginTime",value = "开始时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date beginTime;
 
+    @ApiModelProperty(name = "endTime",value = "结束时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date endTime;
 
+    @ApiModelProperty(name = "duration",value = "时长")
     private String duration;
 
+    @ApiModelProperty(name = "fee",value = "金额")
     private BigDecimal fee;
 
+    @ApiModelProperty(name = "status",value = "状态")
     private Integer status;
 
+    @ApiModelProperty(name = "note",value = "备注")
     private String note;
 
+    @ApiModelProperty(name = "createTime",value = "创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
 
     public String getYardappointId() {
