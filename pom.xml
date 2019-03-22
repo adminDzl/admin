@@ -434,7 +434,7 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/sun.misc.BASE64Decoder.jar</systemPath>
 		</dependency>
-		<!-- ueditor -->
+		 <!--ueditor-->
 		<dependency>
 			<groupId>ueditor</groupId>
 			<artifactId>ueditor</artifactId>
@@ -442,7 +442,7 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ueditor.jar</systemPath>
 		</dependency>
-		<!-- weaver-1.6.8.RELEASE.jar -->
+		 <!--weaver-1.6.8.RELEASE.jar-->
 		<dependency>
 			<groupId>weaver-1.6.8</groupId>
 			<artifactId>weaver-1.6.8</artifactId>
