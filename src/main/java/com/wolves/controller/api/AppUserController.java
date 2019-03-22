@@ -119,6 +119,7 @@ public class AppUserController {
     /**
      * 登出,清空token
      */
+    @ApiOperation(httpMethod="POST",value="登出",notes="登出")
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public Result logout(@RequestHeader("Authorization") String token){
         Result result = new Result();
@@ -148,6 +149,7 @@ public class AppUserController {
     /**
      * 客户注册
      */
+    @ApiOperation(httpMethod="POST",value="客户注册",notes="客户注册")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public Result register(@RequestBody RegisterDTO registerDTO){
         Result result = new Result();
@@ -256,6 +258,7 @@ public class AppUserController {
     /**
      * 忘记密码
      */
+    @ApiOperation(httpMethod="POST",value="忘记密码",notes="忘记密码")
     @RequestMapping(value = "/forget", method = RequestMethod.POST)
     public Result forgetPassword(@RequestHeader("Authorization") String token,
                                  @RequestBody ForgetDTO forgetDTO){
@@ -296,6 +299,7 @@ public class AppUserController {
     /**
      * 获取验证码
      */
+    @ApiOperation(httpMethod="POST",value="获取验证码",notes="获取验证码")
     @RequestMapping(value = "/getCode", method = RequestMethod.POST, produces = "application/json")
     public Result getCode(@RequestBody JSONObject jsonObject){
         Result result = new Result();
@@ -323,6 +327,7 @@ public class AppUserController {
     /**
      * 我的企业信息
      */
+    @ApiOperation(httpMethod="POST",value="我的企业信息",notes="我的企业信息")
     @RequestMapping(value = "/orgInfo", method = RequestMethod.POST)
     public Result orgInfo(@RequestHeader("Authorization") String token){
         Result result = new Result();
@@ -342,6 +347,7 @@ public class AppUserController {
     /**
      * 查询企业信息
      */
+    @ApiOperation(httpMethod="POST",value="查询企业信息",notes="查询企业信息")
     @RequestMapping(value = "/allCompany", method = RequestMethod.POST)
     public Result allCompany(){
         Result result = new Result();
@@ -355,6 +361,7 @@ public class AppUserController {
     /**
      * 创建企业
      */
+    @ApiOperation(httpMethod="POST",value="创建企业",notes="创建企业")
     @RequestMapping(value = "/createCompany", method = RequestMethod.POST)
     public Result createCompany(@RequestHeader("Authorization") String token,
                               @RequestBody JSONObject jsonObject){
@@ -385,6 +392,7 @@ public class AppUserController {
     /**
      * 我的报修
      */
+    @ApiOperation(httpMethod="POST",value="我的报修",notes="我的报修")
     @RequestMapping(value = "/repair", method = RequestMethod.POST)
     public Result repair(@RequestHeader("Authorization") String token,
                        @RequestBody PageDataDTO pageDataDTO){
@@ -425,6 +433,7 @@ public class AppUserController {
      * @param jsonObject
      * @return
      */
+    @ApiOperation(httpMethod="POST",value="我的保修明细",notes="我的保修明细")
     @RequestMapping(value = "/repairDetail", method = RequestMethod.POST)
     public Result repairDetail(@RequestHeader("Authorization") String token,
                              @RequestBody JSONObject jsonObject){
@@ -452,6 +461,7 @@ public class AppUserController {
     /**
      * 我的缴费
      */
+    @ApiOperation(httpMethod="POST",value="我的缴费",notes="我的缴费")
     @RequestMapping(value = "/payment", method = RequestMethod.POST)
     public Result payment(@RequestHeader("Authorization") String token,
                           @RequestBody PageDataDTO pageDataDTO){
@@ -491,6 +501,7 @@ public class AppUserController {
     /**
      * 我的预约
      */
+    @ApiOperation(httpMethod="POST",value="我的预约",notes="我的预约")
     @RequestMapping(value = "/appoint", method = RequestMethod.POST)
     public Result appoint(@RequestHeader("Authorization") String token,
                           @RequestBody PageDataDTO pageDataDTO){
@@ -528,6 +539,7 @@ public class AppUserController {
     /**
      * 提交预约
      */
+    @ApiOperation(httpMethod="POST",value="提交预约",notes="提交预约")
     @RequestMapping(value = "/createAppoint", method = RequestMethod.POST)
     public Result createAppoint(@RequestHeader("Authorization") String token,
                                 @RequestBody ApplyYardDTO applyYardDTO){
@@ -572,7 +584,7 @@ public class AppUserController {
      */
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     public void info(@RequestHeader("Authorization") String token){
-
+        //TODO
     }
 
     /**
@@ -580,6 +592,7 @@ public class AppUserController {
      * @param pageDataDTO
      * @return
      */
+    @ApiOperation(httpMethod="POST",value="查询场地",notes="查询场地")
     @RequestMapping(value = "/getYard", method = RequestMethod.POST)
     public Result getYard(@RequestHeader("Authorization") String token,
                           @RequestBody PageDataDTO pageDataDTO){
@@ -616,9 +629,10 @@ public class AppUserController {
     /**
      * 客服列表
      */
+    @ApiOperation(httpMethod="POST",value="客服列表",notes="客服列表")
     @RequestMapping(value = "/serviceMan", method = RequestMethod.POST)
     public Result serviceMan(@RequestHeader("Authorization") String token){
-        Result result = new Result();;
+        Result result = new Result();
         User user = userService.getUser(token);
         if (user == null){
             result.setMsg("请登录");
@@ -638,6 +652,7 @@ public class AppUserController {
      * @param pageDataDTO
      * @return
      */
+    @ApiOperation(httpMethod="POST",value="项目申报",notes="查询项目申报")
     @RequestMapping(value = "/declare", method = RequestMethod.POST)
     public Result declare(@RequestHeader("Authorization") String token,
                         @RequestBody PageDataDTO pageDataDTO){
@@ -678,6 +693,7 @@ public class AppUserController {
      * @param pageDataDTO
      * @return
      */
+    @ApiOperation(httpMethod="POST",value="新闻",notes="查询新闻")
     @RequestMapping(value = "/news", method = RequestMethod.POST)
     public Result news(@RequestHeader("Authorization") String token,
                           @RequestBody PageDataDTO pageDataDTO){
@@ -718,6 +734,7 @@ public class AppUserController {
      * @param jsonObject
      * @return
      */
+    @ApiOperation(httpMethod="POST",value="查询详情",notes="查询详情")
     @RequestMapping(value = "/detailsById", method = RequestMethod.POST)
     public Result detailsById(@RequestHeader("Authorization") String token,
                             @RequestBody JSONObject jsonObject){
@@ -748,6 +765,7 @@ public class AppUserController {
      * @return
      * @throws Exception
      */
+    @ApiOperation(httpMethod="POST",value="上传图片",notes="上传图片")
     @RequestMapping(value="/imageUpload", method = RequestMethod.POST)
     public Result imageUpload(@RequestParam(required=false) MultipartFile[] files) throws Exception{
         Result result = new Result();
@@ -789,6 +807,7 @@ public class AppUserController {
      * @param pageDataDTO
      * @return
      */
+    @ApiOperation(httpMethod="POST",value="查询站内信",notes="查询站内信")
     @RequestMapping(value = "/tipMsg", method = RequestMethod.POST)
     public Result tipMsg(@RequestHeader("Authorization") String token,
                        @RequestBody PageDataDTO pageDataDTO){
@@ -827,6 +846,7 @@ public class AppUserController {
      * @param jsonObject
      * @return
      */
+    @ApiOperation(httpMethod="POST",value="查询站内信详情",notes="查询站内信详情")
     @RequestMapping(value = "/tipMsgDetail", method = RequestMethod.POST)
     public Result tipMsgDetail(@RequestHeader("Authorization") String token,
                              @RequestBody JSONObject jsonObject){

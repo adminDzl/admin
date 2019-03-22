@@ -15,6 +15,8 @@ import com.wolves.service.system.user.UserService;
 import com.wolves.util.PageData;
 import com.wolves.util.StringUtils;
 import com.wolves.util.UuidUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -23,10 +25,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Administrator on 2019/3/21.
+ * car的控制层
+ * @author Administrator
+ * @date 2019/3/21
  */
 @RestController
 @RequestMapping(value = "/app/user")
+@Api(tags="CarController",description="car的控制层")
 public class CarController {
 
     @Resource(name="userService")
@@ -39,6 +44,7 @@ public class CarController {
     /**
      * 查询车牌简称
      */
+    @ApiOperation(httpMethod="POST",value="查询车牌简称",notes="查询车牌简称")
     @RequestMapping(value = "/getLicensePlate", method = RequestMethod.GET)
     public Result getLicensePlate(){
         Result result = new Result();
@@ -53,6 +59,7 @@ public class CarController {
     /**
      * 我的车辆信息
      */
+    @ApiOperation(httpMethod="POST",value="我的车辆信息",notes="我的车辆信息")
     @RequestMapping(value = "/myCar", method = RequestMethod.POST)
     public Result myCar(@RequestHeader("Authorization") String token){
         Result result = new Result();
@@ -73,6 +80,7 @@ public class CarController {
     /**
      * 绑定车牌
      */
+    @ApiOperation(httpMethod="POST",value="绑定车牌",notes="绑定车牌")
     @RequestMapping(value = "/bingCar", method = RequestMethod.POST)
     public Result bingCar(@RequestHeader("Authorization") String token, @RequestBody JSONObject jsonObject){
         Result result = new Result();
@@ -108,6 +116,7 @@ public class CarController {
     /**
      * 查看历史停车记录
      */
+    @ApiOperation(httpMethod="POST",value="查看历史停车记录",notes="查看历史停车记录")
     @RequestMapping(value = "/myParkHistory", method = RequestMethod.POST)
     public Result myParkHistory(@RequestHeader("Authorization") String token,
                                 @RequestBody PageDataDTO pageDataDTO){
