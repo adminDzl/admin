@@ -4,13 +4,13 @@
 <mapper namespace="AppuserMapper">
 	<!-- 更新登录时间 -->
 	<update id="updateLastLogin" parameterType="pd">
-		update APP_USER set
+		update USER set
 		LAST_LOGIN = #{LAST_LOGIN} 
 		where USER_ID = #{USER_ID}
 	</update>
 	<!-- 判断用户名和密码 -->
 	<select id="getUserInfo" parameterType="pd" resultType="pd">
-		select * from APP_USER
+		select * from USER
 		where 1=1
 		<if test="USERNAME != null and PASSWORD != null">
 	  	and	
@@ -28,7 +28,7 @@
 	</select>
 	<!-- 存入IP -->
 	<update id="saveIP" parameterType="pd">
-		update APP_USER
+		update USER
 			set 
 				IP = #{IP}
 			where 
@@ -36,7 +36,7 @@
 	</update>
 	<!-- 修改 -->
 	<update id="editU" parameterType="pd">
-		update APP_USER
+		update USER
 			set USER_ID = #{USER_ID}
 			<if test="USERNAME != null and USERNAME != ''">
 				,USERNAME = #{USERNAME}
@@ -113,7 +113,7 @@
 			COMPANY_ID,
 			POSITION
 		from 
-			APP_USER
+			USER
 		where 
 			USER_ID = #{USER_ID}
 	</select>
@@ -141,7 +141,7 @@
 			COMPANY_ID,
 			POSITION
 		from
-			APP_USER
+		USER
 		where 
 			EMAIL = #{EMAIL}
 		<if test="USERNAME != null and USERNAME != ''">
@@ -172,7 +172,7 @@
 			COMPANY_ID,
 			POSITION
 		from
-			APP_USER
+		USER
 		where 
 			NUMBER = #{NUMBER}
 		<if test="USERNAME != null and USERNAME != ''">
@@ -203,13 +203,13 @@
 			COMPANY_ID,
 			POSITION
 		from 
-			APP_USER
+			USER
 		where 
 			USERNAME = #{USERNAME}
 	</select>
 	<!-- 新增app用户 -->
 	<insert id="saveU" parameterType="pd">
-		insert into APP_USER (
+		insert into USER (
 			USER_ID,
 			USERNAME,
 			PASSWORD,
@@ -272,7 +272,7 @@
 				r.ROLE_NAME,
 				u.COMPANY_ID,
 				u.POSITION
-		from APP_USER u, SYS_ROLE r
+		from USER u, SYS_ROLE r
 		where u.ROLE_ID = r.ROLE_ID 
 		and 1 = 1
 		and r.PARENT_ID = '7'
@@ -318,7 +318,7 @@
 				r.ROLE_NAME,
 				u.COMPANY_ID,
 				u.POSITION
-		from APP_USER u, SYS_ROLE r
+		from USER u, SYS_ROLE r
 		where u.ROLE_ID = r.ROLE_ID 
 		and 1 = 1
 		and r.PARENT_ID = '7'
@@ -346,13 +346,13 @@
 	</select>
 	<!-- 删除用户 -->
 	<delete id="deleteU" parameterType="pd">
-		delete from APP_USER
+		delete from USER
 		where 
 			USER_ID = #{USER_ID}
 	</delete>
 	<!-- 批量删除用户 -->
 	<delete id="deleteAllU" parameterType="String">
-		delete from APP_USER
+		delete from USER
 		where 
 			USER_ID in
   			 <foreach item="item" index="index" collection="array" open="(" separator="," close=")">

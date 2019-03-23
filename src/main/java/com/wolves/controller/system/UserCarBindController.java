@@ -100,12 +100,6 @@ public class UserCarBindController extends BaseController {
 		PageData pd = this.getPageData();
 		page.setPd(pd);
 		List<PageData>	varList = usercarbindService.list(page);
-		PageData userPageData = new PageData();
-		for(PageData pageData : varList){
-			userPageData.put("USER_ID", pageData.getString("USER_ID"));
-			String name = appUserService.findByUiId(userPageData).getString("NAME");
-			pageData.put("NAME", name);
-		}
 		mv.setViewName("system/usercarbind/usercarbind_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);

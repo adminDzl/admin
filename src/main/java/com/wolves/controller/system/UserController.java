@@ -172,7 +172,7 @@ public class UserController extends BaseController {
 			pd.put("USERNAME", USERNAME);
 		}
 		page.setPd(pd);
-		List<PageData>	userList = appUserService.listPdPageUser(page);
+		List<PageData> userList = appUserService.listPdPageUser(page);
 		PageData companyPageData = new PageData();
 		for(PageData pageData : userList){
 			companyPageData.put("COMPANY_ID", pageData.getString("COMPANY_ID"));
