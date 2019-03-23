@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.wolves.common.*;
 import com.wolves.dto.*;
 import com.wolves.dto.user.*;
+import com.wolves.entity.app.PayOrder;
 import com.wolves.entity.app.User;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
@@ -25,6 +26,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -73,12 +76,9 @@ public class AppUserController {
      * 登陆,返回token
      */
     @ApiOperation(httpMethod="POST",value="登陆",notes="登陆")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "dto",value = "传入参数",required = true,paramType = "body",dataType = "LoginDTO")
-    })
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public Result login(@RequestBody LoginDTO dto){
-        Result result = new Result();
+    public Result<String> login(@RequestBody LoginDTO dto){
+        Result<String> result = new Result<String>();
         String telephone = dto.getTelephone();
         String pwd = dto.getPassword();
         if (StringUtils.isEmpty(telephone)){
@@ -99,7 +99,7 @@ public class AppUserController {
         //验证签名
         //查询
         user = userService.selectUserByModel(user);
-        String token = "";
+        String token;
         if (user == null){
             result.setMsg("登陆失败");
             result.setResult(ResultCode.FAIL);
@@ -123,7 +123,7 @@ public class AppUserController {
      */
     @ApiOperation(httpMethod="POST",value="登出",notes="登出")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string")
     })
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public Result logout(@RequestHeader("Authorization") String token){
@@ -155,9 +155,6 @@ public class AppUserController {
      * 客户注册
      */
     @ApiOperation(httpMethod="POST",value="客户注册",notes="客户注册")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "registerDTO",value = "传入参数",required = true,paramType = "body",dataType = "RegisterDTO")
-    })
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public Result register(@RequestBody RegisterDTO registerDTO){
         Result result = new Result();
@@ -212,7 +209,6 @@ public class AppUserController {
             return result;
         }
         //加密用户密码
-        String encrypt = MD5.md5(password);
         String name = registerDTO.getName();
         if (StringUtils.isEmpty(name)){
             result.setMsg("请填写用户姓名");
@@ -237,21 +233,8 @@ public class AppUserController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
-        //保存数据
-        User userInfo = new User();
-        userInfo.setUserId(UuidUtil.get32UUID());
-        userInfo.setUsername(name);
-        userInfo.setPassword(encrypt);
-        userInfo.setPhone(telephone);
-        userInfo.setName(name);
-        userInfo.setSex(sex);
-        userInfo.setIdCardFrontUrl(idCardFrontUrl);
-        userInfo.setIdCardBackUrl(idCardBackUrl);
-        userInfo.setCompanyId(companyId);
-        userInfo.setIp("");
-        userInfo.setEmail(email);
         //身份证已经绑定
-        Integer i = userService.saveUser(userInfo);
+        Integer i = userService.saveUserData(registerDTO);
         if (i < 0){
             result.setMsg("注册失败");
             result.setResult(ResultCode.FAIL);
@@ -267,10 +250,6 @@ public class AppUserController {
      * 忘记密码
      */
     @ApiOperation(httpMethod="POST",value="忘记密码",notes="忘记密码")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
-            @ApiImplicitParam(name = "forgetDTO",value = "传入参数",required = true,paramType = "body",dataType = "ForgetDTO")
-    })
     @RequestMapping(value = "/forget", method = RequestMethod.POST)
     public Result forgetPassword(@RequestHeader("Authorization") String token,
                                  @RequestBody ForgetDTO forgetDTO){
@@ -312,9 +291,6 @@ public class AppUserController {
      * 获取验证码
      */
     @ApiOperation(httpMethod="POST",value="获取验证码",notes="获取验证码")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "smsDataDTO",value = "传入参数",required = true,paramType = "body",dataType = "SmsDataDTO")
-    })
     @RequestMapping(value = "/getCode", method = RequestMethod.POST, produces = "application/json")
     public Result getCode(@RequestBody SmsDataDTO smsDataDTO){
         Result result = new Result();
@@ -415,10 +391,6 @@ public class AppUserController {
      * 我的报修
      */
     @ApiOperation(httpMethod="POST",value="我的报修",notes="我的报修列表")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
-            @ApiImplicitParam(name = "pageDataDTO",value = "传入参数",required = true,paramType = "body",dataType = "PageDataDTO")
-    })
     @RequestMapping(value = "/repair", method = RequestMethod.POST)
     public Result<List<RepairApplyDTO>> repair(@RequestHeader("Authorization") String token,
                        @RequestBody PageDataDTO pageDataDTO){
@@ -460,10 +432,14 @@ public class AppUserController {
      * @return
      */
     @ApiOperation(httpMethod="POST",value="我的保修明细",notes="我的保修明细")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+            @ApiImplicitParam(name = "jsonObject",value = "{\"repairApplyId\":\"ID\"}",required = true,paramType = "body",dataType = "JSONObject")
+    })
     @RequestMapping(value = "/repairDetail", method = RequestMethod.POST)
-    public Result repairDetail(@RequestHeader("Authorization") String token,
+    public Result<RepairApplyDetailDTO> repairDetail(@RequestHeader("Authorization") String token,
                              @RequestBody JSONObject jsonObject){
-        Result result = new Result();
+        Result<RepairApplyDetailDTO> result = new Result<RepairApplyDetailDTO>();
         User user = userService.getUser(token);
         if (user == null){
             result.setMsg("请登录");
@@ -489,9 +465,9 @@ public class AppUserController {
      */
     @ApiOperation(httpMethod="POST",value="我的缴费",notes="我的缴费")
     @RequestMapping(value = "/payment", method = RequestMethod.POST)
-    public Result payment(@RequestHeader("Authorization") String token,
-                          @RequestBody PageDataDTO pageDataDTO){
-        Result result = new Result();
+    public Result<List<PayOrder>> payment(@RequestHeader("Authorization") String token,
+                                          @RequestBody PageDataDTO pageDataDTO){
+        Result<List<PayOrder>> result = new Result<List<PayOrder>>();
         Integer page = pageDataDTO.getPage();
         if (page < 0){
             result.setMsg("页数必须大于0");
@@ -529,9 +505,9 @@ public class AppUserController {
      */
     @ApiOperation(httpMethod="POST",value="我的预约",notes="我的预约")
     @RequestMapping(value = "/appoint", method = RequestMethod.POST)
-    public Result appoint(@RequestHeader("Authorization") String token,
+    public Result<List<AppointmentDTO>> appoint(@RequestHeader("Authorization") String token,
                           @RequestBody PageDataDTO pageDataDTO){
-        Result result = new Result();
+        Result<List<AppointmentDTO>> result = new Result<List<AppointmentDTO>>();
         Integer page = pageDataDTO.getPage();
         if (page < 0){
             result.setMsg("页数必须大于0");
@@ -620,9 +596,9 @@ public class AppUserController {
      */
     @ApiOperation(httpMethod="POST",value="查询场地",notes="查询场地")
     @RequestMapping(value = "/getYard", method = RequestMethod.POST)
-    public Result getYard(@RequestHeader("Authorization") String token,
+    public Result<List<YardDTO>> getYard(@RequestHeader("Authorization") String token,
                           @RequestBody PageDataDTO pageDataDTO){
-        Result result = new Result();
+        Result<List<YardDTO>> result = new Result<List<YardDTO>>();
         User user = userService.getUser(token);
         if (user == null){
             result.setMsg("请登录");
@@ -656,9 +632,12 @@ public class AppUserController {
      * 客服列表
      */
     @ApiOperation(httpMethod="POST",value="客服列表",notes="客服列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string")
+    })
     @RequestMapping(value = "/serviceMan", method = RequestMethod.POST)
-    public Result serviceMan(@RequestHeader("Authorization") String token){
-        Result result = new Result();
+    public Result<List<FloorManDTO>> serviceMan(@RequestHeader("Authorization") String token){
+        Result<List<FloorManDTO>> result = new Result<List<FloorManDTO>>();
         User user = userService.getUser(token);
         if (user == null){
             result.setMsg("请登录");
@@ -680,9 +659,9 @@ public class AppUserController {
      */
     @ApiOperation(httpMethod="POST",value="项目申报",notes="查询项目申报")
     @RequestMapping(value = "/declare", method = RequestMethod.POST)
-    public Result declare(@RequestHeader("Authorization") String token,
+    public Result<List<NewsTipDTO>> declare(@RequestHeader("Authorization") String token,
                         @RequestBody PageDataDTO pageDataDTO){
-        Result result = new Result();
+        Result<List<NewsTipDTO>> result = new Result<List<NewsTipDTO>>();
         Integer page = pageDataDTO.getPage();
         if (page < 0){
             result.setMsg("页数必须大于0");
@@ -721,9 +700,9 @@ public class AppUserController {
      */
     @ApiOperation(httpMethod="POST",value="新闻",notes="查询新闻")
     @RequestMapping(value = "/news", method = RequestMethod.POST)
-    public Result news(@RequestHeader("Authorization") String token,
+    public Result<List<NewsTipDTO>> news(@RequestHeader("Authorization") String token,
                           @RequestBody PageDataDTO pageDataDTO){
-        Result result = new Result();
+        Result<List<NewsTipDTO>> result = new Result<List<NewsTipDTO>>();
         Integer page = pageDataDTO.getPage();
         if (page < 0){
             result.setResult(ResultCode.FAIL);
@@ -761,10 +740,14 @@ public class AppUserController {
      * @return
      */
     @ApiOperation(httpMethod="POST",value="查询详情",notes="查询详情")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+            @ApiImplicitParam(name = "jsonObject",value = "{\"newstipId\":\"ID\"}",required = true,paramType = "body",dataType = "JSONObject")
+    })
     @RequestMapping(value = "/detailsById", method = RequestMethod.POST)
-    public Result detailsById(@RequestHeader("Authorization") String token,
+    public Result<NewsTipDTO> detailsById(@RequestHeader("Authorization") String token,
                             @RequestBody JSONObject jsonObject){
-        Result result = new Result();
+        Result<NewsTipDTO> result = new Result<NewsTipDTO>();
         String newstipId = jsonObject.getString("newstipId");
         if (StringUtils.isEmpty(newstipId)){
             result.setResult(ResultCode.FAIL);
@@ -793,7 +776,7 @@ public class AppUserController {
      */
     @ApiOperation(httpMethod="POST",value="上传图片",notes="上传图片")
     @RequestMapping(value="/imageUpload", method = RequestMethod.POST)
-    public Result imageUpload(@RequestParam(required=false) MultipartFile[] files) throws Exception{
+    public Result imageUpload(@RequestParam(required=false) MultipartFile[] files,HttpServletRequest request) throws Exception{
         Result result = new Result();
 
         String fileAddress = DateUtil.getDays(), fileName = "";
@@ -835,9 +818,9 @@ public class AppUserController {
      */
     @ApiOperation(httpMethod="POST",value="查询站内信",notes="查询站内信")
     @RequestMapping(value = "/tipMsg", method = RequestMethod.POST)
-    public Result tipMsg(@RequestHeader("Authorization") String token,
+    public Result<List<TipMsgDTO>> tipMsg(@RequestHeader("Authorization") String token,
                        @RequestBody PageDataDTO pageDataDTO){
-        Result result = new Result();
+        Result<List<TipMsgDTO>> result = new Result<List<TipMsgDTO>>();
         Integer page = pageDataDTO.getPage();
         if (page < 0){
             result.setResult(ResultCode.FAIL);
@@ -873,10 +856,14 @@ public class AppUserController {
      * @return
      */
     @ApiOperation(httpMethod="POST",value="查询站内信详情",notes="查询站内信详情")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+            @ApiImplicitParam(name = "jsonObject",value = "{\"tipMsgId\":\"ID\"}",required = true,paramType = "body",dataType = "JSONObject")
+    })
     @RequestMapping(value = "/tipMsgDetail", method = RequestMethod.POST)
-    public Result tipMsgDetail(@RequestHeader("Authorization") String token,
+    public Result<TipMsgDTO> tipMsgDetail(@RequestHeader("Authorization") String token,
                              @RequestBody JSONObject jsonObject){
-        Result result = new Result();
+        Result<TipMsgDTO> result = new Result<TipMsgDTO>();
         String tipMsgId = jsonObject.getString("tipMsgId");
         if (StringUtils.isEmpty(tipMsgId)){
             result.setResult(ResultCode.FAIL);

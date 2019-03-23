@@ -48,8 +48,8 @@ public class CarController {
      */
     @ApiOperation(httpMethod="POST",value="查询车牌简称",notes="查询车牌简称")
     @RequestMapping(value = "/getLicensePlate", method = RequestMethod.GET)
-    public Result getLicensePlate(){
-        Result result = new Result();
+    public Result<Map<String, Object>> getLicensePlate(){
+        Result<Map<String, Object>> result = new Result<Map<String, Object>>();
         Map<String, Object> map = LicensePlateEnum.queryAll();
 
         result.setData(map);
@@ -66,8 +66,8 @@ public class CarController {
             @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
     })
     @RequestMapping(value = "/myCar", method = RequestMethod.POST)
-    public Result myCar(@RequestHeader("Authorization") String token){
-        Result result = new Result();
+    public Result<UserCarBindDTO> myCar(@RequestHeader("Authorization") String token){
+        Result<UserCarBindDTO> result = new Result<UserCarBindDTO>();
         //使用token获取登陆人信息
         User user = userService.getUser(token);
         if (user == null){
@@ -126,14 +126,10 @@ public class CarController {
      * 查看历史停车记录
      */
     @ApiOperation(httpMethod="POST",value="查看历史停车记录",notes="查看历史停车记录")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
-            @ApiImplicitParam(name = "pageDataDTO",value = "传入参数",required = true,paramType = "body",dataType = "PageDataDTO")
-    })
     @RequestMapping(value = "/myParkHistory", method = RequestMethod.POST)
-    public Result myParkHistory(@RequestHeader("Authorization") String token,
+    public Result<List<UserParkingDTO>> myParkHistory(@RequestHeader("Authorization") String token,
                                 @RequestBody PageDataDTO pageDataDTO){
-        Result result = new Result();
+        Result<List<UserParkingDTO>> result = new Result<List<UserParkingDTO>>();
         Integer page = pageDataDTO.getPage();
         if (page < 0){
             result.setMsg("页数必须大于0");

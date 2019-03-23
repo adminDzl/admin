@@ -3,7 +3,10 @@ package com.wolves.service.system.user;
 import java.util.List;
 import javax.annotation.Resource;
 
+import com.wolves.dto.user.RegisterDTO;
+import com.wolves.util.MD5;
 import com.wolves.util.StringUtils;
+import com.wolves.util.UuidUtil;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
 import com.wolves.entity.system.Page;
@@ -167,5 +170,24 @@ public class UserService {
 			user = this.getUserByToken(user);
 		}
 		return user;
+	}
+
+	public Integer saveUserData(RegisterDTO registerDTO){
+		//保存数据
+		com.wolves.entity.app.User userInfo = new com.wolves.entity.app.User();
+		userInfo.setUserId(UuidUtil.get32UUID());
+		userInfo.setUsername(registerDTO.getName());
+		String encrypt = MD5.md5(registerDTO.getPassword());
+		userInfo.setPassword(encrypt);
+		userInfo.setPhone(registerDTO.getTelephone());
+		userInfo.setName(registerDTO.getName());
+		userInfo.setSex(registerDTO.getSex());
+		userInfo.setIdCardFrontUrl(registerDTO.getIdCardFrontUrl());
+		userInfo.setIdCardBackUrl(registerDTO.getIdCardBackUrl());
+		userInfo.setCompanyId(registerDTO.getCompanyId());
+		userInfo.setIp("");
+		userInfo.setEmail(registerDTO.getEmail());
+		//身份证已经绑定
+		return this.saveUser(userInfo);
 	}
 }

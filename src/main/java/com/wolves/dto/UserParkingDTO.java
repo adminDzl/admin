@@ -3,14 +3,17 @@ package com.wolves.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * Created by Administrator on 2019/3/17.
+ *
+ * @author Administrator
+ * @date 2019/3/17
  */
 @ApiModel(description = "申请场地信息")
-public class UserParkingDTO {
+public class UserParkingDTO implements Serializable{
 
     @ApiModelProperty(name = "beginTime",value = "开始时间")
     private Date beginTime;
@@ -54,5 +57,15 @@ public class UserParkingDTO {
 
     public void setFee(BigDecimal fee) {
         this.fee = fee;
+    }
+
+    @Override
+    public String toString() {
+        return "UserParkingDTO{" +
+                "beginTime=" + beginTime +
+                ", endTime=" + endTime +
+                ", totalHour='" + totalHour + '\'' +
+                ", fee=" + fee +
+                '}';
     }
 }
