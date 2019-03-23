@@ -208,10 +208,23 @@ public class UserService {
 	private UserExcelDTO getData(Map<String, Object> map){
 		UserExcelDTO userExcelDTO = new UserExcelDTO();
 		userExcelDTO.setNum(map.get("编号").toString());
-		userExcelDTO.setName(map.get("姓名").toString());
-		userExcelDTO.setPhone(map.get("手机").toString());
-		userExcelDTO.setEmail(map.get("邮箱").toString());
+		Object name = map.get("姓名");
+		if (StringUtils.isNotEmpty(name.toString())){
+			userExcelDTO.setName(name.toString());
+		}
+		Object phone = map.get("手机");
+		if (StringUtils.isNotEmpty(phone.toString())){
+			userExcelDTO.setPhone(phone.toString());
+		}
+		Object email = map.get("邮箱");
+		if (StringUtils.isNotEmpty(email.toString())){
+			userExcelDTO.setEmail(email.toString());
+		}
 		userExcelDTO.setNote(map.get("备注").toString());
+		Object company = map.get("企业");
+		if (StringUtils.isNotEmpty(company.toString())){
+			userExcelDTO.setCompany(company.toString());
+		}
 		return userExcelDTO;
 	}
 
