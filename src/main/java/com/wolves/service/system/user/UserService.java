@@ -244,4 +244,9 @@ public class UserService {
 			}
 		}
 	}
+
+	public Integer updateUser(com.wolves.entity.app.User user){
+
+		return (Integer) dao.update("UserMapper.updateUser", user);
+	}
 }

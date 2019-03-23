@@ -900,22 +900,31 @@ public class AppUserController {
     /**
      * 设置邮箱
      */
+    @ApiOperation(httpMethod="POST",value="设置/修改邮箱",notes="设置/修改邮箱")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+            @ApiImplicitParam(name = "jsonObject",value = "{\"email\":\"邮箱\"}",required = true,paramType = "body",dataType = "JSONObject")
+    })
     @RequestMapping(value = "setEmail", method = RequestMethod.POST)
-    public void setEmail(@RequestHeader("Authorization") String token,
-                         @RequestBody JsonObject jsonObject){
-
-
-
-    }
-
-    /**
-     * 修改邮箱
-     */
-    @RequestMapping(value = "editEmail", method = RequestMethod.POST)
-    public void editEmail(@RequestHeader("Authorization") String token,
-                         @RequestBody JsonObject jsonObject){
-
-
-
+    public Result setEmail(@RequestHeader("Authorization") String token,
+                         @RequestBody JSONObject jsonObject){
+        Result result = new Result();
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        String email = jsonObject.getString("email");
+        if (StringUtils.isEmpty(email)){
+            result.setResult(ResultCode.FAIL);
+            result.setMsg("邮箱不能为空");
+            return result;
+        }
+        user.setEmail(email);
+        userService.updateUser(user);
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("查询成功");
+        return result;
     }
 }
