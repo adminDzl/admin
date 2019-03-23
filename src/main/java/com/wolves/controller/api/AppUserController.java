@@ -251,8 +251,7 @@ public class AppUserController {
      */
     @ApiOperation(httpMethod="POST",value="忘记密码",notes="忘记密码")
     @RequestMapping(value = "/forget", method = RequestMethod.POST)
-    public Result forgetPassword(@RequestHeader("Authorization") String token,
-                                 @RequestBody ForgetDTO forgetDTO){
+    public Result forgetPassword(@RequestBody ForgetDTO forgetDTO){
         Result result = new Result();
         //获取参数
         String password = forgetDTO.getPassword();
