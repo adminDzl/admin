@@ -6,20 +6,20 @@ import com.wolves.common.StatusEnum;
 import com.wolves.dto.PageDataDTO;
 import com.wolves.dto.UserCarBindDTO;
 import com.wolves.dto.UserParkingDTO;
+import com.wolves.dto.user.UserExcelDTO;
 import com.wolves.entity.app.User;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
 import com.wolves.service.system.appuser.UserCarBindService;
 import com.wolves.service.system.parking.ParkingService;
 import com.wolves.service.system.user.UserService;
-import com.wolves.util.PageData;
-import com.wolves.util.StringUtils;
-import com.wolves.util.UuidUtil;
+import com.wolves.util.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -35,6 +35,7 @@ import java.util.Map;
 @RequestMapping(value = "/app/user")
 @Api(tags="CarController",description="car的控制层")
 public class CarController {
+    protected Logger logger = Logger.getLogger(this.getClass());
 
     @Resource(name="userService")
     private UserService userService;
@@ -167,5 +168,16 @@ public class CarController {
         return result;
     }
 
-
+//    @ApiOperation(httpMethod="POST",value="导入",notes="导入")
+//    @RequestMapping(value = "/importExcel", method = RequestMethod.POST)
+//    public void importExcel(@RequestParam(value="uploadFile") MultipartFile file){
+//        logger.info("客户数据excel导入-->/importExcel");
+//        ImportExcelUtil importExcelUtil = new ImportExcelUtil();
+//        List<Map<String, Object>> userList = importExcelUtil.getExcelInfo(file);
+//        if (userList != null && !userList.isEmpty() && userList.size() < 50000){
+//            List<UserExcelDTO> userExcelDTOS = userService.getUserData(userList);
+//            //保存数据
+//            userService.saveExcelUser(userExcelDTOS);
+//        }
+//    }
 }

@@ -1,9 +1,12 @@
 package com.wolves.service.system.user;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 
 import com.wolves.dto.user.RegisterDTO;
+import com.wolves.dto.user.UserExcelDTO;
 import com.wolves.util.MD5;
 import com.wolves.util.StringUtils;
 import com.wolves.util.UuidUtil;
@@ -189,5 +192,43 @@ public class UserService {
 		userInfo.setEmail(registerDTO.getEmail());
 		//身份证已经绑定
 		return this.saveUser(userInfo);
+	}
+
+	public List<UserExcelDTO> getUserData(List<Map<String, Object>> list){
+		List<UserExcelDTO> userExcelDTOS = new ArrayList<UserExcelDTO>();
+		if (list != null && !list.isEmpty()){
+			for (Map<String, Object> map : list){
+				UserExcelDTO userExcelDTO = this.getData(map);
+				userExcelDTOS.add(userExcelDTO);
+			}
+		}
+		return userExcelDTOS;
+	}
+
+	private UserExcelDTO getData(Map<String, Object> map){
+		UserExcelDTO userExcelDTO = new UserExcelDTO();
+		userExcelDTO.setNum(map.get("编号").toString());
+		userExcelDTO.setName(map.get("姓名").toString());
+		userExcelDTO.setPhone(map.get("手机").toString());
+		userExcelDTO.setEmail(map.get("邮箱").toString());
+		userExcelDTO.setNote(map.get("备注").toString());
+		return userExcelDTO;
+	}
+
+	public void saveExcelUser(List<UserExcelDTO> userExcelDTOS){
+		if (userExcelDTOS != null && !userExcelDTOS.isEmpty()){
+			for (UserExcelDTO userExcelDTO : userExcelDTOS){
+				com.wolves.entity.app.User userInfo = new com.wolves.entity.app.User();
+				userInfo.setUserId(UuidUtil.get32UUID());
+				userInfo.setUsername(userExcelDTO.getName());
+				String encrypt = MD5.md5("1");
+				userInfo.setPassword(encrypt);
+				userInfo.setPhone(userExcelDTO.getPhone());
+				userInfo.setName(userExcelDTO.getName());
+				userInfo.setEmail(userExcelDTO.getEmail());
+				//身份证已经绑定
+				this.saveUser(userInfo);
+			}
+		}
 	}
 }

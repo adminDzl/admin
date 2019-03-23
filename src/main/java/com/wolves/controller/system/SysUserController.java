@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import com.wolves.dto.user.UserExcelDTO;
 import com.wolves.util.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -340,6 +341,21 @@ public class SysUserController extends BaseController {
 	@RequestMapping(value="/downExcel")
 	public void downExcel(HttpServletResponse response)throws Exception{
 		FileDownload.fileDownload(response, PathUtil.getClasspath() + Const.FILEPATHFILE + "Users.xls", "Users.xls");
+	}
+
+	/**
+	 * 导入客户数据
+	 */
+	@RequestMapping(value="/importExcel")
+	public void importExcel(@RequestParam(value="uploadFile") MultipartFile file){
+		logger.info("客户数据excel导入-->/importExcel");
+		ImportExcelUtil importExcelUtil = new ImportExcelUtil();
+		List<Map<String, Object>> userList = importExcelUtil.getExcelInfo(file);
+		if (userList != null && !userList.isEmpty() && userList.size() < 50000){
+			List<UserExcelDTO> userExcelDTOS = userService.getUserData(userList);
+			//保存数据
+			userService.saveExcelUser(userExcelDTOS);
+		}
 	}
 	
 	/**
