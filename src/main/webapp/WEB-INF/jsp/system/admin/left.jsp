@@ -6,7 +6,8 @@
 	<div id="sidebar-shortcuts">
 		<div id="sidebar-shortcuts-large">
 			<button class="btn btn-small btn-success" title="系统首页" onclick="window.open('<%=basePathl%>main/index');"><i class="icon-home"></i></button>
-			<button class="btn btn-small btn-info" title="园区概览" onclick="window.open('<%=basePathl%>static/UI_new/index.html');"><i class="icon-eye-open"></i></button>
+			<%--<button class="btn btn-small btn-info" title="园区概览" onclick="window.open('<%=basePathl%>static/UI_new/index.html');"><i class="icon-eye-open"></i></button>--%>
+			<button class="btn btn-small btn-info" title="接口文档" onclick="window.open('<%=basePathl%>swagger-ui.html');"><i class="icon-certificate"></i></button>
 			<button class="btn btn-small btn-warning" title="数据字典" id="adminzidian" onclick="zidian();"><i class="icon-book"></i></button>
 			<button class="btn btn-small btn-danger" title="菜单管理" id="adminmenu" onclick="menu();"><i class="icon-folder-open"></i></button>
 		</div>
