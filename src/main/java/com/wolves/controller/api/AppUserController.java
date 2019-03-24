@@ -398,25 +398,35 @@ public class AppUserController {
     /**
      * 创建报修
      */
-//    public Result createRepair(@RequestHeader("Authorization") String token,
-//                             @RequestBody RepairParamsDTO repairParamsDTO){
-//        Result result = new Result();
-//        User user = userService.getUser(token);
-//        if (user == null){
-//            result.setMsg("请登录");
-//            result.setResult(ResultCode.FAIL);
-//            return result;
-//        }
-//        String content = repairParamsDTO.getContent();
-//        if (StringUtils.isEmpty(content.trim())){
-//            result.setResult(ResultCode.FAIL);
-//            result.setMsg("请填写申报内容");
-//            return result;
-//        }
-//        List<String> imageUrl = repairParamsDTO.getImageUrl();
-//
-//        return result;
-//    }
+    @ApiOperation(httpMethod="POST",value="创建报修",notes="创建报修")
+    @RequestMapping(value = "/createRepair", method = RequestMethod.POST)
+    public Result createRepair(@RequestHeader("Authorization") String token,
+                             @RequestBody RepairParamsDTO repairParamsDTO){
+        Result result = new Result();
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        String content = repairParamsDTO.getContent();
+        if (StringUtils.isEmpty(content.trim())){
+            result.setResult(ResultCode.FAIL);
+            result.setMsg("请填写申报内容");
+            return result;
+        }
+        List<String> imageUrl = repairParamsDTO.getImageUrl();
+        if (imageUrl == null){
+            result.setResult(ResultCode.FAIL);
+            result.setMsg("请上传图片");
+            return result;
+        }
+        //保存
+        repairApplyService.saveRepair(user.getUserId(), content, org.apache.commons.lang.StringUtils.join(imageUrl, ","));
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("保存成功");
+        return result;
+    }
 
     /**
      * 我的报修

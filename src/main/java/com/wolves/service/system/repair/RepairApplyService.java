@@ -4,8 +4,11 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 
+import com.wolves.common.StatusEnum;
 import com.wolves.dto.user.RepairApplyDTO;
 import com.wolves.dto.user.RepairApplyDetailDTO;
+import com.wolves.entity.system.Repair;
+import com.wolves.util.UuidUtil;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
 import com.wolves.entity.system.Page;
@@ -82,6 +85,22 @@ public class RepairApplyService {
 	 */
 	public RepairApplyDetailDTO selectRepairApplyById(String repairApplyId){
 		return (RepairApplyDetailDTO)dao.findForObject("RepairApplyMapper.selectRepairApplyById", repairApplyId);
+	}
+
+	/**
+	 * 保存信息
+	 * @param userId
+	 * @param content
+	 * @param imageUrls
+	 */
+	public Integer saveRepair(String userId, String content, String imageUrls){
+		Repair repair = new Repair();
+		repair.setApplyContent(content);
+		repair.setImageUrls(imageUrls);
+		repair.setApplyStatus(Integer.valueOf(StatusEnum.INIT.getKey()));
+		repair.setRepairApplyId(UuidUtil.get32UUID());
+		repair.setUserId(userId);
+		return (Integer) dao.save("RepairApplyMapper.saveRepair", repair);
 	}
 }
 

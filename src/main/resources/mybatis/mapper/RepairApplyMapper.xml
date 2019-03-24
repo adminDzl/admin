@@ -130,4 +130,25 @@
 		  FROM repair_apply
 		  WHERE repair_apply_id = #{repairApplyId}
 	</select>
+
+	<!--保存-->
+	<insert id="saveRepair" parameterType="com.wolves.entity.system.Repair">
+		insert into REPAIR_APPLY(
+		USER_ID,
+		APPLY_CONTENT,
+		IMAGE_URLS,
+		APPLY_STATUS,
+		CREATE_TIME,
+		UPDATE_TIME,
+		REPAIR_APPLY_ID
+		) values (
+		#{userId},
+		#{applyContent},
+		#{imageUrls},
+		#{applyStatus},
+		now(),
+		now(),
+		#{repairApplyId}
+		)
+	</insert>
 </mapper>
