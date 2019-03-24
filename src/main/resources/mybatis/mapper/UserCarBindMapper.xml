@@ -104,4 +104,19 @@
 		select * from USER_CAR_BIND where STATUS = 1 and USER_ID = #{userId}
 	</select>
 
+	<!--查询绑定车辆信息是否存在-->
+	<select id="selectMyCar" parameterType="com.wolves.dto.UserCarBindDTO" resultMap="ResultMap">
+		select
+		*
+		from
+		USER_CAR_BIND
+		where
+		1=1
+		<if test="userId != null">
+			AND USER_ID = #{userId}
+		</if>
+		<if test="status != null">
+			AND STATUS = #{status}
+		</if>
+	</select>
 </mapper>

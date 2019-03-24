@@ -1,6 +1,7 @@
 package com.wolves.service.system.appuser;
 
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 
 import com.wolves.dto.UserCarBindDTO;
@@ -72,6 +73,16 @@ public class UserCarBindService {
 	public UserCarBindDTO selectCarBindByUserId(String userId){
 
 		return (UserCarBindDTO)dao.findForObject("UserCarBindMapper.selectCarBindByUserId", userId);
+	}
+
+	/**
+	 * 查询
+	 * @param params
+	 * @return
+	 */
+	public List<UserCarBindDTO> selectMyCar(Map<String, Object> params){
+
+		return (List<UserCarBindDTO>) dao.findForList("UserCarBindMapper.selectMyCar", params);
 	}
 }
 

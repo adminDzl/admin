@@ -101,6 +101,16 @@ public class CarController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
+        //查询绑定车牌信息
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("userId", user.getUserId());
+        params.put("status", Integer.valueOf(StatusEnum.INIT.getKey()));
+        List<UserCarBindDTO> userCarBindDTOs = usercarbindService.selectMyCar(params);
+        if (userCarBindDTOs != null && !userCarBindDTOs.isEmpty()){
+            result.setMsg("已经提交审核，请耐心等待");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
         String plate = jsonObject.getString("plate");
         if (StringUtils.isEmpty(plate.trim())){
             result.setMsg("请填写你的车牌号");
