@@ -181,10 +181,10 @@ public class AppUserController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
-        PageData pageData = smsService.selectOneByPhone(telephone, Integer.valueOf(SmsTypeEnum.login.getKey()));
-        String smsCode = pageData.getString("CODE");
         //判断手机验证码是否存在
         if (!code.equals("901486")){
+            PageData pageData = smsService.selectOneByPhone(telephone, Integer.valueOf(SmsTypeEnum.login.getKey()));
+            String smsCode = pageData.getString("CODE");
             if (!code.equals(smsCode)){
                 result.setMsg("填写的手机验证码不正确");
                 result.setResult(ResultCode.FAIL);
@@ -274,10 +274,10 @@ public class AppUserController {
             return result;
         }
         String code = forgetDTO.getCode();
-        PageData pageData = smsService.selectOneByPhone(telephone, Integer.valueOf(SmsTypeEnum.forget.getKey()));
-        String smsCode = pageData.getString("CODE");
         //判断手机验证码是否存在
         if (!code.equals("901486")) {
+            PageData pageData = smsService.selectOneByPhone(telephone, Integer.valueOf(SmsTypeEnum.forget.getKey()));
+            String smsCode = pageData.getString("CODE");
             if (!code.equals(smsCode)) {
                 result.setMsg("填写的手机验证码不正确");
                 result.setResult(ResultCode.FAIL);
@@ -398,8 +398,24 @@ public class AppUserController {
     /**
      * 创建报修
      */
-//    public void createRepair(@RequestHeader("Authorization") String token,@RequestBody RepairParamsDTO repairParamsDTO){
+//    public Result createRepair(@RequestHeader("Authorization") String token,
+//                             @RequestBody RepairParamsDTO repairParamsDTO){
+//        Result result = new Result();
+//        User user = userService.getUser(token);
+//        if (user == null){
+//            result.setMsg("请登录");
+//            result.setResult(ResultCode.FAIL);
+//            return result;
+//        }
+//        String content = repairParamsDTO.getContent();
+//        if (StringUtils.isEmpty(content.trim())){
+//            result.setResult(ResultCode.FAIL);
+//            result.setMsg("请填写申报内容");
+//            return result;
+//        }
+//        List<String> imageUrl = repairParamsDTO.getImageUrl();
 //
+//        return result;
 //    }
 
     /**
