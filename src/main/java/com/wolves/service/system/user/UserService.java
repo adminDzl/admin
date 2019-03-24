@@ -5,8 +5,14 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 
+import com.wolves.common.CompanyTypeEnum;
+import com.wolves.common.StatusEnum;
+import com.wolves.dto.user.CompanyDTO;
 import com.wolves.dto.user.RegisterDTO;
 import com.wolves.dto.user.UserExcelDTO;
+import com.wolves.framework.common.Result;
+import com.wolves.framework.common.ResultCode;
+import com.wolves.service.system.CompanyService;
 import com.wolves.util.MD5;
 import com.wolves.util.StringUtils;
 import com.wolves.util.UuidUtil;
@@ -15,12 +21,15 @@ import com.wolves.dao.DaoSupport;
 import com.wolves.entity.system.Page;
 import com.wolves.entity.system.User;
 import com.wolves.util.PageData;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("userService")
 public class UserService {
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
+	@Resource(name="companyService")
+	private CompanyService companyService;
 
 	/**
 	* 通过id获取数据
@@ -198,6 +207,7 @@ public class UserService {
 		List<UserExcelDTO> userExcelDTOS = new ArrayList<UserExcelDTO>();
 		if (list != null && !list.isEmpty()){
 			for (Map<String, Object> map : list){
+
 				UserExcelDTO userExcelDTO = this.getData(map);
 				userExcelDTOS.add(userExcelDTO);
 			}
@@ -209,38 +219,84 @@ public class UserService {
 		UserExcelDTO userExcelDTO = new UserExcelDTO();
 		userExcelDTO.setNum(map.get("编号").toString());
 		Object name = map.get("姓名");
-		if (StringUtils.isNotEmpty(name.toString())){
-			userExcelDTO.setName(name.toString());
-		}
+		userExcelDTO.setName(name.toString());
 		Object phone = map.get("手机");
-		if (StringUtils.isNotEmpty(phone.toString())){
-			userExcelDTO.setPhone(phone.toString());
-		}
+		userExcelDTO.setPhone(phone.toString());
 		Object email = map.get("邮箱");
-		if (StringUtils.isNotEmpty(email.toString())){
-			userExcelDTO.setEmail(email.toString());
-		}
+		userExcelDTO.setEmail(email.toString());
 		userExcelDTO.setNote(map.get("备注").toString());
 		Object company = map.get("企业");
-		if (StringUtils.isNotEmpty(company.toString())){
-			userExcelDTO.setCompany(company.toString());
-		}
+		userExcelDTO.setCompany(company.toString());
 		return userExcelDTO;
 	}
 
+	public Result checkExcelData(List<Map<String, Object>> list){
+		Result result = new Result();
+		if (list != null && !list.isEmpty()){
+			for (Map<String, Object> map : list){
+				Object name = map.get("姓名");
+				if (StringUtils.isEmpty(name.toString().trim())){
+					result.setMsg("姓名不能为空");
+					result.setResult(ResultCode.FAIL);
+					return result;
+				}
+				Object phone = map.get("手机");
+				if (StringUtils.isEmpty(phone.toString().trim())){
+					result.setMsg("手机不能为空");
+					result.setResult(ResultCode.FAIL);
+					return result;
+				}
+				Object email = map.get("邮箱");
+				if (StringUtils.isEmpty(email.toString().trim())){
+					result.setMsg("邮箱不能为空");
+					result.setResult(ResultCode.FAIL);
+					return result;
+				}
+				Object company = map.get("企业");
+				if (StringUtils.isEmpty(company.toString().trim())){
+					result.setMsg("企业不能为空");
+					result.setResult(ResultCode.FAIL);
+					return result;
+				}
+			}
+		}
+		result.setResult(ResultCode.SUCCESS);
+		return result;
+	}
+
+	@Transactional(rollbackFor = RuntimeException.class)
 	public void saveExcelUser(List<UserExcelDTO> userExcelDTOS){
+
 		if (userExcelDTOS != null && !userExcelDTOS.isEmpty()){
 			for (UserExcelDTO userExcelDTO : userExcelDTOS){
-				com.wolves.entity.app.User userInfo = new com.wolves.entity.app.User();
-				userInfo.setUserId(UuidUtil.get32UUID());
-				userInfo.setUsername(userExcelDTO.getName());
-				String encrypt = MD5.md5("1");
-				userInfo.setPassword(encrypt);
-				userInfo.setPhone(userExcelDTO.getPhone());
-				userInfo.setName(userExcelDTO.getName());
-				userInfo.setEmail(userExcelDTO.getEmail());
-				//身份证已经绑定
-				this.saveUser(userInfo);
+				com.wolves.entity.app.User user = new com.wolves.entity.app.User();
+				user.setPhone(userExcelDTO.getPhone());
+				user = this.getUserByPhone(user);
+				if (user != null && user.getUserId() != null){
+					String r = user.getPhone()+",该号码已重复，请核实";
+					throw new RuntimeException(r);
+				}else {
+					//创建企业
+					CompanyDTO companyDTO = new CompanyDTO();
+					companyDTO.setType(Integer.valueOf(CompanyTypeEnum.out.getKey()));
+					companyDTO.setStatus(Integer.valueOf(StatusEnum.INIT.getKey()));
+					companyDTO.setCompanyName(userExcelDTO.getCompany());
+					String companyId = UuidUtil.get32UUID();
+					companyDTO.setCompanyId(companyId);
+					companyService.saveCompany(companyDTO);
+					//保存员工
+					com.wolves.entity.app.User userInfo = new com.wolves.entity.app.User();
+					userInfo.setUserId(UuidUtil.get32UUID());
+					userInfo.setUsername(userExcelDTO.getName());
+					String encrypt = MD5.md5("1");
+					userInfo.setPassword(encrypt);
+					userInfo.setPhone(userExcelDTO.getPhone());
+					userInfo.setName(userExcelDTO.getName());
+					userInfo.setEmail(userExcelDTO.getEmail());
+					userInfo.setCompanyId(companyId);
+					//身份证已经绑定
+					this.saveUser(userInfo);
+				}
 			}
 		}
 	}

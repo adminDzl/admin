@@ -12,6 +12,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import com.wolves.dto.user.UserExcelDTO;
+import com.wolves.framework.common.Result;
+import com.wolves.framework.common.ResultCode;
 import com.wolves.util.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -347,15 +349,24 @@ public class SysUserController extends BaseController {
 	 * 导入客户数据
 	 */
 	@RequestMapping(value="/importExcel")
-	public void importExcel(@RequestParam(value="uploadFile") MultipartFile file){
+	public Result importExcel(@RequestParam(value="uploadFile") MultipartFile file){
+		Result result = new Result();
 		logger.info("客户数据excel导入-->/importExcel");
 		ImportExcelUtil importExcelUtil = new ImportExcelUtil();
 		List<Map<String, Object>> userList = importExcelUtil.getExcelInfo(file);
 		if (userList != null && !userList.isEmpty() && userList.size() < 50000){
 			List<UserExcelDTO> userExcelDTOS = userService.getUserData(userList);
+			//判断
+			result = userService.checkExcelData(userList);
+			if (result != null && result.getResult() == 1){
+				return result;
+			}
 			//保存数据
 			userService.saveExcelUser(userExcelDTOS);
 		}
+		result.setMsg("导入成功");
+		result.setResult(ResultCode.SUCCESS);
+		return result;
 	}
 	
 	/**
