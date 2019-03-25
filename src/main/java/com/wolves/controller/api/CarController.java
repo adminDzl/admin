@@ -104,10 +104,9 @@ public class CarController {
         //查询绑定车牌信息
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userId", user.getUserId());
-        params.put("status", Integer.valueOf(StatusEnum.INIT.getKey()));
         List<UserCarBindDTO> userCarBindDTOs = usercarbindService.selectMyCar(params);
         if (userCarBindDTOs != null && !userCarBindDTOs.isEmpty()){
-            result.setMsg("已经提交审核，请耐心等待");
+            result.setMsg("已存在车辆信息，不需重复提交");
             result.setResult(ResultCode.FAIL);
             return result;
         }

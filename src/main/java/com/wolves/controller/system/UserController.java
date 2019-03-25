@@ -173,22 +173,9 @@ public class UserController extends BaseController {
 		}
 		page.setPd(pd);
 		List<PageData> userList = appUserService.listPdPageUser(page);
-		PageData companyPageData = new PageData();
-		for(PageData pageData : userList){
-			companyPageData.put("COMPANY_ID", pageData.getString("COMPANY_ID"));
-			companyPageData = companyService.findById(companyPageData);
-			String companyName;
-			if(null == companyPageData || "0".equals(companyPageData.getString("COMPANY_NAME"))){
-				companyName = "无公司人员";
-			} else {
-				companyName = companyPageData.getString("COMPANY_NAME");
-			}
-			pageData.put("COMPANY_NAME", companyName);
-		}
-		List<Role> roleList = roleService.listAllappERRoles();
+
 		mv.setViewName("system/appuser/appuser_list");
 		mv.addObject("userList", userList);
-		mv.addObject("roleList", roleList);
 		mv.addObject("pd", pd);
 		mv.addObject(Const.SESSION_QX,this.getHC());
 		return mv;

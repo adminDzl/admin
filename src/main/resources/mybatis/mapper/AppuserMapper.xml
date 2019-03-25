@@ -268,14 +268,12 @@
 				u.EMAIL,
 				u.PHONE,
 				u.NUMBER,
-				r.ROLE_ID,
-				r.ROLE_NAME,
 				u.COMPANY_ID,
-				u.POSITION
-		from USER u, SYS_ROLE r
-		where u.ROLE_ID = r.ROLE_ID 
-		and 1 = 1
-		and r.PARENT_ID = '7'
+				u.POSITION,
+				u.CREATE_TIME,
+				u.UPDATE_TIME
+		from USER u
+		where 1 = 1
 		<if test="pd.USERNAME != null and pd.USERNAME != ''"><!-- 用户名检索 -->
 			and (
 				u.USERNAME LIKE CONCAT(CONCAT('%', #{pd.USERNAME}),'%')

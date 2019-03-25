@@ -101,7 +101,7 @@
 
 	<!--查询是否绑定车牌-->
 	<select id="selectCarBindByUserId" parameterType="com.wolves.dto.UserCarBindDTO" resultMap="ResultMap">
-		select * from USER_CAR_BIND where STATUS = 1 and USER_ID = #{userId}
+		select * from USER_CAR_BIND where USER_ID = #{userId} ORDER BY CREATE_TIME DESC LIMIT 1;
 	</select>
 
 	<!--查询绑定车辆信息是否存在-->

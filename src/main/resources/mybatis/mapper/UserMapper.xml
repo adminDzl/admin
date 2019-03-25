@@ -140,7 +140,9 @@
 		ID_CARD_FRONT_URL,
 		ID_CARD_BACK_URL,
 		EMAIL,
-		COMPANY_ID
+		COMPANY_ID,
+		CREATE_TIME,
+		UPDATE_TIME
 		) values (
 		#{userId},
 		#{username},
@@ -155,7 +157,9 @@
 		#{idCardFrontUrl},
 		#{idCardBackUrl},
 		#{email},
-		#{companyId}
+		#{companyId},
+		now(),
+		now()
 		)
 	</insert>
 

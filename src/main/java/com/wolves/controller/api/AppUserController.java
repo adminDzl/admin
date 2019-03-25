@@ -890,6 +890,8 @@ public class AppUserController {
         return result;
     }
 
+    //查询轮播
+
     /**
      * 查询站内信详情
      * @param token
