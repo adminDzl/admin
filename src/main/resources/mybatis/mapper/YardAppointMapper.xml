@@ -171,8 +171,21 @@
 		FROM
 			yard_appoint a
 		LEFT JOIN yard y ON (a.place_id = y.yard_id)
-		WHERE
-			apply_user_id = #{userId}
-		LIMIT ${start}, ${size};
+		WHERE 1=1
+		<if test="userId != null">
+			AND a.apply_user_id = #{userId}
+		</if>
+		<if test="placeId != null">
+			AND a.place_id = #{placeId}
+		</if>
+		<if test="beginTime != null">
+			AND date_format(a.begin_time,'%Y-%m-%d %H:%i:%S') <![CDATA[ >= ]]> date_format(beginTime,'%Y-%m-%d %H:%i:%S')
+		</if>
+		<if test="endTime != null">
+			AND date_format(a.end_time,'%Y-%m-%d %H:%i:%S') <![CDATA[ <= ]]> date_format(endTime,'%Y-%m-%d %H:%i:%S')
+		</if>
+		<if test="size != 0 and size != null">
+			LIMIT ${start}, ${size};
+		</if>
 	</select>
 </mapper>

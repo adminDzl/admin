@@ -95,7 +95,7 @@ public class YardDTO {
 
     @Override
     public String toString() {
-        return "YardDTO{" +
+        return "YardParamsDTO{" +
                 "yardId='" + yardId + '\'' +
                 ", placeType=" + placeType +
                 ", position='" + position + '\'' +

@@ -276,6 +276,8 @@ public class UserService {
 					String r = user.getPhone()+",该号码已重复，请核实";
 					throw new RuntimeException(r);
 				}else {
+					//判断企业是否存在
+
 					//创建企业
 					CompanyDTO companyDTO = new CompanyDTO();
 					companyDTO.setType(Integer.valueOf(CompanyTypeEnum.out.getKey()));

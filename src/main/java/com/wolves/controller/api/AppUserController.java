@@ -594,31 +594,49 @@ public class AppUserController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
-        PageData pd = new PageData();
-        //主键
-        pd.put("YARDAPPOINT_ID", UuidUtil.get32UUID());
-        //场地ID
-        pd.put("PLACE_ID", applyYardDTO.getYardId());
-        //预定人ID
-        pd.put("APPLY_USER_ID", user.getUserId());
-        //预定金额
-        pd.put("BOOK_FEE", applyYardDTO.getAmount());
-        //预定状态
-        pd.put("STATUS", StatusEnum.INIT.getKey());
-        //预定日期
-        pd.put("PLACE_DATE", applyYardDTO.getPlaceDate());
-        //开始时间
-        pd.put("BEGIN_TIME", applyYardDTO.getBeginTime());
-        //结束时间
-        pd.put("END_TIME", applyYardDTO.getEndTime());
-        //时长
-        pd.put("BOOK_DURATION", applyYardDTO.getDuration());
-        //备注
-        pd.put("NOTE", applyYardDTO.getNote());
-        yardappointService.save(pd);
+        if (StringUtils.isEmpty(applyYardDTO.getYardId())){
+            result.setMsg("请选择预订的场地");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        if (applyYardDTO.getBeginTime() == null){
+            result.setMsg("请选择开始时间");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        if (applyYardDTO.getEndTime() == null){
+            result.setMsg("请选择结束时间");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        //判断场地是否已经被租用
+        result = yardappointService.saveAppoint(applyYardDTO, user.getUserId());
+        return result;
+    }
 
-        result.setResult(ResultCode.SUCCESS);
-        result.setMsg("预约成功");
+    //快速预约 TODO
+    public Result fastAppoint(@RequestHeader("Authorization") String token,
+                            @RequestBody FastAppointDTO fastAppointDTO){
+        Result result = new Result();
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        //预约是判断日期
+        if (fastAppointDTO.getType() == 0){
+            result.setMsg("请选择场地类型");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        if (StringUtils.isEmpty(fastAppointDTO.getStartTime()) ||
+                StringUtils.isEmpty(fastAppointDTO.getEndTime())){
+            result.setMsg("请选择时间段");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+
         return result;
     }
 
@@ -632,13 +650,13 @@ public class AppUserController {
 
     /**
      * 查询场地
-     * @param pageDataDTO
+     * @param yardParamsDTO
      * @return
      */
     @ApiOperation(httpMethod="POST",value="查询场地",notes="查询场地")
     @RequestMapping(value = "/getYard", method = RequestMethod.POST)
     public Result<List<YardDTO>> getYard(@RequestHeader("Authorization") String token,
-                          @RequestBody PageDataDTO pageDataDTO){
+                          @RequestBody YardParamsDTO yardParamsDTO){
         Result<List<YardDTO>> result = new Result<List<YardDTO>>();
         User user = userService.getUser(token);
         if (user == null){
@@ -646,22 +664,15 @@ public class AppUserController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
+        Integer type = yardParamsDTO.getType();
+        if (type == null){
+            result.setMsg("类型参数不能为空");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
 
-        Integer page = pageDataDTO.getPage();
-        if (page < 0){
-            result.setMsg("页数必须大于0");
-            result.setResult(ResultCode.FAIL);
-            return result;
-        }
-        Integer size = pageDataDTO.getSize();
-        if (size == 0 || size < 0){
-            result.setMsg("条数必须大于0");
-            result.setResult(ResultCode.FAIL);
-            return result;
-        }
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("start", (page - 1) * size);
-        params.put("size", size);
+        params.put("type", yardParamsDTO.getType());
 
         result.setData(yardService.selectYard(params));
         result.setResult(ResultCode.SUCCESS);

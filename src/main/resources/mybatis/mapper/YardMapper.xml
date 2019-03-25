@@ -133,7 +133,9 @@
 		from
 		YARD a
 		WHERE 1=1
+		<if test="type != null">
+			AND a.place_type = #{type}
+		</if>
 		ORDER BY a.create_time DESC
-		limit ${start}, #{size}
 	</select>
 </mapper>
