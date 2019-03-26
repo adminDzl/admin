@@ -384,6 +384,7 @@ public class AppUserController {
             result.setMsg("请填写企业名称");
             return result;
         }
+        //判断企业是否存在
         CompanyDTO companyDTO = new CompanyDTO();
         companyDTO.setType(Integer.valueOf(CompanyTypeEnum.out.getKey()));
         companyDTO.setStatus(Integer.valueOf(StatusEnum.INIT.getKey()));
