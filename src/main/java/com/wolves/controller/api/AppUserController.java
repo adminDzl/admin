@@ -823,48 +823,6 @@ public class AppUserController {
     //统一申请
 
     /**
-     * 上传图片
-     * @param files
-     * @return
-     * @throws Exception
-     */
-    @ApiOperation(httpMethod="POST",value="上传图片",notes="上传图片")
-    @RequestMapping(value="/imageUpload", method = RequestMethod.POST)
-    public Result imageUpload(@RequestParam(required=false) MultipartFile[] files,HttpServletRequest request) throws Exception{
-        Result result = new Result();
-
-        String fileAddress = DateUtil.getDays(), fileName = "";
-        List<Map<String,Object>> pageDatas = new ArrayList<Map<String,Object>>();
-        if (files != null && files.length > 0){
-            for (MultipartFile file : files){
-                Map<String,Object> params = new HashMap<String, Object>();
-                if (null != file && !file.isEmpty()) {
-                    //文件上传路径
-                    String filePath = PathUtil.getClasspath() + Const.FILEPATHIMG + fileAddress;
-                    //执行上传
-                    fileName = FileUpload.fileUp(file, filePath, UuidUtil.get32UUID());
-                }else{
-                    System.out.println("上传失败");
-                }
-                //主键
-                params.put("pictures_id", UuidUtil.get32UUID());
-                //文件名
-                params.put("name", fileName);
-                //路径
-                params.put("path", fileAddress + "/" + fileName);
-                //创建时间
-                params.put("createTime", Tools.date2Str(new Date()));
-                pageDatas.add(params);
-            }
-        }
-
-        result.setData(pageDatas);
-        result.setResult(ResultCode.SUCCESS);
-        result.setMsg("上传成功");
-        return result;
-    }
-
-    /**
      * 查询站内信
      * @param token
      * @param pageDataDTO
