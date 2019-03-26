@@ -586,6 +586,7 @@ public class AppUserController {
     @RequestMapping(value = "/createAppoint", method = RequestMethod.POST)
     public Result createAppoint(@RequestHeader("Authorization") String token,
                                 @RequestBody ApplyYardDTO applyYardDTO){
+        //TODO
         Result result = new Result();
         //使用token获取登陆人信息
         User user = userService.getUser(token);

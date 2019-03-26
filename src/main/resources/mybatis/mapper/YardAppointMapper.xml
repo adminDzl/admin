@@ -179,10 +179,10 @@
 			AND a.place_id = #{placeId}
 		</if>
 		<if test="beginTime != null">
-			AND date_format(a.begin_time,'%Y-%m-%d %H:%i:%S') <![CDATA[ >= ]]> date_format(beginTime,'%Y-%m-%d %H:%i:%S')
+			AND date_format(a.begin_time,'%Y-%m-%d %H:%i:%S') <![CDATA[ >= ]]> date_format(#{beginTime},'%Y-%m-%d %H:%i:%S')
 		</if>
 		<if test="endTime != null">
-			AND date_format(a.end_time,'%Y-%m-%d %H:%i:%S') <![CDATA[ <= ]]> date_format(endTime,'%Y-%m-%d %H:%i:%S')
+			AND date_format(a.end_time,'%Y-%m-%d %H:%i:%S') <![CDATA[ <= ]]> date_format(#{endTime},'%Y-%m-%d %H:%i:%S')
 		</if>
 		<if test="size != 0 and size != null">
 			LIMIT ${start}, ${size};
