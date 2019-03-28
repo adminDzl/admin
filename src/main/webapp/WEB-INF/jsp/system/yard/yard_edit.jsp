@@ -90,19 +90,18 @@
             formData.append("files", files[i]);
         }
         $.ajax({
-            url: '<%=basePath%>yard/imageUpload.do',
+            url: '<%=basePath%>/app/user/saveFile',
             type: "POST",
             data:formData,
+            dataType:'json',//json 返回值类型
             cache:false,         //不设置缓存
             processData: false,  // 不处理数据
             contentType: false,   // 不设置内容类型
             success: function(data){
-                if (data.result === "ok"){
-					var fs = "";
-                    for(var i = 0;i<data.callback.length;i++){
-                        fs += data.callback[i].PATH+",";
-                    }
-                    $("#IMAGE_URL").val(fs.substring(0,fs.length-1))
+                if (data.result === 0){
+					console.log('--->',data.data);
+					var fs = data.data.join(',');
+                    $("#IMAGE_URL").val(fs)
 				}
             }
         });

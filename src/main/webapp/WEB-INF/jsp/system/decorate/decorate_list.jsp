@@ -69,7 +69,7 @@
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 									<td>${var.DECORATE_NO}</td>
-									<th>${var.USER_ID}</th>
+									<th>${var.NAME}</th>
 									<td>${var.TITLE}</td>
 									<td>${var.CONTENT}</td>
 									<td>${var.STATUS}</td>

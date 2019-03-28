@@ -69,9 +69,11 @@
 				a.STATUS,	
 				a.CREATE_TIME,	
 				a.UPDATE_TIME,	
-				a.DECORATE_ID
+				a.DECORATE_ID,
+				u.NAME
 		from 
 				DECORATE a
+		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
 	</select>
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">
