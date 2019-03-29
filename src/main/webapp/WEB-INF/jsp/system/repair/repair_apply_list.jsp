@@ -67,7 +67,7 @@
 									<label><input type='checkbox' name='ids' value="${var.REPAIR_APPLY_ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-									<th>${var.USER_ID}</th>
+									<th>${var.NAME}</th>
 									<td>${var.APPLY_CONTENT}</td>
 									<td>${var.IMAGE_URLS}</td>
 									<td>${var.APPLY_STATUS}</td>
