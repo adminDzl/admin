@@ -9,6 +9,7 @@ import com.wolves.common.CompanyTypeEnum;
 import com.wolves.common.StatusEnum;
 import com.wolves.dto.user.CompanyDTO;
 import com.wolves.dto.user.RegisterDTO;
+import com.wolves.dto.user.UserDTO;
 import com.wolves.dto.user.UserExcelDTO;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
@@ -306,5 +307,15 @@ public class UserService {
 	public Integer updateUser(com.wolves.entity.app.User user){
 
 		return (Integer) dao.update("UserMapper.updateUser", user);
+	}
+
+	/**
+	 * 查询当前登录人，个人信息
+	 * @param token
+	 * @return
+	 */
+	public UserDTO getUserDTOByToken(String token){
+
+		return (UserDTO) dao.findForObject("UserMapper.getUserDTOByToken", token);
 	}
 }

@@ -2,6 +2,8 @@ package com.wolves.service.system;
 
 import java.util.List;
 import javax.annotation.Resource;
+
+import com.wolves.dto.PictureDTO;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
 import com.wolves.entity.system.Page;
@@ -74,6 +76,15 @@ public class PicturesService {
 	*/
 	public void delTp(PageData pd){
 		dao.update("PicturesMapper.delTp", pd);
+	}
+
+	/**
+	 * 查询轮播列表
+	 * @return
+	 */
+	public List<PictureDTO> selectPicture(){
+
+		return (List<PictureDTO>) dao.findForList("PicturesMapper.selectPicture", null);
 	}
 	
 }

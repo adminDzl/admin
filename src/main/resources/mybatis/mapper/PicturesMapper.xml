@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="PicturesMapper">
+
+	<resultMap type="com.wolves.dto.PictureDTO" id="ResultMap">
+		<id column="pictures_id" property="picturesId"/>
+		<result column="title" property="title"/>
+		<result column="path" property="path"/>
+		<result column="link" property="link"/>
+		<result column="createtime" property="createTime"/>
+	</resultMap>
+
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into TB_PICTURES(
@@ -9,7 +18,8 @@
 			PATH,	
 			CREATETIME,	
 			MASTER_ID,	
-			BZ,	
+			BZ,
+			LINK,
 			PICTURES_ID
 		) values (
 			#{TITLE},	
@@ -17,7 +27,8 @@
 			#{PATH},	
 			#{CREATETIME},	
 			#{MASTER_ID},	
-			#{BZ},	
+			#{BZ},
+			#{LINK},
 			#{PICTURES_ID}
 		)
 	</insert>
@@ -36,6 +47,9 @@
 				<if test="NAME != null and NAME != ''">
 				NAME = #{NAME},
 				</if>
+				<if test="LINK != null and LINK != ''">
+				LINK = #{LINK},
+				</if>
 				MASTER_ID = #{MASTER_ID},
 				BZ = #{BZ},
 			PICTURES_ID = PICTURES_ID
@@ -50,7 +64,8 @@
 			PATH,	
 			CREATETIME,	
 			MASTER_ID,	
-			BZ,	
+			BZ,
+			LINK,
 			PICTURES_ID
 		from 
 			TB_PICTURES
@@ -65,7 +80,8 @@
 				a.PATH,	
 				a.CREATETIME,	
 				a.MASTER_ID,	
-				a.BZ,	
+				a.BZ,
+				a.LINK,
 				a.PICTURES_ID
 		from 
 				TB_PICTURES a
@@ -91,7 +107,8 @@
 				a.PATH,	
 				a.CREATETIME,	
 				a.MASTER_ID,	
-				a.BZ,	
+				a.BZ,
+				a.LINK,
 				a.PICTURES_ID
 		from 
 				TB_PICTURES a
@@ -122,4 +139,16 @@
 			where 
 				PICTURES_ID = #{PICTURES_ID}
 	</update>
+	<!--查询轮播图-->
+	<select id="selectPicture" parameterType="com.wolves.dto.PictureDTO" resultMap="ResultMap">
+		SELECT
+			pictures_id,
+			title,
+			path,
+			link,
+			createtime
+		FROM
+			tb_pictures
+		ORDER BY createtime DESC
+	</select>
 </mapper>

@@ -164,6 +164,13 @@ public class CarController {
             result.setMsg("请绑定车辆信息");
             result.setResult(ResultCode.FAIL);
             return result;
+        }else {
+            if (userCarBindDTO.getStatus().equals(StatusEnum.INIT.getKey()) ||
+                    userCarBindDTO.getStatus().equals(StatusEnum.REJECT.getKey())){
+                result.setMsg("待审核绑定车辆信息");
+                result.setResult(ResultCode.FAIL);
+                return result;
+            }
         }
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userId", user.getUserId());
@@ -177,16 +184,4 @@ public class CarController {
         return result;
     }
 
-//    @ApiOperation(httpMethod="POST",value="导入",notes="导入")
-//    @RequestMapping(value = "/importExcel", method = RequestMethod.POST)
-//    public void importExcel(@RequestParam(value="uploadFile") MultipartFile file){
-//        logger.info("客户数据excel导入-->/importExcel");
-//        ImportExcelUtil importExcelUtil = new ImportExcelUtil();
-//        List<Map<String, Object>> userList = importExcelUtil.getExcelInfo(file);
-//        if (userList != null && !userList.isEmpty() && userList.size() < 50000){
-//            List<UserExcelDTO> userExcelDTOS = userService.getUserData(userList);
-//            //保存数据
-//            userService.saveExcelUser(userExcelDTOS);
-//        }
-//    }
 }

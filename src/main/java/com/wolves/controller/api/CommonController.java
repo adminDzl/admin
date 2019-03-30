@@ -1,8 +1,11 @@
 package com.wolves.controller.api;
 
 import com.wolves.common.OSSClientConstants;
+import com.wolves.dto.PictureDTO;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
+import com.wolves.service.system.PicturesService;
+import com.wolves.service.system.user.UserService;
 import com.wolves.util.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.*;
@@ -29,6 +33,8 @@ import java.util.*;
 public class CommonController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    @Resource(name="picturesService")
+    private PicturesService picturesService;
 
     @ApiOperation(value = "上传文件", notes = "上传文件API,上传返回的是图片链接，可以传多个")
     @RequestMapping(value = "/saveFile", method = RequestMethod.POST)
@@ -45,6 +51,18 @@ public class CommonController {
         result.setData(urls);
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("上传成功");
+        return result;
+    }
+
+    @ApiOperation(value = "获取轮播列表", notes = "获取轮播列表")
+    @RequestMapping(value = "/selectPricture", method = RequestMethod.POST)
+    public Result<List<PictureDTO>> selectPricture(){
+        Result<List<PictureDTO>> result = new Result<List<PictureDTO>>();
+        List<PictureDTO> pictureDTOs = picturesService.selectPicture();
+
+        result.setData(pictureDTOs);
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("查询成功");
         return result;
     }
 }

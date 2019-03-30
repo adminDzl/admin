@@ -60,6 +60,18 @@
 		<result column="id_card_front_url" property="idCardFrontUrl"/>
 		<result column="id_card_back_url" property="idCardBackUrl"/>
 	</resultMap>
+
+	<resultMap type="com.wolves.dto.user.UserDTO" id="UserDTOResultMap">
+		<id column="user_id" property="userId"/>
+		<result column="name" property="name"/>
+		<result column="sex" property="sex"/>
+		<result column="email" property="email"/>
+		<result column="phone" property="phone"/>
+		<result column="company_id" property="companyId"/>
+		<result column="company_name" property="companyName"/>
+		<result column="logo" property="logo"/>
+		<result column="company_certify" property="companyCertify"/>
+	</resultMap>
 	
 	<!-- 判断用户名和密码 -->
 	<select id="getUserInfo" parameterType="User" resultMap="userResultMap">
@@ -186,4 +198,21 @@
 		</trim>
 		WHERE USER_ID = #{userId}
 	</update>
+
+	<select id="getUserDTOByToken" parameterType="com.wolves.dto.user.UserDTO" resultMap="UserDTOResultMap">
+		  SELECT
+			u.user_id,
+			u.`name`,
+			u.sex,
+			u.email,
+			u.phone,
+			u.company_id,
+			c.company_name,
+			c.logo,
+			c.company_certify
+		FROM
+			`user` u
+		LEFT JOIN company c ON (u.company_id = c.company_id AND c.status = 1)
+		WHERE u.token = #{token}
+	</select>
 </mapper>
