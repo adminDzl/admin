@@ -410,14 +410,14 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/poi-scratchpad-3.11-20141221.jar</systemPath>
 		</dependency>
-		<!-- saaj -->
-		<dependency>
-			<groupId>saaj</groupId>
-			<artifactId>saaj</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/saaj.jar</systemPath>
-		</dependency>
+		<!--&lt;!&ndash; saaj &ndash;&gt;-->
+		<!--<dependency>-->
+			<!--<groupId>saaj</groupId>-->
+			<!--<artifactId>saaj</artifactId>-->
+			<!--<version>1.0</version>-->
+			<!--<scope>system</scope>-->
+			<!--<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/saaj.jar</systemPath>-->
+		<!--</dependency>-->
 		<!-- shiro-all -->
 		<dependency>
 			<groupId>shiro</groupId>
@@ -435,13 +435,13 @@
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/sun.misc.BASE64Decoder.jar</systemPath>
 		</dependency>
 		 <!--ueditor-->
-		<dependency>
-			<groupId>ueditor</groupId>
-			<artifactId>ueditor</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ueditor.jar</systemPath>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>ueditor</groupId>-->
+			<!--<artifactId>ueditor</artifactId>-->
+			<!--<version>1.0</version>-->
+			<!--<scope>system</scope>-->
+			<!--<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ueditor.jar</systemPath>-->
+		<!--</dependency>-->
 		 <!--weaver-1.6.8.RELEASE.jar-->
 		<dependency>
 			<groupId>weaver-1.6.8</groupId>
