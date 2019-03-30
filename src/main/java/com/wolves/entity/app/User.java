@@ -15,6 +15,7 @@ public class User {
     private String password;
     private String name;
     private String sex;
+    private String headImage;
     private String rights;
     private String roleId;
     private String lastLogin;
@@ -34,6 +35,14 @@ public class User {
     private String isBindIdCard;
     private String idCardFrontUrl;
     private String idCardBackUrl;
+
+    public String getHeadImage() {
+        return headImage;
+    }
+
+    public void setHeadImage(String headImage) {
+        this.headImage = headImage;
+    }
 
     public String getUserId() {
         return userId;

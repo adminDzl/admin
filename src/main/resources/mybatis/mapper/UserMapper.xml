@@ -39,6 +39,7 @@
 		<result column="username" property="username"/>
 		<result column="password" property="password"/>
 		<result column="name" property="name"/>
+		<result column="head_image" property="headImage"/>
 		<result column="sex" property="sex"/>
 		<result column="rights" property="rights"/>
 		<result column="role_id" property="roleId"/>
@@ -65,6 +66,7 @@
 		<id column="user_id" property="userId"/>
 		<result column="name" property="name"/>
 		<result column="sex" property="sex"/>
+		<result column="head_image" property="headImage"/>
 		<result column="email" property="email"/>
 		<result column="phone" property="phone"/>
 		<result column="company_id" property="companyId"/>
@@ -190,6 +192,7 @@
 		<trim prefix="set" suffixOverrides=",">
 			<if test="username != null">USERNAME = #{username},</if>
 			<if test="name != null">NAME = #{name},</if>
+			<if test="headImage != null">head_image = #{headImage},</if>
 			<if test="sex != null">SEX = #{sex},</if>
 			<if test="phone != null">PHONE = #{phone},</if>
 			<if test="email != null">EMAIL = #{email},</if>
@@ -203,6 +206,7 @@
 		  SELECT
 			u.user_id,
 			u.`name`,
+			u.head_image,
 			u.sex,
 			u.email,
 			u.phone,
