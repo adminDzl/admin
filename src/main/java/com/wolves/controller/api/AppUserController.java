@@ -952,4 +952,32 @@ public class AppUserController {
         result.setMsg("查询成功");
         return result;
     }
+
+    @ApiOperation(httpMethod="POST",value="设置/修改头像",notes="设置/修改头像")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+            @ApiImplicitParam(name = "jsonObject",value = "{\"headImage\":\"头像链接\"}",required = true,paramType = "body",dataType = "JSONObject")
+    })
+    @RequestMapping(value = "updateHeadImage", method = RequestMethod.POST)
+    public Result updateHeadImage(@RequestHeader("Authorization") String token,
+                           @RequestBody JSONObject jsonObject){
+        Result result = new Result();
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        String headImage = jsonObject.getString("headImage");
+        if (StringUtils.isEmpty(headImage)){
+            result.setResult(ResultCode.FAIL);
+            result.setMsg("请上传头像");
+            return result;
+        }
+        user.setHeadImage(headImage);
+        userService.updateUser(user);
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("查询成功");
+        return result;
+    }
 }

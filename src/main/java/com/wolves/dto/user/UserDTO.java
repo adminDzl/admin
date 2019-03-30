@@ -14,6 +14,9 @@ public class UserDTO {
     @ApiModelProperty(name = "name",value = "姓名")
     private String name;
 
+    @ApiModelProperty(name = "headImage",value = "头像")
+    private String headImage;
+
     @ApiModelProperty(name = "sex",value = "性别")
     private String sex;
 
@@ -105,6 +108,14 @@ public class UserDTO {
 
     public void setCompanyCertify(String companyCertify) {
         this.companyCertify = companyCertify;
+    }
+
+    public String getHeadImage() {
+        return headImage;
+    }
+
+    public void setHeadImage(String headImage) {
+        this.headImage = headImage;
     }
 
     @Override
