@@ -2,7 +2,6 @@
     <%@ page import="java.io.*"%>
     <%@ page import="java.net.*"%>
     <%@ page import="java.util.*"%>
-    <%@ page import="ueditor.Uploader" %>
     <%
     	request.setCharacterEncoding("utf-8");
     	response.setCharacterEncoding("utf-8");
