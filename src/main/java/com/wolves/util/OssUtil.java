@@ -1,16 +1,22 @@
 package com.wolves.util;
 
 import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.*;
 import com.wolves.common.OSSClientConstants;
 import org.apache.log4j.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import sun.misc.BASE64Decoder;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
@@ -224,6 +230,7 @@ public class OssUtil {
             //解析结果
             String resultStr = putResult.getETag();
             url = FILE_URL + folder + fileName;
+
             logger.info(url);
         } catch (Exception e) {
             e.printStackTrace();
@@ -232,39 +239,5 @@ public class OssUtil {
         return url;
     }
 
-
-    /**
-     * 获取阿里云远程OSS指定文件.并转为输出流
-     * @param  ossPrefix  访问阿里云oss文件路径 （http://ygzb.oss-cn-beijing.aliyuncs.com/）
-     * @param  fileUrl 文件保存路径 （如：upload/a.png）
-     * @param  oputstream  输出流
-     * @throws IOException
-     */
-    public static void downFile(String ossPrefix,String fileUrl,OutputStream oputstream) throws IOException{
-        InputStream iputstream = null;
-        try{
-            //阿里云网络文件地址
-            String ossFilePath = ossPrefix + fileUrl;
-            URL url = new URL(ossFilePath);
-            HttpURLConnection uc = (HttpURLConnection) url.openConnection();
-            //设置是否要从 URL 连接读取数据,默认为true
-            uc.setDoInput(true);
-            uc.connect();
-            iputstream = uc.getInputStream();
-            byte[] buffer = new byte[4*1024];
-            int byteRead = -1;
-            while((byteRead=(iputstream.read(buffer)))!= -1){
-                oputstream.write(buffer, 0, byteRead);
-            }
-            oputstream.flush();
-        } catch (Exception e) {
-            System.out.println("读取失败！");
-            e.printStackTrace();
-        } finally{
-            if(iputstream != null){
-                iputstream.close();
-            }
-        }
-    }
 
 }

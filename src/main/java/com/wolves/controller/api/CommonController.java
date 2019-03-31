@@ -1,7 +1,9 @@
 package com.wolves.controller.api;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wolves.common.OSSClientConstants;
 import com.wolves.dto.PictureDTO;
+import com.wolves.entity.app.User;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
 import com.wolves.service.system.PicturesService;
@@ -11,15 +13,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -35,6 +36,8 @@ public class CommonController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource(name="picturesService")
     private PicturesService picturesService;
+    @Resource(name="userService")
+    private UserService userService;
 
     @ApiOperation(value = "上传文件", notes = "上传文件API,上传返回的是图片链接，可以传多个")
     @RequestMapping(value = "/saveFile", method = RequestMethod.POST)
@@ -65,4 +68,28 @@ public class CommonController {
         result.setMsg("查询成功");
         return result;
     }
+
+//    @ApiOperation(value = "文件下载", notes = "文件下载")
+//    @RequestMapping(value = "/download", method = RequestMethod.POST)
+//    public Result download(@RequestHeader("Authorization") String token,
+//                         @RequestBody JSONObject jsonObject,
+//                           HttpServletResponse response){
+//        Result result = new Result();
+//        String fileName = jsonObject.getString("fileName");
+//        if (StringUtils.isEmpty(fileName)){
+//            result.setResult(ResultCode.FAIL);
+//            result.setMsg("文件链接不能为空");
+//            return result;
+//        }
+//        User user = userService.getUser(token);
+//        if (user == null){
+//            result.setMsg("请登录");
+//            result.setResult(ResultCode.FAIL);
+//            return result;
+//        }
+//
+//        result.setResult(ResultCode.SUCCESS);
+//        result.setMsg("下载成功");
+//        return result;
+//    }
 }

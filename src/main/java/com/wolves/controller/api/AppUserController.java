@@ -611,31 +611,6 @@ public class AppUserController {
         return result;
     }
 
-    //快速预约 TODO
-    public Result fastAppoint(@RequestHeader("Authorization") String token,
-                            @RequestBody FastAppointDTO fastAppointDTO){
-        Result result = new Result();
-        User user = userService.getUser(token);
-        if (user == null){
-            result.setMsg("请登录");
-            result.setResult(ResultCode.FAIL);
-            return result;
-        }
-        //预约是判断日期
-        if (fastAppointDTO.getType() == 0){
-            result.setMsg("请选择场地类型");
-            result.setResult(ResultCode.FAIL);
-            return result;
-        }
-        if (StringUtils.isEmpty(fastAppointDTO.getStartTime()) ||
-                StringUtils.isEmpty(fastAppointDTO.getEndTime())){
-            result.setMsg("请选择时间段");
-            result.setResult(ResultCode.FAIL);
-            return result;
-        }
-
-        return result;
-    }
 
     @ApiOperation(httpMethod="POST",value="查询当前登录人信息",notes="查询当前登录人信息")
     @RequestMapping(value = "/myInfo", method = RequestMethod.POST)
@@ -714,7 +689,7 @@ public class AppUserController {
 
         result.setData(floorManService.getFloorMan());
         result.setResult(ResultCode.SUCCESS);
-        result.setMsg("发送成功");
+        result.setMsg("查询成功");
         return result;
     }
 
@@ -832,8 +807,6 @@ public class AppUserController {
         result.setMsg("查询成功");
         return result;
     }
-
-    //统一申请
 
     /**
      * 查询站内信
