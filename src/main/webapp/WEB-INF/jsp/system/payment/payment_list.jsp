@@ -48,7 +48,7 @@
 						<label><input type="checkbox" id="zcheckbox" /><span class="lbl"></span></label>
 						</th>
 						<th class="center">序号</th>
-						<th class="center">缴费单位id</th>
+						<th class="center">缴费单位</th>
 						<th class="center">类型</th>
 						<th class="center">缴费金额</th>
 						<th class="center">费用月度</th>

@@ -48,7 +48,7 @@
 						<label><input type="checkbox" id="zcheckbox" /><span class="lbl"></span></label>
 						</th>
 						<th class="center">序号</th>
-						<th class="center">用户ID</th>
+						<th class="center">用户名</th>
 						<th class="center">月卡号</th>
 						<th class="center">金额</th>
 						<th class="center">有效日期</th>
@@ -68,7 +68,7 @@
 									<label><input type='checkbox' name='ids' value="${var.USERCARMONTHCARD_ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-										<td>${var.USER_ID}</td>
+										<td>${var.NAME}</td>
 										<td>${var.CARD_NO}</td>
 										<td>${var.PRICE}</td>
 										<td>${var.USE_TIL_DATE}</td>

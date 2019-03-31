@@ -69,9 +69,11 @@
 				a.CARD_STATUS,	
 				a.CREATE_TIME,	
 				a.UPDATE_TIME,	
-				a.user_car_month_card_id
+				a.user_car_month_card_id,
+				u.NAME
 		from 
 				USER_CAR_MONTH_CARD a
+		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
 	</select>
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">
