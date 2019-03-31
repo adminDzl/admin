@@ -160,6 +160,7 @@
     resource_name
     resuorce_type 0公司，1门禁
     room_id 如果是门禁资源，就对应到room_id,resource_name取room_name
+    status 
     company_id
 # 22 app_user_role
     id
