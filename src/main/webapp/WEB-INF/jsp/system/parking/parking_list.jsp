@@ -48,7 +48,7 @@
 						<label><input type="checkbox" id="zcheckbox" /><span class="lbl"></span></label>
 						</th>
 						<th class="center">序号</th>
-						<th class="center">用户ID</th>
+						<th class="center">用户</th>
 						<th class="center">开始时间</th>
 						<th class="center">结束时间</th>
 						<th class="center">总时长</th>
@@ -67,30 +67,22 @@
 									<label><input type='checkbox' name='ids' value="${var.PARKING_ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-										<td>${var.USER_ID}</td>
+										<td>${var.NAME}</td>
 										<td>${var.BEGIN_TIME}</td>
 										<td>${var.END_TIME}</td>
 										<td>${var.TOTAL_HOUR}</td>
 										<td>${var.FEE}</td>
 										<td>${var.CREATE_TIME}</td>
 								<td style="width: 30px;" class="center">
-									<div class='hidden-phone visible-desktop btn-group'>
-									
-										<c:if test="${QX.edit != 1 && QX.del != 1 }">
+									<c:if test="${QX.edit != 1 && QX.del != 1 }">
 										<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>
-										</c:if>
-										<div class="inline position-relative">
-										<button class="btn btn-mini btn-info" data-toggle="dropdown"><i class="icon-cog icon-only"></i></button>
-										<ul class="dropdown-menu dropdown-icon-only dropdown-light pull-right dropdown-caret dropdown-close">
-											<c:if test="${QX.edit == 1 }">
-											<li><a style="cursor:pointer;" title="编辑" onclick="edit('${var.PARKING_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a></li>
-											</c:if>
-											<c:if test="${QX.del == 1 }">
-											<li><a style="cursor:pointer;" title="删除" onclick="del('${var.PARKING_ID}');" class="tooltip-error" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-trash"></i></span> </a></li>
-											</c:if>
-										</ul>
-										</div>
-									</div>
+									</c:if>
+									<c:if test="${QX.edit == 1 }">
+										<a style="cursor:pointer;" title="编辑" onclick="edit('${var.PARKING_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a>
+									</c:if>
+									<c:if test="${QX.del == 1 }">
+										<a style="cursor:pointer;" title="删除" onclick="del('${var.PARKING_ID}');" class="tooltip-error" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-trash"></i></span></a>
+									</c:if>
 								</td>
 							</tr>
 						</c:forEach>

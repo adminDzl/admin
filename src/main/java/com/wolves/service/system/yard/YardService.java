@@ -73,5 +73,15 @@ public class YardService {
 	public List<YardDTO> selectYard(Map<String, Object> params){
 		return (List<YardDTO>) dao.findForList("YardMapper.selectYard", params);
 	}
+
+	/**
+	 * 查询场地
+	 * @param yardId
+	 * @return
+	 */
+	public YardDTO getYardById(String yardId){
+
+		return (YardDTO) dao.findForObject("YardMapper.getYardById", yardId);
+	}
 }
 

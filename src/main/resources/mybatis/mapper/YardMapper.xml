@@ -138,4 +138,19 @@
 		</if>
 		ORDER BY a.create_time DESC
 	</select>
+
+	<!--查询场地-->
+	<select id="getYardById" parameterType="com.wolves.dto.YardDTO" resultMap="yardResultMap">
+		select
+		a.place_type,
+		a.position,
+		a.image_url,
+		a.equipment,
+		a.rent_fee,
+		a.create_time,
+		a.yard_id
+		from
+		YARD a
+		WHERE a.yard_id = #{yardId}
+	</select>
 </mapper>

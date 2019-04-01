@@ -77,9 +77,11 @@
 				a.FEE,	
 				a.CREATE_TIME,	
 				a.UPDATE_TIME,	
-				a.PARKING_ID
+				a.PARKING_ID,
+				u.NAME
 		from 
 				PARKING a
+		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
 	</select>
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">

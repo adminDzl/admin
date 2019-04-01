@@ -1,5 +1,6 @@
 package com.wolves.service.system.yardappoint;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -9,9 +10,12 @@ import com.wolves.common.StatusEnum;
 import com.wolves.dao.DaoSupport;
 import com.wolves.dto.ApplyYardDTO;
 import com.wolves.dto.AppointmentDTO;
+import com.wolves.dto.YardDTO;
 import com.wolves.entity.system.Page;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
+import com.wolves.service.system.yard.YardService;
+import com.wolves.util.DateUtil;
 import com.wolves.util.PageData;
 import com.wolves.util.UuidUtil;
 import org.springframework.stereotype.Service;
@@ -21,6 +25,8 @@ public class YardAppointService {
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
+	@Resource(name="yardService")
+	private YardService yardService;
 	
 	/**
 	* 新增
@@ -81,8 +87,21 @@ public class YardAppointService {
 		return (List<AppointmentDTO>) dao.findForList("YardAppointMapper.selectAppointment", params);
 	}
 
+	/**
+	 * 提交预约
+	 * @param applyYardDTO
+	 * @param userId
+	 * @return
+	 */
 	public Result saveAppoint(ApplyYardDTO applyYardDTO, String userId){
 		Result result = new Result();
+		//判断场地
+		YardDTO yardDTO = yardService.getYardById(applyYardDTO.getYardId());
+		if (yardDTO == null){
+			result.setResult(ResultCode.FAIL);
+			result.setMsg("抱歉，该场地已不存在");
+			return result;
+		}
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("placeId", applyYardDTO.getYardId());
 		params.put("beginTime", applyYardDTO.getBeginTime());
@@ -93,7 +112,8 @@ public class YardAppointService {
 			result.setMsg("抱歉，改时段已被预定");
 			return result;
 		}
-
+		//计算时长
+		long hours = DateUtil.printDifference(applyYardDTO.getBeginTime(), applyYardDTO.getEndTime());
 		PageData pd = new PageData();
 		//主键
 		pd.put("YARDAPPOINT_ID", UuidUtil.get32UUID());
@@ -102,7 +122,7 @@ public class YardAppointService {
 		//预定人ID
 		pd.put("APPLY_USER_ID", userId);
 		//预定金额
-		pd.put("BOOK_FEE", applyYardDTO.getAmount());
+		pd.put("BOOK_FEE", yardDTO.getRentFee().multiply(BigDecimal.valueOf(hours)));
 		//预定状态
 		pd.put("STATUS", StatusEnum.INIT.getKey());
 		//预定日期
@@ -112,7 +132,7 @@ public class YardAppointService {
 		//结束时间
 		pd.put("END_TIME", applyYardDTO.getEndTime());
 		//时长
-		pd.put("BOOK_DURATION", applyYardDTO.getDuration());
+		pd.put("BOOK_DURATION", hours);
 		//备注
 		pd.put("NOTE", applyYardDTO.getNote());
 		this.save(pd);

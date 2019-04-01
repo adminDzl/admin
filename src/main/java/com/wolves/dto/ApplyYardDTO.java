@@ -30,12 +30,6 @@ public class ApplyYardDTO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date endTime;
 
-    @ApiModelProperty(name = "duration",value = "时长")
-    private String duration;
-
-    @ApiModelProperty(name = "amount",value = "金额")
-    private BigDecimal amount;
-
     @ApiModelProperty(name = "note",value = "备注")
     private String note;
 
@@ -71,28 +65,12 @@ public class ApplyYardDTO {
         this.endTime = endTime;
     }
 
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
     public String getNote() {
         return note;
     }
 
     public void setNote(String note) {
         this.note = note;
-    }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
     }
 
     @Override
@@ -102,8 +80,6 @@ public class ApplyYardDTO {
                 ", placeDate=" + placeDate +
                 ", beginTime=" + beginTime +
                 ", endTime=" + endTime +
-                ", duration='" + duration + '\'' +
-                ", amount=" + amount +
                 ", note='" + note + '\'' +
                 '}';
     }

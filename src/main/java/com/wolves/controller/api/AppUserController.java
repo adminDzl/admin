@@ -606,7 +606,6 @@ public class AppUserController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
-        //判断场地是否已经被租用
         result = yardappointService.saveAppoint(applyYardDTO, user.getUserId());
         return result;
     }
