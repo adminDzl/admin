@@ -76,7 +76,11 @@
 										<td>${var.PAY_AMOUNT}</td>
 										<td>${var.PAY_TIME}</td>
 										<td>${var.RETURN_TIME}</td>
-										<td>${var.PAY_STATUS}</td>
+										<td>
+											<c:if test="${var.PAY_STATUS == 0}"><span class="label label-success arrowed">待支付</span></c:if>
+											<c:if test="${var.PAY_STATUS == 1}"><span class="label label-success arrowed">支付完成</span></c:if>
+											<c:if test="${var.PAY_STATUS == 2}"><span class="label label-success arrowed">支付失效</span></c:if>
+										</td>
 										<td>${var.CREATE_TIME}</td>
 								<td style="width: 30px;" class="center">
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">

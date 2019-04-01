@@ -71,7 +71,11 @@
 									<th>${var.NAME}</th>
 									<td>${var.TITLE}</td>
 									<td>${var.CONTENT}</td>
-									<td>${var.STATUS}</td>
+									<td>
+										<c:if test="${var.STATUS == 1}"><span class="label label-success arrowed">待审核</span></c:if>
+										<c:if test="${var.STATUS == 2}"><span class="label label-success arrowed">审核成功</span></c:if>
+										<c:if test="${var.STATUS == 3}"><span class="label label-success arrowed">审核驳回</span></c:if>
+									</td>
 									<td>${var.CREATE_TIME}</td>
 								<td style="width: 30px;" class="center">
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">

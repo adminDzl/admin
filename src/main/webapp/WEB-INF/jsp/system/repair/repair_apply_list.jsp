@@ -69,7 +69,11 @@
 									<th>${var.NAME}</th>
 									<td>${var.APPLY_CONTENT}</td>
 									<td>${var.IMAGE_URLS}</td>
-									<td>${var.APPLY_STATUS}</td>
+									<td>
+										<c:if test="${var.APPLY_STATUS == 0}"><span class="label label-success arrowed">待审核</span></c:if>
+										<c:if test="${var.APPLY_STATUS == 1}"><span class="label label-success arrowed">审核成功</span></c:if>
+										<c:if test="${var.APPLY_STATUS == 2}"><span class="label label-success arrowed">审核驳回</span></c:if>
+									</td>
 									<td>${var.CREATE_TIME}</td>
 								<td style="width: 30px;" class="center">
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">

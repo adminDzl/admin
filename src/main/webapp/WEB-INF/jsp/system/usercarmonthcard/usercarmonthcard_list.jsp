@@ -71,7 +71,11 @@
 										<td>${var.CARD_NO}</td>
 										<td>${var.PRICE}</td>
 										<td>${var.USE_TIL_DATE}</td>
-										<td>${var.CARD_STATUS}</td>
+										<td>
+											<c:if test="${var.CARD_STATUS == 1}"><span class="label label-success arrowed">待使用</span></c:if>
+											<c:if test="${var.CARD_STATUS == 2}"><span class="label label-success arrowed">使用中</span></c:if>
+											<c:if test="${var.CARD_STATUS == 3}"><span class="label label-success arrowed">已使用</span></c:if>
+										</td>
 										<td>${var.CREATE_TIME}</td>
 								<td style="width: 30px;" class="center">
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">
