@@ -54,7 +54,6 @@
 						<th class="center">有效日期</th>
 						<th class="center">月卡状态</th>
 						<th class="center">创建时间</th>
-						<th class="center">更新时间</th>
 						<th class="center">操作</th>
 					</tr>
 				</thead>
@@ -74,7 +73,6 @@
 										<td>${var.USE_TIL_DATE}</td>
 										<td>${var.CARD_STATUS}</td>
 										<td>${var.CREATE_TIME}</td>
-										<td>${var.UPDATE_TIME}</td>
 								<td style="width: 30px;" class="center">
 									<div class='hidden-phone visible-desktop btn-group'>
 									

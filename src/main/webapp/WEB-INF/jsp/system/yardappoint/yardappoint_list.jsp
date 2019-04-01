@@ -60,7 +60,6 @@
 						<th class="center">预定金额</th>
 						<th class="center">预定状态</th>
 						<th class="center">创建时间</th>
-						<th class="center">更新时间</th>
 						<th class="center">操作</th>
 					</tr>
 				</thead>
@@ -90,7 +89,6 @@
 											<c:if test="${var.STATUS == 3 }"><span class="label label-important arrowed-in">已驳回</span></c:if>
 										</td>
 										<td>${var.CREATE_TIME}</td>
-										<td>${var.UPDATE_TIME}</td>
 								<td style="width: 30px;" class="center">
 									<div class='hidden-phone visible-desktop btn-group'>
 									

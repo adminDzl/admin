@@ -65,7 +65,6 @@
 						<th class="center">企业认证</th>
 						<th class="center">企业租位</th>
 						<th class="center">创建时间</th>
-						<th class="center">修改时间</th>
 						<th class="center">操作</th>
 					</tr>
 				</thead>
@@ -94,7 +93,6 @@
 										<td>${var.COMPANY_CERTIFY}</td>
 										<td>${var.PLACE_ID}</td>
 										<td>${var.CREATE_TIME}</td>
-										<td>${var.UPDATE_TIME}</td>
 								<td style="width: 30px;" class="center">
 									<div class='hidden-phone visible-desktop btn-group'>
 									

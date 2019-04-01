@@ -53,7 +53,6 @@
 						<th class="center">提醒标题</th>
 						<th class="center">提醒内容</th>
 						<th class="center">创建时间</th>
-						<th class="center">更新时间</th>
 						<th class="center">操作</th>
 					</tr>
 				</thead>
@@ -75,7 +74,6 @@
 										<td>${var.ALERT_TITLE}</td>
 										<td>${var.ALERT_CONTENT}</td>
 										<td>${var.CREATE_TIME}</td>
-										<td>${var.UPDATE_TIME}</td>
 								<td style="width: 30px;" class="center">
 									<div class='hidden-phone visible-desktop btn-group'>
 									

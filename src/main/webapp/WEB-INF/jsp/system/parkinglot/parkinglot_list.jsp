@@ -53,7 +53,6 @@
 						<th class="center">用户</th>
 						<th class="center">状态</th>
 						<th class="center">创建时间</th>
-						<th class="center">更新时间</th>
 						<th class="center">操作</th>
 					</tr>
 				</thead>
@@ -72,7 +71,6 @@
 										<td>${var.USER_ID}</td>
 										<td>${var.STATUS}</td>
 										<td>${var.CREATE_TIME}</td>
-										<td>${var.UPDATE_TIME}</td>
 								<td style="width: 30px;" class="center">
 									<div class='hidden-phone visible-desktop btn-group'>
 									
