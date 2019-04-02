@@ -10,7 +10,7 @@
 <html lang="en">
 	<head>
 	<base href="<%=basePath%>"><!-- jsp文件头和头部 -->
-	<%@ include file="../../system/admin/top.jsp"%> 
+	<%@ include file="../../system/admin/top.jsp"%>
 	</head>
 <body>
 <div class="container-fluid" id="main-container">
@@ -91,7 +91,7 @@
 										</td>
 										<td>
 											<c:forTokens items="${var.IMAGE_URL}" delims="," var="image">
-												<img src="${image}" style="width:30px;height:30px;" />
+												<img src="${image}" style="width:30px;height:50px;" />
 											</c:forTokens>
 										</td>
 										<td>${var.EQUIPMENT}</td>
