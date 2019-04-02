@@ -3,8 +3,11 @@ package com.wolves.service.system;
 import java.util.List;
 import javax.annotation.Resource;
 
+import com.wolves.common.CompanyTypeEnum;
+import com.wolves.common.StatusEnum;
 import com.wolves.dto.user.BaseCompanyDTO;
 import com.wolves.dto.user.CompanyDTO;
+import com.wolves.util.UuidUtil;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
 import com.wolves.entity.system.Page;
@@ -90,6 +93,27 @@ public class CompanyService {
 	public void saveCompany(CompanyDTO companyDTO){
 
 		dao.save("CompanyMapper.saveCompany", companyDTO);
+	}
+
+	/**
+	 * 查询企业
+	 * @param name
+	 * @return
+	 */
+	public List<BaseCompanyDTO> selectCompanyByName(String name){
+
+		return (List<BaseCompanyDTO>) dao.findForList("CompanyMapper.selectCompanyByName", name);
+	}
+
+
+	public void createCompany(String name){
+		//判断企业是否存在
+		CompanyDTO companyDTO = new CompanyDTO();
+		companyDTO.setType(Integer.valueOf(CompanyTypeEnum.out.getKey()));
+		companyDTO.setStatus(Integer.valueOf(StatusEnum.INIT.getKey()));
+		companyDTO.setCompanyName(name);
+		companyDTO.setCompanyId(UuidUtil.get32UUID());
+		this.saveCompany(companyDTO);
 	}
 }
 

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -78,8 +79,21 @@
 											<c:if test="${var.PLACE_TYPE == 2}"><span class="label label-success arrowed">活动室</span></c:if>
 											<c:if test="${var.PLACE_TYPE == 3}"><span class="label label-success arrowed">健身房</span></c:if>
 										</td>
-										<td>${var.POSITION}</td>
-										<td>${var.IMAGE_URL}</td>
+										<td>
+											<c:choose>
+												<c:when test="${fn:length(var.POSITION) >= 30}">
+													<span title="${var.POSITION}">${fn:substring(var.POSITION ,0,30)}……</span>
+												</c:when>
+												<c:otherwise>
+													<span title="${var.POSITION }">${var.POSITION }</span>
+												</c:otherwise>
+											</c:choose>
+										</td>
+										<td>
+											<c:forTokens items="${var.IMAGE_URL}" delims="," var="image">
+												<img src="${image}" style="width:30px;height:30px;" />
+											</c:forTokens>
+										</td>
 										<td>${var.EQUIPMENT}</td>
 										<td>${var.RENT_FEE}</td>
 										<td>${var.CREATE_TIME}</td>

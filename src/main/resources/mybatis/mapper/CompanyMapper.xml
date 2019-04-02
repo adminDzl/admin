@@ -184,4 +184,12 @@
 		#{companyId}
 		)
 	</insert>
+
+	<select id="selectCompanyByName" parameterType="com.wolves.dto.user.BaseCompanyDTO" resultMap="BaseResultMap">
+		SELECT
+			company_id,
+			company_name
+		FROM company
+		WHERE type = 2 AND status != 2 AND company_name = #{name}
+	</select>
 </mapper>

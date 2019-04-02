@@ -51,7 +51,7 @@
 						<th class="center">序号</th>
 						<th class="center">申请人</th>
 						<th class="center">报修内容</th>
-						<th class="center">上传图片</th>
+						<th class="center">保修图片</th>
 						<th class="center">报修状态</th>
 						<th class="center">创建时间</th>
 						<th class="center">操作</th>
@@ -78,7 +78,11 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
-									<td><img src="${var.IMAGE_URLS}" style="width:30px;height:30px;" /></td>
+									<td>
+										<c:forTokens items="${var.IMAGE_URLS}" delims="," var="image">
+											<img src="${image}" style="width:30px;height:30px;" />
+										</c:forTokens>
+									</td>
 									<td>
 										<c:if test="${var.APPLY_STATUS == 0}"><span class="label label-success arrowed">待审核</span></c:if>
 										<c:if test="${var.APPLY_STATUS == 1}"><span class="label label-success arrowed">审核成功</span></c:if>

@@ -360,32 +360,24 @@ public class AppUserController {
      */
     @ApiOperation(httpMethod="POST",value="创建企业",notes="创建企业")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
             @ApiImplicitParam(name = "jsonObject",value = "{\"name\":\"公司名称\"}",required = true,paramType = "body",dataType = "JSONObject")
     })
     @RequestMapping(value = "/createCompany", method = RequestMethod.POST)
-    public Result createCompany(@RequestHeader("Authorization") String token,
-                              @RequestBody JSONObject jsonObject){
+    public Result createCompany(@RequestBody JSONObject jsonObject){
         Result result = new Result();
-        User user = userService.getUser(token);
-        if (user == null){
-            result.setMsg("请登录");
-            result.setResult(ResultCode.FAIL);
-            return result;
-        }
         String name = jsonObject.getString("name");
         if (StringUtils.isEmpty(name)){
             result.setResult(ResultCode.FAIL);
             result.setMsg("请填写企业名称");
             return result;
         }
-        //判断企业是否存在
-        CompanyDTO companyDTO = new CompanyDTO();
-        companyDTO.setType(Integer.valueOf(CompanyTypeEnum.out.getKey()));
-        companyDTO.setStatus(Integer.valueOf(StatusEnum.INIT.getKey()));
-        companyDTO.setCompanyName(name);
-        companyDTO.setCompanyId(UuidUtil.get32UUID());
-        companyService.saveCompany(companyDTO);
+        List<BaseCompanyDTO> baseCompanyDTOs = companyService.selectCompanyByName(name);
+        if (baseCompanyDTOs != null && !baseCompanyDTOs.isEmpty()){
+            result.setResult(ResultCode.FAIL);
+            result.setMsg("该企业已经存在");
+            return result;
+        }
+        companyService.createCompany(name);
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("保存成功");
         return result;
