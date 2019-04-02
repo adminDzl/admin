@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -70,7 +71,16 @@
 									<td>${var.DECORATE_NO}</td>
 									<th>${var.NAME}</th>
 									<td>${var.TITLE}</td>
-									<td>${var.CONTENT}</td>
+									<td>
+										<c:choose>
+											<c:when test="${fn:length(var.CONTENT) >= 30}">
+												<span title="${var.CONTENT}">${fn:substring(var.CONTENT ,0,30)}……</span>
+											</c:when>
+											<c:otherwise>
+												<span title="${var.CONTENT }">${var.CONTENT }</span>
+											</c:otherwise>
+										</c:choose>
+									</td>
 									<td>
 										<c:if test="${var.STATUS == 1}"><span class="label label-success arrowed">待审核</span></c:if>
 										<c:if test="${var.STATUS == 2}"><span class="label label-success arrowed">审核成功</span></c:if>

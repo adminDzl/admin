@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -72,7 +73,16 @@
 										</td>
 										<td>${var.TO_USER}</td>
 										<td>${var.ALERT_TITLE}</td>
-										<td>${var.ALERT_CONTENT}</td>
+										<td>
+											<c:choose>
+												<c:when test="${fn:length(var.ALERT_CONTENT) >= 30}">
+													<span title="${var.ALERT_CONTENT}">${fn:substring(var.ALERT_CONTENT ,0,30)}……</span>
+												</c:when>
+												<c:otherwise>
+													<span title="${var.ALERT_CONTENT }">${var.ALERT_CONTENT }</span>
+												</c:otherwise>
+											</c:choose>
+										</td>
 										<td>${var.CREATE_TIME}</td>
 								<td style="width: 30px;" class="center">
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">

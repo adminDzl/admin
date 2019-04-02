@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -67,8 +68,17 @@
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 									<th>${var.NAME}</th>
-									<td>${var.APPLY_CONTENT}</td>
-									<td>${var.IMAGE_URLS}</td>
+									<td>
+                                        <c:choose>
+                                            <c:when test="${fn:length(var.APPLY_CONTENT) >= 30}">
+                                                <span title="${var.APPLY_CONTENT}">${fn:substring(var.APPLY_CONTENT ,0,30)}……</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span title="${var.APPLY_CONTENT }">${var.APPLY_CONTENT }</span>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+									<td><img src="${var.IMAGE_URLS}" style="width:30px;height:30px;" /></td>
 									<td>
 										<c:if test="${var.APPLY_STATUS == 0}"><span class="label label-success arrowed">待审核</span></c:if>
 										<c:if test="${var.APPLY_STATUS == 1}"><span class="label label-success arrowed">审核成功</span></c:if>
@@ -134,18 +144,6 @@
 		<script type="text/javascript" src="static/js/bootstrap-datepicker.min.js"></script>
 		<script type="text/javascript" src="static/js/bootbox.min.js"></script>
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
-		<style type="text/css">
-			table{
-				table-layout:fixed;/* 只有定义了表格的布局算法为fixed，下面td的定义才能起作用。 */
-			}
-			td{
-				width:100%;
-				word-break:keep-all;/* 不换行 */
-				white-space:nowrap;/* 不换行 */
-				overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
-				text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
-			}
-		</style>
 		<script type="text/javascript">
 		$(top.hangge());
 		function search(){
