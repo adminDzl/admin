@@ -127,10 +127,6 @@
 				</td>
             </tr>
 			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">附件url:</td>
-				<td><input type="text" name="ATTACH_URL" id="ATTACH_URL" value="${pd.ATTACH_URL}" maxlength="32" placeholder="这里输入附件url" title="附件url"/></td>
-			</tr>
-			<tr>
 				<td style="text-align: center;" colspan="10">
 					<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
 					<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>

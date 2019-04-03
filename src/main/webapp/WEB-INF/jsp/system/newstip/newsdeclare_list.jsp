@@ -76,7 +76,9 @@
 											<c:if test="${var.NEWS_TYPE == 2}"><span class="label label-success arrowed">项目申报</span></c:if>
 										</td>
 										<td>${var.NEWS_TITLE}</td>
-										<td>${var.ATTACH_URL}</td>
+										<td>
+											<a href="${var.ATTACH_URL}" title="下载"><span class="green"><i class="icon-file"></i></span></a>
+										</td>
 										<td>
 											<c:if test="${var.STATUS == 0}"><span class="label label-success arrowed">待审核</span></c:if>
 											<c:if test="${var.STATUS == 1}"><span class="label label-success arrowed">审核成功</span></c:if>

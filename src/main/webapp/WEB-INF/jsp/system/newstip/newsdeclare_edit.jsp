@@ -101,7 +101,29 @@
     function setContent(){
         UE.getEditor('editor').execCommand('insertHtml', $('#testcon').html());
     }
-	
+
+	function uploadFile(obj){
+		var files = obj.files ;
+		var formData = new FormData();
+		for(var i = 0;i<files.length;i++){
+			formData.append("files", files[i]);
+		}
+		$.ajax({
+			url: '<%=basePath%>/app/user/saveFile',
+			type: "POST",
+			data:formData,
+			dataType:'json',//json 返回值类型
+			cache:false,         //不设置缓存
+			processData: false,  // 不处理数据
+			contentType: false,   // 不设置内容类型
+			success: function(data){
+				if (data.result === 0){
+					var fs = data.data.join(',');
+					$("#ATTACH_URL").val(fs)
+				}
+			}
+		});
+	}
 </script>
 	</head>
 <body>
@@ -128,7 +150,10 @@
             </tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">附件url:</td>
-				<td><input type="text" name="ATTACH_URL" id="ATTACH_URL" value="${pd.ATTACH_URL}" maxlength="32" placeholder="这里输入附件url" title="附件url"/></td>
+				<td>
+					<input name="minfile" id="minfile" value="${pd.ATTACH_URL}" placeholder="这里输入附件url" title="附件url" type="file" multiple="multiple" onchange="uploadFile(this)"/>
+					<input name="ATTACH_URL" id="ATTACH_URL" value="" style="display: none"/>
+				</td>
 			</tr>
 			<tr>
 				<td style="text-align: center;" colspan="10">

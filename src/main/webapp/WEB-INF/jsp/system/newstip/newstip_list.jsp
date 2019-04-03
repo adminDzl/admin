@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -50,9 +51,9 @@
 						<label><input type="checkbox" id="zcheckbox" /><span class="lbl"></span></label>
 						</th>
 						<th class="center">序号</th>
-						<th class="center">新闻类型</th>
-						<th class="center">新闻标题</th>
-						<th class="center">附件url</th>
+						<th class="center">信息类型</th>
+						<th class="center">信息标题</th>
+						<th class="center">信息内容</th>
 						<th class="center">状态</th>
 						<th class="center">创建时间</th>
 						<th class="center">操作</th>
@@ -75,8 +76,26 @@
 											<c:if test="${var.NEWS_TYPE == 1}"><span class="label label-success arrowed">新闻</span></c:if>
 											<c:if test="${var.NEWS_TYPE == 2}"><span class="label label-success arrowed">项目申报</span></c:if>
 										</td>
-										<td>${var.NEWS_TITLE}</td>
-										<td>${var.ATTACH_URL}</td>
+										<td>
+											<c:choose>
+												<c:when test="${fn:length(var.NEWS_TITLE) >= 30}">
+													<span title="${var.NEWS_TITLE}">${fn:substring(var.NEWS_TITLE ,0,30)}……</span>
+												</c:when>
+												<c:otherwise>
+													<span title="${var.NEWS_TITLE }">${var.NEWS_TITLE }</span>
+												</c:otherwise>
+											</c:choose>
+										</td>
+										<td>
+											<c:choose>
+												<c:when test="${fn:length(var.NEWS_CONTENT) >= 30}">
+													<span title="${var.NEWS_CONTENT}">${fn:substring(var.NEWS_CONTENT ,0,30)}……</span>
+												</c:when>
+												<c:otherwise>
+													<span title="${var.NEWS_CONTENT }">${var.NEWS_CONTENT }</span>
+												</c:otherwise>
+											</c:choose>
+										</td>
 										<td>
 											<c:if test="${var.STATUS == 0}"><span class="label label-success arrowed">待审核</span></c:if>
 											<c:if test="${var.STATUS == 1}"><span class="label label-success arrowed">审核成功</span></c:if>

@@ -8,6 +8,8 @@ import com.wolves.dao.DaoSupport;
 import com.wolves.dto.NewsTipDTO;
 import com.wolves.entity.system.Page;
 import com.wolves.util.PageData;
+import com.wolves.util.ReduceHtmlUtil;
+import com.wolves.util.StringUtils;
 import org.springframework.stereotype.Service;
 
 @Service("newstipService")
@@ -41,7 +43,16 @@ public class NewsTipService {
 	* 新闻列表
 	*/
 	public List<PageData> list(Page page) {
-		return (List<PageData>)dao.findForList("NewsTipMapper.datalistPage", page);
+		List<PageData> pageDatas = (List<PageData>)dao.findForList("NewsTipMapper.datalistPage", page);
+		if (pageDatas != null && !pageDatas.isEmpty()){
+			for (PageData pageData : pageDatas){
+				String content = pageData.getString("NEWS_CONTENT");
+				if (StringUtils.isNotEmpty(content.trim())){
+					pageData.put("NEWS_CONTENT", ReduceHtmlUtil.removeHtmlTag(content));
+				}
+			}
+		}
+		return pageDatas;
 	}
 
 	/**

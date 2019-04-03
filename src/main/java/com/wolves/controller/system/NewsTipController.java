@@ -103,7 +103,7 @@ public class NewsTipController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		page.setPd(pd);
-		List<PageData>	varList = newstipService.list(page);
+		List<PageData> varList = newstipService.list(page);
 		mv.setViewName("system/newstip/newstip_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
