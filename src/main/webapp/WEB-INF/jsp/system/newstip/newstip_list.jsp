@@ -73,7 +73,7 @@
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 										<td>
-											<c:if test="${var.NEWS_TYPE == 1}"><span class="label label-success arrowed">新闻</span></c:if>
+											<c:if test="${var.NEWS_TYPE == 1}"><span class="label label-success arrowed">信息</span></c:if>
 											<c:if test="${var.NEWS_TYPE == 2}"><span class="label label-success arrowed">项目申报</span></c:if>
 										</td>
 										<td>
