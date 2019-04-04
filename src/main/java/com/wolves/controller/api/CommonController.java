@@ -1,6 +1,7 @@
 package com.wolves.controller.api;
 
 import com.alibaba.fastjson.JSONObject;
+import com.aliyun.oss.OSSClient;
 import com.wolves.common.OSSClientConstants;
 import com.wolves.dto.PictureDTO;
 import com.wolves.entity.app.User;
@@ -10,6 +11,8 @@ import com.wolves.service.system.PicturesService;
 import com.wolves.service.system.user.UserService;
 import com.wolves.util.*;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.*;
 
 /**
@@ -70,13 +74,18 @@ public class CommonController {
     }
 
 //    @ApiOperation(value = "文件下载", notes = "文件下载")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+//            @ApiImplicitParam(name = "jsonObject",value = "{\"fileName\":\"fileName\"}",required = true,paramType = "body",dataType = "JSONObject")
+//    })
 //    @RequestMapping(value = "/download", method = RequestMethod.POST)
 //    public Result download(@RequestHeader("Authorization") String token,
 //                         @RequestBody JSONObject jsonObject,
+//                           HttpServletRequest request,
 //                           HttpServletResponse response){
 //        Result result = new Result();
-//        String fileName = jsonObject.getString("fileName");
-//        if (StringUtils.isEmpty(fileName)){
+//        String filePath = jsonObject.getString("fileName");
+//        if (StringUtils.isEmpty(filePath)){
 //            result.setResult(ResultCode.FAIL);
 //            result.setMsg("文件链接不能为空");
 //            return result;
@@ -87,7 +96,7 @@ public class CommonController {
 //            result.setResult(ResultCode.FAIL);
 //            return result;
 //        }
-//
+//        OssUtil.downFile(filePath, request, response);
 //        result.setResult(ResultCode.SUCCESS);
 //        result.setMsg("下载成功");
 //        return result;
