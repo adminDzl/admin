@@ -68,7 +68,16 @@
 									<label><input type='checkbox' name='ids' value="${var.DECORATE_ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-									<td>${var.DECORATE_NO}</td>
+									<td>
+										<c:choose>
+											<c:when test="${fn:length(var.DECORATE_NO) >= 30}">
+												<span title="${var.DECORATE_NO}">${fn:substring(var.DECORATE_NO ,0,15)}……</span>
+											</c:when>
+											<c:otherwise>
+												<span title="${var.DECORATE_NO }">${var.DECORATE_NO }</span>
+											</c:otherwise>
+										</c:choose>
+									</td>
 									<th>${var.NAME}</th>
 									<td>${var.TITLE}</td>
 									<td>

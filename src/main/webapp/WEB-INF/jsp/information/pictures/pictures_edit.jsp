@@ -123,11 +123,15 @@
 					<input type="file" id="tp" name="tp" onchange="fileType(this)"/>
 					</c:if>
 					<c:if test="${pd != null && pd.PATH != '' && pd.PATH != null }">
-						<a href="<%=basePath%>uploadFiles/uploadImgs/${pd.PATH}" target="_blank"><img src="<%=basePath%>uploadFiles/uploadImgs/${pd.PATH}" width="210"/></a>
+						<a href="<%=basePath%>uploadFiles/uploadImgs/${pd.PATH}" target="_blank" ><img src="<%=basePath%>uploadFiles/uploadImgs/${pd.PATH}" width="210"/></a>
 						<input type="button" class="btn btn-mini btn-danger" value="删除" onclick="delP('${pd.PATH}','${pd.PICTURES_ID }');" />
 						<input type="hidden" name="tpz" id="tpz" value="${pd.PATH }"/>
 					</c:if>
 				</td>
+			</tr>
+			<tr>
+				<th>跳转链接:</th>
+				<td><input type="text" name="LINK" id="LINK" value="${pd.LINK}" maxlength="32" placeholder="这里输入跳转链接" title="跳转链接"/></td>
 			</tr>
 			<tr>
 				<th>属于:</th>

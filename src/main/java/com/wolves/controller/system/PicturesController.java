@@ -104,6 +104,7 @@ public class PicturesController extends BaseController {
 			@RequestParam(value="tpz",required=false) String tpz,
 			@RequestParam(value="PICTURES_ID",required=false) String PICTURES_ID,
 			@RequestParam(value="TITLE",required=false) String TITLE,
+			@RequestParam(value="LINK",required=false) String LINK,
 			@RequestParam(value="MASTER_ID",required=false) String MASTER_ID,
 			@RequestParam(value="BZ",required=false) String BZ
 			) throws Exception{
@@ -116,7 +117,7 @@ public class PicturesController extends BaseController {
 			pd.put("TITLE", TITLE);
 			pd.put("MASTER_ID", MASTER_ID);
 			pd.put("BZ", BZ);
-			
+			pd.put("LINK", LINK);
 			if(null == tpz){tpz = "";}
 			String  ffile = DateUtil.getDays(), fileName = "";
 			if (null != file && !file.isEmpty()) {

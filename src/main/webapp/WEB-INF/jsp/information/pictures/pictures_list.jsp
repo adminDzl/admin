@@ -61,9 +61,8 @@
 						<th>序号</th>
 						<th>图片</th>
 						<th>标题</th>
-						<th>ID</th>
+						<th>链接</th>
 						<th>创建时间</th>
-						<th>属于</th>
 						<th>备注</th>
 						<th>操作</th>
 					</tr>
@@ -85,9 +84,8 @@
 									<a href="<%=basePath%>uploadFiles/uploadImgs/${var.PATH}" title="${var.TITLE}" class="bwGal"><img src="<%=basePath%>uploadFiles/uploadImgs/${var.PATH}" alt="${var.TITLE}" width="100"></a>
 								</td>
 								<td>${var.TITLE}</td>
-								<td>${var.PICTURES_ID}</td>
+								<td>${var.LINK}</td>
 								<td>${var.CREATETIME}</td>
-								<td>${var.MASTER_ID}</td>
 								<td>${var.BZ}</td>
 								<td style="width: 30px;" class="center">
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">
