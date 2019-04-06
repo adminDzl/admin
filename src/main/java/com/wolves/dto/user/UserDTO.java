@@ -32,10 +32,10 @@ public class UserDTO {
     @ApiModelProperty(name = "companyName",value = "企业名称")
     private String companyName;
 
-    @ApiModelProperty(name = "logo",value = "企业认证信息")
+    @ApiModelProperty(name = "logo",value = "企业logo")
     private String logo;
 
-    @ApiModelProperty(name = "companyCertify",value = "场地ID")
+    @ApiModelProperty(name = "companyCertify",value = "企业认证信息")
     private String companyCertify;
 
     public String getUserId() {
