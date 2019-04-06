@@ -7,10 +7,12 @@ import com.wolves.dto.*;
 import com.wolves.dto.user.*;
 import com.wolves.entity.app.PayOrder;
 import com.wolves.entity.app.User;
+import com.wolves.entity.system.Decorate;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
 import com.wolves.service.system.CompanyService;
 import com.wolves.service.system.SmsService;
+import com.wolves.service.system.decorate.DecorateService;
 import com.wolves.service.system.floorman.FloorManService;
 import com.wolves.service.system.newstip.NewsTipService;
 import com.wolves.service.system.payorder.PayOrderService;
@@ -66,6 +68,8 @@ public class AppUserController {
     private TipMsgService tipMsgService;
     @Resource(name = "companyService")
     private CompanyService companyService;
+    @Resource(name = "decorateService")
+    private DecorateService decorateService;
 
     /**
      * 登陆,返回token
@@ -602,6 +606,83 @@ public class AppUserController {
         return result;
     }
 
+    @ApiOperation(httpMethod="POST",value="统一申请",notes="统一申请")
+    @RequestMapping(value = "/apply", method = RequestMethod.POST)
+    public Result createApply(@RequestHeader("Authorization") String token,
+                            @RequestBody DecorateDataDTO decorateDataDTO){
+        Result result = new Result();
+        //使用token获取登陆人信息
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        if (decorateDataDTO.getType() == null || decorateDataDTO.getType() == 0){
+            result.setMsg("申请类型不能为空");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        if (StringUtils.isEmpty(decorateDataDTO.getTitle())){
+            result.setMsg("申请标题不能为空");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        if (StringUtils.isEmpty(decorateDataDTO.getContent())){
+            result.setMsg("申请内容不能为空");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        decorateService.saveApply(user.getUserId(), decorateDataDTO);
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("提交成功");
+        return result;
+    }
+
+    @ApiOperation(httpMethod="POST",value="获取我的统一申请列表",notes="获取我的统一申请列表")
+    @RequestMapping(value = "/getMyApply", method = RequestMethod.POST)
+    public Result<List<Decorate>> getMyApply(@RequestHeader("Authorization") String token){
+        Result<List<Decorate>> result = new Result<List<Decorate>>();
+        //使用token获取登陆人信息
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        result.setData(decorateService.selectMyApply(user.getUserId()));
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("提交成功");
+        return result;
+    }
+
+    @ApiOperation(httpMethod="POST",value="查询申请明细",notes="查询申请明细")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+            @ApiImplicitParam(name = "jsonObject",value = "{\"decorateId\":\"ID\"}",required = true,paramType = "body",dataType = "JSONObject")
+    })
+    @RequestMapping(value = "/getApplyDetail", method = RequestMethod.POST)
+    public Result<Decorate> getApplyDetail(@RequestHeader("Authorization") String token,
+                                                 @RequestBody JSONObject jsonObject){
+        Result<Decorate> result = new Result<Decorate>();
+        //使用token获取登陆人信息
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        String decorateId = jsonObject.getString("decorateId");
+        if (StringUtils.isEmpty(decorateId)){
+            result.setMsg("申请id不能为空");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        result.setData(decorateService.selectMyApplyDetail(decorateId));
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("提交成功");
+        return result;
+    }
 
     @ApiOperation(httpMethod="POST",value="查询当前登录人信息",notes="查询当前登录人信息")
     @RequestMapping(value = "/myInfo", method = RequestMethod.POST)

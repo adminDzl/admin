@@ -3,9 +3,13 @@ package com.wolves.service.system.decorate;
 import java.util.List;
 import javax.annotation.Resource;
 
+import com.wolves.common.StatusEnum;
 import com.wolves.dao.DaoSupport;
+import com.wolves.dto.user.DecorateDataDTO;
+import com.wolves.entity.system.Decorate;
 import com.wolves.entity.system.Page;
 import com.wolves.util.PageData;
+import com.wolves.util.UuidUtil;
 import org.springframework.stereotype.Service;
 
 @Service("decorateService")
@@ -61,6 +65,41 @@ public class DecorateService {
 	*/
 	public void deleteAll(String[] ArrayDATA_IDS)  {
 		dao.delete("DecorateMapper.deleteAll", ArrayDATA_IDS);
+	}
+
+	/**
+	 * 保存申请
+	 */
+	public void saveApply(String userId, DecorateDataDTO decorateDataDTO){
+		Decorate decorate = new Decorate();
+		decorate.setDecorateNo(UuidUtil.get32UUID());
+		decorate.setDecorateId(UuidUtil.get32UUID());
+		decorate.setUserId(userId);
+		decorate.setType(decorateDataDTO.getType());
+		decorate.setTitle(decorateDataDTO.getTitle());
+		decorate.setContent(decorateDataDTO.getContent());
+		decorate.setStatus(Integer.valueOf(StatusEnum.INIT.getKey()));
+		dao.save("DecorateMapper.saveApply", decorate);
+	}
+
+	/**
+	 * 查询申请列表
+	 * @param userId
+	 * @return
+	 */
+	public List<Decorate> selectMyApply(String userId){
+
+		return (List<Decorate>)dao.findForList("DecorateMapper.selectMyApply", userId);
+	}
+
+	/**
+	 * 查询申请明细
+	 * @param decorateId
+	 * @return
+	 */
+	public Decorate selectMyApplyDetail(String decorateId){
+
+		return (Decorate) dao.findForObject("DecorateMapper.selectMyApplyDetail", decorateId);
 	}
 }
 

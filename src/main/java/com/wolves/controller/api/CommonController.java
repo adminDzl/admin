@@ -73,32 +73,4 @@ public class CommonController {
         return result;
     }
 
-//    @ApiOperation(value = "文件下载", notes = "文件下载")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
-//            @ApiImplicitParam(name = "jsonObject",value = "{\"fileName\":\"fileName\"}",required = true,paramType = "body",dataType = "JSONObject")
-//    })
-//    @RequestMapping(value = "/download", method = RequestMethod.POST)
-//    public Result download(@RequestHeader("Authorization") String token,
-//                         @RequestBody JSONObject jsonObject,
-//                           HttpServletRequest request,
-//                           HttpServletResponse response){
-//        Result result = new Result();
-//        String filePath = jsonObject.getString("fileName");
-//        if (StringUtils.isEmpty(filePath)){
-//            result.setResult(ResultCode.FAIL);
-//            result.setMsg("文件链接不能为空");
-//            return result;
-//        }
-//        User user = userService.getUser(token);
-//        if (user == null){
-//            result.setMsg("请登录");
-//            result.setResult(ResultCode.FAIL);
-//            return result;
-//        }
-//        OssUtil.downFile(filePath, request, response);
-//        result.setResult(ResultCode.SUCCESS);
-//        result.setMsg("下载成功");
-//        return result;
-//    }
 }

@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="DecorateMapper">
+
+	<resultMap type="com.wolves.entity.system.Decorate" id="ResultMap">
+		<id column="decorate_id" property="decorateId"/>
+		<result column="decorate_no" property="decorateNo"/>
+		<result column="type" property="type"/>
+		<result column="user_id" property="userId"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/>
+		<result column="status" property="status"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+	</resultMap>
+
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into DECORATE(
 			DECORATE_NO,
 			USER_ID,
+			TYPE,
 			TITLE,	
 			CONTENT,	
 			STATUS,	
@@ -15,6 +29,7 @@
 		) values (
 			#{DECORATE_NO},
 			#{USER_ID},
+			#{TYPE},
 			#{TITLE},	
 			#{CONTENT},	
 			#{STATUS},
@@ -35,6 +50,7 @@
 			set
 				USER_ID = #{USER_ID},
 				  TITLE = #{TITLE},
+				  TYPE = #{TYPE},
 				CONTENT = #{CONTENT},
 				 STATUS = #{STATUS},
 			DECORATE_NO = #{DECORATE_NO},
@@ -47,7 +63,8 @@
 	<select id="findById" parameterType="pd" resultType="pd">
 		select
 			USER_ID,
-			DECORATE_NO,	
+			DECORATE_NO,
+			TYPE,
 			TITLE,	
 			CONTENT,	
 			STATUS,	
@@ -64,6 +81,7 @@
 		select
 				a.DECORATE_NO,
 				a.USER_ID,
+				a.TYPE,
 				a.TITLE,	
 				a.CONTENT,	
 				a.STATUS,	
@@ -79,6 +97,7 @@
 	<select id="listAll" parameterType="pd" resultType="pd">
 		select
 				a.DECORATE_NO,
+				a.TYPE,
 				a.USER_ID,
 				a.TITLE,	
 				a.CONTENT,	
@@ -98,4 +117,43 @@
                  #{item}
 		</foreach>
 	</delete>
+
+	<!--保存-->
+	<insert id="saveApply" parameterType="com.wolves.entity.system.Decorate">
+		insert into DECORATE(
+			DECORATE_NO,
+			USER_ID,
+			TYPE,
+			TITLE,
+			CONTENT,
+			STATUS,
+			CREATE_TIME,
+			UPDATE_TIME,
+			DECORATE_ID
+		) values (
+			#{decorateNo},
+			#{userId},
+			#{type},
+			#{title},
+			#{content},
+			#{status},
+			now(),
+			now(),
+			#{decorateId}
+		)
+	</insert>
+
+	<select id="selectMyApply" parameterType="com.wolves.entity.system.Decorate" resultMap="ResultMap">
+		SELECT
+		*
+		FROM DECORATE
+		WHERE USER_ID = #{userId}
+	</select>
+
+	<select id="selectMyApplyDetail" parameterType="com.wolves.entity.system.Decorate" resultMap="ResultMap">
+		SELECT
+		*
+		FROM DECORATE
+		WHERE DECORATE_ID = #{decorateId}
+	</select>
 </mapper>
