@@ -5,8 +5,10 @@ import org.apache.commons.lang.time.DateUtils;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author msi
@@ -122,6 +124,51 @@ public class DateUtil extends DateUtils{
 		return elapsedHours;
 	}
 
+	/**
+	 * 获取固定间隔时刻集合
+	 * @param start 开始时间 HH:mm
+	 * @param end 结束时间 HH:mm
+	 * @param interval 时间间隔(单位：分钟)
+	 * @return
+	 */
+	public static List<String> getIntervalTimeList(String start, String end, int interval){
+		Date startDate = convertString2Date("HH:mm", start);
+		Date endDate = convertString2Date("HH:mm", end);
+		List<String> list = new ArrayList<String>();
+		while(startDate.getTime() <= endDate.getTime()){
+			list.add(convertDate2String("HH:mm",startDate));
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(startDate);
+			calendar.add(Calendar.MINUTE,interval);
+			if(calendar.getTime().getTime()>endDate.getTime()){
+				if(!startDate.equals(endDate)){
+					list.add(convertDate2String("HH:mm",endDate));
+				}
+				startDate = calendar.getTime();
+			}else{
+				startDate = calendar.getTime();
+			}
+
+		}
+		return list;
+	}
+
+	private static Date convertString2Date(String format, String time) {
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+
+		try {
+			return sdf.parse(time);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private static String convertDate2String(String format, Date date){
+		SimpleDateFormat f = new SimpleDateFormat(format);
+		return f.format(date);
+	}
+
 	public static void main(String[] args) {
 
 		DateUtil obj = new DateUtil();
@@ -131,7 +178,7 @@ public class DateUtil extends DateUtils{
 			Date date1 = simpleDateFormat.parse("2019-04-01 12:00:00");
 			Date date2 = simpleDateFormat.parse("2019-04-01 15:30:00");
 
-			obj.printDifference(date1, date2);
+			printDifference(date1, date2);
 
 		} catch (ParseException e) {
 			e.printStackTrace();

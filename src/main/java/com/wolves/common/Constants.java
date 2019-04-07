@@ -32,5 +32,10 @@ public class Constants {
 	 * 验证码类短信
 	 */
 	public static Integer SMS_TYPE = 1;
+
+	/**
+	 * 三十分钟
+	 */
+	public static Integer TIME_MINUTE = 30;
 	
 }

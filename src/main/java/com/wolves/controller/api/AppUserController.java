@@ -35,6 +35,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Set;
+
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -739,6 +741,43 @@ public class AppUserController {
         result.setData(yardService.selectYard(params));
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("提交成功");
+        return result;
+    }
+
+    /**
+     * 场地预订返回的时间段
+     */
+    @ApiOperation(httpMethod="POST",value="查询场地已被预订掉的时间段",notes="查询场地已被预订掉的时间段")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+            @ApiImplicitParam(name = "jsonObject",value = "{\"yardId\":\"场地Id\",\"time\":\"日期(yyyy-mm-dd)\"}",required = true,paramType = "body",dataType = "JSONObject")
+    })
+    @RequestMapping(value = "/getYardTime", method = RequestMethod.POST)
+    public Result<Set<String>> getYardTime(@RequestHeader("Authorization") String token,
+                            @RequestBody JSONObject jsonObject){
+        Result<Set<String>> result = new Result<Set<String>>();
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        String yardId = jsonObject.getString("yardId");
+        if (StringUtils.isEmpty(yardId)){
+            result.setMsg("场地ID不能为空");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        String time = jsonObject.getString("time");
+        if (StringUtils.isEmpty(time)){
+            result.setMsg("选择日期不能为空");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+
+        result.setData(yardappointService.selectYardAppointTime(yardId, time));
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("查询成功");
         return result;
     }
 

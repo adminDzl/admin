@@ -188,4 +188,20 @@
 			LIMIT ${start}, ${size};
 		</if>
 	</select>
+
+	<select id="selectYardAppointTime" parameterType="com.wolves.dto.AppointmentDTO" resultMap="appointmentResultMap">
+		SELECT
+			a.yardappoint_id,
+			a.place_date,
+			a.begin_time,
+			a.end_time,
+			a.book_duration,
+			a.book_fee,
+			a.status,
+			a.note,
+			a.create_time
+		FROM
+			yard_appoint a
+		WHERE place_id = #{yardId} AND date_format(a.begin_time,'%Y-%m-%d') = date_format(#{time},'%Y-%m-%d')
+	</select>
 </mapper>

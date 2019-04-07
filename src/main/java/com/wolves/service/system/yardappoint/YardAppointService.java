@@ -1,11 +1,11 @@
 package com.wolves.service.system.yardappoint;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import javax.annotation.Resource;
 
+import com.wolves.common.Constants;
 import com.wolves.common.StatusEnum;
 import com.wolves.dao.DaoSupport;
 import com.wolves.dto.ApplyYardDTO;
@@ -140,6 +140,30 @@ public class YardAppointService {
 		result.setResult(ResultCode.SUCCESS);
 		result.setMsg("预约成功");
 		return result;
+	}
+
+	/**
+	 * 查询场地已经预定好的时间段
+	 * @param yardId
+	 * @param time
+	 * @return
+	 */
+	public Set<String> selectYardAppointTime(String yardId, String time){
+		Map<String,Object> params = new HashMap<String, Object>(2);
+		params.put("yardId", yardId);
+		params.put("time", time);
+		List<AppointmentDTO> appointmentDTOS = (List<AppointmentDTO>) dao.findForList("YardAppointMapper.selectYardAppointTime", params);
+		Set<String> set = new TreeSet<String>();
+		if (appointmentDTOS != null && !appointmentDTOS.isEmpty()){
+			for (AppointmentDTO appointmentDTO : appointmentDTOS){
+				SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+				String start = formatter.format(appointmentDTO.getBeginTime());
+				String end = formatter.format(appointmentDTO.getEndTime());
+				List<String> list = DateUtil.getIntervalTimeList(start, end, Constants.TIME_MINUTE);
+				set.addAll(list);
+			}
+		}
+		return set;
 	}
 }
 
