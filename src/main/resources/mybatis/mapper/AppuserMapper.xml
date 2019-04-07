@@ -271,8 +271,10 @@
 				u.COMPANY_ID,
 				u.POSITION,
 				u.CREATE_TIME,
-				u.UPDATE_TIME
+				u.UPDATE_TIME,
+				co.COMPANY_NAME
 		from USER u
+		LEFT JOIN company co ON (co.company_id = u.COMPANY_ID)
 		where 1 = 1
 		<if test="pd.USERNAME != null and pd.USERNAME != ''"><!-- 用户名检索 -->
 			and (

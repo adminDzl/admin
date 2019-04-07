@@ -84,7 +84,7 @@
 								<td>${user.PHONE }</td>
 								<td>${user.NAME }</td>
 								<td>${user.SEX}</td>
-								<td>${user.USERNAME }</td>
+								<td>${user.COMPANY_NAME }</td>
 								<td>${user.ROLE_NAME }</td>
 								<td>${user.CREATE_TIME }</td>
 								<td>${user.YEARS }</td>
