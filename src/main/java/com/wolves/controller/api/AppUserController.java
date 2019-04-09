@@ -580,7 +580,6 @@ public class AppUserController {
     @RequestMapping(value = "/createAppoint", method = RequestMethod.POST)
     public Result createAppoint(@RequestHeader("Authorization") String token,
                                 @RequestBody ApplyYardDTO applyYardDTO){
-        //TODO
         Result result = new Result();
         //使用token获取登陆人信息
         User user = userService.getUser(token);
@@ -683,6 +682,40 @@ public class AppUserController {
         result.setData(decorateService.selectMyApplyDetail(decorateId));
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("提交成功");
+        return result;
+    }
+
+    @ApiOperation(httpMethod="POST",value="取消预约申请",notes="取消预约申请")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+            @ApiImplicitParam(name = "jsonObject",value = "{\"decorateId\":\"ID\"}",required = true,paramType = "body",dataType = "JSONObject")
+    })
+    @RequestMapping(value = "/abolishApply", method = RequestMethod.POST)
+    public Result<Decorate> abolishApply(@RequestHeader("Authorization") String token,
+                                           @RequestBody JSONObject jsonObject){
+        Result<Decorate> result = new Result<Decorate>();
+        //使用token获取登陆人信息
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        String decorateId = jsonObject.getString("decorateId");
+        if (StringUtils.isEmpty(decorateId)){
+            result.setMsg("申请id不能为空");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        Decorate decorate = decorateService.selectMyApplyDetail(decorateId);
+        if (decorate != null && decorate.getStatus() != 0){
+            result.setMsg("该预约申请不能取消");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        decorateService.updateDecorate(decorateId);
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("更新成功");
         return result;
     }
 

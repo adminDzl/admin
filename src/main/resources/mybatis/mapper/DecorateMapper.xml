@@ -156,4 +156,14 @@
 		FROM DECORATE
 		WHERE DECORATE_ID = #{decorateId}
 	</select>
+
+	<update id="updateDecorate" parameterType="com.wolves.entity.system.Decorate">
+		update DECORATE
+		set
+		STATUS = #{status},
+		UPDATE_TIME = now()
+		where
+		DECORATE_ID = #{decorateId}
+
+	</update>
 </mapper>

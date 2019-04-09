@@ -32,7 +32,7 @@ public class Decorate {
     @ApiModelProperty(name = "content",value = "申请内容")
     private String content;
 
-    @ApiModelProperty(name = "status",value = "审核状态（0-待审核，1-审核通过，2-已驳回）")
+    @ApiModelProperty(name = "status",value = "审核状态（0-待审核，1-审核通过，2-已驳回，3-取消）")
     private Integer status;
 
     @ApiModelProperty(name = "createTime",value = "创建时间")

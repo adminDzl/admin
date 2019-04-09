@@ -1,6 +1,8 @@
 package com.wolves.service.system.decorate;
 
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import javax.annotation.Resource;
 
 import com.wolves.common.StatusEnum;
@@ -100,6 +102,18 @@ public class DecorateService {
 	public Decorate selectMyApplyDetail(String decorateId){
 
 		return (Decorate) dao.findForObject("DecorateMapper.selectMyApplyDetail", decorateId);
+	}
+
+	/**
+	 * 取消预约
+	 * @param decorateId
+	 */
+	public void updateDecorate(String decorateId){
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("decorateId", decorateId);
+		params.put("status", 3);
+
+		dao.update("DecorateMapper.updateDecorate", params);
 	}
 }
 
