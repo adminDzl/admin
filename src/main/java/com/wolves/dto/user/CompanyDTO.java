@@ -14,28 +14,23 @@ import java.util.Date;
 @ApiModel(description = "公司信息")
 public class CompanyDTO extends BaseCompanyDTO{
 
+    @ApiModelProperty(name = "companyId", value = "企业id")
+    private String companyId;
     @ApiModelProperty(name = "type",value = "类型")
     private Integer type;
-
     @ApiModelProperty(name = "status",value = "审核状态")
     private Integer status;
-
     @ApiModelProperty(name = "description",value = "手机号码")
     private String description;
-
     @ApiModelProperty(name = "companyCertify",value = "手机号码")
     private String companyCertify;
-
     @ApiModelProperty(name = "placeId",value = "办公区域id")
     private String placeId;
-
     @ApiModelProperty(name = "logo",value = "logo")
     private String logo;
-
     @ApiModelProperty(name = "createTime",value = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
-
     @ApiModelProperty(name = "updateTime",value = "更新时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date updateTime;
@@ -105,9 +100,20 @@ public class CompanyDTO extends BaseCompanyDTO{
     }
 
     @Override
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    @Override
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    @Override
     public String toString() {
         return "CompanyDTO{" +
-                "type=" + type +
+                "companyId='" + companyId + '\'' +
+                ", type=" + type +
                 ", status=" + status +
                 ", description='" + description + '\'' +
                 ", companyCertify='" + companyCertify + '\'' +

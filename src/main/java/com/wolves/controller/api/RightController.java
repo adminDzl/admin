@@ -1,7 +1,15 @@
 package com.wolves.controller.api;
 
+import com.wolves.dto.right.CompanyRightDTO;
+import com.wolves.dto.right.RoleDTO;
+import com.wolves.dto.user.CompanyDTO;
+import com.wolves.entity.app.User;
 import com.wolves.framework.common.Result;
+import com.wolves.framework.common.ResultCode;
+import com.wolves.service.right.AppRoleService;
 import com.wolves.service.right.RightService;
+import com.wolves.service.system.CompanyService;
+import com.wolves.service.system.user.UserService;
 import com.wolves.util.Logger;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -9,6 +17,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 /**
  * app权限模块的控制层
@@ -19,18 +28,63 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/app/right")
 @Api(tags="RightController",description="app权限模块的控制层")
 public class RightController {
-    protected Logger logger = Logger.getLogger(this.getClass());
 
+    protected Logger logger = Logger.getLogger(this.getClass());
     @Autowired
     RightService rightService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    AppRoleService appRoleService;
+    @Autowired
+    CompanyService companyService;
 
     /**
-     * 获取app用户的所有权限
+     * 获取用户对应公司的所有角色
+     */
+    @ApiOperation(httpMethod="GET",value="获取用户对应公司的所有角色",notes="获取用户对应公司的所有角色")
+    @RequestMapping(value = "/roles", method = RequestMethod.GET)
+    public Result<CompanyRightDTO> getRolesByToken(@RequestHeader("Authorization") String token){
+        Result result = new Result();
+        //查找当前用户所在公司
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        CompanyDTO companyDTO = companyService.selectCompanyById(user.getCompanyId());
+        if(null == companyDTO){
+            result.setMsg("尚未加入任何公司");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        List<RoleDTO> roleDTOList = appRoleService.getRolesByUserId(user.getUserId());
+        result.setResult(ResultCode.SUCCESS);
+        result.setData(roleDTOList);
+        return null;
+    }
+    /**
+     * 根据角色id
      */
     @ApiOperation(httpMethod="GET",value="获取app用户的所有权限",notes="获取app用户的所有权限")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public Result getRightsByToken(@RequestHeader("Authorization") String token){
+        Result result = new Result();
         //查找当前用户所在公司
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+
+        CompanyDTO companyDTO = companyService.selectCompanyById(user.getCompanyId());
+        if(null == companyDTO){
+            result.setMsg("尚未加入任何公司");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
         //返回当前用户在所在公司的所有app权限
         return null;
     }
@@ -46,6 +100,32 @@ public class RightController {
     public Result update(@RequestHeader("Authorization") String token){
 
 
+        return null;
+    }
+
+    /**
+     * 获取用户是否有企业编辑权限和人员权限
+     */
+    @ApiOperation(httpMethod="GET",value="获取用户是否有企业编辑权限和人员权限",notes="获取用户是否有企业编辑权限和人员权限")
+    @RequestMapping(value = "/hasRight", method = RequestMethod.GET)
+    public Result hasRight(@RequestHeader("Authorization") String token){
+        Result result = new Result();
+        //查找当前用户所在公司
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+
+        CompanyDTO companyDTO = companyService.selectCompanyById(user.getCompanyId());
+        if(null == companyDTO){
+            result.setMsg("尚未加入任何公司");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        //根据企业id，userId获取所有权限
+        //判断用户是否有企业编辑权限和人员权限
         return null;
     }
 }

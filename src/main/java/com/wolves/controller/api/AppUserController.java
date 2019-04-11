@@ -1,7 +1,6 @@
 package com.wolves.controller.api;
 
 import com.alibaba.fastjson.JSONObject;
-import com.google.gson.JsonObject;
 import com.wolves.common.*;
 import com.wolves.dto.*;
 import com.wolves.dto.user.*;
@@ -28,7 +27,6 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
-
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,7 +34,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
-
 import org.springframework.web.bind.annotation.RestController;
 
 /**
