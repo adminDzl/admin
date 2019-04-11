@@ -30,7 +30,8 @@ public class RightController {
     @ApiOperation(httpMethod="GET",value="获取app用户的所有权限",notes="获取app用户的所有权限")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public Result getRightsByToken(@RequestHeader("Authorization") String token){
-
+        //查找当前用户所在公司
+        //返回当前用户在所在公司的所有app权限
         return null;
     }
 
