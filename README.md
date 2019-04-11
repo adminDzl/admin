@@ -172,6 +172,13 @@
     resource_id
     
     
+ select ar.*,al.id as role_id, al.role_name from app_resource ar
+ 	left join app_role_resource arr on ar.id=arr.resource_id
+ 	left join app_role al on arr.role_id = al.id
+ 	left join app_user_role aur on aur.app_role_id = al.id
+ where aur.user_id=1 and ar.company_id= 1;
+    
+    
     
 alipay: https://docs.open.alipay.com/204
 
