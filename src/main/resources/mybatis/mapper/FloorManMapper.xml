@@ -19,6 +19,11 @@
 		<result column="master_tel" property="masterTel"/>
 	</resultMap>
 
+	<resultMap type="com.wolves.dto.FloorDTO" id="FloorResultMap">
+		<result column="floorman_id" property="id"/>
+		<result column="floor" property="name"/>
+	</resultMap>
+
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into FLOOR_MAN(
@@ -141,6 +146,15 @@
 				a.master_tel
 		from
 				FLOOR_MAN a
+		WHERE a.build_no = #{buildNo}
+	</select>
+
+	<select id="selectFloorByBuildNo" parameterType="com.wolves.dto.FloorDTO" resultMap="FloorResultMap">
+		select
+			a.floorman_id,
+			a.floor
+		from
+		FLOOR_MAN a
 		WHERE a.build_no = #{buildNo}
 	</select>
 </mapper>

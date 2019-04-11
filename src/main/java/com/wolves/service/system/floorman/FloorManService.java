@@ -3,6 +3,7 @@ package com.wolves.service.system.floorman;
 import java.util.List;
 import javax.annotation.Resource;
 
+import com.wolves.dto.FloorDTO;
 import com.wolves.dto.FloorManAllDTO;
 import com.wolves.dto.FloorManDTO;
 import org.springframework.stereotype.Service;
@@ -78,6 +79,11 @@ public class FloorManService {
 	public List<FloorManAllDTO> getAllFloorMan(String buildNo){
 
 		return (List<FloorManAllDTO>) dao.findForList("FloorManMapper.selectFloorManByBuildNo", buildNo);
+	}
+
+	public List<FloorDTO> getAllFloor(String buildNo){
+
+		return (List<FloorDTO>) dao.findForList("FloorManMapper.selectFloorByBuildNo", buildNo);
 	}
 }
 

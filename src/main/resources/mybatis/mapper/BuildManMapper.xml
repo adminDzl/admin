@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BuildManMapper">
+
+	<resultMap type="com.wolves.dto.BuildDTO" id="ResultMap">
+		<id column="buildman_id" property="id"/>
+		<result column="build_no" property="name"/>
+	</resultMap>
+
 	<!-- 新增楼栋长-->
 	<insert id="save" parameterType="pd">
 		insert into BUILD_MAN(
@@ -96,5 +102,9 @@
 		</foreach>
 	</delete>
 
-
+	<select id="selectBuild" parameterType="com.wolves.dto.BuildDTO" resultMap="ResultMap">
+		select
+			buildman_id,build_no
+		from build_man
+	</select>
 </mapper>

@@ -3,6 +3,7 @@ package com.wolves.service.system.room;
 import java.util.List;
 import javax.annotation.Resource;
 
+import com.wolves.dto.RoomDTO;
 import com.wolves.entity.system.Page;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
@@ -61,6 +62,16 @@ public class RoomService {
 	*/
 	public void deleteAll(String[] ArrayDATA_IDS){
 		dao.delete("RoomMapper.deleteAll", ArrayDATA_IDS);
+	}
+
+	/**
+	 * 查询楼层
+	 * @param floormanId
+	 * @return
+	 */
+	public List<RoomDTO> listRoom(String floormanId){
+
+		return (List<RoomDTO>)dao.findForList("RoomMapper.selectRoomByFloor", floormanId);
 	}
 }
 

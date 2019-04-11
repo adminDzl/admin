@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="RoomMapper">
+
+	<resultMap type="com.wolves.dto.RoomDTO" id="ResultMap">
+		<result column="room_id" property="id"/>
+		<result column="room_name" property="name"/>
+	</resultMap>
+
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into ROOM(
@@ -85,4 +91,12 @@
                  #{item}
 		</foreach>
 	</delete>
+
+	<select id="selectRoomByFloor" parameterType="com.wolves.dto.RoomDTO" resultMap="ResultMap">
+		  SELECT
+		  room_id,
+		  room_name
+		  FROM room
+		  WHERE floorman_id = #{floormanId}
+	</select>
 </mapper>

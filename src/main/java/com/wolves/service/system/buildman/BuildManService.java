@@ -2,6 +2,13 @@ package com.wolves.service.system.buildman;
 
 import java.util.List;
 import javax.annotation.Resource;
+
+import com.wolves.dto.BuildDTO;
+import com.wolves.dto.FloorDTO;
+import com.wolves.dto.RoomDTO;
+import com.wolves.service.system.floorman.FloorManService;
+import com.wolves.service.system.room.RoomService;
+import com.wolves.util.StringUtils;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
 import com.wolves.entity.system.Page;
@@ -12,6 +19,10 @@ public class BuildManService {
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
+	@Resource(name="floormanService")
+	private FloorManService floorManService;
+	@Resource(name="roomService")
+	private RoomService roomService;
 	
 	/**
 	* 新增
@@ -60,6 +71,41 @@ public class BuildManService {
 	*/
 	public void deleteAll(String[] ArrayDATA_IDS) {
 		dao.delete("BuildManMapper.deleteAll", ArrayDATA_IDS);
+	}
+
+	/**
+	 * 查询楼栋
+	 */
+	public List<BuildDTO> listBuild() {
+
+		return (List<BuildDTO>)dao.findForList("BuildManMapper.selectBuild", null);
+	}
+
+	/**
+	 * 查询全部
+	 * @return
+	 */
+	public List<BuildDTO> listAll(){
+		List<BuildDTO> buildDTOs = this.listBuild();
+		if (buildDTOs != null && !buildDTOs.isEmpty()){
+			for (BuildDTO buildDTO : buildDTOs){
+				String buildno = buildDTO.getName();
+				if (StringUtils.isNotEmpty(buildno)){
+					List<FloorDTO> floorDTOs = floorManService.getAllFloor(buildno);
+					if (floorDTOs != null && !floorDTOs.isEmpty()){
+						for (FloorDTO floorDTO : floorDTOs){
+							String id = floorDTO.getId();
+							if (StringUtils.isNotEmpty(id)){
+								List<RoomDTO> roomDTOs = roomService.listRoom(id);
+								floorDTO.setRoomDTOs(roomDTOs);
+							}
+						}
+					}
+					buildDTO.setFloorDTOs(floorDTOs);
+				}
+			}
+		}
+		return buildDTOs;
 	}
 }
 
