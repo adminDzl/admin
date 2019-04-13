@@ -20,7 +20,7 @@ public class Decorate {
     @ApiModelProperty(name = "decorateNo",value = "编号")
     private String decorateNo;
 
-    @ApiModelProperty(name = "type",value = "类型(1-装修申请，2-其他)")
+    @ApiModelProperty(name = "type",value = "类型(1-楼宇装修申请，2-楼宇装饰工程竣工验收，3-楼宇施工许可，4-出门证申请)")
     private Integer type;
 
     @ApiModelProperty(name = "userId",value = "用户Id")
@@ -31,6 +31,9 @@ public class Decorate {
 
     @ApiModelProperty(name = "content",value = "申请内容")
     private String content;
+
+    @ApiModelProperty(name = "fileUrl",value = "文件")
+    private String fileUrl;
 
     @ApiModelProperty(name = "status",value = "审核状态（0-待审核，1-审核通过，2-已驳回，3-取消）")
     private Integer status;
@@ -89,6 +92,14 @@ public class Decorate {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
     }
 
     public Integer getStatus() {

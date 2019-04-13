@@ -66,7 +66,8 @@
 			DECORATE_NO,
 			TYPE,
 			TITLE,	
-			CONTENT,	
+			CONTENT,
+			FILE_URL,
 			STATUS,	
 			CREATE_TIME,	
 			UPDATE_TIME,	
@@ -83,7 +84,8 @@
 				a.USER_ID,
 				a.TYPE,
 				a.TITLE,	
-				a.CONTENT,	
+				a.CONTENT,
+				a.FILE_URL,
 				a.STATUS,	
 				a.CREATE_TIME,	
 				a.UPDATE_TIME,	
@@ -100,7 +102,8 @@
 				a.TYPE,
 				a.USER_ID,
 				a.TITLE,	
-				a.CONTENT,	
+				a.CONTENT,
+				a.FILE_URL,
 				a.STATUS,	
 				a.CREATE_TIME,	
 				a.UPDATE_TIME,	
@@ -126,6 +129,7 @@
 			TYPE,
 			TITLE,
 			CONTENT,
+			FILE_URL,
 			STATUS,
 			CREATE_TIME,
 			UPDATE_TIME,
@@ -136,6 +140,7 @@
 			#{type},
 			#{title},
 			#{content},
+			#{fileUrl}
 			#{status},
 			now(),
 			now(),
@@ -164,6 +169,5 @@
 		UPDATE_TIME = now()
 		where
 		DECORATE_ID = #{decorateId}
-
 	</update>
 </mapper>

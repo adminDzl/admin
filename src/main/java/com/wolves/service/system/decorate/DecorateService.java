@@ -11,6 +11,7 @@ import com.wolves.dto.user.DecorateDataDTO;
 import com.wolves.entity.system.Decorate;
 import com.wolves.entity.system.Page;
 import com.wolves.util.PageData;
+import com.wolves.util.StringUtils;
 import com.wolves.util.UuidUtil;
 import org.springframework.stereotype.Service;
 
@@ -80,6 +81,9 @@ public class DecorateService {
 		decorate.setType(decorateDataDTO.getType());
 		decorate.setTitle(decorateDataDTO.getTitle());
 		decorate.setContent(decorateDataDTO.getContent());
+		if (StringUtils.isNotEmpty(decorateDataDTO.getFileUrl())){
+			decorate.setFileUrl(decorateDataDTO.getFileUrl());
+		}
 		decorate.setStatus(Integer.valueOf(StatusEnum.INIT.getKey()));
 		dao.save("DecorateMapper.saveApply", decorate);
 	}
