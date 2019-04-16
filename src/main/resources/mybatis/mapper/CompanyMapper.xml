@@ -150,7 +150,7 @@
 		SELECT
 		  *
 		FROM company
-		WHERE type = 2 AND status != 2 AND company_id = #{companyId}
+		WHERE company_id = #{companyId}
 	</select>
 
 	<select id="selectAllCompany" parameterType="com.wolves.dto.user.BaseCompanyDTO" resultMap="BaseResultMap">
