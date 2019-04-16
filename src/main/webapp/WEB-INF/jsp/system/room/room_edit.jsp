@@ -55,6 +55,16 @@
 			$("#ROOM_NAME").focus();
 			return false;
 		}
+		if($("#COMPANY_ID").val()==""){
+			$("#COMPANY_ID").tips({
+				side:4,
+				msg:'请选择公司',
+				bg:'#AE81FF',
+				time:2
+			});
+			$("#COMPANY_ID").focus();
+			return false;
+		}
 		$("#Form").submit();
 		$("#zhongxin").hide();
 		$("#zhongxin2").show();
@@ -105,6 +115,15 @@
 				<td style="width:70px;text-align: right;padding-top: 13px;">楼层:</td>
 				<td>
 					<select name="FLOORMAN_ID" id="FLOORMAN_ID" maxlength="32" placeholder="这里选择楼层" title="楼层" value="pd.floorman_id">
+						<option value=''>请选择</option>
+
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;">入驻公司:</td>
+				<td>
+					<select name="COMPANY_ID" id="COMPANY_ID" maxlength="32" placeholder="这里选择公司" title="公司" value="pd.floorman_name">
 						<option value=''>请选择</option>
 
 					</select>
