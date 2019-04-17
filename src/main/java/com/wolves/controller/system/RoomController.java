@@ -102,7 +102,7 @@ public class RoomController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		page.setPd(pd);
-		List<PageData>	varList = roomService.list(page);
+		List<PageData> varList = roomService.list(page);
 		mv.setViewName("system/room/room_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);

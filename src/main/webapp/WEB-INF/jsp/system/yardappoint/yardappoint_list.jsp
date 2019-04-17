@@ -84,9 +84,9 @@
 										<td>${var.BOOK_DURATION}</td>
 										<td>${var.BOOK_FEE}</td>
 										<td>
-											<c:if test="${var.STATUS == 1 }"><span class="label label-success arrowed">待审批</span></c:if>
-											<c:if test="${var.STATUS == 2 }"><span class="label label-success arrowed">已通过</span></c:if>
-											<c:if test="${var.STATUS == 3 }"><span class="label label-important arrowed-in">已驳回</span></c:if>
+											<c:if test="${var.STATUS == 0 }"><span class="label label-success arrowed">待审批</span></c:if>
+											<c:if test="${var.STATUS == 1 }"><span class="label label-success arrowed">已通过</span></c:if>
+											<c:if test="${var.STATUS == 2 }"><span class="label label-important arrowed-in">已驳回</span></c:if>
 										</td>
 										<td>${var.CREATE_TIME}</td>
 								<td style="width: 30px;" class="center">

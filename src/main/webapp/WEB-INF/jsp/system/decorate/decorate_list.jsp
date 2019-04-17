@@ -94,9 +94,10 @@
 										<c:if test="${var.STATUS == 0}"><span class="label label-success arrowed">待审核</span></c:if>
 										<c:if test="${var.STATUS == 1}"><span class="label label-success arrowed">审核成功</span></c:if>
 										<c:if test="${var.STATUS == 2}"><span class="label label-success arrowed">审核驳回</span></c:if>
+										<c:if test="${var.STATUS == 3}"><span class="label label-success arrowed">已撤销</span></c:if>
 									</td>
 									<td>${var.CREATE_TIME}</td>
-								<td style="width: 30px;" class="center">
+								<td style="width: 50px;" class="center">
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">
 										<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>
 									</c:if>
@@ -105,6 +106,11 @@
 									</c:if>
 									<c:if test="${QX.del == 1 }">
 										<a style="cursor:pointer;" title="删除" onclick="del('${var.DECORATE_ID}');" class="tooltip-error" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-trash"></i></span></a>
+									</c:if>
+									<c:if test="${var.STATUS == 0}">
+										<c:if test="${QX.edit == 1 }">
+											<a style="cursor:pointer;" title="审核" onclick="audit('${var.DECORATE_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a>
+										</c:if>
 									</c:if>
 								</td>
 							</tr>
@@ -209,6 +215,23 @@
 			 };
 			 diag.show();
 		}
+
+        function audit(Id){
+            top.jzts();
+            var diag = new top.Dialog();
+            diag.Drag=true;
+            diag.Title ="审核";
+            diag.URL = '<%=basePath%>decorate/goCheck.do?DECORATE_ID='+Id;
+            diag.Width = 450;
+            diag.Height = 355;
+            diag.CancelEvent = function(){ //关闭事件
+                if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                    nextPage(${page.currentPage});
+                }
+                diag.close();
+            };
+            diag.show();
+        }
 		</script>
 		<script type="text/javascript">
 		$(function() {

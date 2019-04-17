@@ -2,6 +2,9 @@ package com.wolves.service.system.appuser;
 
 import java.util.List;
 import javax.annotation.Resource;
+
+import com.wolves.dto.right.UserRightDTO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
 import com.wolves.entity.system.Page;
@@ -96,5 +99,15 @@ public class AppUserService {
 	*/
 	public void updateLastLogin(PageData pd)throws Exception{
 		dao.update("AppuserMapper.updateLastLogin", pd);
+	}
+
+	/**
+	 * 获取制定角色id的所有用户
+	 * @param roleId
+	 */
+	public List<UserRightDTO> findByAppRoleId(Integer roleId) {
+		PageData pd = new PageData();
+		pd.put("roleId", roleId);
+		return (List<UserRightDTO>)dao.findForList("AppuserMapper.findByAppRoleId", pd);
 	}
 }

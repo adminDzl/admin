@@ -48,31 +48,46 @@
 	<update id="edit" parameterType="pd">
 		update  DECORATE
 			set
-				USER_ID = #{USER_ID},
-				  TITLE = #{TITLE},
-				  TYPE = #{TYPE},
-				CONTENT = #{CONTENT},
-				 STATUS = #{STATUS},
-			DECORATE_NO = #{DECORATE_NO},
-			UPDATE_TIME = now(),
-			DECORATE_ID = DECORATE_ID
+				<if test="USER_ID != null">
+					USER_ID = #{USER_ID},
+				</if>
+				<if test="TITLE != null">
+					TITLE = #{TITLE},
+				</if>
+				<if test="TYPE != null">
+					TYPE = #{TYPE},
+				</if>
+				<if test="CONTENT != null">
+					CONTENT = #{CONTENT},
+				</if>
+				<if test="STATUS != null">
+				 	STATUS = #{STATUS},
+				</if>
+				<if test="DECORATE_NO != null">
+					DECORATE_NO = #{DECORATE_NO},
+				</if>
+				UPDATE_TIME = now(),
+				DECORATE_ID = DECORATE_ID
 			where 
 				DECORATE_ID = #{DECORATE_ID}
 	</update>
 	<!-- 通过ID获取数据 -->
 	<select id="findById" parameterType="pd" resultType="pd">
 		select
-			USER_ID,
-			DECORATE_NO,
-			TYPE,
-			TITLE,	
-			CONTENT,	
-			STATUS,	
-			CREATE_TIME,	
-			UPDATE_TIME,	
-			DECORATE_ID
+			a.USER_ID,
+			a.DECORATE_NO,
+			a.TYPE,
+			a.TITLE,
+			a.CONTENT,
+			a.FILE_URL,
+			a.STATUS,
+			a.CREATE_TIME,
+			a.UPDATE_TIME,
+			a.DECORATE_ID,
+			u.NAME
 		from 
-			DECORATE
+			DECORATE a
+		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
 		where 
 			DECORATE_ID = #{DECORATE_ID}
 	</select>
@@ -83,7 +98,8 @@
 				a.USER_ID,
 				a.TYPE,
 				a.TITLE,	
-				a.CONTENT,	
+				a.CONTENT,
+				a.FILE_URL,
 				a.STATUS,	
 				a.CREATE_TIME,	
 				a.UPDATE_TIME,	
@@ -100,7 +116,8 @@
 				a.TYPE,
 				a.USER_ID,
 				a.TITLE,	
-				a.CONTENT,	
+				a.CONTENT,
+				a.FILE_URL,
 				a.STATUS,	
 				a.CREATE_TIME,	
 				a.UPDATE_TIME,	
@@ -126,6 +143,7 @@
 			TYPE,
 			TITLE,
 			CONTENT,
+			FILE_URL,
 			STATUS,
 			CREATE_TIME,
 			UPDATE_TIME,
@@ -136,6 +154,7 @@
 			#{type},
 			#{title},
 			#{content},
+			#{fileUrl}
 			#{status},
 			now(),
 			now(),
@@ -164,6 +183,5 @@
 		UPDATE_TIME = now()
 		where
 		DECORATE_ID = #{decorateId}
-
 	</update>
 </mapper>

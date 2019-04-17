@@ -20,6 +20,9 @@ public class DecorateDataDTO {
     @ApiModelProperty(name = "content",value = "申请内容")
     private String content;
 
+    @ApiModelProperty(name = "fileUrl",value = "需要上传的文件")
+    private String fileUrl;
+
     public Integer getType() {
         return type;
     }
@@ -42,6 +45,14 @@ public class DecorateDataDTO {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
     }
 
     @Override

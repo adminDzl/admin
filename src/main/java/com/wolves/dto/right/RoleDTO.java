@@ -4,17 +4,10 @@ import java.util.List;
 
 public class RoleDTO {
 
-    private Integer id;
+    private Integer roleId;
     private String roleName;
-    private List<UserRightDTO> userDTOList;
+    private List<UserRightDTO> userRightDTOList;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getRoleName() {
         return roleName;
@@ -24,11 +17,19 @@ public class RoleDTO {
         this.roleName = roleName;
     }
 
-    public List<UserRightDTO> getUserDTOList() {
-        return userDTOList;
+    public Integer getRoleId() {
+        return roleId;
     }
 
-    public void setUserDTOList(List<UserRightDTO> userDTOList) {
-        this.userDTOList = userDTOList;
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
+    public List<UserRightDTO> getUserRightDTOList() {
+        return userRightDTOList;
+    }
+
+    public void setUserRightDTOList(List<UserRightDTO> userRightDTOList) {
+        this.userRightDTOList = userRightDTOList;
     }
 }

@@ -87,7 +87,6 @@ public class DecorateController extends BaseController {
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;}
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
-		pd.put("STATUS", "2");
 		decorateService.edit(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
@@ -139,7 +138,23 @@ public class DecorateController extends BaseController {
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
 		return mv;
-	}	
+	}
+
+	/**
+	 * 审核页面
+	 * @return
+	 */
+	@RequestMapping(value="/goCheck")
+	public ModelAndView goCheck(){
+		logBefore(logger, "去审核Decorate页面");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		pd = decorateService.findById(pd);
+		mv.setViewName("system/decorate/decorate_check");
+		mv.addObject("msg", "edit");
+		mv.addObject("pd", pd);
+		return mv;
+	}
 	
 	/**
 	 * 批量删除

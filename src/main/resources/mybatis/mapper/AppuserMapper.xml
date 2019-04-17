@@ -359,4 +359,10 @@
                   #{item}
              </foreach>
 	</delete>
+
+	<select id="findByAppRoleId" parameterType="pd" resultType="com.wolves.dto.right.UserRightDTO">
+		select u.user_id as userId, u.name as userName from user u
+		left join app_user_role ar on u.user_id = ar.user_id
+			where ar.id=#{roleId, jdbcType=INTEGER}
+	</select>
 </mapper>

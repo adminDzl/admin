@@ -27,18 +27,8 @@
 					</td>
 					<td><input class="span10 date-picker" name="lastLoginStart" id="lastLoginStart" value="${pd.lastLoginStart}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期"/></td>
 					<td><input class="span10 date-picker" name="lastLoginEnd" id="lastLoginEnd" value="${pd.lastLoginEnd}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="结束日期"/></td>
-					<%--<td style="vertical-align:top;"> --%>
-					 	<%--<select class="chzn-select" name="field2" id="field2" data-placeholder="请选择" style="vertical-align:top;width: 120px;">--%>
-							<%--<option value=""></option>--%>
-							<%--<option value="">全部</option>--%>
-							<%--<option value="">1</option>--%>
-							<%--<option value="">2</option>--%>
-					  	<%--</select>--%>
-					<%--</td>--%>
 					<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"  title="检索"><i class="icon-search"></i></button></td>
-					<%--<c:if test="${QX.cha == 1 }">--%>
-					<%--<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i class="icon-download-alt"></i></a></td>--%>
-					<%--</c:if>--%>
+
 				</tr>
 			</table>
 			<table id="table_report" class="table table-striped table-bordered table-hover">
@@ -50,7 +40,8 @@
 						<th class="center">序号</th>
 						<th class="center">楼栋</th>
 						<th class="center">楼层</th>
-						<th class="center">房间号</th>
+						<th class="center">租位号</th>
+						<th class="center">公司名</th>
 						<th class="center">操作</th>
 					</tr>
 				</thead>
@@ -67,6 +58,7 @@
 										<td>${var.build_no}</td>
 										<td>${var.floor}</td>
 										<td>${var.ROOM_NAME}</td>
+										<td>${var.COMPANY_NAME}</td>
 								<td style="width: 30px;" class="center">
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">
 										<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>
