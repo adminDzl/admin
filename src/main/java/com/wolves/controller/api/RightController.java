@@ -177,30 +177,4 @@ public class RightController {
 
         return null;
     }
-
-    /**
-     * 获取用户是否有企业编辑权限和人员权限
-     */
-    @ApiOperation(httpMethod="GET",value="获取用户是否有企业编辑权限和人员权限",notes="获取用户是否有企业编辑权限和人员权限")
-    @RequestMapping(value = "/hasRight", method = RequestMethod.GET)
-    public Result hasRight(@RequestHeader("Authorization") String token){
-        Result result = new Result();
-        //查找当前用户所在公司
-        User user = userService.getUser(token);
-        if (user == null){
-            result.setMsg("请登录");
-            result.setResult(ResultCode.FAIL);
-            return result;
-        }
-
-        CompanyDTO companyDTO = companyService.selectCompanyById(user.getCompanyId());
-        if(null == companyDTO){
-            result.setMsg("尚未加入任何公司");
-            result.setResult(ResultCode.FAIL);
-            return result;
-        }
-        //根据企业id，userId获取所有权限
-        //判断用户是否有企业编辑权限和人员权限
-        return null;
-    }
 }
