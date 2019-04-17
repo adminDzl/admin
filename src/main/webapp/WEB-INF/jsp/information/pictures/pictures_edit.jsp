@@ -25,12 +25,10 @@
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 		
 <script type="text/javascript">
-	
-	
-	
+
 	//保存
 	function save(){
-			if($("#TITLE").val()==""){
+		if($("#TITLE").val()==""){
 			$("#TITLE").tips({
 				side:3,
 	            msg:'请输入标题',
@@ -40,29 +38,26 @@
 			$("#TITLE").focus();
 			return false;
 		}
-		if(typeof($("#tpz").val()) == "undefined"){
-			if($("#tp").val()=="" || document.getElementById("tp").files[0] =='请选择图片'){
-				
-				$("#tp").tips({
-					side:3,
-		            msg:'请选图片',
-		            bg:'#AE81FF',
-		            time:3
-		        });
-				return false;
-			}
-		}
-		
-		if($("#MASTER_ID").val()==""){
-			$("#MASTER_ID").tips({
-				side:3,
-	            msg:'请输入属于',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#MASTER_ID").focus();
-			return false;
-		}
+        if($("#PATH").val()==""){
+            $("#PATH").tips({
+                side:3,
+                msg:'请选择图片',
+                bg:'#AE81FF',
+                time:2
+            });
+            $("#LINK").focus();
+            return false;
+        }
+        if($("#LINK").val()==""){
+            $("#LINK").tips({
+                side:3,
+                msg:'请输入跳转链接',
+                bg:'#AE81FF',
+                time:2
+            });
+            $("#LINK").focus();
+            return false;
+        }
 		if($("#BZ").val()==""){
 			$("#BZ").tips({
 				side:3,
@@ -105,10 +100,33 @@
 			});
 		} 
 	}
+
+    function uploadImage(obj){
+        var files = obj.files ;
+        var formData = new FormData();
+        for(var i = 0;i<files.length;i++){
+            formData.append("files", files[i]);
+        }
+        $.ajax({
+            url: '<%=basePath%>/app/user/saveFile',
+            type: "POST",
+            data:formData,
+            dataType:'json',//json 返回值类型
+            cache:false,         //不设置缓存
+            processData: false,  // 不处理数据
+            contentType: false,   // 不设置内容类型
+            success: function(data){
+                if (data.result === 0){
+                    var fs = data.data.join(',');
+                    $("#PATH").val(fs)
+                }
+            }
+        });
+    }
 </script>
 	</head>
 <body>
-	<form action="pictures/${msg }.do" name="Form" id="Form" method="post" enctype="multipart/form-data">
+	<form action="pictures/${msg }.do" name="Form" id="Form" method="post">
 		<input type="hidden" name="PICTURES_ID" id="PICTURES_ID" value="${pd.PICTURES_ID}"/>
 		<div id="zhongxin">
 		<table id="table_report" class="table table-striped table-bordered table-hover">
@@ -119,23 +137,21 @@
 			<tr>
 				<th>图片:</th>
 				<td>
-					<c:if test="${pd == null || pd.PATH == '' || pd.PATH == null }">
-					<input type="file" id="tp" name="tp" onchange="fileType(this)"/>
-					</c:if>
-					<c:if test="${pd != null && pd.PATH != '' && pd.PATH != null }">
-						<a href="<%=basePath%>uploadFiles/uploadImgs/${pd.PATH}" target="_blank" ><img src="<%=basePath%>uploadFiles/uploadImgs/${pd.PATH}" width="210"/></a>
-						<input type="button" class="btn btn-mini btn-danger" value="删除" onclick="delP('${pd.PATH}','${pd.PICTURES_ID }');" />
-						<input type="hidden" name="tpz" id="tpz" value="${pd.PATH }"/>
-					</c:if>
+					<%--<c:if test="${pd == null || pd.PATH == '' || pd.PATH == null }">--%>
+					<%--<input type="file" id="tp" name="tp" onchange="fileType(this)"/>--%>
+					<%--</c:if>--%>
+					<%--<c:if test="${pd != null && pd.PATH != '' && pd.PATH != null }">--%>
+						<%--<a href="<%=basePath%>uploadFiles/uploadImgs/${pd.PATH}" target="_blank" ><img src="<%=basePath%>uploadFiles/uploadImgs/${pd.PATH}" width="210"/></a>--%>
+						<%--<input type="button" class="btn btn-mini btn-danger" value="删除" onclick="delP('${pd.PATH}','${pd.PICTURES_ID }');" />--%>
+						<%--<input type="hidden" name="tpz" id="tpz" value="${pd.PATH }"/>--%>
+					<%--</c:if>--%>
+					<input name="fileImage" id="fileImage" value="${pd.PATH}" placeholder="这里上传图片" title="图片url" type="file" accept="image/*" multiple="multiple" onchange="uploadImage(this)"/>
+					<input type="hidden" name="PATH" id="PATH" value="${pd.PATH }"/>
 				</td>
 			</tr>
 			<tr>
 				<th>跳转链接:</th>
 				<td><input type="text" name="LINK" id="LINK" value="${pd.LINK}" maxlength="32" placeholder="这里输入跳转链接" title="跳转链接"/></td>
-			</tr>
-			<tr>
-				<th>属于:</th>
-				<td><input type="text" name="MASTER_ID" id="MASTER_ID" value="${pd.MASTER_ID}" maxlength="32" placeholder="这里输入属于" title="属于"/></td>
 			</tr>
 			<tr>
 				<th>备注:</th>

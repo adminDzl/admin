@@ -7,10 +7,7 @@ import javax.annotation.Resource;
 
 import com.wolves.common.CompanyTypeEnum;
 import com.wolves.common.StatusEnum;
-import com.wolves.dto.user.CompanyDTO;
-import com.wolves.dto.user.RegisterDTO;
-import com.wolves.dto.user.UserDTO;
-import com.wolves.dto.user.UserExcelDTO;
+import com.wolves.dto.user.*;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
 import com.wolves.service.system.CompanyService;
@@ -277,16 +274,13 @@ public class UserService {
 					String r = user.getPhone()+",该号码已重复，请核实";
 					throw new RuntimeException(r);
 				}else {
-					//判断企业是否存在
+					//查询企业
+					List<BaseCompanyDTO> baseCompanyDTOs = companyService.selectCompanyByName(userExcelDTO.getCompany());
+					if (baseCompanyDTOs == null){
+						String r = userExcelDTO.getCompany()+",该公司已重复，请核实";
+						throw new RuntimeException(r);
+					}
 
-					//创建企业
-					CompanyDTO companyDTO = new CompanyDTO();
-					companyDTO.setType(Integer.valueOf(CompanyTypeEnum.out.getKey()));
-					companyDTO.setStatus(Integer.valueOf(StatusEnum.INIT.getKey()));
-					companyDTO.setCompanyName(userExcelDTO.getCompany());
-					String companyId = UuidUtil.get32UUID();
-					companyDTO.setCompanyId(companyId);
-					companyService.saveCompany(companyDTO);
 					//保存员工
 					com.wolves.entity.app.User userInfo = new com.wolves.entity.app.User();
 					userInfo.setUserId(UuidUtil.get32UUID());
@@ -296,7 +290,7 @@ public class UserService {
 					userInfo.setPhone(userExcelDTO.getPhone());
 					userInfo.setName(userExcelDTO.getName());
 					userInfo.setEmail(userExcelDTO.getEmail());
-					userInfo.setCompanyId(companyId);
+					userInfo.setCompanyId(baseCompanyDTOs.get(0).getCompanyId());
 					//身份证已经绑定
 					this.saveUser(userInfo);
 				}

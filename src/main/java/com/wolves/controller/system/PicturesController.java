@@ -43,39 +43,23 @@ public class PicturesController extends BaseController {
 	 */
 	@RequestMapping(value="/save")
 	@ResponseBody
-	public Object save( @RequestParam(required=false) MultipartFile file ) throws Exception{
+	public ModelAndView save() throws Exception{
 		logBefore(logger, "新增Pictures");
 		Map<String,String> map = new HashMap<String,String>();
-		String  ffile = DateUtil.getDays(), fileName = "";
-		PageData pd = new PageData();
-		if(Jurisdiction.buttonJurisdiction(menuUrl, "add")){
-			if (null != file && !file.isEmpty()) {
-				//文件上传路径
-				String filePath = PathUtil.getClasspath() + Const.FILEPATHIMG + ffile;
-				//执行上传
-				fileName = FileUpload.fileUp(file, filePath, this.get32UUID());
-			}else{
-				System.out.println("上传失败");
-			}
-			//主键
-			pd.put("PICTURES_ID", this.get32UUID());
-			//标题
-			pd.put("TITLE", "图片");
-			//文件名
-			pd.put("NAME", fileName);
-			//路径
-			pd.put("PATH", ffile + "/" + fileName);
-			//创建时间
-			pd.put("CREATETIME", Tools.date2Str(new Date()));
-			//附属与
-			pd.put("MASTER_ID", "1");
-			//备注
-			pd.put("BZ", "图片管理处上传");
-			//加水印
-			picturesService.save(pd);
-		}
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;}
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		//加水印
+		pd.put("PICTURES_ID", this.get32UUID());
+		//创建时间
+		pd.put("NAME", "轮播图");
+		pd.put("CREATETIME", Tools.date2Str(new Date()));
+		pd.put("MASTER_ID", "1");
+		picturesService.save(pd);
 		map.put("result", "ok");
-		return AppUtil.returnObject(pd, map);
+		mv.addObject("msg","success");
+		mv.setViewName("save_result");
+		return mv;
 	}
 	
 	/**
@@ -100,8 +84,7 @@ public class PicturesController extends BaseController {
 	@RequestMapping(value="/edit")
 	public ModelAndView edit(
 			HttpServletRequest request,
-			@RequestParam(value="tp",required=false) MultipartFile file,
-			@RequestParam(value="tpz",required=false) String tpz,
+			@RequestParam(value="PATH",required=false) String PATH,
 			@RequestParam(value="PICTURES_ID",required=false) String PICTURES_ID,
 			@RequestParam(value="TITLE",required=false) String TITLE,
 			@RequestParam(value="LINK",required=false) String LINK,
@@ -117,17 +100,9 @@ public class PicturesController extends BaseController {
 			pd.put("TITLE", TITLE);
 			pd.put("MASTER_ID", MASTER_ID);
 			pd.put("BZ", BZ);
+			pd.put("PATH", PATH);
 			pd.put("LINK", LINK);
-			if(null == tpz){tpz = "";}
-			String  ffile = DateUtil.getDays(), fileName = "";
-			if (null != file && !file.isEmpty()) {
-				String filePath = PathUtil.getClasspath() + Const.FILEPATHIMG + ffile;
-				fileName = FileUpload.fileUp(file, filePath, this.get32UUID());
-				pd.put("PATH", ffile + "/" + fileName);
-				pd.put("NAME", fileName);
-			}else{
-				pd.put("PATH", tpz);
-			}
+			pd.put("NAME", "轮播图");
 			picturesService.edit(pd);
 		}
 		mv.addObject("msg","success");
@@ -166,7 +141,8 @@ public class PicturesController extends BaseController {
 		logBefore(logger, "去新增Pictures页面");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
-		mv.setViewName("information/pictures/pictures_add");
+		mv.setViewName("information/pictures/pictures_edit");
+		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
 		return mv;
 	}	

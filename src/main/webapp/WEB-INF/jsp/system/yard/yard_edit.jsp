@@ -99,7 +99,6 @@
             contentType: false,   // 不设置内容类型
             success: function(data){
                 if (data.result === 0){
-					console.log('--->',data.data);
 					var fs = data.data.join(',');
                     $("#IMAGE_URL").val(fs)
 				}

@@ -1,12 +1,15 @@
 package com.wolves.service.system;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 
 import com.wolves.common.CompanyTypeEnum;
 import com.wolves.common.StatusEnum;
 import com.wolves.dto.user.BaseCompanyDTO;
 import com.wolves.dto.user.CompanyDTO;
+import com.wolves.dto.user.UserExcelDTO;
 import com.wolves.util.UuidUtil;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
@@ -114,6 +117,38 @@ public class CompanyService {
 		companyDTO.setCompanyName(name);
 		companyDTO.setCompanyId(UuidUtil.get32UUID());
 		this.saveCompany(companyDTO);
+	}
+
+
+	public List<String> getCompanyData(List<Map<String, Object>> list){
+		List<String> companyDTOS = new ArrayList<String>();
+		if (list != null && !list.isEmpty()){
+			for (Map<String, Object> map : list){
+				companyDTOS.add(this.getData(map));
+			}
+		}
+		return companyDTOS;
+	}
+
+	private String getData(Map<String, Object> map){
+		Object companyName = map.get("企业名称");
+		if (companyName == null){
+			String r = "有企业名称为空，请核实";
+			throw new RuntimeException(r);
+		}
+		return companyName.toString();
+	}
+
+	/**
+	 * 创建企业
+	 * @param companyDTOS
+	 */
+	public void createCompanyByExcel(List<String> companyDTOS){
+		if (companyDTOS != null && !companyDTOS.isEmpty()){
+			for (String name : companyDTOS){
+				this.createCompany(name);
+			}
+		}
 	}
 }
 

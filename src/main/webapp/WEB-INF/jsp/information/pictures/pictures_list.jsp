@@ -81,7 +81,7 @@
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 								<td>
-									<a href="<%=basePath%>uploadFiles/uploadImgs/${var.PATH}" title="${var.TITLE}" class="bwGal"><img src="<%=basePath%>uploadFiles/uploadImgs/${var.PATH}" alt="${var.TITLE}" width="100"></a>
+									<a href="${var.PATH}" title="${var.TITLE}" class="bwGal"><img src="${var.PATH}" alt="${var.TITLE}" width="100"></a>
 								</td>
 								<td>${var.TITLE}</td>
 								<td>${var.LINK}</td>
@@ -176,15 +176,17 @@
 			 diag.Width = 800;
 			 diag.Height = 490;
 			 diag.CancelEvent = function(){ //关闭事件
-				 if('${page.currentPage}' == '0'){
-					 top.jzts();
-					 setTimeout("self.location=self.location",100);
-				 }else{
-					 nextPage(${page.currentPage});
-				 }
-				diag.close();
-			 };
-			 diag.show();
+                 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                     if('${page.currentPage}' == '0'){
+                         top.jzts();
+                         setTimeout("self.location=self.location",100);
+                     }else{
+                         nextPage(${page.currentPage});
+                     }
+                 }
+                 diag.close();
+             };
+            diag.show();
 		}
 		
 		//删除

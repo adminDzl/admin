@@ -9,6 +9,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
+
+import com.wolves.dto.user.CompanyDTO;
+import com.wolves.dto.user.UserExcelDTO;
+import com.wolves.framework.common.Result;
+import com.wolves.framework.common.ResultCode;
 import com.wolves.util.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -18,7 +23,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import com.wolves.controller.base.BaseController;
 import com.wolves.entity.system.Page;
@@ -28,7 +35,9 @@ import com.wolves.service.system.CompanyService;
 @RequestMapping(value="/company")
 public class CompanyController extends BaseController {
 
-	//菜单地址(权限用)
+	/**
+	 * 菜单地址(权限用)
+	 */
 	String menuUrl = "company/list.do";
 	@Resource(name="companyService")
 	private CompanyService companyService;
@@ -172,6 +181,21 @@ public class CompanyController extends BaseController {
 			logAfter(logger);
 		}
 		return AppUtil.returnObject(pd, map);
+	}
+
+	@RequestMapping(value="/importCompanyExcel")
+	public Result importCompanyExcel(@RequestParam(value="uploadFile") MultipartFile file){
+		Result result = new Result();
+		logger.info("客户数据excel导入-->/importExcel");
+		ImportExcelUtil importExcelUtil = new ImportExcelUtil();
+		List<Map<String, Object>> companyList = importExcelUtil.getExcelInfo(file);
+		if (companyList != null && !companyList.isEmpty() && companyList.size() < 50000){
+			List<String> companyDTOS = companyService.getCompanyData(companyList);
+			companyService.createCompanyByExcel(companyDTOS);
+		}
+		result.setMsg("导入成功");
+		result.setResult(ResultCode.SUCCESS);
+		return result;
 	}
 	
 	/**
