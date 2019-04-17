@@ -40,9 +40,63 @@ public class RightController {
     CompanyService companyService;
 
     /**
+     * 获取用户是否有企业编辑权限和人员权限
+     */
+    @ApiOperation(httpMethod="GET",value="获取用户是否有企业编辑权限和人员权限")
+    @RequestMapping(value = "/hasRight", method = RequestMethod.GET)
+    public Result hasRight(@RequestHeader("Authorization") String token){
+        Result result = new Result();
+        //查找当前用户所在公司
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+
+        CompanyDTO companyDTO = companyService.selectCompanyById(user.getCompanyId());
+        if(null == companyDTO){
+            result.setMsg("尚未加入任何公司");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        //根据企业id，userId获取所有权限
+        //判断用户是否有企业编辑权限和人员权限
+        return null;
+    }
+
+    /**
+     * 添加app角色
+     */
+    @ApiOperation(httpMethod="POST", value="添加app角色")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+    })
+    @RequestMapping(value = "/addRole", method = RequestMethod.POST)
+    public Result addRole(@RequestHeader("Authorization") String token){
+
+
+        return null;
+    }
+
+    /**
+     * 修改app角色
+     */
+    @ApiOperation(httpMethod="POST", value="修改app角色")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+    })
+    @RequestMapping(value = "/updateRole", method = RequestMethod.POST)
+    public Result updateRole(@RequestHeader("Authorization") String token){
+
+
+        return null;
+    }
+
+    /**
      * 获取用户对应公司的所有角色
      */
-    @ApiOperation(httpMethod="GET",value="获取用户对应公司的所有角色",notes="获取用户对应公司的所有角色")
+    @ApiOperation(httpMethod="GET",value="获取用户对应公司的所有角色")
     @RequestMapping(value = "/roles", method = RequestMethod.GET)
     public Result<CompanyRightDTO> getRolesByToken(@RequestHeader("Authorization") String token){
         Result result = new Result();
@@ -64,10 +118,11 @@ public class RightController {
         result.setData(roleDTOList);
         return null;
     }
+
     /**
      * 根据角色id
      */
-    @ApiOperation(httpMethod="GET",value="获取app用户的所有权限",notes="获取app用户的所有权限")
+    @ApiOperation(httpMethod="GET",value="获取app用户的所有权限")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public Result getRightsByToken(@RequestHeader("Authorization") String token){
         Result result = new Result();
@@ -90,9 +145,9 @@ public class RightController {
     }
 
     /**
-     * 修改app用户的权限
+     * 修改app角色的权限
      */
-    @ApiOperation(httpMethod="POST",value="修改app用户的权限",notes="修改app用户的权限")
+    @ApiOperation(httpMethod="POST", value="修改app用户的权限")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
     })
@@ -100,32 +155,6 @@ public class RightController {
     public Result update(@RequestHeader("Authorization") String token){
 
 
-        return null;
-    }
-
-    /**
-     * 获取用户是否有企业编辑权限和人员权限
-     */
-    @ApiOperation(httpMethod="GET",value="获取用户是否有企业编辑权限和人员权限",notes="获取用户是否有企业编辑权限和人员权限")
-    @RequestMapping(value = "/hasRight", method = RequestMethod.GET)
-    public Result hasRight(@RequestHeader("Authorization") String token){
-        Result result = new Result();
-        //查找当前用户所在公司
-        User user = userService.getUser(token);
-        if (user == null){
-            result.setMsg("请登录");
-            result.setResult(ResultCode.FAIL);
-            return result;
-        }
-
-        CompanyDTO companyDTO = companyService.selectCompanyById(user.getCompanyId());
-        if(null == companyDTO){
-            result.setMsg("尚未加入任何公司");
-            result.setResult(ResultCode.FAIL);
-            return result;
-        }
-        //根据企业id，userId获取所有权限
-        //判断用户是否有企业编辑权限和人员权限
         return null;
     }
 }
