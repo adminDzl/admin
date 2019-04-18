@@ -68,7 +68,7 @@
 						<th class="center">描述</th>
 						<th class="center">企业认证</th>
 						<th class="center">企业租位</th>
-						<th class="center">创建时间</th>
+						<th class="center">入驻时间</th>
 						<th class="center">操作</th>
 					</tr>
 				</thead>

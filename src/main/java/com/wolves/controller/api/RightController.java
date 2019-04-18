@@ -31,7 +31,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/app/right")
-@Api(tags="RightController",description="app权限模块的控制层")
+@Api(tags="RightController",description="app权限模块")
 public class RightController {
 
     protected Logger logger = Logger.getLogger(this.getClass());
