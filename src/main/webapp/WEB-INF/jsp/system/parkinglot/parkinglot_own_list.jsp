@@ -38,6 +38,9 @@
 						<th class="center">序号</th>
 						<th class="center">车位编号</th>
 						<th class="center">所在位置</th>
+						<th class="center">归属用户</th>
+						<th class="center">用户单位</th>
+						<th class="center">状态</th>
 						<th class="center">创建时间</th>
 						<th class="center">操作</th>
 					</tr>
@@ -54,6 +57,12 @@
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 										<td>${var.LOT_NO}</td>
 										<td>${var.LOCATION}</td>
+										<td>${var.name}</td>
+										<td>${var.company_name}</td>
+										<td>
+											<c:if test="${var.STATUS == 0}"><span class="label label-success arrowed">待使用</span></c:if>
+											<c:if test="${var.STATUS == 1}"><span class="label label-success arrowed">已使用</span></c:if>
+										</td>
 										<td>${var.CREATE_TIME}</td>
 								<td style="width: 30px;" class="center">
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">
@@ -61,9 +70,6 @@
 									</c:if>
 									<c:if test="${QX.edit == 1 }">
 										<a style="cursor:pointer;" title="编辑" onclick="edit('${var.PARKINGLOT_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a>
-									</c:if>
-									<c:if test="${QX.del == 1 }">
-										<a style="cursor:pointer;" title="删除" onclick="del('${var.PARKINGLOT_ID}');" class="tooltip-error" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-trash"></i></span></a>
 									</c:if>
 								</td>
 							</tr>
@@ -84,19 +90,19 @@
 				</tbody>
 			</table>
 		<div class="page-header position-relative">
-		<table style="width:100%;">
-			<tr>
-				<td style="vertical-align:top;">
-					<c:if test="${QX.add == 1 }">
-					<a class="btn btn-small btn-success" onclick="add();">新增</a>
-					</c:if>
-					<c:if test="${QX.del == 1 }">
-					<a class="btn btn-small btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='icon-trash'></i></a>
-					</c:if>
-				</td>
-				<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
-			</tr>
-		</table>
+		<%--<table style="width:100%;">--%>
+			<%--<tr>--%>
+				<%--<td style="vertical-align:top;">--%>
+					<%--<c:if test="${QX.add == 1 }">--%>
+					<%--<a class="btn btn-small btn-success" onclick="add();">新增</a>--%>
+					<%--</c:if>--%>
+					<%--<c:if test="${QX.del == 1 }">--%>
+					<%--<a class="btn btn-small btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='icon-trash'></i></a>--%>
+					<%--</c:if>--%>
+				<%--</td>--%>
+				<%--<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>--%>
+			<%--</tr>--%>
+		<%--</table>--%>
 		</div>
 		</form>
 	</div>
@@ -157,7 +163,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="编辑";
-			 diag.URL = '<%=basePath%>parkinglot/goEdit.do?PARKINGLOT_ID='+Id;
+			 diag.URL = '<%=basePath%>parkinglot/goEdit_own.do?PARKINGLOT_ID='+Id;
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.CancelEvent = function(){ //关闭事件

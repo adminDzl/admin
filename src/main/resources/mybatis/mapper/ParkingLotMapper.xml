@@ -34,7 +34,7 @@
 				LOT_NO = #{LOT_NO},
 				LOCATION = #{LOCATION},
 				UPDATE_TIME = now(),
-			PARKINGLOT_ID = PARKINGLOT_ID
+				PARKING_LOT_ID = PARKING_LOT_ID
 			where 
 				PARKING_LOT_ID = #{PARKING_LOT_ID}
 	</update>
@@ -47,7 +47,7 @@
 			STATUS,	
 			CREATE_TIME,	
 			UPDATE_TIME,	
-			PARKINGLOT_ID
+			PARKING_LOT_ID
 		from 
 			parking_lot
 		where 
@@ -57,15 +57,25 @@
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
 				a.LOT_NO,	
-				a.LOCATION,	
-				a.USER_ID,	
-				a.STATUS,	
+				a.LOCATION,
 				a.CREATE_TIME,	
 				a.UPDATE_TIME,	
 				a.PARKING_LOT_ID
 		from 
 				parking_lot a
+		where
+				a.status = 0
 	</select>
+
+	<!-- 列表 -->
+	<select id="datalistOwnPage" parameterType="page" resultType="pd">
+		select a.LOT_NO,a.LOCATION,u.name,c.company_name,a.STATUS,a.CREATE_TIME,a.UPDATE_TIME,a.PARKING_LOT_ID
+		from parking_lot a
+		LEFT JOIN user u on u.user_id = a.user_id
+		left join company c on u.company_id = c.company_id
+		WHERE a.status = 1
+	</select>
+
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">
 		select

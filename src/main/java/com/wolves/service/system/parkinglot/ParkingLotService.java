@@ -41,6 +41,12 @@ public class ParkingLotService {
 	public List<PageData> list(Page page){
 		return (List<PageData>)dao.findForList("ParkingLotMapper.datalistPage", page);
 	}
+	/**
+	 *列表
+	 */
+	public List<PageData> listOwn(Page page){
+		return (List<PageData>)dao.findForList("ParkingLotMapper.datalistOwnPage", page);
+	}
 	
 	/**
 	*列表(全部)

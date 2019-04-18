@@ -80,9 +80,9 @@
 									<c:if test="${QX.edit == 1 }">
 										<a style="cursor:pointer;" title="编辑" onclick="edit('${var.PARKING_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a>
 									</c:if>
-									<c:if test="${QX.del == 1 }">
-										<a style="cursor:pointer;" title="删除" onclick="del('${var.PARKING_ID}');" class="tooltip-error" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-trash"></i></span></a>
-									</c:if>
+									<%--<c:if test="${QX.del == 1 }">--%>
+										<%--<a style="cursor:pointer;" title="删除" onclick="del('${var.PARKING_ID}');" class="tooltip-error" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-trash"></i></span></a>--%>
+									<%--</c:if>--%>
 								</td>
 							</tr>
 						</c:forEach>
@@ -102,19 +102,6 @@
 				</tbody>
 			</table>
 		<div class="page-header position-relative">
-		<table style="width:100%;">
-			<tr>
-				<td style="vertical-align:top;">
-					<c:if test="${QX.add == 1 }">
-					<a class="btn btn-small btn-success" onclick="add();">新增</a>
-					</c:if>
-					<c:if test="${QX.del == 1 }">
-					<a class="btn btn-small btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='icon-trash'></i></a>
-					</c:if>
-				</td>
-				<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
-			</tr>
-		</table>
 		</div>
 		</form>
 	</div>

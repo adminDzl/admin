@@ -86,7 +86,7 @@ public class ParkingLotController extends BaseController {
 	}
 	
 	/**
-	 * 列表
+	 * 剩余车位列表
 	 */
 	@RequestMapping(value="/list")
 	public ModelAndView list(Page page){
@@ -97,6 +97,23 @@ public class ParkingLotController extends BaseController {
 		page.setPd(pd);
 		List<PageData>	varList = parkinglotService.list(page);
 		mv.setViewName("system/parkinglot/parkinglot_list");
+		mv.addObject("varList", varList);
+		mv.addObject("pd", pd);
+		mv.addObject(Const.SESSION_QX,this.getHC());
+		return mv;
+	}
+
+	/**
+	 * 车位归属列表
+	 */
+	@RequestMapping(value="/list_own")
+	public ModelAndView list_own(Page page){
+		logBefore(logger, "车位归属列表");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		page.setPd(pd);
+		List<PageData>	varList = parkinglotService.listOwn(page);
+		mv.setViewName("system/parkinglot/parkinglot_own_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
 		mv.addObject(Const.SESSION_QX,this.getHC());
@@ -130,7 +147,22 @@ public class ParkingLotController extends BaseController {
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
 		return mv;
-	}	
+	}
+
+	/**
+	 * 去修改页面
+	 */
+	@RequestMapping(value="/goEdit_own")
+	public ModelAndView goEditOwn(){
+		logBefore(logger, "去修改ParkingLotOwn页面");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		pd = parkinglotService.findById(pd);
+		mv.setViewName("system/parkinglot/parkinglot_edit_own");
+		mv.addObject("msg", "edit");
+		mv.addObject("pd", pd);
+		return mv;
+	}
 	
 	/**
 	 * 批量删除
