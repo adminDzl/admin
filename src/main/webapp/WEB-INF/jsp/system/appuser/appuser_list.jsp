@@ -49,6 +49,18 @@
 					<%--<c:if test="${QX.cha == 1 }">--%>
 					<%--<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i class="icon-download-alt"></i></a></td>--%>
 					<%--</c:if>--%>
+					<c:if test="${QX.cha == 1 }">
+						<td style="vertical-align:top;">
+							<a class="btn btn-mini btn-light" onclick="importExcel(this);" title="导入EXCEL">
+								<i class="icon-download-alt"></i>
+								<input id="fileSelect"
+									   type="file"
+									   accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+									   style="display: none" multiple="multiple" onchange="uploadFile(this)"
+								/>
+							</a>
+						</td>
+					</c:if>
 				</tr>
 			</table>
 			<!-- 检索  -->
@@ -357,6 +369,31 @@
 			var STATUS = $("#STATUS").val();
 			window.location.href='<%=basePath%>appuser/excel.do?USERNAME='+USERNAME+'&lastLoginStart='+lastLoginStart+'&lastLoginEnd='+lastLoginEnd+'&ROLE_ID='+ROLE_ID+'&STATUS='+STATUS;
 		}
+
+        //导入
+        function importExcel() {
+            document.getElementById("fileSelect").click();
+        }
+
+        function uploadFile(obj) {
+            var files = obj.files ;
+            var formData = new FormData();
+            for(var i = 0;i<files.length;i++){
+                formData.append("uploadFile", files[i]);
+            }
+            $.ajax({
+                type: "POST",
+                url: '<%=basePath%>appuser/importExcel?tm='+new Date().getTime(),
+                data: formData,
+                dataType:'json',
+                cache: false,
+                processData: false,  // 不处理数据
+                contentType: false,   // 不设置内容类型
+                success: function(data){
+                    search();
+                }
+            });
+        }
 		</script>
 	</body>
 </html>

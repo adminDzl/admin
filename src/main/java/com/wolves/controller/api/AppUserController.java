@@ -380,7 +380,7 @@ public class AppUserController {
             result.setMsg("该企业已经存在");
             return result;
         }
-        companyService.createCompany(name);
+        companyService.createCompany(name, false);
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("保存成功");
         return result;

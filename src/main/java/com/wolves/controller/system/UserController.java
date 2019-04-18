@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 
+import com.wolves.dto.user.UserExcelDTO;
 import com.wolves.service.system.CompanyService;
+import com.wolves.service.system.user.UserService;
 import com.wolves.util.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -20,7 +22,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import com.wolves.controller.base.BaseController;
 import com.wolves.entity.system.Page;
@@ -42,6 +46,8 @@ public class UserController extends BaseController {
 	private RoleService roleService;
 	@Resource(name="companyService")
 	CompanyService companyService;
+	@Resource(name="userService")
+	private UserService userService;
 
 	/**
 	 * 保存用户
@@ -199,7 +205,7 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public Object deleteAllU() {
 		Map<String,Object> map = new HashMap<String,Object>(8);
-		PageData	pd = this.getPageData();
+		PageData pd = this.getPageData();
 		List<PageData> pdList = new ArrayList<PageData>(8);
 		String USER_IDS = pd.getString("USER_IDS");
 		if(null != USER_IDS && !"".equals(USER_IDS)){
@@ -215,7 +221,35 @@ public class UserController extends BaseController {
 		map.put("list", pdList);
 		return AppUtil.returnObject(pd, map);
 	}
-	
+
+	/**
+	 * 导入客户数据
+	 */
+	@RequestMapping(value="/importExcel")
+	@ResponseBody
+	public Object importExcel(@RequestParam(value="uploadFile") MultipartFile file){
+		logger.info("客户数据excel导入-->/importExcel");
+		Map<String,Object> map = new HashMap<String,Object>(8);
+		List<PageData> pdList = new ArrayList<PageData>(8);
+		PageData pd = this.getPageData();
+		ImportExcelUtil importExcelUtil = new ImportExcelUtil();
+		List<Map<String, Object>> userList = importExcelUtil.getExcelInfo(file);
+		if (userList != null && !userList.isEmpty() && userList.size() < 50000){
+			List<UserExcelDTO> userExcelDTOS = userService.getUserData(userList);
+			//判断
+			pd = userService.checkExcelData(userList, pd);
+			if (pd.isEmpty()){
+				//保存数据
+				pd = userService.saveExcelUser(userExcelDTOS, pd);
+				if (pd.isEmpty()){
+					pd.put("msg", "ok");
+				}
+			}
+		}
+		pdList.add(pd);
+		map.put("list", pdList);
+		return AppUtil.returnObject(pd, map);
+	}
 	
 	/**
 	 * 导出会员信息到excel

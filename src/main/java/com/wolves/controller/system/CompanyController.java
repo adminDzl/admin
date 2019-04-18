@@ -184,8 +184,8 @@ public class CompanyController extends BaseController {
 	}
 
 	@RequestMapping(value="/importCompanyExcel")
-	public Result importCompanyExcel(@RequestParam(value="uploadFile") MultipartFile file){
-		Result result = new Result();
+	@ResponseBody
+	public void importCompanyExcel(@RequestParam(value="uploadFile") MultipartFile file){
 		logger.info("客户数据excel导入-->/importExcel");
 		ImportExcelUtil importExcelUtil = new ImportExcelUtil();
 		List<Map<String, Object>> companyList = importExcelUtil.getExcelInfo(file);
@@ -193,9 +193,6 @@ public class CompanyController extends BaseController {
 			List<String> companyDTOS = companyService.getCompanyData(companyList);
 			companyService.createCompanyByExcel(companyDTOS);
 		}
-		result.setMsg("导入成功");
-		result.setResult(ResultCode.SUCCESS);
-		return result;
 	}
 	
 	/**

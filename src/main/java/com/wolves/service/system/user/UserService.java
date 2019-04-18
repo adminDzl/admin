@@ -228,42 +228,37 @@ public class UserService {
 		return userExcelDTO;
 	}
 
-	public Result checkExcelData(List<Map<String, Object>> list){
-		Result result = new Result();
+	public PageData checkExcelData(List<Map<String, Object>> list, PageData pd){
+
 		if (list != null && !list.isEmpty()){
 			for (Map<String, Object> map : list){
 				Object name = map.get("姓名");
 				if (StringUtils.isEmpty(name.toString().trim())){
-					result.setMsg("姓名不能为空");
-					result.setResult(ResultCode.FAIL);
-					return result;
+					pd.put("msg", "姓名不能为空");
+					return pd;
 				}
 				Object phone = map.get("手机");
 				if (StringUtils.isEmpty(phone.toString().trim())){
-					result.setMsg("手机不能为空");
-					result.setResult(ResultCode.FAIL);
-					return result;
+					pd.put("msg", "手机不能为空");
+					return pd;
 				}
 				Object email = map.get("邮箱");
 				if (StringUtils.isEmpty(email.toString().trim())){
-					result.setMsg("邮箱不能为空");
-					result.setResult(ResultCode.FAIL);
-					return result;
+					pd.put("msg", "邮箱不能为空");
+					return pd;
 				}
 				Object company = map.get("企业");
 				if (StringUtils.isEmpty(company.toString().trim())){
-					result.setMsg("企业不能为空");
-					result.setResult(ResultCode.FAIL);
-					return result;
+					pd.put("msg", "企业不能为空");
+					return pd;
 				}
 			}
 		}
-		result.setResult(ResultCode.SUCCESS);
-		return result;
+		return pd;
 	}
 
 	@Transactional(rollbackFor = RuntimeException.class)
-	public void saveExcelUser(List<UserExcelDTO> userExcelDTOS){
+	public PageData saveExcelUser(List<UserExcelDTO> userExcelDTOS, PageData pd){
 
 		if (userExcelDTOS != null && !userExcelDTOS.isEmpty()){
 			for (UserExcelDTO userExcelDTO : userExcelDTOS){
@@ -271,14 +266,16 @@ public class UserService {
 				user.setPhone(userExcelDTO.getPhone());
 				user = this.getUserByPhone(user);
 				if (user != null && user.getUserId() != null){
-					String r = user.getPhone()+",该号码已重复，请核实";
-					throw new RuntimeException(r);
+					String r = user.getPhone()+",该号码已重复，请核实";;
+					pd.put("msg", r);
+					return pd;
 				}else {
 					//查询企业
 					List<BaseCompanyDTO> baseCompanyDTOs = companyService.selectCompanyByName(userExcelDTO.getCompany());
-					if (baseCompanyDTOs == null){
-						String r = userExcelDTO.getCompany()+",该公司已重复，请核实";
-						throw new RuntimeException(r);
+					if (baseCompanyDTOs.isEmpty()){
+						String r = userExcelDTO.getCompany()+",该公司不存在系统中，请核实";
+						pd.put("msg", r);
+						return pd;
 					}
 
 					//保存员工
@@ -296,6 +293,7 @@ public class UserService {
 				}
 			}
 		}
+		return pd;
 	}
 
 	public Integer updateUser(com.wolves.entity.app.User user){

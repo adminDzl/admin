@@ -108,12 +108,20 @@ public class CompanyService {
 		return (List<BaseCompanyDTO>) dao.findForList("CompanyMapper.selectCompanyByName", name);
 	}
 
-
-	public void createCompany(String name){
+	/**
+	 *	创建企业
+	 * @param name 企业名称
+	 * @param y true 审核通过
+	 */
+	public void createCompany(String name, Boolean y){
 		//判断企业是否存在
 		CompanyDTO companyDTO = new CompanyDTO();
 		companyDTO.setType(Integer.valueOf(CompanyTypeEnum.out.getKey()));
-		companyDTO.setStatus(Integer.valueOf(StatusEnum.INIT.getKey()));
+		if (y){
+			companyDTO.setStatus(Integer.valueOf(StatusEnum.SUCCESS.getKey()));
+		}else {
+			companyDTO.setStatus(Integer.valueOf(StatusEnum.INIT.getKey()));
+		}
 		companyDTO.setCompanyName(name);
 		companyDTO.setCompanyId(UuidUtil.get32UUID());
 		this.saveCompany(companyDTO);
@@ -141,12 +149,16 @@ public class CompanyService {
 
 	/**
 	 * 创建企业
-	 * @param companyDTOS
+	 * @param companyDTOS 导入的客户默认为审核成功
 	 */
 	public void createCompanyByExcel(List<String> companyDTOS){
 		if (companyDTOS != null && !companyDTOS.isEmpty()){
 			for (String name : companyDTOS){
-				this.createCompany(name);
+				//判断公司是否已经存在
+				List<BaseCompanyDTO> baseCompanyDTOS = this.selectCompanyByName(name);
+				if (baseCompanyDTOS.isEmpty()){
+					this.createCompany(name, true);
+				}
 			}
 		}
 	}
