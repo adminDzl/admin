@@ -58,7 +58,7 @@
 										<td>${var.build_no}</td>
 										<td>${var.floor}</td>
 										<td>${var.ROOM_NAME}</td>
-										<td>${var.COMPANY_NAME}</td>
+										<td>${var.company_name}</td>
 								<td style="width: 30px;" class="center">
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">
 										<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>

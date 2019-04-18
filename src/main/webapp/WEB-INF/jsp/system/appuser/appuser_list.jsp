@@ -46,18 +46,6 @@
 					<c:if test="${QX.cha == 1 }">
 					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i class="icon-download-alt"></i></a></td>
 					</c:if>
-					<c:if test="${QX.cha == 1 }">
-						<td style="vertical-align:top;">
-							<a class="btn btn-mini btn-light" onclick="importExcel(this);" title="导入EXCEL">
-								<i class="icon-download-alt"></i>
-								<input id="fileSelect"
-									   type="file"
-									   accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-									   style="display: none" multiple="multiple" onchange="uploadFile(this)"
-								/>
-							</a>
-						</td>
-					</c:if>
 				</tr>
 			</table>
 			<!-- 检索  -->
@@ -139,7 +127,12 @@
 			<tr>
 				<td style="vertical-align:top;">
 					<c:if test="${QX.add == 1 }">
-					<a class="btn btn-small btn-success" onclick="add();">新增</a>
+						<a class="btn btn-small btn-warning" onclick="importExcel(this);">批量导入</a>
+						<input id="fileSelect"
+							   type="file"
+							   accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+							   style="display: none" multiple="multiple" onchange="uploadFile(this)"
+						/>
 					</c:if>
 					<%--<c:if test="${QX.FX_QX == 1 }">--%>
 					<%--<a title="批量发送电子邮件" class="btn btn-small btn-info" onclick="makeAll('确定要给选中的用户发送邮件吗?');"><i class="icon-envelope-alt"></i></a>--%>

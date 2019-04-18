@@ -82,6 +82,7 @@
 								<td>
 									<c:if test="${var.TYPE == '1' }"><span class="label label-important arrowed-in">楼宇装修申请</span></c:if>
 									<c:if test="${var.TYPE == '2' }"><span class="label label-success arrowed">出门证申请</span></c:if>
+									<c:if test="${var.TYPE == '3' }"><span class="label label-success arrowed">一卡通申请</span></c:if>
 									<c:if test="${var.TYPE == '4' }"><span class="label label-important arrowed-in">楼宇施工许可申请</span></c:if>
 									<c:if test="${var.TYPE == '5' }"><span class="label label-success arrowed">楼宇装饰工程竣工验收申请</span></c:if>
 								</td>
