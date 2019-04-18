@@ -5,11 +5,14 @@ import java.util.Map;
 import java.util.HashMap;
 import javax.annotation.Resource;
 
+import com.wolves.common.ApplyTypeEnum;
 import com.wolves.common.StatusEnum;
 import com.wolves.dao.DaoSupport;
 import com.wolves.dto.user.DecorateDataDTO;
+import com.wolves.entity.app.User;
 import com.wolves.entity.system.Decorate;
 import com.wolves.entity.system.Page;
+import com.wolves.service.system.user.UserService;
 import com.wolves.util.PageData;
 import com.wolves.util.StringUtils;
 import com.wolves.util.UuidUtil;
@@ -20,6 +23,8 @@ public class DecorateService {
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
+	@Resource(name="userService")
+	private UserService userService;
 	
 	/**
 	* 新增
@@ -48,6 +53,15 @@ public class DecorateService {
 	public List<PageData> list(Page page)  {
 		return (List<PageData>)dao.findForList("DecorateMapper.datalistPage", page);
 	}
+
+	/**
+	 * 一卡通申请
+	 * @return
+	 */
+	public List<PageData> passList(Page page){
+
+		return (List<PageData>)dao.findForList("DecorateMapper.passlistPage", page);
+	}
 	
 	/**
 	*列表(全部)
@@ -73,11 +87,12 @@ public class DecorateService {
 	/**
 	 * 保存申请
 	 */
-	public void saveApply(String userId, DecorateDataDTO decorateDataDTO){
+	public void saveApply(String token, DecorateDataDTO decorateDataDTO){
+		User user = userService.getUser(token);
 		Decorate decorate = new Decorate();
 		decorate.setDecorateNo(UuidUtil.get32UUID());
 		decorate.setDecorateId(UuidUtil.get32UUID());
-		decorate.setUserId(userId);
+		decorate.setUserId(user.getUserId());
 		decorate.setType(decorateDataDTO.getType());
 		decorate.setTitle(decorateDataDTO.getTitle());
 		decorate.setContent(decorateDataDTO.getContent());
@@ -86,6 +101,10 @@ public class DecorateService {
 		}
 		decorate.setStatus(Integer.valueOf(StatusEnum.INIT.getKey()));
 		dao.save("DecorateMapper.saveApply", decorate);
+		if (decorateDataDTO.getType().equals(ApplyTypeEnum.apply_ic_tl.getKey())){
+			user.setSfid(decorateDataDTO.getIdCard());
+			userService.updateUser(user);
+		}
 	}
 
 	/**
