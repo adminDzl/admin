@@ -155,7 +155,7 @@
 				<td><input type="text" name="LOGO" id="LOGO" value="${pd.LOGO}" maxlength="32" placeholder="这里输入企业logo" title="企业logo"/></td>
 			</tr>
 			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">创建时间:</td>
+				<td style="width:70px;text-align: right;padding-top: 13px;">入驻时间:</td>
 				<td><input class="span10 date-picker" name="CREATE_TIME" id="CREATE_TIME" value="${pd.CREATE_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="创建时间" title="创建时间"/></td>
 			</tr>
 			<tr>

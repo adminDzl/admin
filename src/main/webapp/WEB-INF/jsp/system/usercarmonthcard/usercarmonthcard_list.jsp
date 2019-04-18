@@ -25,20 +25,18 @@
 							<i id="nav-search-icon" class="icon-search"></i>
 						</span>
 					</td>
-					<td><input class="span10 date-picker" name="lastLoginStart" id="lastLoginStart" value="${pd.lastLoginStart}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期"/></td>
-					<td><input class="span10 date-picker" name="lastLoginEnd" id="lastLoginEnd" value="${pd.lastLoginEnd}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="结束日期"/></td>
-					<td style="vertical-align:top;"> 
-					 	<select class="chzn-select" name="field2" id="field2" data-placeholder="请选择" style="vertical-align:top;width: 120px;">
+					<td style="vertical-align:top;">
+					 	<select class="chzn-select" name="field2" id="field2" data-placeholder="请选择月卡状态" style="vertical-align:top;width: 140px;">
 							<option value=""></option>
 							<option value="">全部</option>
-							<option value="">1</option>
-							<option value="">2</option>
+							<option value="1">有效</option>
+							<option value="0">过期</option>
 					  	</select>
 					</td>
-					<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"  title="检索"><i id="nav-search-icon" class="icon-search"></i></button></td>
-					<%--<c:if test="${QX.cha == 1 }">--%>
-					<%--<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="icon-download-alt"></i></a></td>--%>
-					<%--</c:if>--%>
+					<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"  title="检索"><i class="icon-search"></i></button></td>
+					<c:if test="${QX.cha == 1 }">
+					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i class="icon-download-alt"></i></a></td>
+					</c:if>
 				</tr>
 			</table>
 			<table id="table_report" class="table table-striped table-bordered table-hover">
@@ -72,9 +70,8 @@
 										<td>${var.PRICE}</td>
 										<td>${var.USE_TIL_DATE}</td>
 										<td>
-											<c:if test="${var.CARD_STATUS == 1}"><span class="label label-success arrowed">待使用</span></c:if>
-											<c:if test="${var.CARD_STATUS == 2}"><span class="label label-success arrowed">使用中</span></c:if>
-											<c:if test="${var.CARD_STATUS == 3}"><span class="label label-success arrowed">已使用</span></c:if>
+											<c:if test="${var.CARD_STATUS == 1}"><span class="label label-success arrowed">有效</span></c:if>
+											<c:if test="${var.CARD_STATUS == 0}"><span class="label label-success arrowed">过期</span></c:if>
 										</td>
 										<td>${var.CREATE_TIME}</td>
 								<td style="width: 30px;" class="center">
@@ -110,7 +107,7 @@
 			<tr>
 				<td style="vertical-align:top;">
 					<c:if test="${QX.add == 1 }">
-					<a class="btn btn-small btn-success" onclick="add();">新增</a>
+					<a class="btn btn-small btn-warning" onclick="add();">批量导入</a>
 					</c:if>
 					<c:if test="${QX.del == 1 }">
 					<a class="btn btn-small btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='icon-trash'></i></a>

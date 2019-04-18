@@ -101,17 +101,13 @@ public class CompanyController extends BaseController {
 		logBefore(logger, "列表Company");
 		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
 		ModelAndView mv = this.getModelAndView();
-		try{
-			PageData pd = this.getPageData();
-			page.setPd(pd);
-			List<PageData>	varList = companyService.list(page);
-			mv.setViewName("system/company/company_list");
-			mv.addObject("varList", varList);
-			mv.addObject("pd", pd);
-			mv.addObject(Const.SESSION_QX,this.getHC());
-		} catch(Exception e){
-			logger.error(e.toString(), e);
-		}
+		PageData pd = this.getPageData();
+		page.setPd(pd);
+		List<PageData> varList = companyService.list(page);
+		mv.setViewName("system/company/company_list");
+		mv.addObject("varList", varList);
+		mv.addObject("pd", pd);
+		mv.addObject(Const.SESSION_QX,this.getHC());
 		return mv;
 	}
 	
