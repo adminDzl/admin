@@ -36,9 +36,9 @@
 					  	</select>
 					</td>
 					<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"  title="检索"><i class="icon-search"></i></button></td>
-					<%--<c:if test="${QX.cha == 1 }">--%>
-					<%--<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i class="icon-download-alt"></i></a></td>--%>
-					<%--</c:if>--%>
+					<c:if test="${QX.cha == 1 }">
+					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i class="icon-download-alt"></i></a></td>
+					</c:if>
 				</tr>
 			</table>
 			<table id="table_report" class="table table-striped table-bordered table-hover">
@@ -116,6 +116,8 @@
 					<c:if test="${QX.add == 1 }">
 					<a class="btn btn-small btn-success" onclick="add();">新增</a>
 					</c:if>
+					<a class="btn btn-small btn-warning" onclick="payment();">批量导入</a>
+					<a class="btn btn-small btn-info" onclick="payment();">一键催缴</a>
 					<c:if test="${QX.del == 1 }">
 					<a class="btn btn-small btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='icon-trash'></i></a>
 					</c:if>
@@ -145,6 +147,9 @@
 		function search(){
 			top.jzts();
 			$("#Form").submit();
+		}
+		function payment(){
+			bootbox.alert("催缴成功！");
 		}
 		function add(){
 			 top.jzts();

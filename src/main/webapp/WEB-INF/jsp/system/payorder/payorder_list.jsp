@@ -36,9 +36,9 @@
 					  	</select>
 					</td>
 					<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"  title="检索"><i id="nav-search-icon" class="icon-search"></i></button></td>
-					<%--<c:if test="${QX.cha == 1 }">--%>
-					<%--<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="icon-download-alt"></i></a></td>--%>
-					<%--</c:if>--%>
+					<c:if test="${QX.cha == 1 }">
+					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="icon-download-alt"></i></a></td>
+					</c:if>
 				</tr>
 			</table>
 			<table id="table_report" class="table table-striped table-bordered table-hover">
@@ -49,9 +49,10 @@
 						</th>
 						<th class="center">序号</th>
 						<th class="center">类型</th>
-						<th class="center">付费金额</th>
-						<th class="center">付费时间</th>
-						<th class="center">确认时间</th>
+						<th class="center">支付人</th>
+						<th class="center">支付人单位</th>
+						<th class="center">支付金额</th>
+						<th class="center">支付时间</th>
 						<th class="center">支付状态</th>
 						<th class="center">创建时间</th>
 						<th class="center">操作</th>
@@ -73,9 +74,10 @@
 											<c:if test="${var.PAY_TYPE == 3}"><span class="label label-success arrowed">场地预定费</span></c:if>
 											<c:if test="${var.PAY_TYPE == 4}"><span class="label label-success arrowed">一卡通费用</span></c:if>
 										</td>
+										<td>${var.name}</td>
+										<td>${var.company}</td>
 										<td>${var.PAY_AMOUNT}</td>
 										<td>${var.PAY_TIME}</td>
-										<td>${var.RETURN_TIME}</td>
 										<td>
 											<c:if test="${var.PAY_STATUS == 0}"><span class="label label-success arrowed">待支付</span></c:if>
 											<c:if test="${var.PAY_STATUS == 1}"><span class="label label-success arrowed">支付完成</span></c:if>
@@ -87,10 +89,7 @@
 										<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>
 									</c:if>
 									<c:if test="${QX.edit == 1 }">
-										<a style="cursor:pointer;" title="编辑" onclick="edit('${var.PAYORDER_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a>
-									</c:if>
-									<c:if test="${QX.del == 1 }">
-										<a style="cursor:pointer;" title="删除" onclick="del('${var.PAYORDER_ID}');" class="tooltip-error" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-trash"></i></span></a>
+										<a style="cursor:pointer;" title="详情" onclick="edit('${var.PAYORDER_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a>
 									</c:if>
 								</td>
 							</tr>
@@ -113,14 +112,6 @@
 		<div class="page-header position-relative">
 		<table style="width:100%;">
 			<tr>
-				<td style="vertical-align:top;">
-					<c:if test="${QX.add == 1 }">
-					<a class="btn btn-small btn-success" onclick="add();">新增</a>
-					</c:if>
-					<c:if test="${QX.del == 1 }">
-					<a class="btn btn-small btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='icon-trash'></i></a>
-					</c:if>
-				</td>
 				<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
 			</tr>
 		</table>
@@ -183,7 +174,7 @@
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
-			 diag.Title ="编辑";
+			 diag.Title ="详情";
 			 diag.URL = '<%=basePath%>payorder/goEdit.do?PAYORDER_ID='+Id;
 			 diag.Width = 450;
 			 diag.Height = 355;
