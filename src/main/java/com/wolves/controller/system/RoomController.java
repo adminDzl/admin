@@ -11,7 +11,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import com.wolves.dto.FloorManAllDTO;
+import com.wolves.dto.user.BaseCompanyDTO;
 import com.wolves.entity.system.Page;
+import com.wolves.service.system.CompanyService;
 import com.wolves.service.system.buildman.BuildManService;
 import com.wolves.service.system.floorman.FloorManService;
 import org.apache.shiro.SecurityUtils;
@@ -46,6 +48,8 @@ public class RoomController extends BaseController {
 	private FloorManService floormanService;
 	@Resource(name="buildmanService")
 	private BuildManService buildmanService;
+	@Resource(name="companyService")
+	private CompanyService companyService;
 	
 	/**
 	 * 新增
@@ -122,6 +126,7 @@ public class RoomController extends BaseController {
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
 		mv.addObject("buildman",buildmanService.listAll(pd));
+		mv.addObject("company", companyService.selectAllCompany());
 		return mv;
 	}	
 	
@@ -138,6 +143,7 @@ public class RoomController extends BaseController {
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
 		mv.addObject("buildman",buildmanService.listAll(pd));
+		mv.addObject("company", companyService.selectAllCompany());
 		return mv;
 	}
 
