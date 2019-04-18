@@ -70,8 +70,7 @@
 		$("#zhongxin2").show();
 	}
 
-
-	
+	//查询楼层
 	function getFloorMan() {
 
 		var buildNo = $("#BUILD_NO").val();//得到第一个下拉列表的值
@@ -93,6 +92,7 @@
             $("#FLOORMAN_ID").html(option);//将循环拼接的字符串插入第二个下拉列表
 		}
 	}
+
 </script>
 	</head>
 <body>
@@ -114,7 +114,7 @@
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">楼层:</td>
 				<td>
-					<select name="FLOORMAN_ID" id="FLOORMAN_ID" maxlength="32" placeholder="这里选择楼层" title="楼层" value="pd.floorman_id">
+					<select name="FLOORMAN_ID" id="FLOORMAN_ID" maxlength="32" placeholder="这里选择楼层" title="楼层" value="${pd.floorman_id}">
 						<option value=''>请选择</option>
 
 					</select>
@@ -123,9 +123,11 @@
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">入驻公司:</td>
 				<td>
-					<select name="COMPANY_ID" id="COMPANY_ID" maxlength="32" placeholder="这里选择公司" title="公司" value="pd.floorman_name">
+					<select name="COMPANY_ID" id="COMPANY_ID" maxlength="32" placeholder="这里选择公司" title="公司" value="${pd.company_id}">
 						<option value=''>请选择</option>
-
+						<c:forEach items="${company}" varStatus="status" var="item">
+							<option value="${item.companyId }">${item.companyName }</option>
+						</c:forEach>
 					</select>
 				</td>
 			</tr>
