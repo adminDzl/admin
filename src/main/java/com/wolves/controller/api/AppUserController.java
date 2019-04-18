@@ -617,21 +617,29 @@ public class AppUserController {
             return result;
         }
         if (decorateDataDTO.getType() == null || decorateDataDTO.getType() == 0){
-            result.setMsg("申请类型不能为空");
+            result.setMsg("请选择申请类型");
             result.setResult(ResultCode.FAIL);
             return result;
+        }else {
+            if (decorateDataDTO.getType().equals(ApplyTypeEnum.apply_ic_tl.getKey())){
+                if (StringUtils.isEmpty(decorateDataDTO.getIdCard())){
+                    result.setMsg("请填写身份证号码");
+                    result.setResult(ResultCode.FAIL);
+                    return result;
+                }
+            }
         }
         if (StringUtils.isEmpty(decorateDataDTO.getTitle())){
-            result.setMsg("申请标题不能为空");
+            result.setMsg("请填写申请标题");
             result.setResult(ResultCode.FAIL);
             return result;
         }
         if (StringUtils.isEmpty(decorateDataDTO.getContent())){
-            result.setMsg("申请内容不能为空");
+            result.setMsg("请填写申请内容");
             result.setResult(ResultCode.FAIL);
             return result;
         }
-        decorateService.saveApply(user.getUserId(), decorateDataDTO);
+        decorateService.saveApply(token, decorateDataDTO);
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("提交成功");
         return result;

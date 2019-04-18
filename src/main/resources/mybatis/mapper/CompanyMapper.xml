@@ -55,16 +55,32 @@
 	<!-- 修改 -->
 	<update id="edit" parameterType="pd">
 		update  COMPANY
-			set 
-				COMPANY_NAME = #{COMPANY_NAME},
-				TYPE = #{TYPE},
-				STATUS = #{STATUS},
-				DESCRIPTION = #{DESCRIPTION},
-				COMPANY_CERTIFY = #{COMPANY_CERTIFY},
-				PLACE_ID = #{PLACE_ID},
-				LOGO = #{LOGO},
-				CREATE_TIME = #{CREATE_TIME},
-				UPDATE_TIME = #{UPDATE_TIME},
+			set
+				<if test="COMPANY_NAME != null">
+					COMPANY_NAME = #{COMPANY_NAME},
+				</if>
+				<if test="TYPE != null">
+					TYPE = #{TYPE},
+				</if>
+				<if test="STATUS != null">
+					STATUS = #{STATUS},
+				</if>
+				<if test="DESCRIPTION != null">
+					DESCRIPTION = #{DESCRIPTION},
+				</if>
+				<if test="COMPANY_CERTIFY != null">
+					COMPANY_CERTIFY = #{COMPANY_CERTIFY},
+				</if>
+				<if test="PLACE_ID != null">
+					PLACE_ID = #{PLACE_ID},
+				</if>
+				<if test="LOGO != null">
+					LOGO = #{LOGO},
+				</if>
+				<if test="CREATE_TIME != null">
+					CREATE_TIME = #{CREATE_TIME},
+				</if>
+				UPDATE_TIME = now(),
 			COMPANY_ID = COMPANY_ID
 			where 
 				COMPANY_ID = #{COMPANY_ID}

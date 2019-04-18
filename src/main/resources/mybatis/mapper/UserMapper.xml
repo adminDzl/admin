@@ -198,6 +198,7 @@
 			<if test="email != null">EMAIL = #{email},</if>
 			<if test="status != null">STATUS = #{status},</if>
 			<if test="companyId != null">COMPANY_ID = #{companyId},</if>
+			<if test="sfid != null">SFID = #{sfid},</if>
 		</trim>
 		WHERE USER_ID = #{userId}
 	</update>

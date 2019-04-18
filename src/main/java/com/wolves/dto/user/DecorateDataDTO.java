@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "统一申请参数")
 public class DecorateDataDTO {
 
-    @ApiModelProperty(name = "type",value = "类型(1-装修申请，2-其他)")
+    @ApiModelProperty(name = "type",value = "类型(类型(1-楼宇装修申请，2-出门证申请，3-一卡通申请，4-楼宇施工许可申请，5-楼宇装饰工程竣工验收申请))")
     private Integer type;
 
     @ApiModelProperty(name = "title",value = "申请标题")
@@ -19,6 +19,9 @@ public class DecorateDataDTO {
 
     @ApiModelProperty(name = "content",value = "申请内容")
     private String content;
+
+    @ApiModelProperty(name = "idCard",value = "身份证（一卡通申请时为必填项）")
+    private String idCard;
 
     @ApiModelProperty(name = "fileUrl",value = "需要上传的文件")
     private String fileUrl;
@@ -49,6 +52,14 @@ public class DecorateDataDTO {
 
     public String getFileUrl() {
         return fileUrl;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
     }
 
     public void setFileUrl(String fileUrl) {

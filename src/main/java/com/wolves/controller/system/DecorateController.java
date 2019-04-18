@@ -54,7 +54,7 @@ public class DecorateController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		pd.put("DECORATE_ID", this.get32UUID());
-		pd.put("STATUS", "1");
+		pd.put("STATUS", "0");
 		pd.put("CREATE_TIME", Tools.date2Str(new Date()));
 		pd.put("UPDATE_TIME", Tools.date2Str(new Date()));
 		decorateService.save(pd);
