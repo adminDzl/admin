@@ -98,7 +98,10 @@
 				a.PLACE_ID,	
 				a.LOGO,	
 				a.CREATE_TIME,	
-				a.UPDATE_TIME,	
+				a.UPDATE_TIME,
+				a.COME_TIME,
+				a.AGREEMENT_TIME,
+				a.SCALE,
 				a.COMPANY_ID
 		from 
 				COMPANY a
@@ -164,16 +167,34 @@
 	<insert id="saveCompany" parameterType="com.wolves.dto.user.CompanyDTO" flushCache="false">
 		insert into COMPANY(
 		COMPANY_NAME,
+		<if test="comeTime != null">
+			COME_TIME,
+		</if>
+		<if test="agreementTime != null">
+			AGREEMENT_TIME,
+		</if>
+		<if test="scale != null">
+			SCALE,
+		</if>
 		TYPE,
 		STATUS,
 		<if test="logo != null">
-		LOGO,
+			LOGO,
 		</if>
 		CREATE_TIME,
 		UPDATE_TIME,
 		COMPANY_ID
 		) values (
 		#{companyName},
+		<if test="comeTime != null">
+			#{comeTime},
+		</if>
+		<if test="agreementTime != null">
+			#{agreementTime},
+		</if>
+		<if test="scale != null">
+			#{scale},
+		</if>
 		#{type},
 		#{status},
 		<if test="logo != null">

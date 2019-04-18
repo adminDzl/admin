@@ -195,6 +195,7 @@ public class UserService {
 		userInfo.setIdCardFrontUrl(registerDTO.getIdCardFrontUrl());
 		userInfo.setIdCardBackUrl(registerDTO.getIdCardBackUrl());
 		userInfo.setCompanyId(registerDTO.getCompanyId());
+		userInfo.setStatus(StatusEnum.SUCCESS.getKey());
 		userInfo.setIp("");
 		userInfo.setEmail(registerDTO.getEmail());
 		//身份证已经绑定

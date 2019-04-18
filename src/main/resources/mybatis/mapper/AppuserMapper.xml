@@ -265,6 +265,7 @@
 				u.END_TIME,
 				u.YEARS,
 				u.STATUS,
+				u.SFID,
 				u.EMAIL,
 				u.PHONE,
 				u.NUMBER,
@@ -283,10 +284,9 @@
 				u.EMAIL LIKE CONCAT(CONCAT('%', #{pd.USERNAME}),'%')
 				or
 				u.NUMBER LIKE CONCAT(CONCAT('%', #{pd.USERNAME}),'%')
+				OR
+				u.PHONE LIKE CONCAT(CONCAT('%', #{pd.USERNAME}),'%')
 				)
-		</if>
-		<if test="pd.ROLE_ID != null and pd.ROLE_ID != ''"><!-- 角色检索 -->
-			and u.ROLE_ID=#{pd.ROLE_ID} 
 		</if>
 		<if test="pd.lastLoginStart!=null and pd.lastLoginStart!=''"><!-- 到期时间检索 -->
 			and u.END_TIME &gt;= #{pd.lastLoginStart} 

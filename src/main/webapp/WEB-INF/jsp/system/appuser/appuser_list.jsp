@@ -29,14 +29,11 @@
 					</td>
 					<td><input class="span10 date-picker" name="lastLoginStart" id="lastLoginStart" value="${pd.lastLoginStart}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期"/></td>
 					<td><input class="span10 date-picker" name="lastLoginEnd" id="lastLoginEnd" value="${pd.lastLoginEnd}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="到期日期"/></td>
-					<td style="vertical-align:top;"> 
-					 	<select class="chzn-select" name="ROLE_ID" id="role_id" data-placeholder="请选择等级" style="vertical-align:top;width: 120px;">
-						<option value=""></option>
-						<c:forEach items="${roleList}" var="role">
-							<option value="${role.ROLE_ID }" <c:if test="${pd.ROLE_ID==role.ROLE_ID}">selected</c:if>>${role.ROLE_NAME }</option>
-						</c:forEach>
-					  	</select>
-					</td>
+					<%--<td style="vertical-align:top;"> --%>
+					 	<%--<select class="chzn-select" name="ROLE_ID" id="role_id" data-placeholder="请选择等级" style="vertical-align:top;width: 120px;">--%>
+						<%--<option value=""></option>--%>
+					  	<%--</select>--%>
+					<%--</td>--%>
 					<td style="vertical-align:top;"> 
 					 	<select class="chzn-select" name="STATUS" id="STATUS" data-placeholder="状态" style="vertical-align:top;width: 79px;">
 						<option value=""></option>
@@ -46,9 +43,9 @@
 						</select>
 					</td>
 					<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"  title="检索"><i class="icon-search"></i></button></td>
-					<%--<c:if test="${QX.cha == 1 }">--%>
-					<%--<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i class="icon-download-alt"></i></a></td>--%>
-					<%--</c:if>--%>
+					<c:if test="${QX.cha == 1 }">
+					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i class="icon-download-alt"></i></a></td>
+					</c:if>
 					<c:if test="${QX.cha == 1 }">
 						<td style="vertical-align:top;">
 							<a class="btn btn-mini btn-light" onclick="importExcel(this);" title="导入EXCEL">
@@ -71,13 +68,13 @@
 						<label><input type="checkbox" id="zcheckbox" /><span class="lbl"></span></label>
 						</th>
 						<th>序号</th>
-						<th>用户名</th>
 						<th>姓名</th>
 						<th>性别</th>
-						<th>所属公司</th>
-						<th>等级</th>
+						<th>手机号</th>
+						<th>证件号</th>
+						<th>公司</th>
+						<th>职位</th>
 						<th><i class="icon-time hidden-phone"></i>注册时间</th>
-						<th>年限</th>
 						<th class="center">状态</th>
 						<th class="center">操作</th>
 					</tr>
@@ -93,13 +90,13 @@
 									<label><input type='checkbox' name='ids' value="${user.USER_ID }" id="${user.EMAIL }" alt="${user.PHONE }"/><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-								<td>${user.PHONE }</td>
 								<td>${user.NAME }</td>
 								<td>${user.SEX}</td>
+								<td>${user.PHONE }</td>
+								<td>${user.SFID }</td>
 								<td>${user.COMPANY_NAME }</td>
-								<td>${user.ROLE_NAME }</td>
+								<td>${user.POSITION }</td>
 								<td>${user.CREATE_TIME }</td>
-								<td>${user.YEARS }</td>
 								<td style="width: 60px;" class="center">
 									<c:if test="${user.STATUS == '0' }"><span class="label label-important arrowed-in">冻结</span></c:if>
 									<c:if test="${user.STATUS == '1' }"><span class="label label-success arrowed">正常</span></c:if>

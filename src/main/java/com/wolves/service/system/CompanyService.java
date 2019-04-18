@@ -1,5 +1,7 @@
 package com.wolves.service.system;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +12,7 @@ import com.wolves.common.StatusEnum;
 import com.wolves.dto.user.BaseCompanyDTO;
 import com.wolves.dto.user.CompanyDTO;
 import com.wolves.dto.user.UserExcelDTO;
+import com.wolves.util.StringUtils;
 import com.wolves.util.UuidUtil;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
@@ -128,37 +131,77 @@ public class CompanyService {
 	}
 
 
-	public List<String> getCompanyData(List<Map<String, Object>> list){
-		List<String> companyDTOS = new ArrayList<String>();
+	public List<CompanyDTO> getCompanyData(List<Map<String, Object>> list){
+		List<CompanyDTO> companyDTOS = new ArrayList<CompanyDTO>();
 		if (list != null && !list.isEmpty()){
 			for (Map<String, Object> map : list){
-				companyDTOS.add(this.getData(map));
+
+				companyDTOS.add(getData(map));
 			}
 		}
 		return companyDTOS;
 	}
 
-	private String getData(Map<String, Object> map){
+	private CompanyDTO getData(Map<String, Object> map){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		CompanyDTO companyDTO = new CompanyDTO();
 		Object companyName = map.get("企业名称");
-		if (companyName == null){
-			String r = "有企业名称为空，请核实";
-			throw new RuntimeException(r);
+		companyDTO.setCompanyName(companyName.toString());
+		try {
+			Object comeTime = map.get("入住时间");
+			companyDTO.setComeTime(sdf.parse(comeTime.toString()));
+			Object agreementTime = map.get("合约时间");
+			companyDTO.setAgreementTime(sdf.parse(agreementTime.toString()));
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
-		return companyName.toString();
+		Object scale = map.get("企业规模");
+		companyDTO.setScale(scale.toString());
+		return companyDTO;
 	}
 
+	public PageData checkExcelData(List<Map<String, Object>> list, PageData pd){
+
+		if (list != null && !list.isEmpty()){
+			for (Map<String, Object> map : list){
+				Object name = map.get("企业名称");
+				if (StringUtils.isEmpty(name.toString().trim())){
+					pd.put("msg", "企业名称不能为空");
+					return pd;
+				}
+				Object phone = map.get("入住时间");
+				if (StringUtils.isEmpty(phone.toString().trim())){
+					pd.put("msg", "入住时间不能为空");
+					return pd;
+				}
+				Object email = map.get("合约时间");
+				if (StringUtils.isEmpty(email.toString().trim())){
+					pd.put("msg", "合约时间不能为空");
+					return pd;
+				}
+				Object company = map.get("企业规模");
+				if (StringUtils.isEmpty(company.toString().trim())){
+					pd.put("msg", "企业规模不能为空");
+					return pd;
+				}
+			}
+		}
+		return pd;
+	}
 	/**
 	 * 创建企业
 	 * @param companyDTOS 导入的客户默认为审核成功
 	 */
-	public void createCompanyByExcel(List<String> companyDTOS){
+	public void createCompanyByExcel(List<CompanyDTO> companyDTOS){
 		if (companyDTOS != null && !companyDTOS.isEmpty()){
-			for (String name : companyDTOS){
+			for (CompanyDTO companyDTO : companyDTOS){
 				//判断公司是否已经存在
-				List<BaseCompanyDTO> baseCompanyDTOS = this.selectCompanyByName(name);
+				List<BaseCompanyDTO> baseCompanyDTOS = this.selectCompanyByName(companyDTO.getCompanyName());
 				if (baseCompanyDTOS.isEmpty()){
-					this.createCompany(name, true);
+					companyDTO.setType(Integer.valueOf(CompanyTypeEnum.out.getKey()));
+					this.saveCompany(companyDTO);
 				}
+
 			}
 		}
 	}

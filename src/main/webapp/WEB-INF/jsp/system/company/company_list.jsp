@@ -38,9 +38,9 @@
 						</select>
 					</td>
 					<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"  title="检索"><i class="icon-search"></i></button></td>
-					<%--<c:if test="${QX.cha == 1 }">--%>
-					<%--<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i class="icon-download-alt"></i></a></td>--%>
-					<%--</c:if>--%>
+					<c:if test="${QX.cha == 1 }">
+					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i class="icon-download-alt"></i></a></td>
+					</c:if>
 					<c:if test="${QX.cha == 1 }">
 						<td style="vertical-align:top;">
 							<a class="btn btn-mini btn-light" onclick="importExcel(this);" title="导入EXCEL">
@@ -64,10 +64,15 @@
 						<th class="center">序号</th>
 						<th class="center">企业名</th>
 						<th class="center">企业类型</th>
+						<th class="center">入驻时间</th>
+						<th class="center">合同期</th>
+						<th class="center">企业规模</th>
+						<th class="center">员工数量</th>
+						<th class="center">场地数量</th>
+						<th class="center">场地面积</th>
+						<th class="center">物业水电</th>
 						<th class="center">状态</th>
-						<th class="center">描述</th>
 						<th class="center">企业认证</th>
-						<th class="center">企业租位</th>
 						<th class="center">创建时间</th>
 						<th class="center">操作</th>
 					</tr>
@@ -84,18 +89,23 @@
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 										<td>${var.COMPANY_NAME}</td>
 										<td>
-											<c:if test="${var.TYPE == '0' }"><span class="label label-important arrowed-in">入驻公司</span></c:if>
+											<c:if test="${var.TYPE == '2' }"><span class="label label-important arrowed-in">入驻公司</span></c:if>
 											<c:if test="${var.TYPE == '1' }"><span class="label label-success arrowed">园区公司</span></c:if>
 										</td>
+										<td>${var.COME_TIME}</td>
+										<td>${var.AGREEMENT_TIME}</td>
+										<td>${var.SCALE}</td>
+										<td>员工数量</td>
+										<td>场地数量</td>
+										<td>场地面积</td>
+										<td>物业水电</td>
 										<td>
 											<c:if test="${var.STATUS == '0' }"><span class="label label-important arrowed-in">待入驻</span></c:if>
 											<c:if test="${var.STATUS == '2' }"><span class="label label-important arrowed-in">拒绝入驻</span></c:if>
 											<c:if test="${var.STATUS == '1' }"><span class="label label-success arrowed">已入驻</span></c:if>
 											<c:if test="${var.STATUS == '2' }"><span class="label label-important arrowed-in">已退场</span></c:if>
 										</td>
-										<td>${var.DESCRIPTION}</td>
 										<td>${var.COMPANY_CERTIFY}</td>
-										<td>${var.PLACE_ID}</td>
 										<td>${var.CREATE_TIME}</td>
 								<td style="width: 30px;" class="center">
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">
