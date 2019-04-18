@@ -150,7 +150,26 @@ public class CompanyController extends BaseController {
 			logger.error(e.toString(), e);
 		}						
 		return mv;
-	}	
+	}
+
+	/**
+	 * 去审核页面
+	 */
+	@RequestMapping(value="/goCheck")
+	public ModelAndView goCheck(){
+		logBefore(logger, "去修改Company页面");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		try {
+			pd = companyService.findById(pd);
+			mv.setViewName("system/company/company_check");
+			mv.addObject("msg", "edit");
+			mv.addObject("pd", pd);
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
+		}
+		return mv;
+	}
 	
 	/**
 	 * 批量删除

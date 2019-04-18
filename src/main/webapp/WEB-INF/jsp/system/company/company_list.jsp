@@ -117,6 +117,11 @@
 									<c:if test="${QX.del == 1 }">
 										<a style="cursor:pointer;" title="删除" onclick="del('${var.COMPANY_ID}');" class="tooltip-error" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-trash"></i></span></a>
 									</c:if>
+									<c:if test="${var.STATUS == 0}">
+										<c:if test="${QX.edit == 1 }">
+											<a style="cursor:pointer;" title="审核" onclick="audit('${var.COMPANY_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a>
+										</c:if>
+									</c:if>
 								</td>
 							</tr>
 						</c:forEach>
@@ -220,6 +225,22 @@
 			 };
 			 diag.show();
 		}
+		function audit(Id) {
+            top.jzts();
+            var diag = new top.Dialog();
+            diag.Drag=true;
+            diag.Title ="审核";
+            diag.URL = '<%=basePath%>company/goCheck.do?COMPANY_ID='+Id;
+            diag.Width = 450;
+            diag.Height = 355;
+            diag.CancelEvent = function(){ //关闭事件
+                if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                    nextPage(${page.currentPage});
+                }
+                diag.close();
+            };
+            diag.show();
+        }
 		</script>
 		<script type="text/javascript">
 		$(function() {
