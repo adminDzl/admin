@@ -16,6 +16,14 @@ public class CompanyDTO extends BaseCompanyDTO{
 
     @ApiModelProperty(name = "companyId", value = "企业id")
     private String companyId;
+    @ApiModelProperty(name = "comeTime", value = "入住时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date comeTime;
+    @ApiModelProperty(name = "agreementTime", value = "合约截止时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date agreementTime;
+    @ApiModelProperty(name = "scale", value = "企业规模")
+    private String scale;
     @ApiModelProperty(name = "type",value = "类型")
     private Integer type;
     @ApiModelProperty(name = "status",value = "审核状态")
@@ -97,6 +105,30 @@ public class CompanyDTO extends BaseCompanyDTO{
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Date getComeTime() {
+        return comeTime;
+    }
+
+    public void setComeTime(Date comeTime) {
+        this.comeTime = comeTime;
+    }
+
+    public Date getAgreementTime() {
+        return agreementTime;
+    }
+
+    public void setAgreementTime(Date agreementTime) {
+        this.agreementTime = agreementTime;
+    }
+
+    public String getScale() {
+        return scale;
+    }
+
+    public void setScale(String scale) {
+        this.scale = scale;
     }
 
     @Override
