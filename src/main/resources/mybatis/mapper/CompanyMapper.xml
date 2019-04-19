@@ -118,7 +118,8 @@
 				a.COME_TIME,
 				a.AGREEMENT_TIME,
 				a.SCALE,
-				a.COMPANY_ID
+				a.COMPANY_ID,
+				(SELECT COUNT(u.user_id) FROM `user` u WHERE u.company_id = a.company_id) AS NUM
 		from 
 				COMPANY a
 		WHERE 1=1

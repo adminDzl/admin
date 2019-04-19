@@ -81,7 +81,7 @@
 										<td>${var.COME_TIME}</td>
 										<td>${var.AGREEMENT_TIME}</td>
 										<td>${var.SCALE}</td>
-										<td>50</td>
+										<td>${var.NUM}</td>
 										<td>1</td>
 										<td>200</td>
 										<td>
