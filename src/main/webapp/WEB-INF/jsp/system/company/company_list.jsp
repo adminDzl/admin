@@ -103,7 +103,7 @@
 									</c:if>
 									<c:if test="${var.STATUS == 0}">
 										<c:if test="${QX.edit == 1 }">
-											<a style="cursor:pointer;" title="审核" onclick="audit('${var.COMPANY_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a>
+											<a style="cursor:pointer;" title="审核" onclick="audit('${var.COMPANY_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-check"></i></span></a>
 										</c:if>
 									</c:if>
 								</td>
