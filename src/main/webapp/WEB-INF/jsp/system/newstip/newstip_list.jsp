@@ -97,9 +97,8 @@
 											</c:choose>
 										</td>
 										<td>
-											<c:if test="${var.STATUS == 0}"><span class="label label-success arrowed">待审核</span></c:if>
-											<c:if test="${var.STATUS == 1}"><span class="label label-success arrowed">审核成功</span></c:if>
-											<c:if test="${var.STATUS == 2}"><span class="label label-success arrowed">审核驳回</span></c:if>
+											<c:if test="${var.STATUS == 0}"><span class="label label-important arrowed">待发布</span></c:if>
+											<c:if test="${var.STATUS == 1}"><span class="label label-success arrowed">已发布</span></c:if>
 										</td>
 										<td>${var.CREATE_TIME}</td>
 								<td style="width: 30px;" class="center">
@@ -111,6 +110,11 @@
 									</c:if>
 									<c:if test="${QX.del == 1 }">
 										<a style="cursor:pointer;" title="删除" onclick="del('${var.NEWSTIP_ID}');" class="tooltip-error" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-trash"></i></span></a>
+									</c:if>
+									<c:if test="${var.STATUS == 0}">
+										<c:if test="${QX.edit == 1 }">
+											<a style="cursor:pointer;" title="发布" onclick="audit('${var.NEWSTIP_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-check"></i></span></a>
+										</c:if>
 									</c:if>
 								</td>
 							</tr>
@@ -225,6 +229,18 @@
 			 };
 			 diag.show();
 		}
+		//发布
+        function audit(Id) {
+            bootbox.confirm("确定要发布该新闻吗?", function(result) {
+                if(result) {
+                    top.jzts();
+                    var url = "<%=basePath%>newstip/release.do?NEWSTIP_ID="+Id+"&tm="+new Date().getTime();
+                    $.get(url,function(data){
+                        nextPage(${page.currentPage});
+                    });
+                }
+            });
+        }
 		</script>
 		<script type="text/javascript">
 		$(function() {

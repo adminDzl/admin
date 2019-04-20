@@ -39,9 +39,17 @@
 	<!-- 修改 -->
 	<update id="edit" parameterType="pd">
 		update  USER_CAR_BIND
-			set 
-				USER_ID = #{USER_ID},
-				CAR_NO = #{CAR_NO},
+			set
+				<if test="USER_ID != null">
+					USER_ID = #{USER_ID},
+				</if>
+				<if test="CAR_NO != null">
+					CAR_NO = #{CAR_NO},
+				</if>
+				<if test="STATUS != null">
+					STATUS = #{STATUS},
+				</if>
+				UPDATE_TIME = now(),
 			USER_CAR_BIND_ID = USER_CAR_BIND_ID
 			where 
 				USER_CAR_BIND_ID = #{USER_CAR_BIND_ID}
@@ -49,17 +57,19 @@
 	<!-- 通过ID获取数据 -->
 	<select id="findById" parameterType="pd" resultType="pd">
 		select 
-			USER_ID,	
-			CAR_NO,	
-			STATUS,
-			REMARK,
-			CREATE_TIME,	
-			UPDATE_TIME,	
-			USER_CAR_BIND_ID
+			a.USER_ID,
+			a.CAR_NO,
+			a.STATUS,
+			a.REMARK,
+			a.CREATE_TIME,
+			a.UPDATE_TIME,
+			a.USER_CAR_BIND_ID,
+			u.NAME
 		from 
-			USER_CAR_BIND
+			USER_CAR_BIND a
+		LEFT JOIN USER u ON (a.USER_ID = u.USER_ID)
 		where 
-			USER_CAR_BIND_ID = #{USER_CAR_BIND_ID}
+			a.USER_CAR_BIND_ID = #{USER_CAR_BIND_ID}
 	</select>
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">

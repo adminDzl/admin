@@ -78,7 +78,7 @@
 										<td>${var.REMARK}</td>
 										<td>${var.CREATE_TIME}</td>
 										<td>${var.UPDATE_TIME}</td>
-								<td style="width: 30px;" class="center">
+								<td style="width: 50px;" class="center">
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">
 										<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>
 									</c:if>
@@ -87,6 +87,11 @@
 									</c:if>
 									<c:if test="${QX.del == 1 }">
 										<a style="cursor:pointer;" title="删除" onclick="del('${var.USER_CAR_BIND_ID}');" class="tooltip-error" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-trash"></i></span></a>
+									</c:if>
+									<c:if test="${var.STATUS == '0'}">
+										<c:if test="${QX.edit == 1 }">
+											<a style="cursor:pointer;" title="审核" onclick="audit('${var.USER_CAR_BIND_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-check"></i></span></a>
+										</c:if>
 									</c:if>
 								</td>
 							</tr>
@@ -138,59 +143,75 @@
 		<script type="text/javascript" src="static/js/bootbox.min.js"></script>
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 		<script type="text/javascript">
-		$(top.hangge());
-		function search(){
-			top.jzts();
-			$("#Form").submit();
-		}
-		function add(){
-			 top.jzts();
-			 var diag = new top.Dialog();
-			 diag.Drag=true;
-			 diag.Title ="新增";
-			 diag.URL = '<%=basePath%>usercarbind/goAdd.do';
-			 diag.Width = 450;
-			 diag.Height = 355;
-			 diag.CancelEvent = function(){
-				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 if('${page.currentPage}' == '0'){
-						 top.jzts();
-						 setTimeout("self.location=self.location",100);
-					 }else{
+			$(top.hangge());
+			function search(){
+				top.jzts();
+				$("#Form").submit();
+			}
+			function add(){
+				 top.jzts();
+				 var diag = new top.Dialog();
+				 diag.Drag=true;
+				 diag.Title ="新增";
+				 diag.URL = '<%=basePath%>usercarbind/goAdd.do';
+				 diag.Width = 450;
+				 diag.Height = 355;
+				 diag.CancelEvent = function(){
+					 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+						 if('${page.currentPage}' == '0'){
+							 top.jzts();
+							 setTimeout("self.location=self.location",100);
+						 }else{
+							 nextPage(${page.currentPage});
+						 }
+					}
+					diag.close();
+				 };
+				 diag.show();
+			}
+			function del(Id){
+				bootbox.confirm("确定要删除吗?", function(result) {
+					if(result) {
+						top.jzts();
+						var url = "<%=basePath%>usercarbind/delete.do?USER_CAR_BIND_ID="+Id+"&tm="+new Date().getTime();
+						$.get(url,function(data){
+							nextPage(${page.currentPage});
+						});
+					}
+				});
+			}
+			function edit(Id){
+				 top.jzts();
+				 var diag = new top.Dialog();
+				 diag.Drag=true;
+				 diag.Title ="编辑";
+				 diag.URL = '<%=basePath%>usercarbind/goEdit.do?USER_CAR_BIND_ID='+Id;
+				 diag.Width = 450;
+				 diag.Height = 355;
+				 diag.CancelEvent = function(){ //关闭事件
+					 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 						 nextPage(${page.currentPage});
-					 }
-				}
-				diag.close();
-			 };
-			 diag.show();
-		}
-		function del(Id){
-			bootbox.confirm("确定要删除吗?", function(result) {
-				if(result) {
-					top.jzts();
-					var url = "<%=basePath%>usercarbind/delete.do?USER_CAR_BIND_ID="+Id+"&tm="+new Date().getTime();
-					$.get(url,function(data){
-						nextPage(${page.currentPage});
-					});
-				}
-			});
-		}
-		function edit(Id){
-			 top.jzts();
-			 var diag = new top.Dialog();
-			 diag.Drag=true;
-			 diag.Title ="编辑";
-			 diag.URL = '<%=basePath%>usercarbind/goEdit.do?USER_CAR_BIND_ID='+Id;
-			 diag.Width = 450;
-			 diag.Height = 355;
-			 diag.CancelEvent = function(){ //关闭事件
-				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 nextPage(${page.currentPage});
-				}
-				diag.close();
-			 };
-			 diag.show();
-		}
+					}
+					diag.close();
+				 };
+				 diag.show();
+			}
+			function audit(Id) {
+                top.jzts();
+                var diag = new top.Dialog();
+                diag.Drag=true;
+                diag.Title ="编辑";
+                diag.URL = '<%=basePath%>usercarbind/goCheck.do?USER_CAR_BIND_ID='+Id;
+                diag.Width = 450;
+                diag.Height = 355;
+                diag.CancelEvent = function(){ //关闭事件
+                    if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                        nextPage(${page.currentPage});
+                    }
+                    diag.close();
+                };
+                diag.show();
+            }
 		</script>
 		<script type="text/javascript">
 		$(function() {

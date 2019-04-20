@@ -134,7 +134,23 @@ public class UserCarBindController extends BaseController {
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
 		return mv;
-	}	
+	}
+
+	/**
+	 * 去审核页面
+	 * @return
+	 */
+	@RequestMapping(value="/goCheck")
+	public ModelAndView goCheck(){
+		logBefore(logger, "去审核UserCarBind页面");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		pd = usercarbindService.findById(pd);
+		mv.setViewName("system/usercarbind/usercarbind_check");
+		mv.addObject("msg", "edit");
+		mv.addObject("pd", pd);
+		return mv;
+	}
 	
 	/**
 	 * 批量删除

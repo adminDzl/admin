@@ -78,9 +78,9 @@
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">
 										<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>
 									</c:if>
-									<c:if test="${QX.edit == 1 }">
-										<a style="cursor:pointer;" title="编辑" onclick="edit('${var.USERCARMONTHCARD_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a>
-									</c:if>
+									<%--<c:if test="${QX.edit == 1 }">--%>
+										<%--<a style="cursor:pointer;" title="编辑" onclick="edit('${var.USERCARMONTHCARD_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a>--%>
+									<%--</c:if>--%>
 									<c:if test="${QX.del == 1 }">
 										<a style="cursor:pointer;" title="删除" onclick="del('${var.USERCARMONTHCARD_ID}');" class="tooltip-error" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-trash"></i></span></a>
 									</c:if>

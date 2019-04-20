@@ -42,11 +42,21 @@
 	<update id="edit" parameterType="pd">
 		update  NEWS_TIP
 			set
-				NEWS_TYPE = #{NEWS_TYPE},
-				NEWS_TITLE = #{NEWS_TITLE},
-				NEWS_CONTENT = #{NEWS_CONTENT},
-				ATTACH_URL = #{ATTACH_URL},
-				STATUS = #{STATUS},
+				<if test="NEWS_TYPE != null">
+					NEWS_TYPE = #{NEWS_TYPE},
+				</if>
+	  			<if test="NEWS_TITLE != null">
+					NEWS_TITLE = #{NEWS_TITLE},
+				</if>
+				<if test="NEWS_CONTENT != null">
+					NEWS_CONTENT = #{NEWS_CONTENT},
+				</if>
+				<if test="ATTACH_URL != null">
+					ATTACH_URL = #{ATTACH_URL},
+				</if>
+				<if test="STATUS != null">
+					STATUS = #{STATUS},
+				</if>
 				UPDATE_TIME = now(),
 			NEWSTIP_ID = NEWSTIP_ID
 			where 

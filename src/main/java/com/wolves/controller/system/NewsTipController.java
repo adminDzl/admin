@@ -86,11 +86,28 @@ public class NewsTipController extends BaseController {
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;}
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
-		pd.put("STATUS", 1);
+		pd.put("STATUS", 0);
 		newstipService.edit(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
+	}
+
+	/**
+	 * 发布
+	 * @param out
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/release")
+	public void release(PrintWriter out) throws Exception{
+		logBefore(logger, "发布NewsTip");
+		//校验权限
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return;}
+		PageData pd = this.getPageData();
+		pd.put("STATUS", 1);
+		newstipService.edit(pd);
+		out.write("success");
+		out.close();
 	}
 	
 	/**
