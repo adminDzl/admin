@@ -51,7 +51,11 @@
 						<th class="center">序号</th>
 						<th class="center">编号</th>
 						<th class="center">申请分类</th>
-						<th class="center">申请人</th>
+						<th class="center">公司</th>
+						<th class="center">姓名</th>
+						<th class="center">性别</th>
+						<th class="center">身份证号</th>
+						<th class="center">手机号码</th>
 						<th class="center">申请标题</th>
 						<th class="center">申请内容</th>
 						<th class="center">审核状态</th>
@@ -86,7 +90,11 @@
 									<c:if test="${var.TYPE == '4' }"><span class="label label-important arrowed-in">楼宇施工许可申请</span></c:if>
 									<c:if test="${var.TYPE == '5' }"><span class="label label-success arrowed">楼宇装饰工程竣工验收申请</span></c:if>
 								</td>
+								<th>${var.COMPANY_NAME}</th>
 								<th>${var.NAME}</th>
+								<th>${var.SEX}</th>
+								<th>${var.SFID}</th>
+								<th>${var.PHONE}</th>
 								<td>${var.TITLE}</td>
 								<td>
 									<c:choose>

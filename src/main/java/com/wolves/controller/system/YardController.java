@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import com.wolves.controller.base.BaseController;
+import com.wolves.dto.YardDTO;
 import com.wolves.entity.system.Page;
 import com.wolves.service.system.yard.YardService;
 import com.wolves.util.*;
@@ -61,52 +62,6 @@ public class YardController extends BaseController {
 		mv.setViewName("save_result");
 		return mv;
 	}
-
-	/**
-	 * 新增
-	 */
-	@RequestMapping(value="/imageUpload")
-	@ResponseBody
-	public Object imageUpload(@RequestParam(required=false) MultipartFile[] files) throws Exception{
-		logBefore(logger, "新增Pictures");
-		Map<String,Object> map = new HashMap<String,Object>();
-		String fileAddress = DateUtil.getDays(), fileName = "";
-		List<PageData> pageDatas = new ArrayList<PageData>();
-		if (files != null && files.length > 0){
-			for (MultipartFile file : files){
-				if(Jurisdiction.buttonJurisdiction(menuUrl, "add")){
-					PageData pd = new PageData();
-					if (null != file && !file.isEmpty()) {
-						//文件上传路径
-						String filePath = PathUtil.getClasspath() + Const.FILEPATHIMG + fileAddress;
-						//执行上传
-						fileName = FileUpload.fileUp(file, filePath, this.get32UUID());
-					}else{
-						System.out.println("上传失败");
-					}
-					//主键
-					pd.put("PICTURES_ID", this.get32UUID());
-					//标题
-					pd.put("TITLE", "场地管理图片");
-					//文件名
-					pd.put("NAME", fileName);
-					//路径
-					pd.put("PATH", fileAddress + "/" + fileName);
-					//创建时间
-					pd.put("CREATETIME", Tools.date2Str(new Date()));
-					//附属于
-					pd.put("MASTER_ID", "1");
-					//备注
-					pd.put("BZ", "场地管理处上传");
-					//加水印
-					pageDatas.add(pd);
-				}
-			}
-		}
-		map.put("result", "ok");
-		map.put("callback", pageDatas);
-		return map;
-	}
 	
 	/**
 	 * 删除
@@ -125,6 +80,25 @@ public class YardController extends BaseController {
 			logger.error(e.toString(), e);
 		}
 	}
+
+	/**
+	 * 删除图片
+	 * @param out
+	 */
+	@RequestMapping(value="/delImage")
+	public void delImage(PrintWriter out){
+		logBefore(logger, "删除场地图片");
+		try{
+			PageData pd = this.getPageData();
+			String PATH = pd.getString("IMAGE_URL");
+			String YARD_ID = pd.getString("YARD_ID");
+			yardService.delImage(YARD_ID, PATH);
+			out.write("success");
+			out.close();
+		}catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+	}
 	
 	/**
 	 * 修改
@@ -135,6 +109,15 @@ public class YardController extends BaseController {
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;}
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
+		String PATH = pd.getString("IMAGE_URL");
+		String YARD_ID = pd.getString("YARD_ID");
+		YardDTO yardDTO = yardService.getYardById(YARD_ID);
+		if (StringUtils.isNotEmpty(PATH)){
+			StringBuffer buf = new StringBuffer();
+			buf.append(yardDTO.getImageUrl()).append(",");
+			buf.append(PATH);
+			pd.put("IMAGE_URL", java.net.URLDecoder.decode(String.valueOf(buf)));
+		}
 		yardService.edit(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");

@@ -91,7 +91,7 @@
 											<c:if test="${var.STATUS == '2' }"><span class="label label-important arrowed-in">已退场</span></c:if>
 										</td>
 										<td>${var.COMPANY_CERTIFY}</td>
-								<td style="width: 30px;" class="center">
+								<td style="width: 50px;" class="center">
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">
 										<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>
 									</c:if>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -105,7 +106,15 @@
             }
         });
     }
-
+	
+    function delImage(IMAGE_URL, YARD_ID) {
+        var url = "yard/delImage.do?IMAGE_URL=" + IMAGE_URL + "&YARD_ID=" + YARD_ID + "&guid=" + new Date().getTime();
+        $.get(url, function (data) {
+            if (data === "success") {
+                document.location.reload();
+            }
+        });
+    }
 </script>
 	</head>
 <body>
@@ -115,7 +124,14 @@
 		<table id="table_report" class="table table-striped table-bordered table-hover">
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">场地类型:</td>
-				<td><input type="number" name="PLACE_TYPE" id="PLACE_TYPE" value="${pd.PLACE_TYPE}" maxlength="32" placeholder="这里输入场地类型" title="场地类型"/></td>
+				<td>
+					<select name="PLACE_TYPE" id="PLACE_TYPE" data-placeholder="请选择场地类型" value="${pd.PLACE_TYPE}" title="场地类型">
+						<option value="">请选择场地类型</option>
+						<option value="1" <c:if test="${pd.PLACE_TYPE == 1}">selected</c:if>>会议室</option>
+						<option value="2" <c:if test="${pd.PLACE_TYPE == 2}">selected</c:if>>活动室</option>
+						<option value="3" <c:if test="${pd.PLACE_TYPE == 3}">selected</c:if>>健身房</option>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">所处位置:</td>
@@ -126,6 +142,16 @@
 				<td>
 					<input name="fileImage" id="fileImage" value="${pd.IMAGE_URL}" placeholder="这里上传图片" title="图片url" type="file" accept="image/*" multiple="multiple" onchange="uploadImage(this)"/>
 					<input name="IMAGE_URL" id="IMAGE_URL" value="" style="display: none"/>
+					<c:if test="${pd.IMAGE_URL != '' || pd.IMAGE_URL != null }">
+						<c:set value="${fn:split(pd.IMAGE_URL,',') }" var="images"/>
+						<c:forEach items="${images }" var="img">
+							<a href="${img}" target="_blank" >
+								<img src="${img}" width="50" height="100"/>
+							</a>
+							<input type="button" class="btn btn-mini btn-danger" value="删除" onclick="delImage('${img}','${pd.YARD_ID}');"
+								   <c:if test="${pd.IMAGE_URL == '' || pd.IMAGE_URL == null }">style="display: none" </c:if>/>
+						</c:forEach>
+					</c:if>
 				</td>
 			</tr>
 

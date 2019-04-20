@@ -1,5 +1,6 @@
 package com.wolves.util;
 
+import com.alibaba.fastjson.JSONObject;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.*;
@@ -224,12 +225,14 @@ public class OssUtil {
             //如果没有扩展名则填默认值application/octet-stream
             metadata.setContentType(getContentType(fileName));
             //指定该Object被下载时的名称（指示MINME用户代理如何显示附加的文件，打开或下载，及文件名称）
-            metadata.setContentDisposition("filename/filesize=" + fileName + "/" + fileSize + "Byte.");
+            String suffix = System.currentTimeMillis()+"." + fileName.substring(fileName.lastIndexOf(".") + 1);
+            metadata.setContentDisposition("filename/filesize=" + suffix + "/" + fileSize + "Byte.");
             //上传文件   (上传文件流的形式)
-            PutObjectResult putResult = ossClient.putObject(bucketName, folder + fileName, is, metadata);
+            PutObjectResult putResult = ossClient.putObject(bucketName, folder + suffix, is, metadata);
             //解析结果
             String resultStr = putResult.getETag();
-            url = FILE_URL + folder + fileName;
+            logger.info(JSONObject.toJSONString(resultStr));
+            url = FILE_URL + folder + suffix;
 
             logger.info(url);
         } catch (Exception e) {
@@ -238,6 +241,7 @@ public class OssUtil {
         }
         return url;
     }
+
 
 
 }

@@ -110,6 +110,7 @@
 		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
 		WHERE a.TYPE != 3
 	</select>
+	<!--查询一卡通申请-->
 	<select id="passlistPage" parameterType="page" resultType="pd">
 		select
 			a.DECORATE_NO,
@@ -122,11 +123,17 @@
 			a.CREATE_TIME,
 			a.UPDATE_TIME,
 			a.DECORATE_ID,
-			u.NAME
+			u.NAME,
+			u.SEX,
+			u.SFID,
+			u.PHONE,
+			c.COMPANY_NAME
 		from
 		DECORATE a
 		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
+		LEFT JOIN company c ON (c.company_id = u.company_id)
 		WHERE a.TYPE = 3
+		ORDER BY c.COMPANY_NAME,a.STATUS DESC
 	</select>
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">

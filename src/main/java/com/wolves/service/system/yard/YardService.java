@@ -1,13 +1,16 @@
 package com.wolves.service.system.yard;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 import javax.annotation.Resource;
 
 import com.wolves.dao.DaoSupport;
 import com.wolves.dto.YardDTO;
 import com.wolves.entity.system.Page;
 import com.wolves.util.PageData;
+import com.wolves.util.StringUtils;
 import org.springframework.stereotype.Service;
 
 @Service("yardService")
@@ -82,6 +85,38 @@ public class YardService {
 	public YardDTO getYardById(String yardId){
 
 		return (YardDTO) dao.findForObject("YardMapper.getYardById", yardId);
+	}
+
+	/**
+	 * 更新数据
+	 * @param yardDTO
+	 */
+	public void updateYard(YardDTO yardDTO){
+
+		dao.update("YardMapper.updateYard", yardDTO);
+	}
+
+	/**
+	 * 删除图片
+	 * @param id
+	 * @param url
+	 */
+	public void delImage(String id, String url){
+		if (StringUtils.isNotEmpty(id)){
+			YardDTO yardDTO = this.getYardById(id);
+			String imageUrls = yardDTO.getImageUrl();
+			List<String> images = Arrays.asList(imageUrls.split(","));
+			if (!images.isEmpty() && StringUtils.isNotEmpty(url)){
+				final CopyOnWriteArrayList<String> cowList = new CopyOnWriteArrayList<String>(images);
+				for (String item : cowList) {
+					if (item.equals(url)) {
+						cowList.remove(item);
+					}
+				}
+				yardDTO.setImageUrl(StringUtils.join(cowList, ","));
+			}
+			this.updateYard(yardDTO);
+		}
 	}
 }
 

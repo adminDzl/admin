@@ -42,14 +42,25 @@
 	</delete>
 	<!-- 修改 -->
 	<update id="edit" parameterType="pd">
-		update  YARD
-			set 
+		update YARD
+			set
+			<if test="PLACE_TYPE != null">
 				PLACE_TYPE = #{PLACE_TYPE},
+			</if>
+			<if test="POSITION != null">
 				POSITION = #{POSITION},
+			</if>
+			<if test="IMAGE_URL != null">
 				IMAGE_URL = #{IMAGE_URL},
+			</if>
+			<if test="EQUIPMENT != null">
 				EQUIPMENT = #{EQUIPMENT},
+			</if>
+			<if test="RENT_FEE != null">
 				RENT_FEE = #{RENT_FEE},
-			YARD_ID = YARD_ID
+			</if>
+				UPDATE_TIME = now(),
+				YARD_ID = YARD_ID
 			where 
 				YARD_ID = #{YARD_ID}
 	</update>
@@ -153,4 +164,28 @@
 		YARD a
 		WHERE a.yard_id = #{yardId}
 	</select>
+
+	<update id="updateYard">
+		  update YARD
+			set
+				<if test="placeType != null">
+					PLACE_TYPE = #{placeType},
+				</if>
+				<if test="position != null">
+					POSITION = #{position},
+				</if>
+				<if test="imageUrl != null">
+					IMAGE_URL = #{imageUrl},
+				</if>
+				<if test="equipment != null">
+					EQUIPMENT = #{equipment},
+				</if>
+				<if test="rentFee != null">
+					RENT_FEE = #{rentFee},
+				</if>
+				UPDATE_TIME = now(),
+				YARD_ID = YARD_ID
+			where
+				YARD_ID = #{yardId}
+	</update>
 </mapper>
