@@ -46,18 +46,22 @@
 	<!-- 通过ID获取数据 -->
 	<select id="findById" parameterType="pd" resultType="pd">
 		select 
-			USER_ID,	
-			CARD_NO,	
-			PRICE,	
-			USE_TIL_DATE,	
-			CARD_STATUS,	
-			CREATE_TIME,	
-			UPDATE_TIME,	
-			user_car_month_card_id
+			a.USER_ID,
+			a.CARD_NO,
+			a.PRICE,
+			a.USE_TIL_DATE,
+			a.CARD_STATUS,
+			a.CREATE_TIME,
+			a.UPDATE_TIME,
+			a.user_car_month_card_id,
+			u.NAME,
+			u.SFID,
+			u.PHONE
 		from 
-			USER_CAR_MONTH_CARD
+			USER_CAR_MONTH_CARD a
+		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
 		where 
-			user_car_month_card_id = #{user_car_month_card_id}
+			a.user_car_month_card_id = #{user_car_month_card_id}
 	</select>
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">

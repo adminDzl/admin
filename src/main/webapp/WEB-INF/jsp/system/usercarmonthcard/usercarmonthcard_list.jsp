@@ -62,7 +62,7 @@
 						<c:forEach items="${varList}" var="var" varStatus="vs">
 							<tr>
 								<td class='center' style="width: 30px;">
-									<label><input type='checkbox' name='ids' value="${var.USERCARMONTHCARD_ID}" /><span class="lbl"></span></label>
+									<label><input type='checkbox' name='ids' value="${var.user_car_month_card_id}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 										<td>${var.NAME}</td>
@@ -82,7 +82,12 @@
 										<%--<a style="cursor:pointer;" title="编辑" onclick="edit('${var.USERCARMONTHCARD_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a>--%>
 									<%--</c:if>--%>
 									<c:if test="${QX.del == 1 }">
-										<a style="cursor:pointer;" title="删除" onclick="del('${var.USERCARMONTHCARD_ID}');" class="tooltip-error" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-trash"></i></span></a>
+										<a style="cursor:pointer;" title="删除" onclick="del('${var.user_car_month_card_id}');" class="tooltip-error" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-trash"></i></span></a>
+									</c:if>
+									<c:if test="${var.CARD_STATUS == 1}">
+										<c:if test="${QX.edit == 1 }">
+											<a style="cursor:pointer;" title="下载pdf" onclick="down('${var.user_car_month_card_id}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-check"></i></span></a>
+										</c:if>
 									</c:if>
 								</td>
 							</tr>
@@ -190,6 +195,14 @@
 			 };
 			 diag.show();
 		}
+        //下载pdf
+        function down(Id) {
+            var $eleForm = $("<form method='get'><input type='hidden' id='user_car_month_card_id' name='user_car_month_card_id' value='" +Id+ "' type='text' /></form>");
+            $eleForm.attr("action",'<%=basePath%>usercarmonthcard/exportPdf.do');
+            $(document.body).append($eleForm);
+            //提交表单，实现下载
+            $eleForm.submit();
+        }
 		</script>
 		<script type="text/javascript">
 		$(function() {

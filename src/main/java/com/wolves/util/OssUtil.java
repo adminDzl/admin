@@ -2,30 +2,15 @@ package com.wolves.util;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aliyun.oss.OSSClient;
-import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.*;
 import com.wolves.common.OSSClientConstants;
-import org.apache.log4j.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import sun.misc.BASE64Decoder;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- * Created by gf on 2019/3/26.
+ * 上传
+ * @author gf
+ * @date 2019/3/26
  */
 public class OssUtil {
 
@@ -115,6 +100,9 @@ public class OssUtil {
         }
         if (".zip".equals(fileExtension)) {
             return "application/zip";
+        }
+        if (".pdf".equals(fileExtension)) {
+            return "application/pdf";
         }
         // 默认返回类型
         return "image/jpeg";

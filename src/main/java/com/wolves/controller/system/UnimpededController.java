@@ -1,6 +1,8 @@
 package com.wolves.controller.system;
 
+import com.itextpdf.text.DocumentException;
 import com.wolves.controller.base.BaseController;
+import com.wolves.dto.user.ExportDTO;
 import com.wolves.entity.system.Page;
 import com.wolves.service.system.decorate.DecorateService;
 import com.wolves.util.*;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -85,6 +89,37 @@ public class UnimpededController extends BaseController {
         mv.addObject("msg","success");
         mv.setViewName("save_result");
         return mv;
+    }
+
+    /**
+     * pdf导出
+     * @param response
+     * @param out
+     */
+    @RequestMapping(value="/exportPdf")
+    @ResponseBody
+    public void exportPdf(HttpServletResponse response, PrintWriter out){
+        logBefore(logger, "导出unimpeded");
+        if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){
+            return;
+        }
+        PageData pd = this.getPageData();
+        pd = decorateService.findById(pd);
+
+        ExportDTO exportDTO = new ExportDTO();
+        exportDTO.setName(pd.getString("NAME"));
+        exportDTO.setIdcard(pd.getString("SFID"));
+        exportDTO.setPhone(pd.getString("PHONE"));
+        try {
+            PdfUtil.setPdfData(response, "https://adminwolves.oss-cn-beijing.aliyuncs.com/admin/1555827577980.pdf", "一卡通申请", exportDTO);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+
+        out.write("success");
+        out.close();
     }
 
     /**

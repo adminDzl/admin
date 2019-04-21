@@ -17,7 +17,7 @@
 <div id="page-content" class="clearfix">
   <div class="row-fluid">
 	<div class="row-fluid">
-			<form action="decorate/list.do" method="post" name="Form" id="Form">
+			<form action="unimpeded/list.do" method="post" name="Form" id="Form">
 			<table>
 				<tr>
 					<td>
@@ -128,6 +128,11 @@
 											<a style="cursor:pointer;" title="审核" onclick="audit('${var.DECORATE_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-check"></i></span></a>
 										</c:if>
 									</c:if>
+									<c:if test="${var.STATUS == 1}">
+										<c:if test="${QX.edit == 1 }">
+											<a style="cursor:pointer;" title="下载pdf" onclick="down('${var.DECORATE_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-check"></i></span></a>
+										</c:if>
+									</c:if>
 								</td>
 							</tr>
 						</c:forEach>
@@ -231,13 +236,13 @@
 			 };
 			 diag.show();
 		}
-
+		//审核
         function audit(Id){
             top.jzts();
             var diag = new top.Dialog();
             diag.Drag=true;
             diag.Title ="审核";
-            diag.URL = '<%=basePath%>decorate/goCheck.do?DECORATE_ID='+Id;
+            diag.URL = '<%=basePath%>unimpeded/goCheck.do?DECORATE_ID='+Id;
             diag.Width = 450;
             diag.Height = 355;
             diag.CancelEvent = function(){ //关闭事件
@@ -247,6 +252,14 @@
                 diag.close();
             };
             diag.show();
+        }
+        //下载pdf
+        function down(Id) {
+            var $eleForm = $("<form method='get'><input type='hidden' id='DECORATE_ID' name='DECORATE_ID' value='" +Id+ "' type='text' /></form>");
+            $eleForm.attr("action",'<%=basePath%>unimpeded/exportPdf.do');
+            $(document.body).append($eleForm);
+            //提交表单，实现下载
+            $eleForm.submit();
         }
 		</script>
 		<script type="text/javascript">

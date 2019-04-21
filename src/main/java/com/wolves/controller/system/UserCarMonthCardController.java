@@ -1,5 +1,6 @@
 package com.wolves.controller.system;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -9,6 +10,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+
+import com.itextpdf.text.DocumentException;
+import com.wolves.dto.user.ExportDTO;
+import com.wolves.util.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -21,12 +27,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.wolves.controller.base.BaseController;
 import com.wolves.entity.system.Page;
-import com.wolves.util.AppUtil;
-import com.wolves.util.ObjectExcelView;
-import com.wolves.util.Const;
-import com.wolves.util.PageData;
-import com.wolves.util.Tools;
-import com.wolves.util.Jurisdiction;
 import com.wolves.service.system.usercarmonthcard.UserCarMonthCardService;
 
 /**
@@ -88,6 +88,37 @@ public class UserCarMonthCardController extends BaseController {
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
+	}
+
+	/**
+	 * pdf导出
+	 * @param response
+	 * @param out
+	 */
+	@RequestMapping(value="/exportPdf")
+	@ResponseBody
+	public void exportPdf(HttpServletResponse response, PrintWriter out){
+		logBefore(logger, "导出UserCarMonthCard");
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){
+			return;
+		}
+		PageData pd = this.getPageData();
+		pd = usercarmonthcardService.findById(pd);
+
+		ExportDTO exportDTO = new ExportDTO();
+		exportDTO.setName(pd.getString("NAME"));
+		exportDTO.setIdcard(pd.getString("SFID"));
+		exportDTO.setPhone(pd.getString("PHONE"));
+		try {
+			PdfUtil.setPdfData(response, "https://adminwolves.oss-cn-beijing.aliyuncs.com/admin/1555832382161.pdf", "停车场业务申请", exportDTO);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
+
+		out.write("success");
+		out.close();
 	}
 	
 	/**

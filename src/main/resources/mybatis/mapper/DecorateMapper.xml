@@ -84,7 +84,9 @@
 			a.CREATE_TIME,
 			a.UPDATE_TIME,
 			a.DECORATE_ID,
-			u.NAME
+			u.NAME,
+			u.SFID,
+			u.PHONE
 		from 
 			DECORATE a
 		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
