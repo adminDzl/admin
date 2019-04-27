@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="UserCarMonthCardMapper">
+
+	<resultMap type="com.wolves.dto.user.ExportDTO" id="ResultMap">
+		<id column="USER_ID" property="id"/>
+		<result column="COMPANY_NAME" property="companyName"/>
+		<result column="PAY_TIME" property="payTime"/>
+		<result column="NAME" property="name"/>
+		<result column="SFID" property="idcard"/>
+		<result column="PHONE" property="phone"/>
+		<result column="PAY_AMOUNT" property="amount"/>
+		<result column="CAR_NO" property="plate"/>
+		<result column="USE_TIL_DATE" property="expireTime"/>
+		<result column="PAY_AMOUNT" property="amount"/>
+		<result column="COMPANY_ID" property="companyId"/>
+		<result column="ID_CARD_FRONT_URL" property="image"/>
+		<result column="ID_CARD_BACK_URL" property="imageBack"/>
+	</resultMap>
+
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into USER_CAR_MONTH_CARD(
@@ -102,4 +119,34 @@
                  #{item}
 		</foreach>
 	</delete>
+
+	<select id="findMonthCardById" parameterType="com.wolves.dto.user.ExportDTO" resultMap="ResultMap">
+		select
+		a.USER_ID,
+		a.CARD_NO,
+		a.PRICE,
+		a.USE_TIL_DATE,
+		a.CARD_STATUS,
+		a.CREATE_TIME,
+		a.UPDATE_TIME,
+		a.user_car_month_card_id,
+		u.NAME,
+		u.SFID,
+		u.PHONE,
+		u.ID_CARD_FRONT_URL,
+		u.ID_CARD_BACK_URL,
+		b.CAR_NO,
+		p.PAY_AMOUNT,
+		p.PAY_TIME,
+		c.COMPANY_ID,
+		c.COMPANY_NAME
+		from
+		USER_CAR_MONTH_CARD a
+		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
+		LEFT JOIN USER_CAR_BIND b ON (b.USER_ID = a.USER_ID AND b.STATUS = 1)
+		LEFT JOIN PAY_ORDER p ON (p.USER_ID = a.USER_ID AND p.PAY_TYPE = 4 AND p.PAY_STATUS = 1)
+		LEFT JOIN COMPANY c ON (c.COMPANY_ID = u.COMPANY_ID)
+		where
+		a.user_car_month_card_id = #{user_car_month_card_id}
+	</select>
 </mapper>

@@ -5,6 +5,7 @@
 	<resultMap type="com.wolves.dto.RoomDTO" id="ResultMap">
 		<result column="room_id" property="id"/>
 		<result column="room_name" property="name"/>
+		<result column="floorman_id" property="floormanId"/>
 	</resultMap>
 
 	<!-- 新增-->
@@ -101,5 +102,14 @@
 		  room_name
 		  FROM room
 		  WHERE floorman_id = #{floormanId}
+	</select>
+
+	<select id="selectRoomByCompanyId" parameterType="com.wolves.dto.RoomDTO" resultMap="ResultMap">
+		SELECT
+		room_id,
+		floorman_id,
+		room_name
+		FROM room
+		WHERE company_id = #{companyId}
 	</select>
 </mapper>

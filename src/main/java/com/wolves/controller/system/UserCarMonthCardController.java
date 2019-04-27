@@ -13,7 +13,13 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import com.itextpdf.text.DocumentException;
+import com.wolves.common.BuildEnum;
+import com.wolves.dto.FloorManDTO;
+import com.wolves.dto.RoomDTO;
 import com.wolves.dto.user.ExportDTO;
+import com.wolves.entity.app.PayOrder;
+import com.wolves.service.system.floorman.FloorManService;
+import com.wolves.service.system.room.RoomService;
 import com.wolves.util.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -42,7 +48,11 @@ public class UserCarMonthCardController extends BaseController {
 	String menuUrl = "usercarmonthcard/list.do";
 	@Resource(name="usercarmonthcardService")
 	private UserCarMonthCardService usercarmonthcardService;
-	
+	@Resource(name="roomService")
+	private RoomService roomService;
+	@Resource(name="floormanService")
+	private FloorManService floormanService;
+
 	/**
 	 * 新增
 	 */
@@ -103,14 +113,42 @@ public class UserCarMonthCardController extends BaseController {
 			return;
 		}
 		PageData pd = this.getPageData();
-		pd = usercarmonthcardService.findById(pd);
+		String id = pd.getString("user_car_month_card_id");
+		ExportDTO exportDTO = usercarmonthcardService.findMonthCardById(id);
+		if (exportDTO != null && exportDTO.getId() != null){
+			//设置是首次还是第二次
+			List<PayOrder> payOrders = usercarmonthcardService.selectPayMonthCard(exportDTO.getId());
+			if (payOrders != null){
+				if (payOrders.size() > 1){
+					exportDTO.setAgain("On");
+				}else {
+					exportDTO.setFirst("On");
+				}
+			}
+			//设置楼栋
+			List<RoomDTO> roomDTOS = roomService.selectRoomByCompanyId(exportDTO.getCompanyId());
+			if (roomDTOS != null && !roomDTOS.isEmpty()){
+				StringBuilder stringBuffer = new StringBuilder();
+				for (RoomDTO roomDTO : roomDTOS){
+					stringBuffer.append(roomDTO.getName()).append(",");
+				}
+				String floormanId =  roomDTOS.get(0).getFloormanId();
+				FloorManDTO floorManDTO = floormanService.selectFloorManById(floormanId);
+				if (floorManDTO != null){
+					if (BuildEnum.south.getName().equals(floorManDTO.getBuildNo()) ||
+							BuildEnum.north.getName().equals(floorManDTO.getBuildNo())){
+						exportDTO.setHouse("On");
+					}else {
+						exportDTO.setBuild("On");
+					}
+					exportDTO.setBuilding(floorManDTO.getFloor());
+				}
+				exportDTO.setFloor(stringBuffer.toString().substring(0, stringBuffer.toString().length()-1));
+			}
 
-		ExportDTO exportDTO = new ExportDTO();
-		exportDTO.setName(pd.getString("NAME"));
-		exportDTO.setIdcard(pd.getString("SFID"));
-		exportDTO.setPhone(pd.getString("PHONE"));
+		}
 		try {
-			PdfUtil.setPdfData(response, "https://adminwolves.oss-cn-beijing.aliyuncs.com/admin/1555832382161.pdf", "停车场业务申请", exportDTO);
+			PdfUtil.setPdfData(response, "https://adminwolves.oss-cn-beijing.aliyuncs.com/admin/1556341521919.pdf", "停车场业务申请", exportDTO);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (DocumentException e) {

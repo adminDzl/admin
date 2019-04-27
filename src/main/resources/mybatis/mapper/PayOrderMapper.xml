@@ -129,8 +129,19 @@
 		create_time,
 		update_time
 		from pay_order
-		where user_id = #{userId}
+		where 1=1
+		<if test="userId != null">
+			AND user_id = #{userId}
+		</if>
+		<if test="payType != null">
+			AND pay_type = #{payType}
+		</if>
+		<if test="payStatus != null">
+			AND pay_status = #{payStatus}
+		</if>
 		ORDER BY create_time DESC
-		LIMIT #{start}, #{size}
+		<if test="start != null">
+			LIMIT #{start}, #{size}
+		</if>
 	</select>
 </mapper>

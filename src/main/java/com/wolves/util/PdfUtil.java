@@ -1,6 +1,8 @@
 package com.wolves.util;
 
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.*;
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.*;
@@ -39,7 +41,7 @@ public class PdfUtil {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         /* 将要生成的目标PDF文件名称 */
         PdfStamper ps = new PdfStamper(reader, bos);
-        PdfContentByte under = ps.getUnderContent(1);
+//        PdfContentByte under = ps.getUnderContent(1);
         /* 使用中文字体 */
         BaseFont bf = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
         ArrayList<BaseFont> fontList = new ArrayList<BaseFont>();
@@ -50,7 +52,7 @@ public class PdfUtil {
 
         try {
             Map<String, String> data =  BeanUtils.describe(bean);
-            fillData(fields, data);
+            fillData(fields, ps, data);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -82,11 +84,33 @@ public class PdfUtil {
         }
     }
 
-    private static void fillData(AcroFields fields, Map<String, String> data) throws IOException, DocumentException {
+    private static void fillData(AcroFields fields, PdfStamper ps, Map<String, String> data) throws IOException, DocumentException {
         // 为字段赋值,注意字段名称是区分大小写的
         for (String key : data.keySet()) {
-            String value = data.get(key);
-            fields.setField(key, value);
+            if (key.equals("image") || key.equals("imageBack")){
+                /**
+                 * 添加图片
+                 */
+                String imgpath = data.get(key);
+                int pageNo = fields.getFieldPositions(key).get(0).page;
+                Rectangle signRect = fields.getFieldPositions(key).get(0).position;
+                float x = signRect.getLeft();
+                float y = signRect.getBottom();
+                // 读图片
+                Image image = Image.getInstance(imgpath);
+                // 获取操作的页面
+                PdfContentByte under = ps.getOverContent(pageNo);
+                // 根据域的大小缩放图片
+                image.scaleToFit(signRect.getWidth(), signRect.getHeight());
+                // 添加图片
+                image.setAbsolutePosition(x, y);
+                under.addImage(image);
+            }else {
+                if (StringUtils.isNotEmpty(data.get(key))){
+                    String value = data.get(key);
+                    fields.setField(key, value);
+                }
+            }
         }
 
     }

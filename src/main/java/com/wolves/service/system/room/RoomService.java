@@ -73,5 +73,15 @@ public class RoomService {
 
 		return (List<RoomDTO>)dao.findForList("RoomMapper.selectRoomByFloor", floormanId);
 	}
+
+	/**
+	 * 根据企业id查询楼层
+	 * @param companyId
+	 * @return
+	 */
+	public List<RoomDTO> selectRoomByCompanyId (String companyId){
+
+		return (List<RoomDTO>)dao.findForList("RoomMapper.selectRoomByCompanyId", companyId);
+	}
 }
 

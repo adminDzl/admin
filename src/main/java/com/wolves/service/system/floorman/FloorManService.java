@@ -85,5 +85,15 @@ public class FloorManService {
 
 		return (List<FloorDTO>) dao.findForList("FloorManMapper.selectFloorByBuildNo", buildNo);
 	}
+
+	/**
+	 * 根据楼层id查询楼层信息
+	 * @param floormanId
+	 * @return
+	 */
+	public FloorManDTO selectFloorManById(String floormanId){
+
+		return (FloorManDTO)dao.findForObject("FloorManMapper.selectFloorManById", floormanId);
+	}
 }
 

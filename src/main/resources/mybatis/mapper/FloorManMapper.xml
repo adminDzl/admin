@@ -157,4 +157,20 @@
 		FLOOR_MAN a
 		WHERE a.build_no = #{buildNo}
 	</select>
+
+	<!--根据楼层查询楼层楼栋信息-->
+	<select id="selectFloorManById" parameterType="com.wolves.dto.FloorManDTO" resultMap="FloorManResultMap">
+		select
+				b.build_no,
+				b.build_master_name,
+				b.master_tel,
+				a.floor,
+				a.floor_master_name,
+				a.master_tel AS tel,
+				a.create_time
+		from
+				FLOOR_MAN a
+				LEFT JOIN BUILD_MAN b ON (b.BUILD_NO = a.BUILD_NO)
+		WHERE a.floorman_id = #{floormanId}
+	</select>
 </mapper>

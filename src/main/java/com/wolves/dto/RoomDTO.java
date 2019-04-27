@@ -1,10 +1,13 @@
 package com.wolves.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * Created by Administrator on 2019/4/11.
+ * 房间信息
+ * @author Administrator
+ * @date 2019/4/11
  */
 @ApiModel(description = "房间信息")
 public class RoomDTO {
@@ -14,6 +17,12 @@ public class RoomDTO {
 
     @ApiModelProperty(name = "name",value = "房间")
     private String name;
+
+    /**
+     * 不展示
+     */
+    @JsonIgnore
+    private String floormanId;
 
     public String getId() {
         return id;
@@ -29,5 +38,21 @@ public class RoomDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getFloormanId() {
+        return floormanId;
+    }
+
+    public void setFloormanId(String floormanId) {
+        this.floormanId = floormanId;
+    }
+
+    @Override
+    public String toString() {
+        return "RoomDTO{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

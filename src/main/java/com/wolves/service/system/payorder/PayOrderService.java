@@ -65,6 +65,11 @@ public class PayOrderService {
 		dao.delete("PayOrderMapper.deleteAll", ArrayDATA_IDS);
 	}
 
+	/**
+	 * 查询付费记录，通过客户id
+	 * @param params
+	 * @return
+	 */
 	public List<PayOrder> selectPayOrderByUserId(Map<String, Object> params){
 
 		return (List<PayOrder>)dao.findForList("PayOrderMapper.selectPayOrderByUserId", params);
