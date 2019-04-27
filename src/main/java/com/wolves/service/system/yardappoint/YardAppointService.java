@@ -88,6 +88,16 @@ public class YardAppointService {
 	}
 
 	/**
+	 * 查询excel导出的数据
+	 * @param pd
+	 * @return
+	 */
+	public List<PageData> listYardAppoint(PageData pd){
+
+		return (List<PageData>)dao.findForList("YardAppointMapper.listYardAppoint", pd);
+	}
+
+	/**
 	 * 提交预约
 	 * @param applyYardDTO
 	 * @param userId

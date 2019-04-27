@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 
+import com.wolves.common.YardTypeEnum;
 import com.wolves.controller.base.BaseController;
 import com.wolves.entity.system.Page;
 import com.wolves.service.system.yardappoint.YardAppointService;
@@ -173,6 +174,7 @@ public class YardAppointController extends BaseController {
 	}
 	
 	/**
+	 * 导出付费的用户信息包括【申请单位名称、单位联系人、联系电话、预约场地、使用费用、会议/培训名称（若有）、会议/培训时间、使用时间段（格式：上午/下午 xx时-上午/下午xx时）】
 	 * 导出到excel
 	 * @return
 	 */
@@ -182,34 +184,54 @@ public class YardAppointController extends BaseController {
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
 		ModelAndView mv = new ModelAndView();
 		PageData pd = this.getPageData();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try{
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
-			titles.add("场地ID");
-			titles.add("预定人ID");
-			titles.add("预约日期");
-			titles.add("预定开始时间");
-			titles.add("预约结束时间");
-			titles.add("预定时长");
-			titles.add("预定金额");
-			titles.add("预定状态");
-			titles.add("创建时间");
-			titles.add("更新时间");
+			titles.add("申请单位名称");
+			titles.add("单位联系人");
+			titles.add("联系电话");
+			titles.add("预约场地");
+			titles.add("使用费用");
+			titles.add("会议/培训名称");
+			titles.add("会议/培训时间");
 			dataMap.put("titles", titles);
-			List<PageData> varOList = yardappointService.listAll(pd);
+			List<PageData> varOList = yardappointService.listYardAppoint(pd);
 			List<PageData> varList = new ArrayList<PageData>();
 			for(int i=0;i<varOList.size();i++){
 				PageData vpd = new PageData();
-				vpd.put("var1", varOList.get(i).getString("PLACE_ID"));
-				vpd.put("var2", varOList.get(i).getString("APPLY_USER_ID"));
-				vpd.put("var3", varOList.get(i).getString("PLACE_DATE"));
-				vpd.put("var4", varOList.get(i).getString("BEGIN_TIME"));
-				vpd.put("var5", varOList.get(i).getString("END_TIME"));
-				vpd.put("var6", varOList.get(i).get("BOOK_DURATION").toString());
-				vpd.put("var7", varOList.get(i).getString("BOOK_FEE"));
-				vpd.put("var8", varOList.get(i).get("STATUS").toString());
-				vpd.put("var9", varOList.get(i).getString("CREATE_TIME"));
-				vpd.put("var10", varOList.get(i).getString("UPDATE_TIME"));
+				if (StringUtils.isNotEmpty(varOList.get(i).getString("company_name"))){
+					vpd.put("var1", varOList.get(i).getString("company_name"));
+				}else {
+					vpd.put("var1", "-");
+				}
+				if (StringUtils.isNotEmpty(varOList.get(i).getString("name"))){
+					vpd.put("var2", varOList.get(i).getString("name"));
+				}else {
+					vpd.put("var2", "-");
+				}
+				if (StringUtils.isNotEmpty(varOList.get(i).getString("phone"))){
+					vpd.put("var3", varOList.get(i).getString("phone"));
+				}else {
+					vpd.put("var3", "-");
+				}
+				String position = varOList.get(i).getString("position");
+				String type = varOList.get(i).get("place_type").toString();
+				if (StringUtils.isNotEmpty(type)){
+					vpd.put("var4", YardTypeEnum.queryValueByKey(type)+"-"+position);
+				}
+				vpd.put("var5", varOList.get(i).getString("book_fee"));
+
+				vpd.put("var6", "-");
+				String startTime = varOList.get(i).getString("begin_time");
+				String endTime = varOList.get(i).getString("end_time");
+				if (StringUtils.isNotEmpty(startTime) && StringUtils.isNotEmpty(endTime)){
+					vpd.put("var7", sdf.format(formatter.parse(startTime))+" - "+sdf.format(formatter.parse(endTime)));
+				}else {
+					vpd.put("var7", "-");
+				}
+
 				varList.add(vpd);
 			}
 			dataMap.put("varList", varList);
