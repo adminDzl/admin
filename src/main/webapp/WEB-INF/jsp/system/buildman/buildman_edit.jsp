@@ -16,26 +16,25 @@
 		<link href="static/css/bootstrap.min.css" rel="stylesheet" />
 		<link href="static/css/bootstrap-responsive.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="static/css/font-awesome.min.css" />
-		<!-- 下拉框 -->
 		<link rel="stylesheet" href="static/css/chosen.css" />
 		<link rel="stylesheet" href="static/css/ace.min.css" />
 		<link rel="stylesheet" href="static/css/ace-responsive.min.css" />
 		<link rel="stylesheet" href="static/css/ace-skins.min.css" />
-		<link rel="stylesheet" href="static/css/datepicker.css" /><!-- 日期框 -->
+		<link rel="stylesheet" href="static/css/datepicker.css" />
 		<script type="text/javascript" src="static/js/jquery-1.7.2.js"></script>
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 <script type="text/javascript">
 	//保存
 	function save(){
 
-		if($("#BUILD_NO").val()==""){
-			$("#BUILD_NO").tips({
+		if($("#BUILD_NAME").val()==""){
+			$("#BUILD_NAME").tips({
 				side:3,
 	            msg:'请输入楼栋号',
 	            bg:'#AE81FF',
 	            time:2
 	        });
-			$("#BUILD_NO").focus();
+			$("#BUILD_NAME").focus();
 			return false;
 		}
 		if($("#BUILD_MASTER_NAME").val()==""){
@@ -73,7 +72,7 @@
 
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">楼栋号:</td>
-				<td><input type="text" name="BUILD_NO" id="BUILD_NO" value="${pd.BUILD_NO}" maxlength="32" placeholder="这里输入楼栋号" title="楼栋号"/></td>
+				<td><input type="text" name="BUILD_NAME" id="BUILD_NAME" value="${pd.BUILD_NAME}" maxlength="32" placeholder="这里输入楼栋号" title="楼栋号"/></td>
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">楼长姓名:</td>
@@ -91,26 +90,19 @@
 			</tr>
 		</table>
 		</div>
-		
 		<div id="zhongxin2" class="center" style="display:none"><br/><br/><br/><br/><br/><img src="static/images/jiazai.gif" /><br/><h4 class="lighter block green">提交中...</h4></div>
-		
 	</form>
-	
-	
-		<!-- 引入 -->
 		<script type="text/javascript">window.jQuery || document.write("<script src='static/js/jquery-1.9.1.min.js'>\x3C/script>");</script>
 		<script src="static/js/bootstrap.min.js"></script>
 		<script src="static/js/ace-elements.min.js"></script>
 		<script src="static/js/ace.min.js"></script>
-		<script type="text/javascript" src="static/js/chosen.jquery.min.js"></script><!-- 下拉框 -->
-		<script type="text/javascript" src="static/js/bootstrap-datepicker.min.js"></script><!-- 日期框 -->
+		<script type="text/javascript" src="static/js/chosen.jquery.min.js"></script>
+		<script type="text/javascript" src="static/js/bootstrap-datepicker.min.js"></script>
 		<script type="text/javascript">
 		$(top.hangge());
 		$(function() {
-			//单选框
-			$(".chzn-select").chosen(); 
+			$(".chzn-select").chosen();
 			$(".chzn-select-deselect").chosen({allow_single_deselect:true}); 
-			//日期框
 			$('.date-picker').datepicker();
 		});
 		</script>

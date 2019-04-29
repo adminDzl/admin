@@ -80,7 +80,7 @@
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
-				a.BUILD_NO,	
+				b.build_name as buildName,
 				a.FLOOR,	
 				a.FLOOR_MASTER_NAME,	
 				a.MASTER_TEL,	
@@ -88,6 +88,7 @@
 				a.FLOORMAN_ID
 		from 
 				FLOOR_MAN a
+		left join build_man b on a.build_no=b.BUILDMAN_ID
 		WHERE 1=1
 		<if test="pd.FLOOR_MASTER_NAME != '' and pd.FLOOR_MASTER_NAME != null ">
 			AND a.FLOOR_MASTER_NAME = #{pd.FLOOR_MASTER_NAME, jdbcType=VARCHAR}
@@ -135,7 +136,7 @@
 				a.create_time
 		from
 				FLOOR_MAN a
-				LEFT JOIN BUILD_MAN b ON (b.BUILD_NO = a.BUILD_NO)
+				LEFT JOIN BUILD_MAN b ON (b.BUILD_NO = a.BUILDMAN_ID)
 	</select>
 
 	<select id="selectFloorManByBuildNo" parameterType="com.wolves.dto.FloorManAllDTO" resultMap="FloorManAllResultMap">
@@ -170,7 +171,7 @@
 				a.create_time
 		from
 				FLOOR_MAN a
-				LEFT JOIN BUILD_MAN b ON (b.BUILD_NO = a.BUILD_NO)
+				LEFT JOIN BUILD_MAN b ON (b.BUILDMAN_ID = a.BUILD_NO)
 		WHERE a.floorman_id = #{floormanId}
 	</select>
 </mapper>

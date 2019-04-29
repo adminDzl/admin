@@ -134,8 +134,7 @@ public class FloorManController extends BaseController {
 	public ModelAndView goEdit(){
 		logBefore(logger, "去修改FloorMan页面");
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
+		PageData pd = this.getPageData();
 		pd = floormanService.findById(pd);
 		mv.setViewName("system/floorman/floorman_edit");
 		mv.addObject("msg", "edit");

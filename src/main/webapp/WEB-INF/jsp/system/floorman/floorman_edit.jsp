@@ -31,7 +31,7 @@
 		if($("#BUILD_NO").val()==""){
 			$("#BUILD_NO").tips({
 				side:3,
-	            msg:'请选择楼栋号',
+	            msg:'请选择楼栋',
 	            bg:'#AE81FF',
 	            time:2
 	        });
@@ -83,10 +83,10 @@
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">楼栋号:</td>
 				<td>
-					<select name="BUILD_NO" id="BUILD_NO" maxlength="32" placeholder="这里选择楼栋号" title="楼栋号" value="${pd.BUILD_NO}" >
+					<select name="BUILD_NO" id="BUILD_NO" maxlength="32" placeholder="这里选择楼栋" title="楼栋" >
 						<option value=''>请选择</option>
 						<c:forEach items="${buildman}" varStatus="status" var="item">
-							<option value="${item.BUILD_NO }">${item.BUILD_NO }</option>
+							<option value="${item.BUILDMAN_ID }" <c:if test="${item.BUILDMAN_ID==pd.BUILD_NO}">selected</c:if>>${item.BUILD_NAME }</option>
 						</c:forEach>
 					</select>
 				</td>
@@ -111,26 +111,19 @@
 			</tr>
 		</table>
 		</div>
-		
 		<div id="zhongxin2" class="center" style="display:none"><br/><br/><br/><br/><br/><img src="static/images/jiazai.gif" /><br/><h4 class="lighter block green">提交中...</h4></div>
-		
 	</form>
-	
-	
-		<!-- 引入 -->
 		<script type="text/javascript">window.jQuery || document.write("<script src='static/js/jquery-1.9.1.min.js'>\x3C/script>");</script>
 		<script src="static/js/bootstrap.min.js"></script>
 		<script src="static/js/ace-elements.min.js"></script>
 		<script src="static/js/ace.min.js"></script>
-		<script type="text/javascript" src="static/js/chosen.jquery.min.js"></script><!-- 下拉框 -->
-		<script type="text/javascript" src="static/js/bootstrap-datepicker.min.js"></script><!-- 日期框 -->
+		<script type="text/javascript" src="static/js/chosen.jquery.min.js"></script>
+		<script type="text/javascript" src="static/js/bootstrap-datepicker.min.js"></script>
 		<script type="text/javascript">
 		$(top.hangge());
 		$(function() {
-			//单选框
-			$(".chzn-select").chosen(); 
+			$(".chzn-select").chosen();
 			$(".chzn-select-deselect").chosen({allow_single_deselect:true}); 
-			//日期框
 			$('.date-picker').datepicker();
 		});
 		</script>

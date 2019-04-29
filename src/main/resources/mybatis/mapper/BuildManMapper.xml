@@ -4,19 +4,19 @@
 
 	<resultMap type="com.wolves.dto.BuildDTO" id="ResultMap">
 		<id column="buildman_id" property="id"/>
-		<result column="build_no" property="name"/>
+		<result column="build_name" property="name"/>
 	</resultMap>
 
 	<!-- 新增楼栋长-->
 	<insert id="save" parameterType="pd">
 		insert into BUILD_MAN(
-			BUILD_NO,	
+			BUILD_NAME,
 			BUILD_MASTER_NAME,	
 			MASTER_TEL,	
-			CREATE_TIME,	
+			CREATE_TIME,
 			BUILDMAN_ID
 		) values (
-			#{BUILD_NO},	
+			#{BUILD_NAME},
 			#{BUILD_MASTER_NAME},	
 			#{MASTER_TEL},	
 			now(),
@@ -35,7 +35,7 @@
 	<update id="edit" parameterType="pd">
 		update  BUILD_MAN
 			set
-				BUILD_NO = #{BUILD_NO},
+				BUILD_NAME = #{BUILD_NAME},
 				BUILD_MASTER_NAME = #{BUILD_MASTER_NAME},
 				MASTER_TEL = #{MASTER_TEL},
 				CREATE_TIME = #{CREATE_TIME}
@@ -46,7 +46,7 @@
 	<!-- 通过ID获取数据 -->
 	<select id="findById" parameterType="pd" resultType="pd">
 		select
-			BUILD_NO,	
+			BUILD_NAME,
 			BUILD_MASTER_NAME,	
 			MASTER_TEL,	
 			CREATE_TIME,	
@@ -60,7 +60,7 @@
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
-				a.BUILD_NO,	
+				a.BUILD_NAME,
 				a.BUILD_MASTER_NAME,	
 				a.MASTER_TEL,	
 				a.CREATE_TIME,	
@@ -83,7 +83,7 @@
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">
 		select
-				a.BUILD_NO,	
+				a.BUILD_NAME,
 				a.BUILD_MASTER_NAME,	
 				a.MASTER_TEL,	
 				a.CREATE_TIME,	
@@ -104,7 +104,7 @@
 
 	<select id="selectBuild" parameterType="com.wolves.dto.BuildDTO" resultMap="ResultMap">
 		select
-			buildman_id,build_no
+			buildman_id,build_name
 		from build_man
 	</select>
 </mapper>

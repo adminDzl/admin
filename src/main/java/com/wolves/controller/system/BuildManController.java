@@ -176,7 +176,7 @@ public class BuildManController extends BaseController {
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
 		titles.add("id");
-		titles.add("楼栋号");
+		titles.add("楼栋");
 		titles.add("楼长姓名");
 		titles.add("联系方式");
 		titles.add("创建时间");
@@ -186,7 +186,7 @@ public class BuildManController extends BaseController {
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();
 			vpd.put("var1", varOList.get(i).get("ID").toString());
-			vpd.put("var2", varOList.get(i).getString("BUILD_NO"));
+			vpd.put("var2", varOList.get(i).getString("BUILD_NAME"));
 			vpd.put("var3", varOList.get(i).getString("BUILD_MASTER_NAME"));
 			vpd.put("var4", varOList.get(i).getString("MASTER_TEL"));
 			vpd.put("var5", varOList.get(i).getString("CREATE_TIME"));

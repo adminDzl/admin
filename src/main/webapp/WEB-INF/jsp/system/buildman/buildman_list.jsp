@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-	<base href="<%=basePath%>"><!-- jsp文件头和头部 -->
+	<base href="<%=basePath%>">
 	<%@ include file="../../system/admin/top.jsp"%> 
 	</head>
 <body>
@@ -16,33 +16,20 @@
 <div id="page-content" class="clearfix">
   <div class="row-fluid">
 	<div class="row-fluid">
-			<!-- 检索  -->
 			<form action="buildman/list.do" method="post" name="Form" id="Form">
 			<table>
 				<tr>
 					<td>
 						<span class="input-icon">
 							<input autocomplete="off" id="nav-search-input" type="text" name="BUILD_MASTER_NAME" value="" placeholder="这里输入楼栋负责人" />
-							<i id="nav-search-icon" class="icon-search"></i>
+							<i class="icon-search"></i>
 						</span>
 					</td>
 					<td><input class="span10 date-picker" name="lastLoginStart" id="lastLoginStart" value="${pd.lastLoginStart}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期"/></td>
 					<td><input class="span10 date-picker" name="lastLoginEnd" id="lastLoginEnd" value="${pd.lastLoginEnd}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="结束日期"/></td>
-					<%--<td style="vertical-align:top;"> --%>
-					 	<%--<select class="chzn-select" name="field2" id="field2" data-placeholder="请选择" style="vertical-align:top;width: 120px;">--%>
-							<%--<option value=""></option>--%>
-							<%--<option value="">全部</option>--%>
-							<%--<option value="">1</option>--%>
-							<%--<option value="">2</option>--%>
-					  	<%--</select>--%>
-					<%--</td>--%>
-					<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"  title="检索"><i id="nav-search-icon" class="icon-search"></i></button></td>
-					<%--<c:if test="${QX.cha == 1 }">--%>
-					<%--<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="icon-download-alt"></i></a></td>--%>
-					<%--</c:if>--%>
+					<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"  title="检索"><i class="icon-search"></i></button></td>
 				</tr>
 			</table>
-			<!-- 检索  -->
 			<table id="table_report" class="table table-striped table-bordered table-hover">
 				<thead>
 					<tr>
@@ -50,17 +37,14 @@
 						<label><input type="checkbox" id="zcheckbox" /><span class="lbl"></span></label>
 						</th>
 						<th class="center">序号</th>
-						<th class="center">楼栋号</th>
+						<th class="center">楼栋</th>
 						<th class="center">楼栋负责人</th>
 						<th class="center">联系方式</th>
 						<th class="center">创建时间</th>
 						<th class="center">操作</th>
 					</tr>
 				</thead>
-										
 				<tbody>
-					
-				<!-- 开始循环 -->	
 				<c:choose>
 					<c:when test="${not empty varList}">
 						<c:if test="${QX.cha == 1 }">
@@ -70,7 +54,7 @@
 									<label><input type='checkbox' name='ids' value="${var.BUILDMAN_ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-										<td>${var.BUILD_NO}</td>
+										<td>${var.BUILD_NAME}</td>
 										<td>${var.BUILD_MASTER_NAME}</td>
 										<td>${var.MASTER_TEL}</td>
 										<td>${var.CREATE_TIME}</td>
@@ -101,8 +85,6 @@
 						</tr>
 					</c:otherwise>
 				</c:choose>
-					
-				
 				</tbody>
 			</table>
 			
@@ -123,11 +105,9 @@
 		</div>
 		</form>
 	</div>
-	<!-- PAGE CONTENT ENDS HERE -->
-  </div><!--/row-->
-</div><!--/#page-content-->
-</div><!--/.fluid-container#main-container-->
-		<!-- 返回顶部  -->
+  </div>
+</div>
+</div>
 		<a href="#" id="btn-scroll-up" class="btn btn-small btn-inverse">
 			<i class="icon-double-angle-up icon-only"></i>
 		</a>
@@ -135,18 +115,16 @@
 		<script src="static/js/bootstrap.min.js"></script>
 		<script src="static/js/ace-elements.min.js"></script>
 		<script src="static/js/ace.min.js"></script>
-		<script type="text/javascript" src="static/js/chosen.jquery.min.js"></script><!-- 下拉框 -->
-		<script type="text/javascript" src="static/js/bootstrap-datepicker.min.js"></script><!-- 日期框 -->
-		<script type="text/javascript" src="static/js/bootbox.min.js"></script><!-- 确认窗口 -->
-		<script type="text/javascript" src="static/js/jquery.tips.js"></script><!--提示框-->
+		<script type="text/javascript" src="static/js/chosen.jquery.min.js"></script>
+		<script type="text/javascript" src="static/js/bootstrap-datepicker.min.js"></script>
+		<script type="text/javascript" src="static/js/bootbox.min.js"></script>
+		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 		<script type="text/javascript">
 		$(top.hangge());
-		//检索
 		function search(){
 			top.jzts();
 			$("#Form").submit();
 		}
-		//新增
 		function add(){
 			 top.jzts();
 			 var diag = new top.Dialog();
@@ -155,7 +133,7 @@
 			 diag.URL = '<%=basePath%>buildman/goAdd.do';
 			 diag.Width = 450;
 			 diag.Height = 355;
-			 diag.CancelEvent = function(){ //关闭事件
+			 diag.CancelEvent = function(){
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					 if('${page.currentPage}' == '0'){
 						 top.jzts();
@@ -168,7 +146,6 @@
 			 };
 			 diag.show();
 		}
-		//删除
 		function del(Id){
 			bootbox.confirm("确定要删除吗?", function(result) {
 				if(result) {
@@ -180,7 +157,6 @@
 				}
 			});
 		}
-		//修改
 		function edit(Id){
 			 top.jzts();
 			 var diag = new top.Dialog();
@@ -189,7 +165,7 @@
 			 diag.URL = '<%=basePath%>buildman/goEdit.do?BUILDMAN_ID='+Id;
 			 diag.Width = 450;
 			 diag.Height = 355;
-			 diag.CancelEvent = function(){ //关闭事件
+			 diag.CancelEvent = function(){
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					 nextPage(${page.currentPage});
 				}
@@ -200,12 +176,9 @@
 		</script>
 		<script type="text/javascript">
 		$(function() {
-			//下拉框
-			$(".chzn-select").chosen(); 
+			$(".chzn-select").chosen();
 			$(".chzn-select-deselect").chosen({allow_single_deselect:true}); 
-			//日期框
 			$('.date-picker').datepicker();
-			//复选框
 			$('table th input:checkbox').on('click' , function(){
 				var that = this;
 				$(this).closest('table').find('tr > td:first-child input:checkbox')
@@ -215,7 +188,6 @@
 				});
 			});
 		});
-		//批量操作
 		function makeAll(msg){
 			bootbox.confirm(msg, function(result) {
 				if(result) {
@@ -269,7 +241,6 @@
 				}
 			});
 		}
-		//导出excel
 		function toExcel(){
 			window.location.href='<%=basePath%>buildman/excel.do';
 		}

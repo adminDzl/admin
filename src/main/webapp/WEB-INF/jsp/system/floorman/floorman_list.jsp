@@ -23,7 +23,7 @@
 					<td>
 						<span class="input-icon">
 							<input autocomplete="off" id="nav-search-input" type="text" name="FLOOR_MASTER_NAME" value="" placeholder="这里输入楼层负责人" />
-							<i id="nav-search-icon" class="icon-search"></i>
+							<i class="icon-search"></i>
 						</span>
 					</td>
 					<td><input class="span10 date-picker" name="lastLoginStart" id="lastLoginStart" value="${pd.lastLoginStart}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期"/></td>
@@ -36,7 +36,7 @@
 							<%--<option value="">2</option>--%>
 					  	<%--</select>--%>
 					<%--</td>--%>
-					<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"  title="检索"><i id="nav-search-icon" class="icon-search"></i></button></td>
+					<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"  title="检索"><i class="icon-search"></i></button></td>
 					<%--<c:if test="${QX.cha == 1 }">--%>
 					<%--<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="icon-download-alt"></i></a></td>--%>
 					<%--</c:if>--%>
@@ -50,7 +50,7 @@
 						<label><input type="checkbox" id="zcheckbox" /><span class="lbl"></span></label>
 						</th>
 						<th class="center">序号</th>
-						<th class="center">楼栋号</th>
+						<th class="center">楼栋</th>
 						<th class="center">楼层</th>
 						<th class="center">楼层负责人</th>
 						<th class="center">联系</th>
@@ -71,7 +71,7 @@
 									<label><input type='checkbox' name='ids' value="${var.FLOORMAN_ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-										<td>${var.BUILD_NO}</td>
+										<td>${var.buildName}</td>
 										<td>${var.FLOOR}</td>
 										<td>${var.FLOOR_MASTER_NAME}</td>
 										<td>${var.MASTER_TEL}</td>
