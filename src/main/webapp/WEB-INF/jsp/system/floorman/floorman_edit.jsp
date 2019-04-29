@@ -16,7 +16,6 @@
 		<link href="static/css/bootstrap.min.css" rel="stylesheet" />
 		<link href="static/css/bootstrap-responsive.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="static/css/font-awesome.min.css" />
-		<!-- 下拉框 -->
 		<link rel="stylesheet" href="static/css/chosen.css" />
 		<link rel="stylesheet" href="static/css/ace.min.css" />
 		<link rel="stylesheet" href="static/css/ace-responsive.min.css" />
@@ -25,7 +24,6 @@
 		<script type="text/javascript" src="static/js/jquery-1.7.2.js"></script>
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 <script type="text/javascript">
-	//保存
 	function save(){
 
 		if($("#BUILD_NO").val()==""){

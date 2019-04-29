@@ -20,7 +20,7 @@
 		<link rel="stylesheet" href="static/css/ace.min.css" />
 		<link rel="stylesheet" href="static/css/ace-responsive.min.css" />
 		<link rel="stylesheet" href="static/css/ace-skins.min.css" />
-		<link rel="stylesheet" href="static/css/datepicker.css" /><!-- 日期框 -->
+		<link rel="stylesheet" href="static/css/datepicker.css" />
 		<script type="text/javascript" src="static/js/jquery-1.7.2.js"></script>
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 <script type="text/javascript">
@@ -84,8 +84,8 @@
 		<script src="static/js/bootstrap.min.js"></script>
 		<script src="static/js/ace-elements.min.js"></script>
 		<script src="static/js/ace.min.js"></script>
-		<script type="text/javascript" src="static/js/chosen.jquery.min.js"></script><!-- 下拉框 -->
-		<script type="text/javascript" src="static/js/bootstrap-datepicker.min.js"></script><!-- 日期框 -->
+		<script type="text/javascript" src="static/js/chosen.jquery.min.js"></script>
+		<script type="text/javascript" src="static/js/bootstrap-datepicker.min.js"></script>
 		<script type="text/javascript">
 		$(top.hangge());
 		$(function() {
