@@ -3,6 +3,7 @@ package com.wolves.service.system.appuser;
 import java.util.List;
 import javax.annotation.Resource;
 
+import com.wolves.dto.right.RightDTO;
 import com.wolves.dto.right.UserRightDTO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
@@ -109,5 +110,15 @@ public class AppUserService {
 		PageData pd = new PageData();
 		pd.put("roleId", roleId);
 		return (List<UserRightDTO>)dao.findForList("AppuserMapper.findByAppRoleId", pd);
+	}
+
+	/**
+	 * 根据企业id和用户id获取个人的权限
+	 */
+	public List<RightDTO> selectRightByUserIdAndCompanyId(String userId, String companyId) {
+		PageData pd = new PageData();
+		pd.put("userId", userId);
+		pd.put("companyId", companyId);
+		return (List<RightDTO>)dao.findForList("AppuserMapper.selectRightByUserIdAndCompanyId", pd);
 	}
 }
