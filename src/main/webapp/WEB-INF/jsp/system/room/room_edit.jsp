@@ -106,7 +106,7 @@
 					<select name="BUILD_NO" id="BUILD_NO" maxlength="32" placeholder="这里选择楼栋" title="楼栋" value="${pd.build_no}" onchange="getFloorMan();">
 						<option value=''>请选择</option>
 						<c:forEach items="${buildman}" varStatus="status" var="item">
-							<option value="${item.BUILD_NO }">${item.BUILD_NO }</option>
+							<option value="${item.BUILDMAN_ID }" <c:if test="${item.BUILDMAN_ID == pd.build_no}">selected</c:if>>${item.BUILD_NAME }</option>
 						</c:forEach>
 					</select>
 				</td>
@@ -126,7 +126,7 @@
 					<select name="COMPANY_ID" id="COMPANY_ID" maxlength="32" placeholder="这里选择公司" title="公司" value="${pd.company_id}">
 						<option value=''>请选择</option>
 						<c:forEach items="${company}" varStatus="status" var="item">
-							<option value="${item.companyId }">${item.companyName }</option>
+							<option value="${item.companyId }" <c:if test="${item.companyId == pd.company_id}">selected</c:if>>${item.companyName }</option>
 						</c:forEach>
 					</select>
 				</td>

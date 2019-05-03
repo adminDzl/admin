@@ -14,12 +14,14 @@
 			FLOORMAN_ID,	
 			ROOM_NAME,	
 			ROOM_ID,
+			COMPANY_ID
 			create_time,
 			update_time
 		) values (
 			#{FLOORMAN_ID},	
 			#{ROOM_NAME},	
 			#{ROOM_ID},
+			#{COMPANY_ID},
 			now(),
 			now()
 		)
@@ -44,11 +46,15 @@
 	<!-- 通过ID获取数据 -->
 	<select id="findById" parameterType="pd" resultType="pd">
 		select 
-			FLOORMAN_ID,	
-			ROOM_NAME,	
-			ROOM_ID
+			a.FLOORMAN_ID,
+			a.ROOM_NAME,
+			a.ROOM_ID,
+			f.build_no,
+			f.floor,
+			a.company_id
 		from 
-			ROOM
+			ROOM a
+		LEFT JOIN floor_man f ON (f.floorman_id = a.floorman_id)
 		where 
 			ROOM_ID = #{ROOM_ID}
 	</select>
