@@ -1,5 +1,6 @@
 package com.wolves.controller.system;
 
+import com.wolves.common.StatusEnum;
 import com.wolves.controller.base.BaseController;
 import com.wolves.entity.system.Page;
 import com.wolves.service.system.newstip.NewsTipService;
@@ -50,7 +51,7 @@ public class NewsDeclareController extends BaseController {
         pd = this.getPageData();
         //主键
         pd.put("NEWSTIP_ID", this.get32UUID());
-        pd.put("STATUS", 1);
+        pd.put("STATUS", StatusEnum.INIT.getKey());
         newstipService.save(pd);
         mv.addObject("msg","success");
         mv.setViewName("save_result");
@@ -81,7 +82,7 @@ public class NewsDeclareController extends BaseController {
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;}
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
-        pd.put("STATUS", 0);
+        pd.put("STATUS", StatusEnum.INIT.getKey());
         newstipService.edit(pd);
         mv.addObject("msg","success");
         mv.setViewName("save_result");
@@ -99,7 +100,7 @@ public class NewsDeclareController extends BaseController {
         //校验权限
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return;}
         PageData pd = this.getPageData();
-        pd.put("STATUS", 1);
+        pd.put("STATUS", StatusEnum.SUCCESS.getKey());
         newstipService.edit(pd);
         out.write("success");
         out.close();

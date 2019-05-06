@@ -88,10 +88,10 @@ public class OssUtil {
         if (".vsd".equalsIgnoreCase(fileExtension)) {
             return "application/vnd.visio";
         }
-        if (".ppt".equalsIgnoreCase(fileExtension) || "pptx".equalsIgnoreCase(fileExtension)) {
+        if (".ppt".equalsIgnoreCase(fileExtension) || ".pptx".equalsIgnoreCase(fileExtension)) {
             return "application/vnd.ms-powerpoint";
         }
-        if (".doc".equalsIgnoreCase(fileExtension) || "docx".equalsIgnoreCase(fileExtension)) {
+        if (".doc".equalsIgnoreCase(fileExtension) || ".docx".equalsIgnoreCase(fileExtension)) {
             return "application/msword";
         }
         if (".xml".equalsIgnoreCase(fileExtension)) {
