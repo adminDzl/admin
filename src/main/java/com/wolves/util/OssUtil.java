@@ -2,10 +2,18 @@ package com.wolves.util;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.*;
 import com.wolves.common.OSSClientConstants;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 /**
  * 上传
@@ -230,6 +238,141 @@ public class OssUtil {
         return url;
     }
 
+    /**
+     * 下载文件01
+     * @param request
+     * @param response
+     * @param keyUrl
+     * @return
+     */
+    public static HttpServletResponse downloadFile(HttpServletRequest request, HttpServletResponse response, String keyUrl){
 
+        try {
+            logger.info("【BillCommonFileServiceImpl】 download ==begin "+keyUrl);
+            //访问oss上文件的http://*。。。。aliyuncs.com/需要替换掉  直接是
+            keyUrl = keyUrl.replaceAll(FILE_URL,"");
+            String[] split = keyUrl.split("/");
+            //阿里的key值  utf8
+            String fileName= URLDecoder.decode(split[split.length-1],"UTF-8");
+            // 从阿里云进行下载
+            //bucketName需要自己设置
+            OSSClient client = getOSSClient();
+            OSSObject ossObject = client.getObject(BACKET_NAME, keyUrl);
+            // 已缓冲的方式从字符输入流中读取文本，缓冲各个字符，从而提供字符、数组和行的高效读取
+            BufferedReader reader = new BufferedReader(new InputStreamReader(ossObject.getObjectContent()));
+
+            InputStream inputStream = ossObject.getObjectContent();
+
+            //缓冲文件输出流
+            BufferedOutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
+            //通知浏览器以附件形式下载
+            // 为防止 文件名出现乱码
+            response.setContentType("application/octet-stream");
+            final String userAgent = request.getHeader("USER-AGENT");
+            if(StringUtils.contains(userAgent, "MSIE")){
+                //IE浏览器
+                fileName = URLEncoder.encode(fileName,"UTF-8");
+            }else if(StringUtils.contains(userAgent, "Mozilla")){
+                //google,火狐浏览器
+                fileName = new String(fileName.getBytes(), "ISO8859-1");
+            }else{
+                //其他浏览器
+                fileName = URLEncoder.encode(fileName,"UTF-8");
+            }
+            //这里设置一下让浏览器弹出下载提示框，而不是直接在浏览器中打开
+            response.addHeader("Content-Disposition", "attachment;filename=" +fileName);
+            logger.info("【BillCommonFileServiceImpl】 download ==end "+keyUrl);
+
+            byte[] car = new byte[1024];
+            int L;
+            while((L = inputStream.read(car)) != -1){
+                if (car.length!=0){
+                    outputStream.write(car, 0,L);
+                }
+            }
+            if(outputStream!=null){
+                outputStream.flush();
+                outputStream.close();
+            }
+            if (client !=null){
+                client.shutdown();
+            }
+
+        } catch (IOException e) {
+            logger.error("【BillCommonFileServiceImpl】 download ==IOException "+e.getMessage());
+            e.printStackTrace();
+
+        } catch (OSSException e){
+            logger.error("【BillCommonFileServiceImpl】 download ==OSSException "+e.getMessage());
+        }
+        return response;
+    }
+
+    /**
+     * 下载文件02
+     * @param request
+     * @param response
+     * @param url
+     */
+    public static void downFile02(HttpServletRequest request,HttpServletResponse response, String url){
+        BufferedInputStream bis = null;
+        BufferedOutputStream bos = null;
+        try {
+            String keyurl = url.replaceAll(FILE_URL,"");
+            String[] split = keyurl.split("/");
+            String fileName= URLDecoder.decode(split[split.length-1],"UTF-8");
+            //如果不存在乱码的情况可以忽略，由于请求参数文件名为中文，到后台会乱码，考虑操作系统和客户端浏览器默认编码
+            //判断服务器操作系统，本地开发使用windows
+            String os = System.getProperty("os.name");
+            if(os.toLowerCase().indexOf("windows") != -1){
+                fileName = new String(fileName.getBytes("GBK"), "ISO-8859-1");
+            }else{
+                //判断浏览器
+                String userAgent = request.getHeader("User-Agent").toLowerCase();
+                if(userAgent.indexOf("msie") > 0){
+                    fileName = URLEncoder.encode(fileName, "ISO-8859-1");
+                }
+            }
+            //响应二进制流
+            response.setContentType("application/octet-stream");
+            response.reset();//清除response中的缓存
+            //根据网络文件地址创建URL
+            URL filrurl = new URL(url);
+            //获取此路径的连接
+            URLConnection conn = filrurl.openConnection();
+            //获取文件大小
+            Long fileLength = conn.getContentLengthLong();
+            //设置reponse响应头，真实文件名重命名，就是在这里设置，设置编码
+            response.setHeader("Content-Disposition","attachment; filename=" + fileName);
+            response.setHeader("Content-Length", String.valueOf(fileLength));
+
+            //构造读取流
+            bis = new BufferedInputStream(conn.getInputStream());
+            //构造输出流
+            bos = new BufferedOutputStream(response.getOutputStream());
+            byte[] buff = new byte[1024];
+            int bytesRead;
+            //每次读取缓存大小的流，写到输出流
+            while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) {
+                bos.write(buff, 0, bytesRead);
+            }
+            response.flushBuffer();//将所有的读取的流返回给客户端
+        } catch (IOException e) {
+            logger.error("文件下载失败！", e);
+            throw new RuntimeException("文件下载失败！");
+        }finally {
+            try {
+                if (null != bis) {
+                    bis.close();
+                }
+                if (null != bos) {
+                    bos.close();
+                }
+            } catch (IOException e) {
+                logger.error("文件下载失败！", e);
+                throw new RuntimeException("文件下载失败！");
+            }
+        }
+    }
 
 }

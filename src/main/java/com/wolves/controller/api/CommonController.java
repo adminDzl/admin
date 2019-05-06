@@ -1,6 +1,8 @@
 package com.wolves.controller.api;
 
+
 import com.wolves.common.OSSClientConstants;
+import com.wolves.dto.DownFileDTO;
 import com.wolves.dto.PictureDTO;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 /**
@@ -60,6 +63,20 @@ public class CommonController {
         result.setData(pictureDTOs);
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("查询成功");
+        return result;
+    }
+
+    @ApiOperation(value = "文件下载", notes = "文件下载API")
+    @RequestMapping(value = "/downFile", method = RequestMethod.POST)
+    public Result downFile(HttpServletRequest request,HttpServletResponse response, @RequestBody DownFileDTO downFileDTO){
+        Result result = new Result();
+        String url = downFileDTO.getUrl();
+        if (StringUtils.isEmpty(url)){
+            result.setMsg("请添加下载链接");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        OssUtil.downloadFile(request, response, url);
         return result;
     }
 
