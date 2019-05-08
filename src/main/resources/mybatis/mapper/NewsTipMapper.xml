@@ -166,8 +166,13 @@
 			create_time
 		FROM news_tip
 		WHERE status = 1 AND news_type = #{newsType}
+		<if test="newsTitle != null">
+			AND news_title LIKE CONCAT(CONCAT('%', #{newsTitle}),'%')
+		</if>
 		ORDER BY create_time DESC
-		LIMIT #{start}, #{size}
+		<if test="start != null">
+			LIMIT #{start}, #{size}
+		</if>
 	</select>
 
 	<select id="selectNewsById" parameterType="com.wolves.dto.NewsTipDTO" resultMap="ResultMap">

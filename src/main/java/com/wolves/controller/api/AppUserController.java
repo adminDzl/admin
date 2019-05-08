@@ -724,6 +724,34 @@ public class AppUserController {
         return result;
     }
 
+    @ApiOperation(httpMethod="POST",value="根据申请类型查询",notes="根据申请类型查询")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+            @ApiImplicitParam(name = "jsonObject",value = "{\"type\":\"申请类型2-出门证申请\"}",required = true,paramType = "body",dataType = "JSONObject")
+    })
+    @RequestMapping(value = "/selectApplyDetail", method = RequestMethod.POST)
+    public Result<List<NewsTipDTO>> selectApplyDetail(@RequestHeader("Authorization") String token,
+                                         @RequestBody JSONObject jsonObject){
+        Result<List<NewsTipDTO>> result = new Result<List<NewsTipDTO>>();
+        //使用token获取登陆人信息
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        String type = jsonObject.getString("type");
+        if (StringUtils.isEmpty(type)){
+            result.setMsg("请选择申请类型");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        result.setData(newsTipService.selectApplyNewsByType(type));
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("查询成功");
+        return result;
+    }
+
     @ApiOperation(httpMethod="POST",value="查询当前登录人信息",notes="查询当前登录人信息")
     @RequestMapping(value = "/myInfo", method = RequestMethod.POST)
     public Result<UserDTO> myInfo(@RequestHeader("Authorization") String token){

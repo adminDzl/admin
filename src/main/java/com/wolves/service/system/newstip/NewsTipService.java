@@ -1,9 +1,12 @@
 package com.wolves.service.system.newstip;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 
+import com.wolves.common.ApplyTypeEnum;
+import com.wolves.common.NewsTypeEnum;
 import com.wolves.dao.DaoSupport;
 import com.wolves.dto.NewsTipDTO;
 import com.wolves.entity.system.Page;
@@ -115,6 +118,17 @@ public class NewsTipService {
 	public NewsTipDTO selectNewsById(String newstipId){
 
 		return (NewsTipDTO)dao.findForObject("NewsTipMapper.selectNewsById", newstipId);
+	}
+
+	/**
+	 * 查询统一申请的项目申报
+	 */
+	public List<NewsTipDTO> selectApplyNewsByType(String type){
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("newsType", NewsTypeEnum.declare.getKey());
+		params.put("newsTitle", ApplyTypeEnum.queryValueByKey(type));
+
+		return this.selectNewsByType(params);
 	}
 }
 
