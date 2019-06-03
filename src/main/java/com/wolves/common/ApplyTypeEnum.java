@@ -39,6 +39,7 @@ public enum ApplyTypeEnum {
 
     /**
      * 根据key查询对应的value
+     *
      * @param key
      * @return
      */

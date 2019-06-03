@@ -9,7 +9,7 @@ import java.util.Map;
 public enum LicensePlateEnum {
 
     //城市
-    beijing("北京","京"),
+    beijing("北京", "京"),
     tianjin("天津", "津"),
     hebei("河北", "冀"),
     shanxi("山西", "晋"),
@@ -86,6 +86,7 @@ public enum LicensePlateEnum {
 
     /**
      * 根据key查询对应的value
+     *
      * @param key
      * @return
      */
@@ -100,6 +101,7 @@ public enum LicensePlateEnum {
 
     /**
      * 根据value查询对应的key
+     *
      * @param value
      * @return
      */

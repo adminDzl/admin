@@ -15,7 +15,7 @@ public enum BuildEnum {
         return name;
     }
 
-    BuildEnum(String name){
+    BuildEnum(String name) {
         this.name = name;
     }
 }
