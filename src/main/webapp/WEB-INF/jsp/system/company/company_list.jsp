@@ -136,6 +136,9 @@
 							   style="display: none" multiple="multiple" onchange="uploadFile(this)"
 						/>
 					</c:if>
+					<c:if test="${QX.add == 1 }">
+						<a class="btn btn-small btn-success" onclick="add();">新增</a>
+					</c:if>
 					<c:if test="${QX.del == 1 }">
 					<a class="btn btn-small btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='icon-trash'></i></a>
 					</c:if>
