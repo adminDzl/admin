@@ -153,7 +153,7 @@ public class DateUtil extends DateUtils{
 		return list;
 	}
 
-	private static Date convertString2Date(String format, String time) {
+	public static Date convertString2Date(String format, String time) {
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 
 		try {
@@ -164,7 +164,7 @@ public class DateUtil extends DateUtils{
 		return null;
 	}
 
-	private static String convertDate2String(String format, Date date){
+	public static String convertDate2String(String format, Date date){
 		SimpleDateFormat f = new SimpleDateFormat(format);
 		return f.format(date);
 	}

@@ -246,15 +246,33 @@ public class CompanyController extends BaseController {
 			List<PageData> varList = new ArrayList<PageData>();
 			for(int i=0;i<varOList.size();i++){
 				PageData vpd = new PageData();
-				vpd.put("var2", varOList.get(i).getString("COMPANY_NAME"));
-				vpd.put("var3", varOList.get(i).get("TYPE").toString());
-				vpd.put("var4", varOList.get(i).get("STATUS").toString());
-				vpd.put("var5", varOList.get(i).getString("DESCRIPTION"));
-				vpd.put("var6", varOList.get(i).getString("COMPANY_CERTIFY"));
-				vpd.put("var7", varOList.get(i).getString("PLACE_ID"));
-				vpd.put("var8", varOList.get(i).getString("LOGO"));
-				vpd.put("var9", varOList.get(i).getString("CREATE_TIME"));
-				vpd.put("var10", varOList.get(i).getString("UPDATE_TIME"));
+				vpd.put("var1", varOList.get(i).getString("COMPANY_NAME"));
+				String type = varOList.get(i).get("TYPE").toString();
+				String companyType = "";
+				if ("1".equals(type)){
+					companyType = "园区公司";
+				}else {
+					companyType = "入驻公司";
+				}
+				vpd.put("var2", companyType);
+				String status = varOList.get(i).get("STATUS").toString();
+				String companyStatus = "";
+				if ("0".equals(status)){
+					companyStatus = "待入驻";
+				}else if ("1".equals(status)){
+					companyStatus = "已入驻";
+				}else{
+					companyStatus = "已退场";
+				}
+				vpd.put("var3", companyStatus);
+				vpd.put("var4", varOList.get(i).getString("DESCRIPTION"));
+				vpd.put("var5", varOList.get(i).getString("COMPANY_CERTIFY"));
+				vpd.put("var6", varOList.get(i).getString("PLACE_ID"));
+				vpd.put("var7", varOList.get(i).getString("LOGO"));
+				Date createTime = (Date) varOList.get(i).get("CREATE_TIME");
+				vpd.put("var8", DateUtil.convertDate2String("yyyy-MM-dd HH:mm:ss", createTime));
+				Date updateTime = (Date) varOList.get(i).get("UPDATE_TIME");
+				vpd.put("var9", DateUtil.convertDate2String("yyyy-MM-dd HH:mm:ss", updateTime));
 				varList.add(vpd);
 			}
 			dataMap.put("varList", varList);
@@ -265,7 +283,7 @@ public class CompanyController extends BaseController {
 		}
 		return mv;
 	}
-	
+
 	public Map<String, String> getHC(){
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession();

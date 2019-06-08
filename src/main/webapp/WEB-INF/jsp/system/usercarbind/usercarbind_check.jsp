@@ -44,9 +44,27 @@
 		<div id="zhongxin">
 		<table id="table_report" class="table table-striped table-bordered table-hover">
 			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">用户:</td>
+				<td style="width:70px;text-align: right;padding-top: 13px;">姓名:</td>
 				<td>${pd.NAME}</td>
 				<input type="text" name="STATUS" id="STATUS" style="display:none;"/>
+			</tr>
+			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;">证件号:</td>
+				<td>
+					${pd.SFID}
+				</td>
+			</tr>
+			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;">所属公司:</td>
+				<td>
+					${pd.COMPANY_NAME}
+				</td>
+			</tr>
+			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;">手机号:</td>
+				<td>
+					${pd.PHONE}
+				</td>
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">车牌号:</td>

@@ -64,10 +64,14 @@
 			a.CREATE_TIME,
 			a.UPDATE_TIME,
 			a.USER_CAR_BIND_ID,
-			u.NAME
+			u.NAME,
+			u.SFID,
+			u.PHONE,
+			c.COMPANY_NAME
 		from 
 			USER_CAR_BIND a
 		LEFT JOIN USER u ON (a.USER_ID = u.USER_ID)
+		LEFT JOIN company c ON (c.company_id = u.company_id)
 		where 
 			a.USER_CAR_BIND_ID = #{USER_CAR_BIND_ID}
 	</select>
