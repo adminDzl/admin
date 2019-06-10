@@ -90,6 +90,16 @@
 				a.PAYORDER_ID
 		from 
 				PAY_ORDER a
+		where 1 = 1
+		<if test="pd.lastLoginStart!=null and pd.lastLoginStart!=''"><!-- 到期时间检索 -->
+			and a.CREATE_TIME &gt;= #{pd.lastLoginStart}
+		</if>
+		<if test="pd.lastLoginEnd!=null and pd.lastLoginEnd!=''"><!-- 到期时间检索 -->
+			and a.CREATE_TIME &lt;= #{pd.lastLoginEnd}
+		</if>
+		<if test="pd.PAY_STATUS != null and pd.PAY_STATUS != ''"><!-- 状态检索 -->
+			and a.PAY_STATUS=#{pd.PAY_STATUS}
+		</if>
 	</select>
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">
