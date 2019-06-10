@@ -57,7 +57,8 @@
 						<th class="center">预定开始时间</th>
 						<th class="center">预约结束时间</th>
 						<th class="center">预定时长</th>
-						<th class="center">预定金额</th>
+						<th class="center">场地单价(¥/h)</th>
+						<th class="center">已支付</th>
 						<th class="center">预定状态</th>
 						<th class="center">创建时间</th>
 						<th class="center">操作</th>
@@ -82,6 +83,7 @@
 										<td>${var.BEGIN_TIME}</td>
 										<td>${var.END_TIME}</td>
 										<td>${var.BOOK_DURATION}</td>
+										<td>${var.RENT_FEE}</td>
 										<td>${var.BOOK_FEE}</td>
 										<td>
 											<c:if test="${var.STATUS == 0 }"><span class="label label-success arrowed">待审批</span></c:if>

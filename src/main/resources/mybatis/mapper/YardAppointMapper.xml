@@ -103,6 +103,7 @@
 				a.YARDAPPOINT_ID,
 				b.PLACE_TYPE,
 				b.POSITION,
+				b.RENT_FEE,
 				u.USERNAME
 		from 
 				YARD_APPOINT a
