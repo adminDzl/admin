@@ -69,34 +69,14 @@
 									<label><input type='checkbox' name='ids' value="${var.PAYORDER_ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-										<td>
-											<c:if test="${var.PAY_TYPE == 1}"><span class="label label-success arrowed">水电物业</span></c:if>
-											<c:if test="${var.PAY_TYPE == 2}"><span class="label label-success arrowed">停车费</span></c:if>
-											<c:if test="${var.PAY_TYPE == 3}"><span class="label label-success arrowed">场地预定费</span></c:if>
-											<c:if test="${var.PAY_TYPE == 4}"><span class="label label-success arrowed">一卡通费用</span></c:if>
-										</td>
-										<td>${var.NAME}</td>
-										<td>${var.COMPANY_NAME}</td>
-										<td>${var.PAY_AMOUNT}</td>
-										<td>${var.PAY_TIME}</td>
-										<td>
-											<c:if test="${var.PAY_STATUS == 0}"><span class="label label-success arrowed">待支付</span></c:if>
-											<c:if test="${var.PAY_STATUS == 1}"><span class="label label-success arrowed">支付完成</span></c:if>
-											<c:if test="${var.PAY_STATUS == 2}"><span class="label label-success arrowed">支付失败</span></c:if>
-										</td>
-										<td>${var.CREATE_TIME}</td>
-								<td style="width: 60px;" class="center">
-									<c:if test="${QX.edit != 1 && QX.del != 1 }">
-										<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>
-									</c:if>
 								<td>
 									<c:if test="${var.PAY_TYPE == 1}"><span class="label label-success arrowed">水电物业</span></c:if>
 									<c:if test="${var.PAY_TYPE == 2}"><span class="label label-success arrowed">停车费</span></c:if>
 									<c:if test="${var.PAY_TYPE == 3}"><span class="label label-success arrowed">场地预定费</span></c:if>
 									<c:if test="${var.PAY_TYPE == 4}"><span class="label label-success arrowed">一卡通费用</span></c:if>
 								</td>
-								<td>${var.name}</td>
-								<td>${var.company}</td>
+								<td>${var.NAME}</td>
+								<td>${var.COMPANY_NAME}</td>
 								<td>${var.PAY_AMOUNT}</td>
 								<td>${var.PAY_TIME}</td>
 								<td>
@@ -105,15 +85,6 @@
 									<c:if test="${var.PAY_STATUS == 2}"><span class="label label-success arrowed">支付失败</span></c:if>
 								</td>
 								<td>${var.CREATE_TIME}</td>
-								<%--<td style="width: 60px;" class="center">--%>
-									<%--<c:if test="${QX.edit != 1 && QX.del != 1 }">--%>
-										<%--<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>--%>
-									<%--</c:if>--%>
-
-									<%--<c:if test="${QX.edit == 1 }">--%>
-										<%--<a class='btn btn-mini btn-info' title="编辑" onclick="edit('${var.PAYORDER_ID}');"><i class="icon-edit"></i></a>--%>
-									<%--</c:if>--%>
-								<%--</td>--%>
 							</tr>
 						</c:forEach>
 						</c:if>
