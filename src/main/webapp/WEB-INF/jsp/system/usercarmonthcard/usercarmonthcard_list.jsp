@@ -74,19 +74,18 @@
 											<c:if test="${var.CARD_STATUS == 0}"><span class="label label-success arrowed">过期</span></c:if>
 										</td>
 										<td>${var.CREATE_TIME}</td>
-								<td style="width: 30px;" class="center">
+								<td style="width: 100px;" class="center">
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">
 										<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>
 									</c:if>
-									<%--<c:if test="${QX.edit == 1 }">--%>
-										<%--<a style="cursor:pointer;" title="编辑" onclick="edit('${var.USERCARMONTHCARD_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a>--%>
-									<%--</c:if>--%>
+
 									<c:if test="${QX.del == 1 }">
-										<a style="cursor:pointer;" title="删除" onclick="del('${var.user_car_month_card_id}');" class="tooltip-error" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-trash"></i></span></a>
+										<a class='btn btn-mini btn-danger' title="删除" onclick="del('${var.user_car_month_card_id}');"><i class='icon-trash'></i></a>
 									</c:if>
+
 									<c:if test="${var.CARD_STATUS == 1}">
 										<c:if test="${QX.edit == 1 }">
-											<a style="cursor:pointer;" title="下载pdf" onclick="down('${var.user_car_month_card_id}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-check"></i></span></a>
+											<a class='btn btn-mini btn-warning' title="下载pdf" onclick="down('${var.user_car_month_card_id}');"><i class='icon-download'></i></a>
 										</c:if>
 									</c:if>
 								</td>

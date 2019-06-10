@@ -29,12 +29,7 @@
 					</td>
 					<td><input class="span10 date-picker" name="lastLoginStart" id="lastLoginStart" value="${pd.lastLoginStart}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期"/></td>
 					<td><input class="span10 date-picker" name="lastLoginEnd" id="lastLoginEnd" value="${pd.lastLoginEnd}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="到期日期"/></td>
-					<%--<td style="vertical-align:top;"> --%>
-					 	<%--<select class="chzn-select" name="ROLE_ID" id="role_id" data-placeholder="请选择等级" style="vertical-align:top;width: 120px;">--%>
-						<%--<option value=""></option>--%>
-					  	<%--</select>--%>
-					<%--</td>--%>
-					<td style="vertical-align:top;"> 
+					<td style="vertical-align:top;">
 					 	<select class="chzn-select" name="STATUS" id="STATUS" data-placeholder="状态" style="vertical-align:top;width: 79px;">
 						<option value=""></option>
 						<option value="">全部</option>
@@ -89,21 +84,22 @@
 									<c:if test="${user.STATUS == '0' }"><span class="label label-important arrowed-in">冻结</span></c:if>
 									<c:if test="${user.STATUS == '1' }"><span class="label label-success arrowed">正常</span></c:if>
 								</td>
-								<td style="width: 30px;" class="center">
+								<td style="width: 100px;" class="center">
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">
 										<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>
 									</c:if>
 									<c:if test="${QX.edit == 1 }">
-										<a style="cursor:pointer;" title="编辑" onclick="editUser('${user.USER_ID }');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a>
+										<a class='btn btn-mini btn-info' title="编辑" onclick="editUser('${user.USER_ID }');"><i class="icon-edit"></i></a>
 									</c:if>
 									<c:choose>
 										<c:when test="${user.USERNAME=='admin'}"></c:when>
 										<c:otherwise>
 											<c:if test="${QX.del == 1 }">
-												<a style="cursor:pointer;" title="删除" onclick="delUser('${user.USER_ID }','${user.USERNAME }');" class="tooltip-error" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-trash"></i></span></a>
+												<a class='btn btn-mini btn-danger' title="删除" onclick="delUser('${user.USER_ID }','${user.USERNAME }');"><i class='icon-trash'></i></a>
 											</c:if>
 										</c:otherwise>
 									</c:choose>
+
 								</td>
 							</tr>
 						</c:forEach>

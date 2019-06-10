@@ -101,16 +101,18 @@
 											<c:if test="${var.STATUS == 1}"><span class="label label-success arrowed">已发布</span></c:if>
 										</td>
 										<td>${var.CREATE_TIME}</td>
-								<td style="width: 50px;" class="center">
+								<td style="width: 100px;" class="center">
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">
 										<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>
 									</c:if>
+
 									<c:if test="${QX.edit == 1 }">
-										<a style="cursor:pointer;" title="编辑" onclick="edit('${var.NEWSTIP_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a>
+										<a class='btn btn-mini btn-info' title="编辑" onclick="edit('${var.NEWSTIP_ID}');"><i class="icon-edit"></i></a>
 									</c:if>
 									<c:if test="${QX.del == 1 }">
-										<a style="cursor:pointer;" title="删除" onclick="del('${var.NEWSTIP_ID}');" class="tooltip-error" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-trash"></i></span></a>
+										<a class='btn btn-mini btn-danger' title="删除" onclick="del('${var.NEWSTIP_ID}');"><i class='icon-trash'></i></a>
 									</c:if>
+
 									<c:if test="${var.STATUS == 0}">
 										<c:if test="${QX.edit == 1 }">
 											<a style="cursor:pointer;" title="发布" onclick="audit('${var.NEWSTIP_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-check"></i></span></a>

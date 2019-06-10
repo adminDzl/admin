@@ -38,9 +38,7 @@
 					  	</select>
 					</td>
 					<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"  title="检索"><i id="nav-search-icon" class="icon-search"></i></button></td>
-					<%--<c:if test="${QX.cha == 1 }">--%>
-					<%--<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="icon-download-alt"></i></a></td>--%>
-					<%--</c:if>--%>
+
 				</tr>
 			</table>
 			<!-- 检索  -->
@@ -96,15 +94,16 @@
 										<td>${var.EQUIPMENT}</td>
 										<td>${var.RENT_FEE}</td>
 										<td>${var.CREATE_TIME}</td>
-								<td style="width: 30px;" class="center">
+								<td style="width: 100px;" class="center">
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">
 										<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>
 									</c:if>
+
 									<c:if test="${QX.edit == 1 }">
-										<a style="cursor:pointer;" title="编辑" onclick="edit('${var.YARD_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a>
+										<a class='btn btn-mini btn-info' title="编辑" onclick="edit('${var.YARD_ID}');"><i class="icon-edit"></i></a>
 									</c:if>
 									<c:if test="${QX.del == 1 }">
-										<a style="cursor:pointer;" title="删除" onclick="del('${var.YARD_ID}');" class="tooltip-error" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-trash"></i></span></a>
+										<a class='btn btn-mini btn-danger' title="删除" onclick="del('${var.YARD_ID}');"><i class='icon-trash'></i></a>
 									</c:if>
 								</td>
 							</tr>
