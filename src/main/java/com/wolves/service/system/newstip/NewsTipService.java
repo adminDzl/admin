@@ -1,14 +1,17 @@
 package com.wolves.service.system.newstip;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 import javax.annotation.Resource;
 
 import com.wolves.common.ApplyTypeEnum;
 import com.wolves.common.NewsTypeEnum;
 import com.wolves.dao.DaoSupport;
 import com.wolves.dto.NewsTipDTO;
+import com.wolves.dto.YardDTO;
 import com.wolves.entity.system.Page;
 import com.wolves.util.PageData;
 import com.wolves.util.ReduceHtmlUtil;
@@ -129,6 +132,38 @@ public class NewsTipService {
 		params.put("newsTitle", ApplyTypeEnum.queryValueByKey(type));
 
 		return this.selectNewsByType(params);
+	}
+
+	/**
+	 * 删除图片
+	 * @param id
+	 * @param url
+	 */
+	public void delImage(String id, String url){
+		if (StringUtils.isNotEmpty(id)){
+			NewsTipDTO newsTipDTO = this.selectNewsById(id);
+			String imageUrls = newsTipDTO.getHeadImage();
+			List<String> images = Arrays.asList(imageUrls.split(","));
+			if (!images.isEmpty() && StringUtils.isNotEmpty(url)){
+				final CopyOnWriteArrayList<String> cowList = new CopyOnWriteArrayList<String>(images);
+				for (String item : cowList) {
+					if (item.equals(url)) {
+						cowList.remove(item);
+					}
+				}
+				newsTipDTO.setHeadImage(StringUtils.join(cowList, ","));
+			}
+			this.updateNews(newsTipDTO);
+		}
+	}
+
+	/**
+	 * 更新数据
+	 * @param newsTipDTO
+	 */
+	public void updateNews(NewsTipDTO newsTipDTO){
+
+		dao.update("NewsTipMapper.updateNews", newsTipDTO);
 	}
 }
 

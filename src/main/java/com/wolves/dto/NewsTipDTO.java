@@ -20,6 +20,9 @@ public class NewsTipDTO {
     @ApiModelProperty(name = "newsTitle",value = "标题")
     private String newsTitle;
 
+    @ApiModelProperty(name = "headImage",value = "头图")
+    private String headImage;
+
     @ApiModelProperty(name = "newsContent",value = "内容")
     private String newsContent;
 
@@ -44,6 +47,14 @@ public class NewsTipDTO {
 
     public void setNewsTitle(String newsTitle) {
         this.newsTitle = newsTitle;
+    }
+
+    public String getHeadImage() {
+        return headImage;
+    }
+
+    public void setHeadImage(String headImage) {
+        this.headImage = headImage;
     }
 
     public String getNewsContent() {

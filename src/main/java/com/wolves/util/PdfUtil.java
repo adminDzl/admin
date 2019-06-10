@@ -88,23 +88,25 @@ public class PdfUtil {
         // 为字段赋值,注意字段名称是区分大小写的
         for (String key : data.keySet()) {
             if (key.equals("image") || key.equals("imageBack")){
-                /**
-                 * 添加图片
-                 */
-                String imgpath = data.get(key);
-                int pageNo = fields.getFieldPositions(key).get(0).page;
-                Rectangle signRect = fields.getFieldPositions(key).get(0).position;
-                float x = signRect.getLeft();
-                float y = signRect.getBottom();
-                // 读图片
-                Image image = Image.getInstance(imgpath);
-                // 获取操作的页面
-                PdfContentByte under = ps.getOverContent(pageNo);
-                // 根据域的大小缩放图片
-                image.scaleToFit(signRect.getWidth(), signRect.getHeight());
-                // 添加图片
-                image.setAbsolutePosition(x, y);
-                under.addImage(image);
+                if (StringUtils.isNotEmpty(data.get(key))){
+                    /**
+                     * 添加图片
+                     */
+                    String imgpath = data.get(key);
+                    int pageNo = fields.getFieldPositions(key).get(0).page;
+                    Rectangle signRect = fields.getFieldPositions(key).get(0).position;
+                    float x = signRect.getLeft();
+                    float y = signRect.getBottom();
+                    // 读图片
+                    Image image = Image.getInstance(imgpath);
+                    // 获取操作的页面
+                    PdfContentByte under = ps.getOverContent(pageNo);
+                    // 根据域的大小缩放图片
+                    image.scaleToFit(signRect.getWidth(), signRect.getHeight());
+                    // 添加图片
+                    image.setAbsolutePosition(x, y);
+                    under.addImage(image);
+                }
             }else {
                 if (StringUtils.isNotEmpty(data.get(key))){
                     String value = data.get(key);

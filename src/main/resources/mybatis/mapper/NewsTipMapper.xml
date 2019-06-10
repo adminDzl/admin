@@ -5,6 +5,7 @@
 	<resultMap type="com.wolves.dto.NewsTipDTO" id="ResultMap">
 		<id column="newstip_id" property="newstipId"/>
 		<result column="news_title" property="newsTitle"/>
+		<result column="head_image" property="headImage"/>
 		<result column="news_content" property="newsContent"/>
 		<result column="attach_url" property="attachUrl"/>
 		<result column="create_time" property="createTime"/>
@@ -14,7 +15,8 @@
 	<insert id="save" parameterType="pd">
 		insert into NEWS_TIP(
 			NEWS_TYPE,	
-			NEWS_TITLE,	
+			NEWS_TITLE,
+			HEAD_IMAGE,
 			NEWS_CONTENT,	
 			ATTACH_URL,
 			STATUS,
@@ -23,7 +25,8 @@
 			NEWSTIP_ID
 		) values (
 			#{NEWS_TYPE},	
-			#{NEWS_TITLE},	
+			#{NEWS_TITLE},
+			#{HEAD_IMAGE},
 			#{NEWS_CONTENT},	
 			#{ATTACH_URL},
 			#{STATUS},
@@ -48,6 +51,9 @@
 	  			<if test="NEWS_TITLE != null">
 					NEWS_TITLE = #{NEWS_TITLE},
 				</if>
+				<if test="HEAD_IMAGE != null">
+					HEAD_IMAGE = #{HEAD_IMAGE},
+				</if>
 				<if test="NEWS_CONTENT != null">
 					NEWS_CONTENT = #{NEWS_CONTENT},
 				</if>
@@ -66,7 +72,8 @@
 	<select id="findById" parameterType="pd" resultType="pd">
 		select
 			NEWS_TYPE,	
-			NEWS_TITLE,	
+			NEWS_TITLE,
+			HEAD_IMAGE,
 			NEWS_CONTENT,	
 			ATTACH_URL,
 			STATUS,
@@ -82,7 +89,8 @@
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
 				a.NEWS_TYPE,	
-				a.NEWS_TITLE,	
+				a.NEWS_TITLE,
+				a.HEAD_IMAGE,
 				a.NEWS_CONTENT,	
 				a.ATTACH_URL,
 				a.STATUS,
@@ -98,6 +106,7 @@
 		select
 		a.NEWS_TYPE,
 		a.NEWS_TITLE,
+		a.HEAD_IMAGE,
 		a.NEWS_CONTENT,
 		a.ATTACH_URL,
 		a.STATUS,
@@ -112,7 +121,8 @@
 	<select id="listNewAll" parameterType="pd" resultType="pd">
 		select
 				a.NEWS_TYPE,	
-				a.NEWS_TITLE,	
+				a.NEWS_TITLE,
+				a.HEAD_IMAGE,
 				a.NEWS_CONTENT,	
 				a.ATTACH_URL,
 				a.STATUS,
@@ -128,6 +138,7 @@
 		select
 			a.NEWS_TYPE,
 			a.NEWS_TITLE,
+			a.HEAD_IMAGE,
 			a.NEWS_CONTENT,
 			a.ATTACH_URL,
 			a.STATUS,
@@ -161,6 +172,7 @@
 		SELECT
 			newstip_id,
 			news_title,
+			head_image,
 			news_content,
 			attach_url,
 			create_time
@@ -179,10 +191,32 @@
 		SELECT
 			newstip_id,
 			news_title,
+			head_image,
 			news_content,
 			attach_url,
 			create_time
 		FROM news_tip
 		WHERE status = 1 AND newstip_id = #{newstipId}
 	</select>
+
+	<update id="updateNews">
+		update NEWS_TIP
+		set
+		<if test="newsTitle != null">
+			NEWS_TITLE = #{newsTitle},
+		</if>
+		<if test="headImage != null">
+			HEAD_IMAGE = #{headImage},
+		</if>
+		<if test="newsContent != null">
+			NEWS_CONTENT = #{newsContent},
+		</if>
+		<if test="attachUrl != null">
+			ATTACH_URL = #{attachUrl},
+		</if>
+		UPDATE_TIME = now(),
+		NEWSTIP_ID = NEWSTIP_ID
+		WHERE
+		NEWSTIP_ID = #{newstipId}
+	</update>
 </mapper>
