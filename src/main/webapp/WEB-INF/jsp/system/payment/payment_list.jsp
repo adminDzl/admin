@@ -19,6 +19,12 @@
 			<form action="payment/list.do" method="post" name="Form" id="Form">
 			<table>
 				<tr>
+					<td>
+						<span class="input-icon">
+							<input autocomplete="off" id="nav-search-input" type="text" name="COMPANY_NAME" value="${pd.COMPANY_NAME}" placeholder="这里输入单位名" />
+							<i class="icon-search"></i>
+						</span>
+					</td>
 					<td><input class="span10 date-picker" name="lastLoginStart" id="lastLoginStart" value="${pd.lastLoginStart}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期"/></td>
 					<td><input class="span10 date-picker" name="lastLoginEnd" id="lastLoginEnd" value="${pd.lastLoginEnd}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="结束日期"/></td>
 					<td style="vertical-align:top;"> 

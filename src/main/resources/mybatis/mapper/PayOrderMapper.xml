@@ -79,18 +79,25 @@
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
-				a.PAY_TYPE,
-				a.USER_ID,
-				a.PAY_AMOUNT,	
-				a.PAY_TIME,	
-				a.RETURN_TIME,	
-				a.PAY_STATUS,	
-				a.CREATE_TIME,	
-				a.UPDATE_TIME,	
-				a.PAYORDER_ID
+			a.PAY_TYPE,
+		  	a.USER_ID,
+	  		a.PAY_AMOUNT,
+  			a.PAY_TIME,
+			a.RETURN_TIME,
+			a.PAY_STATUS,
+		  	a.CREATE_TIME,
+		  	a.UPDATE_TIME,
+	  		a.PAYORDER_ID,
+			c.COMPANY_NAME,
+			u.NAME
 		from 
-				PAY_ORDER a
+			PAY_ORDER a
+		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
+		LEFT JOIN company c ON (c.company_id = u.company_id)
 		where 1 = 1
+		<if test="pd.COMPANY_NAME!=null and pd.COMPANY_NAME!=''"><!-- 公司名检索 -->
+			and c.company_name like '%${pd.COMPANY_NAME}%'
+		</if>
 		<if test="pd.lastLoginStart!=null and pd.lastLoginStart!=''"><!-- 到期时间检索 -->
 			and a.CREATE_TIME &gt;= #{pd.lastLoginStart}
 		</if>
