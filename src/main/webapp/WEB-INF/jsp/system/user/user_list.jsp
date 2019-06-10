@@ -96,26 +96,13 @@
 								<td>${user.EMAIL }</td>
 								<td>${user.LAST_LOGIN}</td>
 								<td>${user.IP}</td>
-								<td style="width: 60px;">
-									<div class='hidden-phone visible-desktop btn-group'>
-										<%--<c:if test="${QX.FW_QX == 1 }">--%>
-										<%--<a class='btn btn-mini btn-warning' title="发送短信" onclick="sendSms('${user.PHONE }');"><i class='icon-envelope'></i></a>--%>
-										<%--</c:if>--%>
-										<c:if test="${QX.edit == 1 }">
-											<c:if test="${user.USERNAME != 'admin'}"><a class='btn btn-mini btn-info' title="编辑" onclick="editUser('${user.USER_ID }');"><i class='icon-edit'></i></a></c:if>
-											<c:if test="${user.USERNAME == 'admin'}"><a class='btn btn-mini btn-info' title="您不能编辑"><i class='icon-edit'></i></a></c:if>
-										</c:if>
-										<c:choose>
-											<c:when test="${user.USERNAME=='admin'}">
-												<a class='btn btn-mini btn-danger' title="不能删除"><i class='icon-trash'></i></a>
-											</c:when>
-											<c:otherwise>
-												<c:if test="${QX.del == 1 }">
-												 <a class='btn btn-mini btn-danger' title="删除" onclick="delUser('${user.USER_ID }','${user.USERNAME }');"><i class='icon-trash'></i></a>
-												</c:if>
-											</c:otherwise>
-										</c:choose>
-									</div>
+								<td style="width: 100px;" class="center">
+									<c:if test="${QX.edit == 1 }">
+										<a class='btn btn-mini btn-info' title="编辑" onclick="editUser('${user.USER_ID }');"><i class="icon-edit"></i></a>
+									</c:if>
+									<c:if test="${QX.del == 1 }">
+										<a class='btn btn-mini btn-danger' title="删除" onclick="delUser('${user.USER_ID }','${user.USERNAME }');"><i class='icon-trash'></i></a>
+									</c:if>
 								</td>
 							</tr>
 						
