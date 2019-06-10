@@ -527,6 +527,12 @@
 			<artifactId>httpclient</artifactId>
 			<version>4.4.1</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.alipay.sdk</groupId>
+			<artifactId>alipay-sdk-java</artifactId>
+			<version>3.3.4.ALL</version>
+		</dependency>
 		<!--pdf 操作-->
 		<dependency>
 			<groupId>com.itextpdf</groupId>
