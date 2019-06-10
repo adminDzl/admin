@@ -68,10 +68,13 @@
 				a.PAYMENT_DATE,	
 				a.STATUS,	
 				a.CREATE_TIME,	
-				a.UPDATE_TIME,	
+				a.UPDATE_TIME,
+				c.COMPANY_NAME,
 				a.PAYMENT_ID
 		from 
 				PAYMENT a
+		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
+		LEFT JOIN company c ON (c.company_id = u.company_id)
 		where 1 = 1
 		<if test="pd.lastLoginStart!=null and pd.lastLoginStart!=''"><!-- 到期时间检索 -->
 			and a.CREATE_TIME &gt;= #{pd.lastLoginStart}

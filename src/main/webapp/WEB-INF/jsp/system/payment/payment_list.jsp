@@ -62,7 +62,7 @@
 									<label><input type='checkbox' name='ids' value="${var.PAYMENT_ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-										<td>${var.USER_ID}</td>
+										<td>${var.COMPANY_NAME}</td>
 										<td>
 											<c:if test="${var.PAYMENT_TYPE == 1}"><span class="label label-success arrowed">物业费</span></c:if>
 											<c:if test="${var.PAYMENT_TYPE == 2}"><span class="label label-success arrowed">水费</span></c:if>
@@ -108,9 +108,9 @@
 		<table style="width:100%;">
 			<tr>
 				<td style="vertical-align:top;">
-					<c:if test="${QX.add == 1 }">
-					<a class="btn btn-small btn-success" onclick="add();">新增</a>
-					</c:if>
+					<%--<c:if test="${QX.add == 1 }">--%>
+					<%--<a class="btn btn-small btn-success" onclick="add();">新增</a>--%>
+					<%--</c:if>--%>
 					<a class="btn btn-small btn-warning" onclick="importt();">批量导入</a>
 					<a class="btn btn-small btn-info" onclick="payment();">一键催缴</a>
 					<c:if test="${QX.del == 1 }">
