@@ -76,6 +76,9 @@
 		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
 		LEFT JOIN company c ON (c.company_id = u.company_id)
 		where 1 = 1
+		<if test="pd.COMPANY_NAME!=null and pd.COMPANY_NAME!=''"><!-- 公司名检索 -->
+			and c.company_name like '%${pd.COMPANY_NAME}%'
+		</if>
 		<if test="pd.lastLoginStart!=null and pd.lastLoginStart!=''"><!-- 到期时间检索 -->
 			and a.CREATE_TIME &gt;= #{pd.lastLoginStart}
 		</if>
