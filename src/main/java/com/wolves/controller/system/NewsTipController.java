@@ -76,6 +76,25 @@ public class NewsTipController extends BaseController {
 		out.write("success");
 		out.close();
 	}
+
+	/**
+	 * 删除图片
+	 * @param out
+	 */
+	@RequestMapping(value="/delImage")
+	public void delImage(PrintWriter out){
+		logBefore(logger, "删除新闻头图图片");
+		try{
+			PageData pd = this.getPageData();
+			String HEAD_IMAGE = pd.getString("HEAD_IMAGE");
+			String NEWSTIP_ID = pd.getString("NEWSTIP_ID");
+			newstipService.delImage(NEWSTIP_ID, HEAD_IMAGE);
+			out.write("success");
+			out.close();
+		}catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+	}
 	
 	/**
 	 * 修改
