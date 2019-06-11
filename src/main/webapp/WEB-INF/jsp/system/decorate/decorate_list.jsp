@@ -50,9 +50,8 @@
 								<label><input type="checkbox" id="zcheckbox" /><span class="lbl"></span></label>
 							</th>
 							<th class="center">序号</th>
-							<th class="center">新闻类型</th>
-							<th class="center">新闻标题</th>
-							<th class="center">附件url</th>
+							<th class="center">申请标题</th>
+							<th class="center">申请表url</th>
 							<th class="center">状态</th>
 							<th class="center">创建时间</th>
 							<th class="center">操作</th>
@@ -71,11 +70,6 @@
 												<label><input type='checkbox' name='ids' value="${var.NEWSTIP_ID}" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td>
-												<c:if test="${var.NEWS_TYPE == 1}"><span class="label label-success arrowed">信息</span></c:if>
-												<c:if test="${var.NEWS_TYPE == 2}"><span class="label label-success arrowed">项目申报</span></c:if>
-												<c:if test="${var.NEWS_TYPE == 3}"><span class="label label-success arrowed">统一申请</span></c:if>
-											</td>
 											<td>${var.NEWS_TITLE}</td>
 											<td>
 												<a href="${var.ATTACH_URL}" title="下载"><span class="green"><i class="icon-file"></i></span></a>
