@@ -101,6 +101,22 @@
 				NEWS_TIP a
 		WHERE a.NEWS_TYPE = 1
 	</select>
+	<!-- 查询统一申请列表 -->
+	<select id="decorateList" parameterType="page" resultType="pd">
+		select
+		a.NEWS_TYPE,
+		a.NEWS_TITLE,
+		a.HEAD_IMAGE,
+		a.NEWS_CONTENT,
+		a.ATTACH_URL,
+		a.STATUS,
+		a.CREATE_TIME,
+		a.UPDATE_TIME,
+		a.NEWSTIP_ID
+		from
+		NEWS_TIP a
+		WHERE a.NEWS_TYPE = 3
+	</select>
 	<!--查询项目申报-->
 	<select id="declarelistPage" parameterType="page" resultType="pd">
 		select

@@ -1,6 +1,7 @@
 package com.wolves.controller.system;
 
 import com.itextpdf.text.DocumentException;
+import com.wolves.common.StatusEnum;
 import com.wolves.controller.base.BaseController;
 import com.wolves.dto.user.ExportDTO;
 import com.wolves.entity.system.Page;
@@ -52,7 +53,7 @@ public class UnimpededController extends BaseController {
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
         pd.put("DECORATE_ID", this.get32UUID());
-        pd.put("STATUS", "0");
+        pd.put("STATUS", StatusEnum.INIT.getKey());
         pd.put("CREATE_TIME", Tools.date2Str(new Date()));
         pd.put("UPDATE_TIME", Tools.date2Str(new Date()));
         decorateService.save(pd);
@@ -148,7 +149,7 @@ public class UnimpededController extends BaseController {
         logBefore(logger, "去新增unimpeded页面");
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
-        mv.setViewName("system/decorate/decorate_edit");
+        mv.setViewName("system/decorate/unimpeded_edit");
         mv.addObject("msg", "save");
         mv.addObject("pd", pd);
         return mv;
@@ -163,7 +164,7 @@ public class UnimpededController extends BaseController {
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
         pd = decorateService.findById(pd);
-        mv.setViewName("system/decorate/decorate_edit");
+        mv.setViewName("system/decorate/unimpeded_edit");
         mv.addObject("msg", "edit");
         mv.addObject("pd", pd);
         return mv;
@@ -179,7 +180,7 @@ public class UnimpededController extends BaseController {
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
         pd = decorateService.findById(pd);
-        mv.setViewName("system/decorate/decorate_check");
+        mv.setViewName("system/decorate/unimpeded_check");
         mv.addObject("msg", "edit");
         mv.addObject("pd", pd);
         return mv;
