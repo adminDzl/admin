@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -168,8 +169,8 @@
         diag.Width = 800;
         diag.Height = 655;
         diag.CancelEvent = function(){ //关闭事件
-            if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-                if('${page.currentPage}' == '0'){
+            if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display === 'none'){
+                if('${page.currentPage}' === '0'){
                     top.jzts();
                     setTimeout("self.location=self.location",100);
                 }else{
@@ -202,9 +203,10 @@
         diag.Width = 800;
         diag.Height = 655;
         diag.CancelEvent = function(){ //关闭事件
-            if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-                nextPage(${page.currentPage});
-            }
+            <%--if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display === 'none'){--%>
+                <%--nextPage(${page.currentPage});--%>
+            <%--}--%>
+            location.reload();
             diag.close();
         };
         diag.show();
@@ -215,8 +217,8 @@
             if(result) {
                 top.jzts();
                 var url = "<%=basePath%>decorate/release.do?NEWSTIP_ID="+Id+"&tm="+new Date().getTime();
-                $.get(url,function(data){
-                    nextPage(${page.currentPage});
+                $.get(url, function(data){
+                    location.reload();
                 });
             }
         });

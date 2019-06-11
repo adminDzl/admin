@@ -24,6 +24,7 @@
 	<link rel="stylesheet" href="static/css/datepicker.css" /><!-- 日期框 -->
 	<script type="text/javascript" src="static/js/jquery-1.7.2.js"></script>
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
+
 	<script type="text/javascript">
         //保存
         function save(){
@@ -113,7 +114,6 @@
 
 </form>
 
-
 <!-- 引入 -->
 <script type="text/javascript">window.jQuery || document.write("<script src='static/js/jquery-1.9.1.min.js'>\x3C/script>");</script>
 <script src="static/js/bootstrap.min.js"></script>
@@ -121,17 +121,6 @@
 <script src="static/js/ace.min.js"></script>
 <script type="text/javascript" src="static/js/chosen.jquery.min.js"></script><!-- 下拉框 -->
 <script type="text/javascript" src="static/js/bootstrap-datepicker.min.js"></script><!-- 日期框 -->
-
-<!-- 编辑框-->
-<script type="text/javascript" charset="utf-8">window.UEDITOR_HOME_URL = "<%=path%>/plugins/ueditor/";</script>
-<script type="text/javascript" charset="utf-8" src="plugins/ueditor/ueditor.config.js"></script>
-<script type="text/javascript" charset="utf-8" src="plugins/ueditor/ueditor.all.js"></script>
-<!-- 编辑框-->
-
-<!--提示框-->
-<script type="text/javascript" src="static/js/jquery.tips.js"></script>
-<!--引入属于此页面的js -->
-<script type="text/javascript" src="static/js/myjs/toolEmail.js"></script>
 <script type="text/javascript">
     $(top.hangge());
     $(function() {
