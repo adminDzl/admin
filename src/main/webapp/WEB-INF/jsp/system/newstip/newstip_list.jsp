@@ -115,7 +115,7 @@
 
 									<c:if test="${var.STATUS == 0}">
 										<c:if test="${QX.edit == 1 }">
-											<a style="cursor:pointer;" title="发布" onclick="audit('${var.NEWSTIP_ID}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-check"></i></span></a>
+											<a class='btn btn-mini btn-green' title="发布" onclick="audit('${var.NEWSTIP_ID}');"><i class='icon-check'></i></a>
 										</c:if>
 									</c:if>
 								</td>
