@@ -42,7 +42,7 @@
 </script>
 	</head>
 <body>
-	<form action="decorate/${msg }.do" name="Form" id="Form" method="post">
+	<form action="unimpeded/${msg }.do" name="Form" id="Form" method="post">
 		<input type="hidden" name="DECORATE_ID" id="DECORATE_ID" value="${pd.DECORATE_ID}"/>
 		<div id="zhongxin">
 		<table id="table_report" class="table table-striped table-bordered table-hover">

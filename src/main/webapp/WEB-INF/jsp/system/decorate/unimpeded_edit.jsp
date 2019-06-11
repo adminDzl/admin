@@ -152,7 +152,7 @@
 
         //删除图片
         function delImage(img, id) {
-            var url = "decorate/delImage.do?HEAD_IMAGE=" + img + "&NEWSTIP_ID=" + id + "&guid=" + new Date().getTime();
+            var url = "unimpeded/delImage.do?HEAD_IMAGE=" + img + "&NEWSTIP_ID=" + id + "&guid=" + new Date().getTime();
             $.get(url, function (data) {
                 if (data === "success") {
                     document.location.reload();
@@ -162,7 +162,7 @@
 	</script>
 </head>
 <body>
-<form action="decorate/${msg }.do" name="Form" id="Form" method="post">
+<form action="unimpeded/${msg }.do" name="Form" id="Form" method="post">
 	<input type="hidden" name="NEWSTIP_ID" id="NEWSTIP_ID" value="${pd.NEWSTIP_ID}"/>
 	<div id="zhongxin">
 		<table id="table_report" class="table table-striped table-bordered table-hover">
