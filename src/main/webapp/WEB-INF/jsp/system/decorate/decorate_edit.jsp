@@ -28,16 +28,6 @@
         //保存
         function save(){
 
-            if($("#NEWS_TYPE").val()==""){
-                $("#NEWS_TYPE").tips({
-                    side:3,
-                    msg:'请输入新闻类型',
-                    bg:'#AE81FF',
-                    time:2
-                });
-                $("#NEWS_TYPE").focus();
-                return false;
-            }
             if($("#NEWS_TITLE").val()==""){
                 $("#NEWS_TITLE").tips({
                     side:3,
@@ -46,16 +36,6 @@
                     time:2
                 });
                 $("#NEWS_TITLE").focus();
-                return false;
-            }
-            if($("#NEWS_CONTENT").val()==""){
-                $("#NEWS_CONTENT").tips({
-                    side:3,
-                    msg:'请输入新闻内容',
-                    bg:'#AE81FF',
-                    time:2
-                });
-                $("#NEWS_CONTENT").focus();
                 return false;
             }
             if($("#ATTACH_URL").val()==""){
@@ -68,38 +48,9 @@
                 $("#ATTACH_URL").focus();
                 return false;
             }
-            if($("#CREATE_TIME").val()==""){
-                $("#CREATE_TIME").tips({
-                    side:3,
-                    msg:'请输入创建时间',
-                    bg:'#AE81FF',
-                    time:2
-                });
-                $("#CREATE_TIME").focus();
-                return false;
-            }
-            if($("#UPDATE_TIME").val()==""){
-                $("#UPDATE_TIME").tips({
-                    side:3,
-                    msg:'请输入修改时间',
-                    bg:'#AE81FF',
-                    time:2
-                });
-                $("#UPDATE_TIME").focus();
-                return false;
-            }
             $("#Form").submit();
             $("#zhongxin").hide();
-            $("#zhongxin2").show();
-        }
-
-        $(function(){
-            window.setTimeout(setContent,1000);//一秒后再调用赋值方法
-        });
-
-        //给ueditor插入值
-        function setContent(){
-            UE.getEditor('editor').execCommand('insertHtml', $('#testcon').html());
+            $("#zhongxin2").show();;
         }
 
         //上传文件
@@ -125,7 +76,7 @@
                 }
             });
         }
-		
+
 	</script>
 </head>
 <body>
@@ -146,7 +97,7 @@
 				<td style="width:70px;text-align: right;padding-top: 13px;">附件url:</td>
 				<td>
 					<input name="minfile" id="minfile" value="${pd.ATTACH_URL}" placeholder="这里输入附件url" title="附件url" type="file" multiple="multiple" onchange="uploadFile(this)"/>
-					<input name="ATTACH_URL" id="ATTACH_URL" value="" style="display: none"/>
+					<input name="ATTACH_URL" id="ATTACH_URL" value="${pd.ATTACH_URL}" style="display: none"/>
 				</td>
 			</tr>
 			<tr>

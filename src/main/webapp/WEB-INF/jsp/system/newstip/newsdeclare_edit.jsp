@@ -202,7 +202,7 @@
 				<td style="width:70px;text-align: right;padding-top: 13px;">附件url:</td>
 				<td>
 					<input name="minfile" id="minfile" value="${pd.ATTACH_URL}" placeholder="这里输入附件url" title="附件url" type="file" multiple="multiple" onchange="uploadFile(this)"/>
-					<input name="ATTACH_URL" id="ATTACH_URL" value="" style="display: none"/>
+					<input name="ATTACH_URL" id="ATTACH_URL" value="${pd.ATTACH_URL}" style="display: none"/>
 				</td>
 			</tr>
 			<tr>
