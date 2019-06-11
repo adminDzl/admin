@@ -66,14 +66,6 @@ public class NewsTipService {
 	 */
 	public List<PageData> decorateList(Page page) {
 		List<PageData> pageDatas = (List<PageData>)dao.findForList("NewsTipMapper.decorateList", page);
-		if (pageDatas != null && !pageDatas.isEmpty()){
-			for (PageData pageData : pageDatas){
-				String content = pageData.getString("NEWS_CONTENT");
-				if (StringUtils.isNotEmpty(content.trim())){
-					pageData.put("NEWS_CONTENT", ReduceHtmlUtil.removeHtmlTag(content));
-				}
-			}
-		}
 		return pageDatas;
 	}
 

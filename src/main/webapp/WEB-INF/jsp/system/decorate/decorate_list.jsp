@@ -211,7 +211,7 @@
     }
     //发布
     function audit(Id) {
-        bootbox.confirm("确定要发布该新闻吗?", function(result) {
+        bootbox.confirm("确定要发布吗?", function(result) {
             if(result) {
                 top.jzts();
                 var url = "<%=basePath%>decorate/release.do?NEWSTIP_ID="+Id+"&tm="+new Date().getTime();
