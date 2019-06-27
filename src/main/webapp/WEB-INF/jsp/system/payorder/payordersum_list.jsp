@@ -16,24 +16,15 @@
 <div id="page-content" class="clearfix">
   <div class="row-fluid">
 	<div class="row-fluid">
-			<form action="payorder/list.do" method="post" name="Form" id="Form">
+			<form action="payordersum/list.do" method="post" name="Form" id="Form">
 			<table>
 				<tr>
+					<td><input class="span10 date-picker" name="TIME" id="TIME" value="${pd.TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期"/></td>
 					<td>
 						<span class="input-icon">
 							<input autocomplete="off" id="nav-search-input" type="text" name="COMPANY_NAME" value="${pd.COMPANY_NAME}" placeholder="这里输入单位名" />
 							<i class="icon-search"></i>
 						</span>
-					</td>
-					<td><input class="span10 date-picker" name="lastLoginStart" id="lastLoginStart" value="${pd.lastLoginStart}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期"/></td>
-					<td><input class="span10 date-picker" name="lastLoginEnd" id="lastLoginEnd" value="${pd.lastLoginEnd}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="结束日期"/></td>
-					<td style="vertical-align:top;"> 
-					 	<select class="chzn-select" name="PAY_STATUS" id="PAY_STATUS" data-placeholder="支付状态" style="vertical-align:top;width: 120px;">
-							<option value=""></option>
-							<option value="">全部</option>
-							<option value="0" <c:if test="${pd.PAY_STATUS == '0' }">selected</c:if>>待支付</option>
-							<option value="1" <c:if test="${pd.PAY_STATUS == '1' }">selected</c:if>>支付完成</option>
-					  	</select>
 					</td>
 					<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"  title="检索"><i id="nav-search-icon" class="icon-search"></i></button></td>
 					<c:if test="${QX.cha == 1 }">
@@ -48,14 +39,10 @@
 						<label><input type="checkbox" id="zcheckbox" /><span class="lbl"></span></label>
 						</th>
 						<th class="center">序号</th>
-						<th class="center">类型</th>
-						<th class="center">支付人</th>
-						<th class="center">支付人单位</th>
-						<th class="center">支付金额</th>
-						<th class="center">支付时间</th>
-						<th class="center">支付状态</th>
-						<th class="center">创建时间</th>
-						<%--<th class="center">操作</th>--%>
+						<th class="center">公司名称</th>
+						<th class="center">当年共需缴纳</th>
+						<th class="center">当年已缴纳</th>
+						<th class="center">当年未缴纳</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -68,21 +55,10 @@
 									<label><input type='checkbox' name='ids' value="${var.PAYORDER_ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-								<td>
-									<c:if test="${var.PAY_TYPE == 1}"><span class="label label-success arrowed">水电物业</span></c:if>
-									<c:if test="${var.PAY_TYPE == 2}"><span class="label label-success arrowed">停车费</span></c:if>
-									<c:if test="${var.PAY_TYPE == 3}"><span class="label label-success arrowed">场地预定费</span></c:if>
-									<c:if test="${var.PAY_TYPE == 4}"><span class="label label-success arrowed">一卡通费用</span></c:if>
-								</td>
-								<td>${var.NAME}</td>
 								<td>${var.COMPANY_NAME}</td>
-								<td>${var.PAY_AMOUNT}</td>
-								<td>${var.PAY_TIME}</td>
-								<td>
-									<c:if test="${var.PAY_STATUS == 0}"><span class="label label-success arrowed">待支付</span></c:if>
-									<c:if test="${var.PAY_STATUS == 1}"><span class="label label-success arrowed">支付完成</span></c:if>
-								</td>
-								<td>${var.CREATE_TIME}</td>
+								<td>${var.T}</td>
+								<td>${var.Y}</td>
+								<td>${var.D}</td>
 							</tr>
 						</c:forEach>
 						</c:if>
@@ -244,7 +220,7 @@
 			});
 		}
 		function toExcel(){
-			window.location.href='<%=basePath%>payorder/excel.do';
+			window.location.href='<%=basePath%>payordersum/excel.do';
 		}
 		</script>
 	</body>

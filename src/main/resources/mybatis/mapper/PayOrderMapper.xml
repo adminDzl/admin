@@ -161,4 +161,31 @@
 			LIMIT #{start}, #{size}
 		</if>
 	</select>
+
+	<select id="selectSumByTime" parameterType="page" resultType="pd">
+		SELECT
+			p.PAYORDER_ID,
+			p.USER_ID,
+			c.COMPANY_NAME,
+			SUM(p.pay_amount) AS T, -- 全部需要缴纳费用
+			SUM(IFNULL(o.pay_amount, 0)) AS Y, -- 已经缴纳费用
+			SUM(p.pay_amount) - SUM(IFNULL(o.pay_amount, 0)) AS D, -- 待缴纳费用
+			p.CREATE_TIME
+		FROM
+			pay_order p
+		LEFT JOIN pay_order o ON (p.payorder_id = o.payorder_id AND o.pay_status = 1)
+		LEFT JOIN USER u ON (u.USER_ID = o.USER_ID)
+		LEFT JOIN company c ON (c.company_id = u.company_id)
+		WHERE
+			1=1
+			<if test="pd.TIME != null and pd.TIME != '' ">
+				AND DATE_FORMAT(p.create_time,'%Y') = DATE_FORMAT(#{pd.TIME},'%Y')
+			</if>
+			<if test="pd.COMPANY_NAME != null and pd.COMPANY_NAME != '' ">
+				AND c.COMPANY_NAME = #{pd.COMPANY_NAME}
+			</if>
+		GROUP BY
+			user_id
+		ORDER BY p.create_time DESC
+	</select>
 </mapper>

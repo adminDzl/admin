@@ -74,5 +74,15 @@ public class PayOrderService {
 
 		return (List<PayOrder>)dao.findForList("PayOrderMapper.selectPayOrderByUserId", params);
 	}
+
+	/**
+	 * 查询汇总数据
+	 * @param page
+	 * @return
+	 */
+	public List<PageData> selectSumByTime(Page page){
+
+		return (List<PageData>)dao.findForList("PayOrderMapper.selectSumByTime", page);
+	}
 }
 
