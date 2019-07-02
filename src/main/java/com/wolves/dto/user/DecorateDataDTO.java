@@ -8,38 +8,67 @@ import io.swagger.annotations.ApiModelProperty;
  * @author gf
  * @date 2019/4/6
  */
-@ApiModel(description = "统一申请参数")
+@ApiModel(description = "一卡通申请参数")
 public class DecorateDataDTO {
 
-    @ApiModelProperty(name = "type",value = "类型(类型(1-楼宇装修申请，2-出门证申请，3-一卡通申请，4-楼宇施工许可申请，5-楼宇装饰工程竣工验收申请))")
-    private Integer type;
-
-    @ApiModelProperty(name = "title",value = "申请标题")
-    private String title;
-
-    @ApiModelProperty(name = "content",value = "申请内容")
-    private String content;
-
-    @ApiModelProperty(name = "idCard",value = "身份证（一卡通申请时为必填项）")
+    @ApiModelProperty(name = "idCard",value = "身份证")
     private String idCard;
 
-    @ApiModelProperty(name = "fileUrl",value = "需要上传的文件")
+    @ApiModelProperty(name = "buildmanId",value = "楼栋")
+    private String buildmanId;
+
+    @ApiModelProperty(name = "sex",value = "男或女")
+    private String sex;
+
+    @ApiModelProperty(name = "floor",value = "楼层")
+    private String floor;
+
+    @ApiModelProperty(name = "room",value = "所在房间")
+    private String room;
+
+    @ApiModelProperty(name = "content",value = "备注")
+    private String content;
+
     private String fileUrl;
 
-    public Integer getType() {
-        return type;
+    public String getIdCard() {
+        return idCard;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
     }
 
-    public String getTitle() {
-        return title;
+    public String getBuildmanId() {
+        return buildmanId;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setBuildmanId(String buildmanId) {
+        this.buildmanId = buildmanId;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getFloor() {
+        return floor;
+    }
+
+    public void setFloor(String floor) {
+        this.floor = floor;
+    }
+
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
     }
 
     public String getContent() {
@@ -54,14 +83,6 @@ public class DecorateDataDTO {
         return fileUrl;
     }
 
-    public String getIdCard() {
-        return idCard;
-    }
-
-    public void setIdCard(String idCard) {
-        this.idCard = idCard;
-    }
-
     public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
     }
@@ -69,8 +90,10 @@ public class DecorateDataDTO {
     @Override
     public String toString() {
         return "DecorateDataDTO{" +
-                "type=" + type +
-                ", title='" + title + '\'' +
+                "idCard='" + idCard + '\'' +
+                ", buildmanId='" + buildmanId + '\'' +
+                ", floor='" + floor + '\'' +
+                ", room='" + room + '\'' +
                 ", content='" + content + '\'' +
                 '}';
     }

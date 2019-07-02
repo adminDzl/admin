@@ -604,7 +604,7 @@ public class AppUserController {
         return result;
     }
 
-    @ApiOperation(httpMethod="POST",value="统一申请",notes="统一申请")
+    @ApiOperation(httpMethod="POST",value="一卡通申请",notes="一卡通申请")
     @RequestMapping(value = "/apply", method = RequestMethod.POST)
     public Result createApply(@RequestHeader("Authorization") String token,
                             @RequestBody DecorateDataDTO decorateDataDTO){
@@ -616,30 +616,44 @@ public class AppUserController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
-        if (decorateDataDTO.getType() == null || decorateDataDTO.getType() == 0){
-            result.setMsg("请选择申请类型");
-            result.setResult(ResultCode.FAIL);
-            return result;
-        }else {
-            if (decorateDataDTO.getType().equals(ApplyTypeEnum.apply_ic_tl.getKey())){
-                if (StringUtils.isEmpty(decorateDataDTO.getIdCard())){
-                    result.setMsg("请填写身份证号码");
-                    result.setResult(ResultCode.FAIL);
-                    return result;
-                }
-            }
-        }
-        if (StringUtils.isEmpty(decorateDataDTO.getTitle())){
-            result.setMsg("请填写申请标题");
+        if (StringUtils.isEmpty(decorateDataDTO.getIdCard())){
+            result.setMsg("请填写身份证号码");
             result.setResult(ResultCode.FAIL);
             return result;
         }
-        if (StringUtils.isEmpty(decorateDataDTO.getContent())){
-            result.setMsg("请填写申请内容");
+        if (StringUtils.isEmpty(decorateDataDTO.getBuildmanId())){
+            result.setMsg("请选择所在楼栋");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        if (StringUtils.isEmpty(decorateDataDTO.getFloor())){
+            result.setMsg("请填写所在楼层");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        if (StringUtils.isEmpty(decorateDataDTO.getRoom())){
+            result.setMsg("请填写所在房间");
             result.setResult(ResultCode.FAIL);
             return result;
         }
         decorateService.saveApply(token, decorateDataDTO);
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("提交成功");
+        return result;
+    }
+
+    @ApiOperation(httpMethod="POST",value="获取统一申请列表",notes="获取统一申请的下载列表")
+    @RequestMapping(value = "/getApplyList", method = RequestMethod.POST)
+    public Result<List<ApplyDataDTO>> getApplyList(@RequestHeader("Authorization") String token){
+        Result<List<ApplyDataDTO>> result = new Result<List<ApplyDataDTO>>();
+        //使用token获取登陆人信息
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        result.setData(newsTipService.selectApplyData());
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("提交成功");
         return result;

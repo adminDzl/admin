@@ -60,13 +60,13 @@
 				</td>
 			</tr>
 			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">申请标题:</td>
+				<td style="width:70px;text-align: right;padding-top: 13px;">所在单位:</td>
 				<td>
-					${pd.TITLE}
+					${pd.COMPANY_NAME}
 				</td>
 			</tr>
 			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">申请内容:</td>
+				<td style="width:70px;text-align: right;padding-top: 13px;">备注:</td>
 				<td>
 					${pd.CONTENT}
 				</td>

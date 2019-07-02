@@ -50,14 +50,12 @@
 						</th>
 						<th class="center">序号</th>
 						<th class="center">编号</th>
-						<th class="center">申请分类</th>
 						<th class="center">公司</th>
 						<th class="center">姓名</th>
 						<th class="center">性别</th>
 						<th class="center">身份证号</th>
 						<th class="center">手机号码</th>
-						<th class="center">申请标题</th>
-						<th class="center">申请内容</th>
+						<th class="center">地址</th>
 						<th class="center">审核状态</th>
 						<th class="center">创建时间</th>
 						<th class="center">操作</th>
@@ -83,28 +81,18 @@
 										</c:otherwise>
 									</c:choose>
 								</td>
-								<td>
-									<c:if test="${var.TYPE == '1' }"><span class="label label-important arrowed-in">楼宇装修申请</span></c:if>
-									<c:if test="${var.TYPE == '2' }"><span class="label label-success arrowed">出门证申请</span></c:if>
-									<c:if test="${var.TYPE == '3' }"><span class="label label-success arrowed">一卡通申请</span></c:if>
-									<c:if test="${var.TYPE == '4' }"><span class="label label-important arrowed-in">楼宇施工许可申请</span></c:if>
-									<c:if test="${var.TYPE == '5' }"><span class="label label-success arrowed">楼宇装饰工程竣工验收申请</span></c:if>
-								</td>
 								<th>${var.COMPANY_NAME}</th>
 								<th>${var.NAME}</th>
 								<th>${var.SEX}</th>
 								<th>${var.SFID}</th>
 								<th>${var.PHONE}</th>
-								<td>${var.TITLE}</td>
-								<td>
-									<c:choose>
-										<c:when test="${fn:length(var.CONTENT) >= 30}">
-											<span title="${var.CONTENT}">${fn:substring(var.CONTENT ,0,30)}……</span>
-										</c:when>
-										<c:otherwise>
-											<span title="${var.CONTENT }">${var.CONTENT }</span>
-										</c:otherwise>
-									</c:choose>
+								<td>${var.BUILD_NAME}
+									<c:if test="${var.FLOOR != null && var.FLOOR != ''}">
+										,第${var.FLOOR}层
+									</c:if>
+									<c:if test="${var.ROOM != null && var.ROOM != ''}">
+										,${var.ROOM}房间
+									</c:if>
 								</td>
 								<td>
 									<c:if test="${var.STATUS == 0}"><span class="label label-success arrowed">待审核</span></c:if>

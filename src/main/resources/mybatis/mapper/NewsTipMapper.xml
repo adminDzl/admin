@@ -11,6 +11,12 @@
 		<result column="create_time" property="createTime"/>
 	</resultMap>
 
+	<resultMap type="com.wolves.dto.ApplyDataDTO" id="ApplyResultMap">
+		<id column="newstip_id" property="id"/>
+		<result column="news_title" property="title"/>
+		<result column="attach_url" property="attachUrl"/>
+	</resultMap>
+
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into NEWS_TIP(
@@ -235,4 +241,15 @@
 		WHERE
 		NEWSTIP_ID = #{newstipId}
 	</update>
+
+	<select id="selectApplyData" parameterType="com.wolves.dto.ApplyDataDTO" resultMap="ApplyResultMap">
+		SELECT
+		newstip_id,
+		news_title,
+		attach_url,
+		create_time
+		FROM news_tip
+		WHERE status = 1 AND news_type = 3
+		ORDER BY create_time DESC
+	</select>
 </mapper>

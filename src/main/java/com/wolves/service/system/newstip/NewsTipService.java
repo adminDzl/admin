@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import com.wolves.common.ApplyTypeEnum;
 import com.wolves.common.NewsTypeEnum;
 import com.wolves.dao.DaoSupport;
+import com.wolves.dto.ApplyDataDTO;
 import com.wolves.dto.NewsTipDTO;
 import com.wolves.dto.YardDTO;
 import com.wolves.entity.system.Page;
@@ -172,6 +173,15 @@ public class NewsTipService {
 	public void updateNews(NewsTipDTO newsTipDTO){
 
 		dao.update("NewsTipMapper.updateNews", newsTipDTO);
+	}
+
+	/**
+	 * 查询统一申请
+	 * @return
+	 */
+	public List<ApplyDataDTO> selectApplyData(){
+
+		return (List<ApplyDataDTO>)dao.findForList("NewsTipMapper.selectApplyData", null);
 	}
 }
 

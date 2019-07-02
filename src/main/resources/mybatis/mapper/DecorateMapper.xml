@@ -5,7 +5,6 @@
 	<resultMap type="com.wolves.entity.system.Decorate" id="ResultMap">
 		<id column="decorate_id" property="decorateId"/>
 		<result column="decorate_no" property="decorateNo"/>
-		<result column="type" property="type"/>
 		<result column="user_id" property="userId"/>
 		<result column="title" property="title"/>
 		<result column="content" property="content"/>
@@ -19,8 +18,9 @@
 		insert into DECORATE(
 			DECORATE_NO,
 			USER_ID,
-			TYPE,
-			TITLE,	
+			BUILDMAN_ID,
+			FLOOR,
+			ROOM,
 			CONTENT,	
 			STATUS,	
 			CREATE_TIME,	
@@ -29,8 +29,9 @@
 		) values (
 			#{DECORATE_NO},
 			#{USER_ID},
-			#{TYPE},
-			#{TITLE},	
+			#{BUILDMAN_ID},
+			#{FLOOR},
+			#{ROOM},
 			#{CONTENT},	
 			#{STATUS},
 			now(),
@@ -51,11 +52,14 @@
 				<if test="USER_ID != null">
 					USER_ID = #{USER_ID},
 				</if>
-				<if test="TITLE != null">
-					TITLE = #{TITLE},
+				<if test="BUILDMAN_ID != null">
+					BUILDMAN_ID = #{BUILDMAN_ID},
 				</if>
-				<if test="TYPE != null">
-					TYPE = #{TYPE},
+				<if test="FLOOR != null">
+					FLOOR = #{FLOOR},
+				</if>
+				<if test="ROOM != null">
+					ROOM = #{ROOM},
 				</if>
 				<if test="CONTENT != null">
 					CONTENT = #{CONTENT},
@@ -76,8 +80,36 @@
 		select
 			a.USER_ID,
 			a.DECORATE_NO,
-			a.TYPE,
-			a.TITLE,
+			b.BUILD_NAME,
+			a.FLOOR,
+			a.ROOM,
+			a.CONTENT,
+			a.FILE_URL,
+			a.STATUS,
+			a.CREATE_TIME,
+			a.UPDATE_TIME,
+			a.DECORATE_ID,
+			c.COMPANY_NAME,
+			u.NAME,
+			u.SFID,
+			u.PHONE,
+			u.SEX
+		from 
+			DECORATE a
+		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
+		LEFT JOIN company c ON (c.company_id = u.company_id)
+		LEFT JOIN BUILD_MAN b ON (b.BUILDMAN_ID = a.BUILDMAN_ID)
+		where 
+			DECORATE_ID = #{DECORATE_ID}
+	</select>
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+			a.USER_ID,
+			a.DECORATE_NO,
+			b.BUILD_NAME,
+			a.FLOOR,
+			a.ROOM,
 			a.CONTENT,
 			a.FILE_URL,
 			a.STATUS,
@@ -86,39 +118,22 @@
 			a.DECORATE_ID,
 			u.NAME,
 			u.SFID,
-			u.PHONE
-		from 
+			u.PHONE,
+			u.SEX
+		from
 			DECORATE a
 		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
-		where 
-			DECORATE_ID = #{DECORATE_ID}
-	</select>
-	<!-- 列表 -->
-	<select id="datalistPage" parameterType="page" resultType="pd">
-		select
-				a.DECORATE_NO,
-				a.USER_ID,
-				a.TYPE,
-				a.TITLE,	
-				a.CONTENT,
-				a.FILE_URL,
-				a.STATUS,	
-				a.CREATE_TIME,	
-				a.UPDATE_TIME,	
-				a.DECORATE_ID,
-				u.NAME
-		from 
-				DECORATE a
-		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
-		WHERE a.TYPE != 3
+		LEFT JOIN BUILD_MAN b ON (b.BUILDMAN_ID = a.BUILDMAN_ID)
+		WHERE 1=1
 	</select>
 	<!--查询一卡通申请-->
 	<select id="passlistPage" parameterType="page" resultType="pd">
 		select
 			a.DECORATE_NO,
 			a.USER_ID,
-			a.TYPE,
-			a.TITLE,
+			b.BUILD_NAME,
+			a.FLOOR,
+			a.ROOM,
 			a.CONTENT,
 			a.FILE_URL,
 			a.STATUS,
@@ -134,16 +149,17 @@
 		DECORATE a
 		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
 		LEFT JOIN company c ON (c.company_id = u.company_id)
-		WHERE a.TYPE = 3
+		LEFT JOIN BUILD_MAN b ON (b.BUILDMAN_ID = a.BUILDMAN_ID)
 		ORDER BY c.COMPANY_NAME,a.STATUS DESC
 	</select>
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">
 		select
 				a.DECORATE_NO,
-				a.TYPE,
 				a.USER_ID,
-				a.TITLE,	
+				a.BUILDMAN_ID,
+				a.FLOOR,
+				a.ROOM,
 				a.CONTENT,
 				a.FILE_URL,
 				a.STATUS,	
@@ -168,10 +184,15 @@
 		insert into DECORATE(
 			DECORATE_NO,
 			USER_ID,
-			TYPE,
-			TITLE,
+			BUILDMAN_ID,
+			FLOOR,
+			ROOM,
+			<if test="content != null and content != ''">
 			CONTENT,
+			</if>
+			<if test="fileUrl != null and fileUrl != ''">
 			FILE_URL,
+			</if>
 			STATUS,
 			CREATE_TIME,
 			UPDATE_TIME,
@@ -179,10 +200,15 @@
 		) values (
 			#{decorateNo},
 			#{userId},
-			#{type},
-			#{title},
+			#{buildmanId},
+			#{floor},
+			#{room},
+			<if test="content != null and content != ''">
 			#{content},
-			#{fileUrl}
+			</if>
+			<if test="fileUrl != null and fileUrl != ''">
+			#{fileUrl},
+			</if>
 			#{status},
 			now(),
 			now(),

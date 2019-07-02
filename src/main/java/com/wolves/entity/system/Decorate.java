@@ -20,14 +20,17 @@ public class Decorate {
     @ApiModelProperty(name = "decorateNo",value = "编号")
     private String decorateNo;
 
-    @ApiModelProperty(name = "type",value = "类型(1-楼宇装修申请，2-楼宇装饰工程竣工验收，3-楼宇施工许可，4-出门证申请)")
-    private Integer type;
-
     @ApiModelProperty(name = "userId",value = "用户Id")
     private String userId;
 
-    @ApiModelProperty(name = "title",value = "申请标题")
-    private String title;
+    @ApiModelProperty(name = "buildmanId",value = "楼栋")
+    private String buildmanId;
+
+    @ApiModelProperty(name = "floor",value = "楼层")
+    private String floor;
+
+    @ApiModelProperty(name = "room",value = "房间")
+    private String room;
 
     @ApiModelProperty(name = "content",value = "申请内容")
     private String content;
@@ -62,14 +65,6 @@ public class Decorate {
         this.decorateNo = decorateNo;
     }
 
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
     public String getUserId() {
         return userId;
     }
@@ -78,12 +73,28 @@ public class Decorate {
         this.userId = userId;
     }
 
-    public String getTitle() {
-        return title;
+    public String getBuildmanId() {
+        return buildmanId;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setBuildmanId(String buildmanId) {
+        this.buildmanId = buildmanId;
+    }
+
+    public String getFloor() {
+        return floor;
+    }
+
+    public void setFloor(String floor) {
+        this.floor = floor;
+    }
+
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
     }
 
     public String getContent() {
@@ -131,10 +142,12 @@ public class Decorate {
         return "Decorate{" +
                 "decorateId='" + decorateId + '\'' +
                 ", decorateNo='" + decorateNo + '\'' +
-                ", type=" + type +
                 ", userId='" + userId + '\'' +
-                ", title='" + title + '\'' +
+                ", buildmanId='" + buildmanId + '\'' +
+                ", floor='" + floor + '\'' +
+                ", room='" + room + '\'' +
                 ", content='" + content + '\'' +
+                ", fileUrl='" + fileUrl + '\'' +
                 ", status=" + status +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +

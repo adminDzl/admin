@@ -93,18 +93,16 @@ public class DecorateService {
 		decorate.setDecorateNo(UuidUtil.get32UUID());
 		decorate.setDecorateId(UuidUtil.get32UUID());
 		decorate.setUserId(user.getUserId());
-		decorate.setType(decorateDataDTO.getType());
-		decorate.setTitle(decorateDataDTO.getTitle());
+		decorate.setBuildmanId(decorateDataDTO.getBuildmanId());
+		decorate.setFloor(decorateDataDTO.getFloor());
+		decorate.setRoom(decorateDataDTO.getRoom());
 		decorate.setContent(decorateDataDTO.getContent());
-		if (StringUtils.isNotEmpty(decorateDataDTO.getFileUrl())){
-			decorate.setFileUrl(decorateDataDTO.getFileUrl());
-		}
+		decorate.setFileUrl(decorateDataDTO.getFileUrl());
 		decorate.setStatus(Integer.valueOf(StatusEnum.INIT.getKey()));
 		dao.save("DecorateMapper.saveApply", decorate);
-		if (decorateDataDTO.getType().equals(ApplyTypeEnum.apply_ic_tl.getKey())){
-			user.setSfid(decorateDataDTO.getIdCard());
-			userService.updateUser(user);
-		}
+		user.setSfid(decorateDataDTO.getIdCard());
+		user.setSex(decorateDataDTO.getSex());
+		userService.updateUser(user);
 	}
 
 	/**
