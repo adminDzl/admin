@@ -167,6 +167,6 @@
     user_id
     app_role_id
 # 23 app_role_resource
-    id
+ 00000000   id
     role_id
     resource_id
