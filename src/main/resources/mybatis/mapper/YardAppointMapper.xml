@@ -6,6 +6,7 @@
 		<id column="yardappoint_id" property="yardappointId"/>
 		<result column="place_type" property="placeType"/>
 		<result column="position" property="position"/>
+		<result column="image_url" property="imageUrl"/>
 		<result column="place_date" property="placeDate"/>
 		<result column="begin_time" property="beginTime"/>
 		<result column="end_time" property="endTime"/>
@@ -161,6 +162,7 @@
 			a.yardappoint_id,
 			y.place_type,
 			y.position,
+			y.image_url,
 			a.place_date,
 			a.begin_time,
 			a.end_time,

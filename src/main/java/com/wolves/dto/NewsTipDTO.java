@@ -26,6 +26,9 @@ public class NewsTipDTO {
     @ApiModelProperty(name = "newsContent",value = "内容")
     private String newsContent;
 
+    @ApiModelProperty(name = "breviaryContent",value = "缩略内容")
+    private String breviaryContent;
+
     @ApiModelProperty(name = "attachUrl",value = "链接")
     private String attachUrl;
 
@@ -79,6 +82,14 @@ public class NewsTipDTO {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getBreviaryContent() {
+        return breviaryContent;
+    }
+
+    public void setBreviaryContent(String breviaryContent) {
+        this.breviaryContent = breviaryContent;
     }
 
     @Override

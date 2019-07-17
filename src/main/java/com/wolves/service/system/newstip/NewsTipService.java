@@ -12,8 +12,8 @@ import com.wolves.common.NewsTypeEnum;
 import com.wolves.dao.DaoSupport;
 import com.wolves.dto.ApplyDataDTO;
 import com.wolves.dto.NewsTipDTO;
-import com.wolves.dto.YardDTO;
 import com.wolves.entity.system.Page;
+import com.wolves.util.AppUtil;
 import com.wolves.util.PageData;
 import com.wolves.util.ReduceHtmlUtil;
 import com.wolves.util.StringUtils;
@@ -119,7 +119,19 @@ public class NewsTipService {
 	 * @return
 	 */
 	public List<NewsTipDTO> selectNewsByType(Map<String,Object> params){
-		return (List<NewsTipDTO>)dao.findForList("NewsTipMapper.selectNewsByType", params);
+		List<NewsTipDTO> newsTipDTOS = (List<NewsTipDTO>)dao.findForList("NewsTipMapper.selectNewsByType", params);
+		if (newsTipDTOS != null && !newsTipDTOS.isEmpty()){
+			for (NewsTipDTO newsTipDTO : newsTipDTOS){
+				String content = AppUtil.getTextFromHtml(newsTipDTO.getNewsContent());
+				if (StringUtils.isNotEmpty(content)){
+					if (content.length() > 20){
+						content = content.substring(0, 20);
+					}
+				}
+				newsTipDTO.setBreviaryContent(content);
+			}
+		}
+		return newsTipDTOS;
 	}
 
 	/**

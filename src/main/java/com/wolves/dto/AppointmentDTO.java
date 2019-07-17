@@ -24,6 +24,9 @@ public class AppointmentDTO {
     @ApiModelProperty(name = "position",value = "所处位置")
     private String position;
 
+    @ApiModelProperty(name = "imageUrl",value = "场地图片")
+    private String imageUrl;
+
     @ApiModelProperty(name = "placeDate",value = "场地ID")
     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date placeDate;
@@ -138,6 +141,14 @@ public class AppointmentDTO {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @Override
