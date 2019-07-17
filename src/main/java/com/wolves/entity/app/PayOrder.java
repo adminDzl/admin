@@ -19,6 +19,8 @@ public class PayOrder {
 
     private Date returnTime;
 
+    private String remark;
+
     private Integer payStatus;
 
     private Date createTime;
@@ -95,5 +97,13 @@ public class PayOrder {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }
