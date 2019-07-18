@@ -186,7 +186,7 @@
 		WHERE
 			1=1
 			<if test="pd.TIME != null and pd.TIME != '' ">
-				AND DATE_FORMAT(p.create_time,'%Y') = DATE_FORMAT(#{pd.TIME},'%Y')
+				AND DATE_FORMAT(p.create_time,'%Y') = #{pd.TIME}
 			</if>
 			<if test="pd.COMPANY_NAME != null and pd.COMPANY_NAME != '' ">
 				AND c.COMPANY_NAME = #{pd.COMPANY_NAME}
