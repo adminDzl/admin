@@ -50,7 +50,7 @@
 						</th>
 						<th class="center">序号</th>
 						<th class="center">缴费单位</th>
-						<th class="center">类型</th>
+						<th class="center">备注</th>
 						<th class="center">缴费金额</th>
 						<th class="center">费用月度</th>
 						<th class="center">状态</th>
