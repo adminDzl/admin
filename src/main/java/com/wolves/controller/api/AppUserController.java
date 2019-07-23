@@ -1141,7 +1141,38 @@ public class AppUserController {
         user.setHeadImage(headImage);
         userService.updateUser(user);
         result.setResult(ResultCode.SUCCESS);
-        result.setMsg("查询成功");
+        result.setMsg("设置成功");
+        return result;
+    }
+
+    @ApiOperation(httpMethod="POST",value="设置/修改企业LOGO",notes="设置/修改企业LOGO")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+            @ApiImplicitParam(name = "jsonObject",value = "{\"logo\":\"企业LOGO\"}",required = true,paramType = "body",dataType = "JSONObject")
+    })
+    @RequestMapping(value = "updateCompanyLogo", method = RequestMethod.POST)
+    public Result updateCompanyLogo(@RequestHeader("Authorization") String token,
+                                  @RequestBody JSONObject jsonObject){
+        Result result = new Result();
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        String logo = jsonObject.getString("logo");
+        if (StringUtils.isEmpty(logo)){
+            result.setResult(ResultCode.FAIL);
+            result.setMsg("请上传企业LOGO");
+            return result;
+        }
+        CompanyDTO companyDTO = companyService.selectCompanyById(user.getCompanyId());
+        if (companyDTO != null){
+            companyDTO.setLogo(logo);
+        }
+        companyService.updateCompanyById(companyDTO);
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("设置成功");
         return result;
     }
 }

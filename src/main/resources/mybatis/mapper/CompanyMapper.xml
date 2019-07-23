@@ -230,4 +230,37 @@
 		FROM company
 		WHERE type = 2 AND status != 2 AND company_name = #{name}
 	</select>
+
+	<update id="updateCompanyById" parameterType="com.wolves.dto.user.CompanyDTO">
+		update COMPANY
+		set
+		<if test="companyName != null">
+			COMPANY_NAME = #{companyName},
+		</if>
+		<if test="type != null">
+			TYPE = #{type},
+		</if>
+		<if test="status != null">
+			STATUS = #{status},
+		</if>
+		<if test="description != null">
+			DESCRIPTION = #{description},
+		</if>
+		<if test="companyCertify != null">
+			COMPANY_CERTIFY = #{companyCertify},
+		</if>
+		<if test="placeId != null">
+			PLACE_ID = #{placeId},
+		</if>
+		<if test="logo != null">
+			LOGO = #{logo},
+		</if>
+		<if test="createTime != null">
+			CREATE_TIME = #{createTime},
+		</if>
+		UPDATE_TIME = now(),
+		COMPANY_ID = COMPANY_ID
+		where
+		COMPANY_ID = #{companyId}
+	</update>
 </mapper>
