@@ -210,7 +210,7 @@ public class CompanyController extends BaseController {
 		if (companyList != null && !companyList.isEmpty() && companyList.size() < 50000){
 			List<CompanyDTO> companyDTOS = companyService.getCompanyData(companyList);
 			pd = companyService.checkExcelData(companyList, pd);
-			if (pd.isEmpty()){
+			if (pd == null){
 				companyService.createCompanyByExcel(companyDTOS);
 			}
 		}

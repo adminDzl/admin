@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
+
+import com.wolves.service.system.CompanyService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -42,6 +44,9 @@ public class PaymentController extends BaseController {
 	String menuUrl = "payment/list.do";
 	@Resource(name="paymentService")
 	private PaymentService paymentService;
+
+	@Resource(name="companyService")
+	private CompanyService companyService;
 	
 	/**
 	 * 新增
@@ -54,6 +59,7 @@ public class PaymentController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		pd.put("PAYMENT_ID", this.get32UUID());
+		pd.put("STATUS", 0);
 		pd.put("CREATE_TIME", Tools.date2Str(new Date()));
 		pd.put("UPDATE_TIME", Tools.date2Str(new Date()));
 		paymentService.save(pd);
@@ -119,6 +125,7 @@ public class PaymentController extends BaseController {
 		mv.setViewName("system/payment/payment_edit");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
+		mv.addObject("company", companyService.selectAllCompany());
 		return mv;
 	}	
 	

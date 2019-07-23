@@ -50,7 +50,7 @@
 						</th>
 						<th class="center">序号</th>
 						<th class="center">缴费单位</th>
-						<th class="center">类型</th>
+						<th class="center">备注</th>
 						<th class="center">缴费金额</th>
 						<th class="center">费用月度</th>
 						<th class="center">状态</th>
@@ -70,9 +70,7 @@
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 										<td>${var.COMPANY_NAME}</td>
 										<td>
-											<c:if test="${var.PAYMENT_TYPE == 1}"><span class="label label-success arrowed">物业费</span></c:if>
-											<c:if test="${var.PAYMENT_TYPE == 2}"><span class="label label-success arrowed">水费</span></c:if>
-											<c:if test="${var.PAYMENT_TYPE == 3}"><span class="label label-success arrowed">电费</span></c:if>
+											<span class="label label-success arrowed">${var.PAYMENT_TYPE}</span>
 										</td>
 										<td>${var.AMOUNT}</td>
 										<td>${var.PAYMENT_DATE}</td>
@@ -114,11 +112,11 @@
 		<table style="width:100%;">
 			<tr>
 				<td style="vertical-align:top;">
-					<%--<c:if test="${QX.add == 1 }">--%>
-					<%--<a class="btn btn-small btn-success" onclick="add();">新增</a>--%>
-					<%--</c:if>--%>
+					<c:if test="${QX.add == 1 }">
+					<a class="btn btn-small btn-success" onclick="add();">新增</a>
+					</c:if>
 					<a class="btn btn-small btn-warning" onclick="importt();">批量导入</a>
-					<a class="btn btn-small btn-info" onclick="payment();">一键催缴</a>
+					<%--<a class="btn btn-small btn-info" onclick="payment();">一键催缴</a>--%>
 					<c:if test="${QX.del == 1 }">
 					<a class="btn btn-small btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='icon-trash'></i></a>
 					</c:if>

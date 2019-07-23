@@ -41,7 +41,6 @@ public class PayOrderSumController extends BaseController {
 	@RequestMapping(value="/list")
 	public ModelAndView list(Page page){
 		logBefore(logger, "列表PayOrderSum");
-		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		page.setPd(pd);

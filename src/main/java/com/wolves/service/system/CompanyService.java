@@ -143,7 +143,7 @@ public class CompanyService {
 	}
 
 	private CompanyDTO getData(Map<String, Object> map){
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		CompanyDTO companyDTO = new CompanyDTO();
 		Object companyName = map.get("企业名称");
 		companyDTO.setCompanyName(companyName.toString());
@@ -199,11 +199,22 @@ public class CompanyService {
 				List<BaseCompanyDTO> baseCompanyDTOS = this.selectCompanyByName(companyDTO.getCompanyName());
 				if (baseCompanyDTOS.isEmpty()){
 					companyDTO.setType(Integer.valueOf(CompanyTypeEnum.out.getKey()));
+					companyDTO.setCompanyId(UuidUtil.get32UUID());
+					companyDTO.setStatus(Integer.valueOf(StatusEnum.SUCCESS.getKey()));
 					this.saveCompany(companyDTO);
 				}
 
 			}
 		}
+	}
+
+	/**
+	 * 更新企业信息
+	 * @param companyDTO
+	 */
+	public void updateCompanyById(CompanyDTO companyDTO){
+
+		dao.update("CompanyMapper.updateCompanyById", companyDTO);
 	}
 }
 

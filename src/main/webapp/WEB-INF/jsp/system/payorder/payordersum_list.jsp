@@ -19,16 +19,39 @@
 			<form action="payordersum/list.do" method="post" name="Form" id="Form">
 			<table>
 				<tr>
-					<td><input class="span10 date-picker" name="TIME" id="TIME" value="${pd.TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期"/></td>
+					<%--<td><input class="span10 date-picker" name="TIME" id="TIME" value="${pd.TIME}" type="text" data-date-format="yyyy" readonly="readonly" style="width:88px;" placeholder="开始日期"/></td>--%>
+					<td  style="vertical-align:top;">
+						<select class="chzn-select" name="TIME" data-placeholder="请选择年份" style="vertical-align:top;width: 120px;">
+							<option value=""></option>
+							<option value="">全部</option>
+							<option value="2019" <c:if test="${pd.TIME == '2019' }">selected</c:if>>2019</option>
+							<option value="2020" <c:if test="${pd.TIME == '2020' }">selected</c:if>>2020</option>
+							<option value="2021" <c:if test="${pd.TIME == '2021' }">selected</c:if>>2021</option>
+							<option value="2022" <c:if test="${pd.TIME == '2022' }">selected</c:if>>2022</option>
+							<option value="2023" <c:if test="${pd.TIME == '2023' }">selected</c:if>>2023</option>
+							<option value="2024" <c:if test="${pd.TIME == '2024' }">selected</c:if>>2024</option>
+							<option value="2025" <c:if test="${pd.TIME == '2025' }">selected</c:if>>2025</option>
+							<option value="2026" <c:if test="${pd.TIME == '2026' }">selected</c:if>>2026</option>
+							<option value="2027" <c:if test="${pd.TIME == '2027' }">selected</c:if>>2027</option>
+							<option value="2028" <c:if test="${pd.TIME == '2028' }">selected</c:if>>2028</option>
+							<option value="2029" <c:if test="${pd.TIME == '2029' }">selected</c:if>>2029</option>
+							<option value="2030" <c:if test="${pd.TIME == '2030' }">selected</c:if>>2030</option>
+							<option value="2031" <c:if test="${pd.TIME == '2031' }">selected</c:if>>2031</option>
+							<option value="2032" <c:if test="${pd.TIME == '2032' }">selected</c:if>>2032</option>
+							<option value="2033" <c:if test="${pd.TIME == '2033' }">selected</c:if>>2033</option>
+							<option value="2034" <c:if test="${pd.TIME == '2034' }">selected</c:if>>2034</option>
+							<option value="2035" <c:if test="${pd.TIME == '2035' }">selected</c:if>>2035</option>
+						</select>
+					</td>
 					<td>
 						<span class="input-icon">
-							<input autocomplete="off" id="nav-search-input" type="text" name="COMPANY_NAME" value="${pd.COMPANY_NAME}" placeholder="这里输入单位名" />
+							<input autocomplete="off" id="nav-search-input" type="text" name="COMPANY_NAME" value="${pd.COMPANY_NAME}" placeholder="公司名搜索" />
 							<i class="icon-search"></i>
 						</span>
 					</td>
-					<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"  title="检索"><i id="nav-search-icon" class="icon-search"></i></button></td>
+					<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"  title="检索"><i class="icon-search"></i></button></td>
 					<c:if test="${QX.cha == 1 }">
-					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="icon-download-alt"></i></a></td>
+					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i class="icon-download-alt"></i></a></td>
 					</c:if>
 				</tr>
 			</table>
@@ -79,6 +102,10 @@
 		<div class="page-header position-relative">
 		<table style="width:100%;">
 			<tr>
+				<td style="vertical-align:top;">
+					<a class="btn btn-small btn-warning" onclick="query();">查看未缴费公司</a>
+					<a class="btn btn-small btn-info" onclick="payment();">一键催缴</a>
+				</td>
 				<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
 			</tr>
 		</table>
@@ -105,6 +132,15 @@
 			top.jzts();
 			$("#Form").submit();
 		}
+
+		function payment(){
+			bootbox.alert("催缴成功！");
+		}
+
+		function query(){
+			bootbox.alert("开发中。。。！");
+		}
+
 		function add(){
 			 top.jzts();
 			 var diag = new top.Dialog();

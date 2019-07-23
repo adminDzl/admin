@@ -25,20 +25,20 @@
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 <script type="text/javascript">
 	function save(){
-			if($("#USER_ID").val()==""){
+		if($("#USER_ID").val()==""){
 			$("#USER_ID").tips({
-				side:3,
-	            msg:'请输入缴费单位id',
-	            bg:'#AE81FF',
-	            time:2
-	        });
+				side:4,
+				msg:'请选择公司',
+				bg:'#AE81FF',
+				time:2
+			});
 			$("#USER_ID").focus();
 			return false;
 		}
 		if($("#PAYMENT_TYPE").val()==""){
 			$("#PAYMENT_TYPE").tips({
 				side:3,
-	            msg:'请输入缴费类型',
+	            msg:'请输入缴费备注',
 	            bg:'#AE81FF',
 	            time:2
 	        });
@@ -87,12 +87,20 @@
 		<div id="zhongxin">
 		<table id="table_report" class="table table-striped table-bordered table-hover">
 			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">缴费单位id:</td>
-				<td><input type="text" name="USER_ID" id="USER_ID" value="${pd.USER_ID}" maxlength="32" placeholder="这里输入缴费单位id" title="缴费单位id"/></td>
+				<td style="width:70px;text-align: right;padding-top: 13px;">缴费公司:</td>
+				<td>
+					<select name="USER_ID" id="USER_ID" maxlength="32" placeholder="这里选择公司" title="公司" value="${pd.USER_ID}">
+						<option value=''>请选择</option>
+						<c:forEach items="${company}" varStatus="status" var="item">
+							<option value="${item.companyId }" <c:if test="${item.companyId == pd.USER_ID}">selected</c:if>>${item.companyName }</option>
+						</c:forEach>
+					</select>
+				</td>
+				<%--<td><input type="text" name="USER_ID" id="USER_ID" value="${pd.USER_ID}" maxlength="32" placeholder="这里输入缴费单位id" title="缴费单位id"/></td>--%>
 			</tr>
 			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">缴费类型:</td>
-				<td><input type="number" name="PAYMENT_TYPE" id="PAYMENT_TYPE" value="${pd.PAYMENT_TYPE}" maxlength="32" placeholder="这里输入缴费类型" title="缴费类型"/></td>
+				<td style="width:70px;text-align: right;padding-top: 13px;">缴费备注:</td>
+				<td><input type="text" name="PAYMENT_TYPE" id="PAYMENT_TYPE" value="${pd.PAYMENT_TYPE}" maxlength="32" placeholder="这里输入缴费备注" title="缴费备注"/></td>
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">缴费金额:</td>
@@ -101,10 +109,6 @@
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">费用月度:</td>
 				<td><input class="span10 date-picker" name="PAYMENT_DATE" id="PAYMENT_DATE" value="${pd.PAYMENT_DATE}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="费用月度" title="费用月度"/></td>
-			</tr>
-			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">状态:</td>
-				<td><input type="number" name="STATUS" id="STATUS" value="${pd.STATUS}" maxlength="32" placeholder="这里输入状态" title="状态"/></td>
 			</tr>
 			<tr>
 				<td style="text-align: center;" colspan="10">
