@@ -70,9 +70,7 @@
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 										<td>${var.COMPANY_NAME}</td>
 										<td>
-											<c:if test="${var.PAYMENT_TYPE == 1}"><span class="label label-success arrowed">物业费</span></c:if>
-											<c:if test="${var.PAYMENT_TYPE == 2}"><span class="label label-success arrowed">水费</span></c:if>
-											<c:if test="${var.PAYMENT_TYPE == 3}"><span class="label label-success arrowed">电费</span></c:if>
+											<span class="label label-success arrowed">${var.PAYMENT_TYPE}</span>
 										</td>
 										<td>${var.AMOUNT}</td>
 										<td>${var.PAYMENT_DATE}</td>
