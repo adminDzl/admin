@@ -74,7 +74,16 @@ public class YardService {
 	 * @return
 	 */
 	public List<YardDTO> selectYard(Map<String, Object> params){
-		return (List<YardDTO>) dao.findForList("YardMapper.selectYard", params);
+		List<YardDTO> yardDTOS = (List<YardDTO>) dao.findForList("YardMapper.selectYard", params);
+		if (yardDTOS != null && !yardDTOS.isEmpty()){
+			for (YardDTO yardDTO : yardDTOS){
+				if (yardDTO.getImageUrl() != null && yardDTO.getImageUrl() != "") {
+					String[] arr = yardDTO.getImageUrl().split(",");
+					yardDTO.setImageUrls(Arrays.asList(arr));
+				}
+			}
+		}
+		return yardDTOS;
 	}
 
 	/**

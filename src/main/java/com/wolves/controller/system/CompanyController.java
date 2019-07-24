@@ -212,6 +212,7 @@ public class CompanyController extends BaseController {
 			pd = companyService.checkExcelData(companyList, pd);
 			if (pd == null){
 				companyService.createCompanyByExcel(companyDTOS);
+				pd.put("msg", "ok");
 			}
 		}
 		pdList.add(pd);
