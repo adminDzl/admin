@@ -134,7 +134,7 @@ public class YardAppointService {
 		//预定金额
 		pd.put("BOOK_FEE", yardDTO.getRentFee().multiply(BigDecimal.valueOf(hours)));
 		//预定状态
-		pd.put("STATUS", StatusEnum.INIT.getKey());
+		pd.put("STATUS", StatusEnum.SUCCESS.getKey());
 		//预定日期
 		pd.put("PLACE_DATE", applyYardDTO.getPlaceDate());
 		//开始时间
