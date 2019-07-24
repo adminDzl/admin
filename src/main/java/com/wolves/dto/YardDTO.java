@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -26,6 +27,9 @@ public class YardDTO {
 
     @ApiModelProperty(name = "imageUrl",value = "图片地址")
     private String imageUrl;
+
+    @ApiModelProperty(name = "imageUrls",value = "图片地址")
+    private List<String> imageUrls;
 
     @ApiModelProperty(name = "equipment",value = "设备描述")
     private String equipment;
@@ -67,6 +71,14 @@ public class YardDTO {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public List<String> getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(List<String> imageUrls) {
+        this.imageUrls = imageUrls;
     }
 
     public String getEquipment() {

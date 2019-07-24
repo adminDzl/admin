@@ -14,6 +14,8 @@
 		<result column="update_time" property="updateTime"/>
 	</resultMap>
 
+	<resultMap id="CompanyPayResultMap" type="com.wolves.dto.pay.CompantYearPayDTO"></resultMap>
+
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into PAY_ORDER(
@@ -186,13 +188,39 @@
 		WHERE
 			1=1
 			<if test="pd.TIME != null and pd.TIME != '' ">
-				AND DATE_FORMAT(p.create_time,'%Y') = #{pd.TIME}
+				AND DATE_FORMAT(p.create_time,'%Y') = DATE_FORMAT(#{pd.TIME},'%Y')
 			</if>
 			<if test="pd.COMPANY_NAME != null and pd.COMPANY_NAME != '' ">
 				AND c.COMPANY_NAME = #{pd.COMPANY_NAME}
 			</if>
 		GROUP BY
-			user_id
+		u.USER_ID
+		ORDER BY p.create_time DESC
+	</select>
+
+	<select id="queryCompanyPayById" parameterType="com.wolves.dto.pay.CompantYearPayDTO" resultMap="CompanyPayResultMap">
+		SELECT
+			p.PAYORDER_ID AS id,
+			p.USER_ID AS userId,
+			c.COMPANY_NAME as companyName,
+			SUM(p.pay_amount) AS yearTotalPay, -- 全部需要缴纳费用
+			SUM(IFNULL(o.pay_amount, 0)) AS yearYetPay, -- 已经缴纳费用
+			SUM(p.pay_amount) - SUM(IFNULL(o.pay_amount, 0)) AS yearWaitPay, -- 待缴纳费用
+			p.CREATE_TIME AS createTime
+		FROM
+		pay_order p
+		LEFT JOIN pay_order o ON (p.payorder_id = o.payorder_id AND o.pay_status = 1)
+		LEFT JOIN USER u ON (u.USER_ID = o.USER_ID)
+		LEFT JOIN company c ON (c.company_id = u.company_id)
+		WHERE 1=1
+		<if test="companyId != null">
+			AND c.company_id = #{companyId}
+		</if>
+		<if test="time != null and time != '' ">
+			AND DATE_FORMAT(p.create_time,'%Y') = DATE_FORMAT(#{time},'%Y')
+		</if>
+		GROUP BY
+		u.USER_ID
 		ORDER BY p.create_time DESC
 	</select>
 </mapper>

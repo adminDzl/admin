@@ -3,6 +3,7 @@ package com.wolves.controller.api;
 import com.alibaba.fastjson.JSONObject;
 import com.wolves.common.*;
 import com.wolves.dto.*;
+import com.wolves.dto.pay.CompantYearPayDTO;
 import com.wolves.dto.user.*;
 import com.wolves.entity.app.PayOrder;
 import com.wolves.entity.app.User;
@@ -30,6 +31,8 @@ import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -69,6 +72,8 @@ public class AppUserController {
     private CompanyService companyService;
     @Resource(name = "decorateService")
     private DecorateService decorateService;
+    @Resource(name="payorderService")
+    private PayOrderService payorderService;
 
     /**
      * 登陆,返回token
@@ -560,6 +565,7 @@ public class AppUserController {
         }
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userId", user.getUserId());
+        params.put("status", StatusEnum.SUCCESS.getKey());
         params.put("start", (page - 1) * size);
         params.put("size", size);
         List<AppointmentDTO> list = yardappointService.selectAppointment(params);
@@ -1173,6 +1179,32 @@ public class AppUserController {
         companyService.updateCompanyById(companyDTO);
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("设置成功");
+        return result;
+    }
+
+    @ApiOperation(httpMethod="POST",value="查询个人所在公司年度缴费",notes="查询个人所在公司年度缴费")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+    })
+    @RequestMapping(value = "queryCompanyPay", method = RequestMethod.POST)
+    public Result<CompantYearPayDTO> queryCompanyPay(@RequestHeader("Authorization") String token){
+        Result<CompantYearPayDTO> result = new Result<CompantYearPayDTO>();
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        //查询
+        Map<String, Object> params = new HashMap<String, Object>(2);
+        params.put("companyId", user.getCompanyId());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        params.put("time", formatter.format(System.currentTimeMillis()));
+        CompantYearPayDTO compantYearPayDTO = payorderService.queryCompanyPayById(params);
+
+        result.setData(compantYearPayDTO);
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("查询成功");
         return result;
     }
 }
