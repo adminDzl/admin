@@ -25,14 +25,14 @@
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 <script type="text/javascript">
 	function save(){
-		if($("#USER_ID").val()==""){
-			$("#USER_ID").tips({
+		if($("#COMPANY_ID").val()==""){
+			$("#COMPANY_ID").tips({
 				side:4,
 				msg:'请选择公司',
 				bg:'#AE81FF',
 				time:2
 			});
-			$("#USER_ID").focus();
+			$("#COMPANY_ID").focus();
 			return false;
 		}
 		if($("#PAYMENT_TYPE").val()==""){
@@ -89,10 +89,10 @@
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">缴费公司:</td>
 				<td>
-					<select name="USER_ID" id="USER_ID" maxlength="32" placeholder="这里选择公司" title="公司" value="${pd.USER_ID}">
+					<select name="COMPANY_ID" id="COMPANY_ID" maxlength="32" placeholder="这里选择公司" title="公司" value="${pd.COMPANY_ID}">
 						<option value=''>请选择</option>
 						<c:forEach items="${company}" varStatus="status" var="item">
-							<option value="${item.companyId }" <c:if test="${item.companyId == pd.USER_ID}">selected</c:if>>${item.companyName }</option>
+							<option value="${item.companyId }" <c:if test="${item.companyId == pd.COMPANY_ID}">selected</c:if>>${item.companyName }</option>
 						</c:forEach>
 					</select>
 				</td>

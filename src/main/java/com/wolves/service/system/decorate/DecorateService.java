@@ -9,6 +9,7 @@ import com.wolves.common.ApplyTypeEnum;
 import com.wolves.common.StatusEnum;
 import com.wolves.dao.DaoSupport;
 import com.wolves.dto.user.DecorateDataDTO;
+import com.wolves.dto.user.UnionDTO;
 import com.wolves.entity.app.User;
 import com.wolves.entity.system.Decorate;
 import com.wolves.entity.system.Page;
@@ -135,6 +136,14 @@ public class DecorateService {
 		params.put("status", StatusEnum.REJECT.getKey());
 
 		dao.update("DecorateMapper.updateDecorate", params);
+	}
+
+	/**
+	 * 查询一卡通导出pdf数据
+	 */
+	public UnionDTO findUnionById(String decorateId){
+
+		return (UnionDTO) dao.findForObject("DecorateMapper.findUnionById", decorateId);
 	}
 }
 

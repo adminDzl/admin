@@ -1,7 +1,7 @@
 package com.wolves.dto.user;
 
 /**
- * 一卡通赋值数据
+ * 停车场赋值数据
  * @author gf
  * @date 2019/4/21
  */

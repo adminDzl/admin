@@ -4,7 +4,7 @@
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into PAYMENT(
-			USER_ID,	
+			COMPANY_ID,
 			PAYMENT_TYPE,	
 			AMOUNT,	
 			PAYMENT_DATE,	
@@ -13,7 +13,7 @@
 			UPDATE_TIME,	
 			PAYMENT_ID
 		) values (
-			#{USER_ID},	
+			#{COMPANY_ID},
 			#{PAYMENT_TYPE},	
 			#{AMOUNT},	
 			#{PAYMENT_DATE},	
@@ -33,7 +33,7 @@
 	<update id="edit" parameterType="pd">
 		update  PAYMENT
 			set 
-				USER_ID = #{USER_ID},
+				COMPANY_ID = #{COMPANY_ID},
 				PAYMENT_TYPE = #{PAYMENT_TYPE},
 				AMOUNT = #{AMOUNT},
 				PAYMENT_DATE = #{PAYMENT_DATE},
@@ -46,7 +46,7 @@
 	<!-- 通过ID获取数据 -->
 	<select id="findById" parameterType="pd" resultType="pd">
 		select 
-			USER_ID,	
+			COMPANY_ID,
 			PAYMENT_TYPE,	
 			AMOUNT,	
 			PAYMENT_DATE,	
@@ -62,7 +62,7 @@
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
-				a.USER_ID,	
+				a.COMPANY_ID,
 				a.PAYMENT_TYPE,	
 				a.AMOUNT,	
 				a.PAYMENT_DATE,	
@@ -73,8 +73,7 @@
 				a.PAYMENT_ID
 		from 
 				PAYMENT a
-		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
-		LEFT JOIN company c ON (c.company_id = u.company_id)
+		LEFT JOIN company c ON (c.company_id = a.COMPANY_ID)
 		where 1 = 1
 		<if test="pd.COMPANY_NAME!=null and pd.COMPANY_NAME!=''"><!-- 公司名检索 -->
 			and c.company_name like '%${pd.COMPANY_NAME}%'
@@ -92,7 +91,7 @@
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">
 		select
-				a.USER_ID,	
+				a.COMPANY_ID,
 				a.PAYMENT_TYPE,	
 				a.AMOUNT,	
 				a.PAYMENT_DATE,	

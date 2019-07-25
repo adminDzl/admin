@@ -13,6 +13,9 @@
 		<result column="update_time" property="updateTime"/>
 	</resultMap>
 
+	<resultMap type="com.wolves.dto.user.UnionDTO" id="UnionDTOResultMap">
+	</resultMap>
+
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into DECORATE(
@@ -238,4 +241,29 @@
 		where
 		DECORATE_ID = #{decorateId}
 	</update>
+
+	<select id="findUnionById" parameterType="com.wolves.dto.user.UnionDTO" resultMap="UnionDTOResultMap">
+		select
+		a.user_id,
+		a.buildman_id,
+		a.floor,
+		a.room,
+		u.name,
+		u.sfid AS idCard,
+		u.phone,
+		u.sex,
+		c.company_id AS companyId,
+		c.company_name AS companyName,
+		c.type,
+		c.status,
+		b.car_no AS plate,
+		a.create_time AS applyTime
+		from
+			DECORATE a
+		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
+		LEFT JOIN USER_CAR_BIND b ON (b.USER_ID = a.USER_ID AND b.STATUS = 1)
+		LEFT JOIN COMPANY c ON (c.COMPANY_ID = u.COMPANY_ID)
+		where a.decorate_id = #{decorateId} AND a.`status` = 1
+		GROUP BY a.user_id
+	</select>
 </mapper>

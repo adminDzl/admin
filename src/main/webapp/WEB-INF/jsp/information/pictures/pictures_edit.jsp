@@ -45,17 +45,17 @@
                 bg:'#AE81FF',
                 time:2
             });
-            $("#LINK").focus();
+            $("#PATH").focus();
             return false;
         }
-        if($("#LINK").val()==""){
-            $("#LINK").tips({
+        if($("#LINK_ID").val()==""){
+            $("#LINK_ID").tips({
                 side:3,
                 msg:'请输入跳转链接',
                 bg:'#AE81FF',
                 time:2
             });
-            $("#LINK").focus();
+            $("#LINK_ID").focus();
             return false;
         }
 		if($("#BZ").val()==""){

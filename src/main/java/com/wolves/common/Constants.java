@@ -57,4 +57,8 @@ public class Constants {
      * 人员审核
      */
     public static String verifyStaff = "verifyStaff";
+
+    public static String man = "男";
+
+    public static String woman = "女";
 }

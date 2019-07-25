@@ -1,11 +1,18 @@
 package com.wolves.controller.system;
 
+import com.alibaba.fastjson.JSONObject;
 import com.itextpdf.text.DocumentException;
+import com.wolves.common.BuildEnum;
+import com.wolves.common.Constants;
 import com.wolves.common.StatusEnum;
 import com.wolves.controller.base.BaseController;
-import com.wolves.dto.user.ExportDTO;
+import com.wolves.dto.FloorManDTO;
+import com.wolves.dto.RoomDTO;
+import com.wolves.dto.user.UnionDTO;
 import com.wolves.entity.system.Page;
 import com.wolves.service.system.decorate.DecorateService;
+import com.wolves.service.system.floorman.FloorManService;
+import com.wolves.service.system.room.RoomService;
 import com.wolves.util.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -41,6 +48,10 @@ public class UnimpededController extends BaseController {
     String menuUrl = "unimpeded/list.do";
     @Resource(name="decorateService")
     private DecorateService decorateService;
+    @Resource(name="roomService")
+    private RoomService roomService;
+    @Resource(name="floormanService")
+    private FloorManService floormanService;
 
     /**
      * 新增
@@ -107,12 +118,50 @@ public class UnimpededController extends BaseController {
         PageData pd = this.getPageData();
         pd = decorateService.findById(pd);
 
-        ExportDTO exportDTO = new ExportDTO();
-        exportDTO.setName(pd.getString("NAME"));
-        exportDTO.setIdcard(pd.getString("SFID"));
-        exportDTO.setPhone(pd.getString("PHONE"));
+        UnionDTO unionDTO = decorateService.findUnionById(pd.getString("DECORATE_ID"));
+        if (unionDTO != null) {
+            //设置单位类型
+            String status = unionDTO.getStatus();
+            if (StatusEnum.SUCCESS.getKey().equals(status)){
+                unionDTO.setEnter("On");
+            }else if (StatusEnum.INIT.getKey().equals(status)){
+                unionDTO.setWaitEnter("On");
+            }else {
+                unionDTO.setNon("On");
+            }
+            //设置男女
+            String sex = unionDTO.getSex();
+            if (sex.equals(Constants.woman)){
+                unionDTO.setWoman("On");
+            }else {
+                unionDTO.setMan("On");
+            }
+            //设置申请业务
+            unionDTO.setFresh("On");
+            //设置楼栋
+            List<RoomDTO> roomDTOS = roomService.selectRoomByCompanyId(unionDTO.getCompanyId());
+            if (roomDTOS != null && !roomDTOS.isEmpty()) {
+                StringBuilder stringBuffer = new StringBuilder();
+                for (RoomDTO roomDTO : roomDTOS) {
+                    stringBuffer.append(roomDTO.getName()).append(",");
+                }
+                String floormanId = roomDTOS.get(0).getFloormanId();
+                System.out.println("floormanId:"+floormanId);
+                FloorManDTO floorManDTO = floormanService.selectFloorManById(floormanId);
+                if (floorManDTO != null) {
+                    if (BuildEnum.south.getName().equals(floorManDTO.getBuildNo()) ||
+                            BuildEnum.north.getName().equals(floorManDTO.getBuildNo())) {
+                        unionDTO.setHouse("On");
+                    } else {
+                        unionDTO.setBuild("On");
+                    }
+                    unionDTO.setBuilding(floorManDTO.getFloor());
+                }
+                unionDTO.setFloor(stringBuffer.toString().substring(0, stringBuffer.toString().length() - 1));
+            }
+        }
         try {
-            PdfUtil.setPdfData(response, "https://adminwolves.oss-cn-beijing.aliyuncs.com/admin/1555827577980.pdf", "一卡通申请", exportDTO);
+            PdfUtil.setPdfData(response, "https://adminwolves.oss-cn-beijing.aliyuncs.com/admin/1564040859151.pdf", "一卡通申请", unionDTO);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (DocumentException e) {
