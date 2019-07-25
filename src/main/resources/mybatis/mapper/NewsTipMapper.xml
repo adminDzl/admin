@@ -252,4 +252,18 @@
 		WHERE status = 1 AND news_type = 3
 		ORDER BY create_time DESC
 	</select>
+
+	<!--查询新闻和项目申报-->
+	<select id="listNewsByType" parameterType="com.wolves.dto.NewsTipDTO" resultMap="ResultMap">
+		SELECT
+		newstip_id,
+		news_title,
+		head_image,
+		news_content,
+		attach_url,
+		create_time
+		FROM news_tip
+		WHERE status = 1 AND news_type IN (1,2)
+		ORDER BY create_time DESC
+	</select>
 </mapper>

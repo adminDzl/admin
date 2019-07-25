@@ -195,5 +195,13 @@ public class NewsTipService {
 
 		return (List<ApplyDataDTO>)dao.findForList("NewsTipMapper.selectApplyData", null);
 	}
+
+	/**
+	 *查询新闻和项目申报信息
+	 */
+	public List<NewsTipDTO> listNewsByType(){
+
+		return (List<NewsTipDTO>)dao.findForList("NewsTipMapper.listNewsByType", null);
+	}
 }
 
