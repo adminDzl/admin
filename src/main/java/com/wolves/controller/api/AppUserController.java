@@ -572,7 +572,7 @@ public class AppUserController {
 
         result.setData(list);
         result.setResult(ResultCode.SUCCESS);
-        result.setMsg("提交成功");
+        result.setMsg("查询成功");
         return result;
     }
 
@@ -607,6 +607,39 @@ public class AppUserController {
             return result;
         }
         result = yardappointService.saveAppoint(applyYardDTO, user.getUserId());
+        return result;
+    }
+
+    @ApiOperation(httpMethod="POST",value="取消预约",notes="取消预约")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+            @ApiImplicitParam(name = "jsonObject",value = "{\"yardappointId\":\"ID\"}",required = true,paramType = "body",dataType = "JSONObject")
+    })
+    @RequestMapping(value = "/abolishAppoint", method = RequestMethod.POST)
+    public Result abolishAppoint(@RequestHeader("Authorization") String token,@RequestBody JSONObject jsonObject){
+        Result<Decorate> result = new Result<Decorate>();
+        //使用token获取登陆人信息
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        String yardappointId = jsonObject.getString("yardappointId");
+        if (StringUtils.isEmpty(yardappointId)){
+            result.setMsg("预约id不能为空");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        AppointmentDTO appointmentDTO = yardappointService.selectYardAppointById(yardappointId);
+        if (appointmentDTO == null){
+            result.setMsg("该预约不存在");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        yardappointService.updateYardAppoint(yardappointId);
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("取消预约成功");
         return result;
     }
 

@@ -175,5 +175,26 @@ public class YardAppointService {
 		}
 		return set;
 	}
+
+	/**
+	 * 查询预约是否存在
+	 * @param yardappointId
+	 * @return
+	 */
+	public AppointmentDTO selectYardAppointById(String yardappointId){
+
+		return (AppointmentDTO)dao.findForObject("YardAppointMapper.selectYardAppointById", yardappointId);
+	}
+
+	/**
+	 * 取消预约
+	 * @param yardappointId
+	 */
+	public void updateYardAppoint(String yardappointId){
+		PageData pd = new PageData();
+		pd.put("yardappointId", yardappointId);
+		pd.put("status", StatusEnum.REJECT.getKey());
+		dao.update("YardAppointMapper.updateYardAppoint", pd);
+	}
 }
 

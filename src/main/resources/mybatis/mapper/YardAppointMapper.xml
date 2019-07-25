@@ -229,4 +229,33 @@
 		LEFT JOIN company c ON (c.company_id = u.company_id)
 		WHERE a.`status` = 1
 	</select>
+
+	<select id="selectYardAppointById" parameterType="com.wolves.dto.AppointmentDTO" resultMap="appointmentResultMap">
+		SELECT
+			a.yardappoint_id,
+			y.place_type,
+			y.position,
+			y.image_url,
+			a.place_date,
+			a.begin_time,
+			a.end_time,
+			a.book_duration,
+			a.book_fee,
+			a.status,
+			a.note,
+			a.create_time
+		FROM
+			yard_appoint a
+		LEFT JOIN yard y ON (a.place_id = y.yard_id)
+		WHERE a.yardappoint_id = #{yardappointId}
+	</select>
+
+	<update id="updateYardAppoint" parameterType="pd">
+		update YARD_APPOINT
+		set
+		STATUS = #{status},
+		UPDATE_TIME = now()
+		where
+		yardappoint_id = #{yardappointId}
+	</update>
 </mapper>

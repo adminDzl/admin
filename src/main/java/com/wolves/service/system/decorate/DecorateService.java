@@ -130,9 +130,9 @@ public class DecorateService {
 	 * @param decorateId
 	 */
 	public void updateDecorate(String decorateId){
-		Map<String, Object> params = new HashMap<String, Object>();
+		Map<String, Object> params = new HashMap<String, Object>(2);
 		params.put("decorateId", decorateId);
-		params.put("status", 3);
+		params.put("status", StatusEnum.REJECT.getKey());
 
 		dao.update("DecorateMapper.updateDecorate", params);
 	}
