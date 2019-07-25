@@ -235,13 +235,14 @@ public class CompanyController extends BaseController {
 			List<String> titles = new ArrayList<String>();
 			titles.add("企业名");
 			titles.add("企业类型");
+			titles.add("入驻时间");
+			titles.add("合同期");
+			titles.add("企业规模");
+			titles.add("员工数量");
+			titles.add("场地数量");
+			titles.add("场地面积");
 			titles.add("状态");
-			titles.add("描述");
 			titles.add("企业认证");
-			titles.add("企业租位");
-			titles.add("企业logo");
-			titles.add("创建时间");
-			titles.add("修改时间");
 			dataMap.put("titles", titles);
 			List<PageData> varOList = companyService.listAll(pd);
 			List<PageData> varList = new ArrayList<PageData>();
@@ -256,24 +257,36 @@ public class CompanyController extends BaseController {
 					companyType = "入驻公司";
 				}
 				vpd.put("var2", companyType);
+				Date commTime = (Date) varOList.get(i).get("COME_TIME");
+				if(null != commTime){
+					vpd.put("var3", DateUtil.convertDate2String("yyyy-MM-dd", commTime));
+				} else {
+					vpd.put("var3", "");
+				}
+				Date agreementTime = (Date) varOList.get(i).get("AGREEMENT_TIME");
+				if(null != agreementTime){
+					vpd.put("var4", DateUtil.convertDate2String("yyyy-MM-dd", agreementTime));
+				} else {
+					vpd.put("var4", "");
+				}
+				vpd.put("var5", varOList.get(i).getString("SCALE"));
+				vpd.put("var6", varOList.get(i).get("NUM").toString());
+				vpd.put("var7", 1+"");
+				vpd.put("var8", 200+"");
+
 				String status = varOList.get(i).get("STATUS").toString();
 				String companyStatus = "";
 				if ("0".equals(status)){
 					companyStatus = "待入驻";
 				}else if ("1".equals(status)){
 					companyStatus = "已入驻";
+				}else if ("2".equals(status)){
+					companyStatus = "拒绝入驻";
 				}else{
 					companyStatus = "已退场";
 				}
-				vpd.put("var3", companyStatus);
-				vpd.put("var4", varOList.get(i).getString("DESCRIPTION"));
-				vpd.put("var5", varOList.get(i).getString("COMPANY_CERTIFY"));
-				vpd.put("var6", varOList.get(i).getString("PLACE_ID"));
-				vpd.put("var7", varOList.get(i).getString("LOGO"));
-				Date createTime = (Date) varOList.get(i).get("CREATE_TIME");
-				vpd.put("var8", DateUtil.convertDate2String("yyyy-MM-dd HH:mm:ss", createTime));
-				Date updateTime = (Date) varOList.get(i).get("UPDATE_TIME");
-				vpd.put("var9", DateUtil.convertDate2String("yyyy-MM-dd HH:mm:ss", updateTime));
+				vpd.put("var9", companyStatus);
+				vpd.put("var10", varOList.get(i).getString("COMPANY_CERTIFY"));
 				varList.add(vpd);
 			}
 			dataMap.put("varList", varList);

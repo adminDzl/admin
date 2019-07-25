@@ -78,8 +78,8 @@
 											<c:if test="${var.TYPE == '2' }"><span class="label label-success arrowed">入驻公司</span></c:if>
 											<c:if test="${var.TYPE == '1' }"><span class="label label-important arrowed">园区公司</span></c:if>
 										</td>
-										<td>${var.COME_TIME}</td>
-										<td>${var.AGREEMENT_TIME}</td>
+										<td><fmt:formatDate value="${var.COME_TIME}" pattern="yyyy-MM-dd" /></td>
+										<td><fmt:formatDate value="${var.AGREEMENT_TIME}" pattern="yyyy-MM-dd" /></td>
 										<td>${var.SCALE}</td>
 										<td>${var.NUM}</td>
 										<td>1</td>
@@ -88,7 +88,7 @@
 											<c:if test="${var.STATUS == '0' }"><span class="label label-important arrowed">待入驻</span></c:if>
 											<c:if test="${var.STATUS == '2' }"><span class="label label-important arrowed">拒绝入驻</span></c:if>
 											<c:if test="${var.STATUS == '1' }"><span class="label label-success arrowed">已入驻</span></c:if>
-											<c:if test="${var.STATUS == '2' }"><span class="label label-important arrowed-in">已退场</span></c:if>
+											<c:if test="${var.STATUS == '3' }"><span class="label label-important arrowed-in">已退场</span></c:if>
 										</td>
 										<td>${var.COMPANY_CERTIFY}</td>
 								<td style="width: 100px;" class="center">

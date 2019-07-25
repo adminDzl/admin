@@ -279,17 +279,15 @@ public class UserController extends BaseController {
 				
 				Map<String,Object> dataMap = new HashMap<String,Object>(8);
 				List<String> titles = new ArrayList<String>(16);
-				
-				titles.add("用户名");
-				titles.add("编号");
+
 				titles.add("姓名");
+				titles.add("性别");
 				titles.add("手机号");
-				titles.add("身份证号");
-				titles.add("等级");
-				titles.add("邮箱");
-				titles.add("最近登录");
-				titles.add("到期时间");
-				titles.add("上次登录IP");
+				titles.add("证件号");
+				titles.add("公司");
+				titles.add("职位");
+				titles.add("注册时间");
+				titles.add("状态");
 				
 				dataMap.put("titles", titles);
 				
@@ -298,15 +296,13 @@ public class UserController extends BaseController {
 				for(int i=0;i<userList.size();i++){
 					PageData vpd = new PageData();
 					vpd.put("var1", userList.get(i).getString("USERNAME"));
-					vpd.put("var2", userList.get(i).getString("NUMBER"));
-					vpd.put("var3", userList.get(i).getString("NAME"));
-					vpd.put("var4", userList.get(i).getString("PHONE"));
-					vpd.put("var5", userList.get(i).getString("SFID"));
-					vpd.put("var6", userList.get(i).getString("ROLE_NAME"));
-					vpd.put("var7", userList.get(i).getString("EMAIL"));
-					vpd.put("var8", userList.get(i).getString("LAST_LOGIN"));
-					vpd.put("var9", userList.get(i).getString("END_TIME"));
-					vpd.put("var10", userList.get(i).getString("IP"));
+					vpd.put("var2", userList.get(i).getString("SEX"));
+					vpd.put("var3", userList.get(i).getString("PHONE"));
+					vpd.put("var4", userList.get(i).getString("SFID"));
+					vpd.put("var5", userList.get(i).getString("COMPANY_NAME"));
+					vpd.put("var6", userList.get(i).getString("POSITION"));
+					vpd.put("var7", userList.get(i).getString("CREATE_TIME"));
+					vpd.put("var8", userList.get(i).getString("STATUS"));
 					varList.add(vpd);
 				}
 				

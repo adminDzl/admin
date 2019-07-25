@@ -319,7 +319,7 @@
 				u.COMPANY_ID,
 				u.POSITION
 		from USER u, SYS_ROLE r
-		where u.ROLE_ID = r.ROLE_ID 
+		where u.ROLE_ID = r.ROLE_ID
 		and 1 = 1
 		and r.PARENT_ID = '7'
 		<if test="USERNAME != null and USERNAME != ''"><!-- 用户名检索 -->
@@ -332,16 +332,16 @@
 				)
 		</if>
 		<if test="ROLE_ID != null and ROLE_ID != ''"><!-- 角色检索 -->
-			and u.ROLE_ID=#{ROLE_ID} 
+			and u.ROLE_ID=#{ROLE_ID}
 		</if>
 		<if test="lastLoginStart!=null and lastLoginStart!=''"><!-- 到期时间检索 -->
-			and u.END_TIME &gt;= #{lastLoginStart} 
+			and u.END_TIME &gt;= #{lastLoginStart}
 		</if>
 		<if test="lastLoginEnd!=null and lastLoginEnd!=''"><!-- 到期时间检索 -->
-			and u.END_TIME &lt;= #{lastLoginEnd} 
+			and u.END_TIME &lt;= #{lastLoginEnd}
 		</if>
 		<if test="STATUS != null and STATUS != ''"><!-- 状态检索 -->
-			and u.STATUS=#{STATUS} 
+			and u.STATUS=#{STATUS}
 		</if>
 	</select>
 	<!-- 删除用户 -->
