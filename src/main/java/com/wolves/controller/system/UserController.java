@@ -238,10 +238,12 @@ public class UserController extends BaseController {
 			List<UserExcelDTO> userExcelDTOS = userService.getUserData(userList);
 			//判断
 			pd = userService.checkExcelData(userList, pd);
-			if (pd.isEmpty()){
+			String status = pd.get("status").toString();
+			if (status.equals("0")){
 				//保存数据
 				pd = userService.saveExcelUser(userExcelDTOS, pd);
-				if (pd.isEmpty()){
+				String sta = pd.get("status").toString();
+				if (sta.equals("0")){
 					pd.put("msg", "ok");
 				}
 			}

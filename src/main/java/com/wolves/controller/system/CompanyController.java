@@ -202,7 +202,7 @@ public class CompanyController extends BaseController {
 	@ResponseBody
 	public Object importCompanyExcel(@RequestParam(value="uploadFile") MultipartFile file){
 		logger.info("客户数据excel导入-->/importExcel");
-		PageData pd = null;
+		PageData pd = this.getPageData();
 		Map<String,Object> map = new HashMap<String,Object>(10);
 		List<PageData> pdList = new ArrayList<PageData>();
 		ImportExcelUtil importExcelUtil = new ImportExcelUtil();
@@ -210,7 +210,8 @@ public class CompanyController extends BaseController {
 		if (companyList != null && !companyList.isEmpty() && companyList.size() < 50000){
 			List<CompanyDTO> companyDTOS = companyService.getCompanyData(companyList);
 			pd = companyService.checkExcelData(companyList, pd);
-			if (pd == null){
+			String status = pd.get("status").toString();
+			if (status.equals("0")){
 				companyService.createCompanyByExcel(companyDTOS);
 				pd.put("msg", "ok");
 			}

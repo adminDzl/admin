@@ -236,25 +236,30 @@ public class UserService {
 				Object name = map.get("姓名");
 				if (StringUtils.isEmpty(name.toString().trim())){
 					pd.put("msg", "姓名不能为空");
+					pd.put("status", "1");
 					return pd;
 				}
 				Object phone = map.get("手机");
 				if (StringUtils.isEmpty(phone.toString().trim())){
 					pd.put("msg", "手机不能为空");
+					pd.put("status", "1");
 					return pd;
 				}
 				Object email = map.get("邮箱");
 				if (StringUtils.isEmpty(email.toString().trim())){
 					pd.put("msg", "邮箱不能为空");
+					pd.put("status", "1");
 					return pd;
 				}
 				Object company = map.get("企业");
 				if (StringUtils.isEmpty(company.toString().trim())){
 					pd.put("msg", "企业不能为空");
+					pd.put("status", "1");
 					return pd;
 				}
 			}
 		}
+		pd.put("status", "0");
 		return pd;
 	}
 
@@ -269,6 +274,7 @@ public class UserService {
 				if (user != null && user.getUserId() != null){
 					String r = user.getPhone()+",该号码已重复，请核实";;
 					pd.put("msg", r);
+					pd.put("status", "1");
 					return pd;
 				}else {
 					//查询企业
@@ -276,6 +282,7 @@ public class UserService {
 					if (baseCompanyDTOs.isEmpty()){
 						String r = userExcelDTO.getCompany()+",该公司不存在系统中，请核实";
 						pd.put("msg", r);
+						pd.put("status", "1");
 						return pd;
 					}
 
@@ -294,6 +301,7 @@ public class UserService {
 				}
 			}
 		}
+		pd.put("status", "0");
 		return pd;
 	}
 

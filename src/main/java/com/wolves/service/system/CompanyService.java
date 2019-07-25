@@ -167,25 +167,30 @@ public class CompanyService {
 				Object name = map.get("企业名称");
 				if (StringUtils.isEmpty(name.toString().trim())){
 					pd.put("msg", "企业名称不能为空");
+					pd.put("status", "1");
 					return pd;
 				}
 				Object phone = map.get("入住时间");
 				if (StringUtils.isEmpty(phone.toString().trim())){
 					pd.put("msg", "入住时间不能为空");
+					pd.put("status", "1");
 					return pd;
 				}
 				Object email = map.get("合约时间");
 				if (StringUtils.isEmpty(email.toString().trim())){
 					pd.put("msg", "合约时间不能为空");
+					pd.put("status", "1");
 					return pd;
 				}
 				Object company = map.get("企业规模");
 				if (StringUtils.isEmpty(company.toString().trim())){
 					pd.put("msg", "企业规模不能为空");
+					pd.put("status", "1");
 					return pd;
 				}
 			}
 		}
+		pd.put("status", "0");
 		return pd;
 	}
 	/**

@@ -326,7 +326,23 @@
                 processData: false,  // 不处理数据
                 contentType: false,   // 不设置内容类型
                 success: function(data){
-                    search();
+                    if (data.list[0].status === 1){
+                        bootbox.dialog(data.list[0].msg,
+                            [
+                                {
+                                    "label" : "关闭",
+                                    "class" : "btn-small btn-success",
+                                    "callback": function() {
+                                        //Example.show("great success");
+                                    }
+                                }
+                            ]
+                        );
+                    }else {
+                        $.each(data.list, function(i, list){
+                            nextPage(${page.currentPage});
+                        });
+					}
                 }
             });
         }
