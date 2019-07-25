@@ -113,10 +113,14 @@ public class YardController extends BaseController {
 		String YARD_ID = pd.getString("YARD_ID");
 		YardDTO yardDTO = yardService.getYardById(YARD_ID);
 		if (StringUtils.isNotEmpty(PATH)){
-			StringBuffer buf = new StringBuffer();
-			buf.append(yardDTO.getImageUrl()).append(",");
-			buf.append(PATH);
-			pd.put("IMAGE_URL", java.net.URLDecoder.decode(String.valueOf(buf)));
+			if (yardDTO.getImageUrl().equals(PATH)){
+				pd.put("IMAGE_URL", PATH);
+			}else {
+				StringBuffer buf = new StringBuffer();
+				buf.append(yardDTO.getImageUrl()).append(",");
+				buf.append(PATH);
+				pd.put("IMAGE_URL", java.net.URLDecoder.decode(String.valueOf(buf)));
+			}
 		}
 		yardService.edit(pd);
 		mv.addObject("msg","success");

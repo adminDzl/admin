@@ -119,6 +119,30 @@
 		$("#zhongxin").hide();
 		$("#zhongxin2").show();
 	}
+
+	//上传logo图片
+    function uploadImage(obj){
+        var files = obj.files ;
+        var formData = new FormData();
+        for(var i = 0;i<files.length;i++){
+            formData.append("files", files[i]);
+        }
+        $.ajax({
+            url: '<%=basePath%>/app/user/saveFile',
+            type: "POST",
+            data:formData,
+            dataType:'json',//json 返回值类型
+            cache:false,         //不设置缓存
+            processData: false,  // 不处理数据
+            contentType: false,   // 不设置内容类型
+            success: function(data){
+                if (data.result === 0){
+                    var fs = data.data.join(',');
+                    $("#PATH").val(fs)
+                }
+            }
+        });
+    }
 </script>
 	</head>
 <body>
@@ -132,11 +156,25 @@
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">企业类型:</td>
-				<td><input type="number" name="TYPE" id="TYPE" value="${pd.TYPE}" maxlength="32" placeholder="这里输入企业类型" title="企业类型"/></td>
+				<td>
+					<select name="TYPE" id="TYPE" maxlength="32" placeholder="这里选择企业类型" title="企业类型" >
+						<option value=''>请选择</option>
+						<option value="2" <c:if test="${2 == pd.TYPE}">selected</c:if>>入驻公司</option>
+						<option value="1" <c:if test="${1 == pd.TYPE}">selected</c:if>>园区公司</option>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">状态:</td>
-				<td><input type="number" name="STATUS" id="STATUS" value="${pd.STATUS}" maxlength="32" placeholder="这里输入状态" title="状态"/></td>
+				<td>
+					<select name="STATUS" id="STATUS" maxlength="32" placeholder="这里选择企业状态" title="企业状态" >
+						<option value=''>请选择</option>
+						<option value="0" <c:if test="${0 == pd.TYPE}">selected</c:if>>待入驻</option>
+						<option value="2" <c:if test="${2 == pd.TYPE}">selected</c:if>>拒绝入驻</option>
+						<option value="1" <c:if test="${1 == pd.TYPE}">selected</c:if>>已入驻</option>
+						<option value="3" <c:if test="${3 == pd.TYPE}">selected</c:if>>已退场</option>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">描述:</td>
@@ -152,7 +190,10 @@
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">企业logo:</td>
-				<td><input type="text" name="LOGO" id="LOGO" value="${pd.LOGO}" maxlength="32" placeholder="这里输入企业logo" title="企业logo"/></td>
+				<td>
+					<input name="fileImage" id="fileImage" value="${pd.LOGO}" placeholder="这里上传企业logo" title="企业LOGO" type="file" accept="image/*" multiple="multiple" onchange="uploadImage(this)"/>
+					<input type="hidden" name="LOGO" id="LOGO" value="${pd.LOGO }"/>
+				</td>
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">入驻时间:</td>
