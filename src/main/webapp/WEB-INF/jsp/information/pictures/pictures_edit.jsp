@@ -150,8 +150,17 @@
 				</td>
 			</tr>
 			<tr>
-				<th>跳转链接:</th>
-				<td><input type="text" name="LINK" id="LINK" value="${pd.LINK}" maxlength="32" placeholder="这里输入跳转链接" title="跳转链接"/></td>
+				<th>跳转新闻链接:</th>
+				<td>
+					<select name="LINK_ID" id="LINK_ID" maxlength="32" style="width:95%;" placeholder="这里新闻跳转链接" title="这里新闻跳转链接" >
+						<option value=''>请选择</option>
+						<c:forEach items="${news}" varStatus="status" var="item">
+							<option value="${item.newstipId }" <c:if test="${item.newstipId == pd.LINK_ID}">selected</c:if>>
+									${item.newsTitle }
+							</option>
+						</c:forEach>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<th>备注:</th>

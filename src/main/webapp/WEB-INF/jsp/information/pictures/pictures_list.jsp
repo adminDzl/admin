@@ -61,7 +61,7 @@
 						<th>序号</th>
 						<th>图片</th>
 						<th>标题</th>
-						<th>链接</th>
+						<th>链接新闻标题</th>
 						<th>创建时间</th>
 						<th>备注</th>
 						<th>操作</th>
@@ -84,7 +84,7 @@
 									<a href="${var.PATH}" title="${var.TITLE}" class="bwGal"><img src="${var.PATH}" alt="${var.TITLE}" width="100"></a>
 								</td>
 								<td>${var.TITLE}</td>
-								<td>${var.LINK}</td>
+								<td>${var.NEWS_TITLE}</td>
 								<td>${var.CREATETIME}</td>
 								<td>${var.BZ}</td>
 								<td style="width: 100px;" class="center">
@@ -209,8 +209,8 @@
 			 diag.Drag=true;
 			 diag.Title ="编辑";
 			 diag.URL = '<%=basePath%>pictures/goEdit.do?PICTURES_ID='+Id;
-			 diag.Width = 600;
-			 diag.Height = 465;
+			 diag.Width = 800;
+			 diag.Height = 490;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					 nextPage(${page.currentPage});

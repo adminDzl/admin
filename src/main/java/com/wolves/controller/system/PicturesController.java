@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
+import com.wolves.service.system.newstip.NewsTipService;
 import com.wolves.util.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -33,10 +35,15 @@ import com.wolves.service.system.PicturesService;
 @Controller
 @RequestMapping(value="/pictures")
 public class PicturesController extends BaseController {
-	
-	String menuUrl = "pictures/list.do"; //菜单地址(权限用)
+
+	/**
+	 * 菜单地址(权限用)
+	 */
+	String menuUrl = "pictures/list.do";
 	@Resource(name="picturesService")
 	private PicturesService picturesService;
+	@Resource(name="newstipService")
+	private NewsTipService newstipService;
 	
 	/**
 	 * 新增
@@ -87,7 +94,7 @@ public class PicturesController extends BaseController {
 			@RequestParam(value="PATH",required=false) String PATH,
 			@RequestParam(value="PICTURES_ID",required=false) String PICTURES_ID,
 			@RequestParam(value="TITLE",required=false) String TITLE,
-			@RequestParam(value="LINK",required=false) String LINK,
+			@RequestParam(value="LINK_ID",required=false) String LINK_ID,
 			@RequestParam(value="MASTER_ID",required=false) String MASTER_ID,
 			@RequestParam(value="BZ",required=false) String BZ
 			) throws Exception{
@@ -101,7 +108,7 @@ public class PicturesController extends BaseController {
 			pd.put("MASTER_ID", MASTER_ID);
 			pd.put("BZ", BZ);
 			pd.put("PATH", PATH);
-			pd.put("LINK", LINK);
+			pd.put("LINK_ID", LINK_ID);
 			pd.put("NAME", "轮播图");
 			picturesService.edit(pd);
 		}
@@ -144,6 +151,7 @@ public class PicturesController extends BaseController {
 		mv.setViewName("information/pictures/pictures_edit");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
+		mv.addObject("news", newstipService.listNewsByType());
 		return mv;
 	}	
 	
@@ -159,6 +167,7 @@ public class PicturesController extends BaseController {
 		mv.setViewName("information/pictures/pictures_edit");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
+		mv.addObject("news", newstipService.listNewsByType());
 		return mv;
 	}	
 	

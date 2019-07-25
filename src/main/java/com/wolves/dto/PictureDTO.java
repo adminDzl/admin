@@ -20,8 +20,8 @@ public class PictureDTO {
     @ApiModelProperty(name = "path",value = "图片地址")
     private String path;
 
-    @ApiModelProperty(name = "link",value = "跳转链接")
-    private String link;
+    @ApiModelProperty(name = "linkId",value = "跳转链接")
+    private String linkId;
 
     @ApiModelProperty(name = "createTime",value = "创建时间")
     private Date createTime;
@@ -50,12 +50,12 @@ public class PictureDTO {
         this.path = path;
     }
 
-    public String getLink() {
-        return link;
+    public String getLinkId() {
+        return linkId;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setLinkId(String linkId) {
+        this.linkId = linkId;
     }
 
     public Date getCreateTime() {
@@ -72,7 +72,7 @@ public class PictureDTO {
                 "picturesId='" + picturesId + '\'' +
                 ", title='" + title + '\'' +
                 ", path='" + path + '\'' +
-                ", link='" + link + '\'' +
+                ", linkId='" + linkId + '\'' +
                 ", createTime=" + createTime +
                 '}';
     }

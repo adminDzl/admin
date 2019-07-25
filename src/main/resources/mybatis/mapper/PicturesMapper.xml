@@ -6,7 +6,7 @@
 		<id column="pictures_id" property="picturesId"/>
 		<result column="title" property="title"/>
 		<result column="path" property="path"/>
-		<result column="link" property="link"/>
+		<result column="link" property="linkId"/>
 		<result column="createtime" property="createTime"/>
 	</resultMap>
 
@@ -19,7 +19,7 @@
 			CREATETIME,	
 			MASTER_ID,	
 			BZ,
-			LINK,
+			LINK_ID,
 			PICTURES_ID
 		) values (
 			#{TITLE},	
@@ -28,7 +28,7 @@
 			#{CREATETIME},	
 			#{MASTER_ID},	
 			#{BZ},
-			#{LINK},
+			#{LINK_ID},
 			#{PICTURES_ID}
 		)
 	</insert>
@@ -47,8 +47,8 @@
 				<if test="NAME != null and NAME != ''">
 				NAME = #{NAME},
 				</if>
-				<if test="LINK != null and LINK != ''">
-				LINK = #{LINK},
+				<if test="LINK_ID != null and LINK_ID != ''">
+					LINK_ID = #{LINK_ID},
 				</if>
 				MASTER_ID = #{MASTER_ID},
 				BZ = #{BZ},
@@ -65,7 +65,7 @@
 			CREATETIME,	
 			MASTER_ID,	
 			BZ,
-			LINK,
+			LINK_ID,
 			PICTURES_ID
 		from 
 			TB_PICTURES
@@ -81,10 +81,12 @@
 				a.CREATETIME,	
 				a.MASTER_ID,	
 				a.BZ,
-				a.LINK,
-				a.PICTURES_ID
+				a.LINK_ID,
+				a.PICTURES_ID,
+				n.NEWS_TITLE
 		from 
 				TB_PICTURES a
+		LEFT JOIN news_tip n ON (n.newstip_id = a.LINK_ID)
 		where 1 = 1
 		<if test="pd.KEYW != null and pd.KEYW != ''"><!-- 关键词检索 -->
 			and
@@ -108,7 +110,7 @@
 				a.CREATETIME,	
 				a.MASTER_ID,	
 				a.BZ,
-				a.LINK,
+				a.LINK_ID,
 				a.PICTURES_ID
 		from 
 				TB_PICTURES a
@@ -145,7 +147,7 @@
 			pictures_id,
 			title,
 			path,
-			link,
+			link_id AS linkId,
 			createtime
 		FROM
 			tb_pictures
