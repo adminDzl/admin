@@ -16,6 +16,8 @@ import com.itextpdf.text.DocumentException;
 import com.wolves.common.BuildEnum;
 import com.wolves.dto.FloorManDTO;
 import com.wolves.dto.RoomDTO;
+import com.wolves.dto.UserCarMonthCardDTO;
+import com.wolves.dto.user.CompanyDTO;
 import com.wolves.dto.user.ExportDTO;
 import com.wolves.entity.app.PayOrder;
 import com.wolves.service.system.floorman.FloorManService;
@@ -29,7 +31,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import com.wolves.controller.base.BaseController;
 import com.wolves.entity.system.Page;
@@ -225,6 +229,29 @@ public class UserCarMonthCardController extends BaseController {
 			pd.put("msg", "ok");
 		}else{
 			pd.put("msg", "no");
+		}
+		pdList.add(pd);
+		map.put("list", pdList);
+		return AppUtil.returnObject(pd, map);
+	}
+
+	@RequestMapping(value="/importMonthCardUserExcel")
+	@ResponseBody
+	public Object importMonthCardUserExcel(@RequestParam(value="uploadFile") MultipartFile file){
+		logger.info("客户数据excel导入-->/importMonthCardUserExcel");
+		PageData pd = this.getPageData();
+		Map<String,Object> map = new HashMap<String,Object>(10);
+		List<PageData> pdList = new ArrayList<PageData>();
+		ImportExcelUtil importExcelUtil = new ImportExcelUtil();
+		List<Map<String, Object>> monthCard = importExcelUtil.getExcelInfo(file);
+		if (monthCard != null && !monthCard.isEmpty() && monthCard.size() < 50000){
+			pd = usercarmonthcardService.checkExcelData(monthCard, pd);
+			String status = pd.get("status").toString();
+			if (status.equals("0")){
+				List<UserCarMonthCardDTO> userCarMonthCardDTOS = usercarmonthcardService.getCompanyData(monthCard);
+				
+				pd.put("msg", "ok");
+			}
 		}
 		pdList.add(pd);
 		map.put("list", pdList);

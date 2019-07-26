@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -28,14 +29,16 @@ public class CompanyDTO extends BaseCompanyDTO{
     private Integer type;
     @ApiModelProperty(name = "status",value = "审核状态")
     private Integer status;
-    @ApiModelProperty(name = "description",value = "手机号码")
+    @ApiModelProperty(name = "description",value = "描述")
     private String description;
-    @ApiModelProperty(name = "companyCertify",value = "手机号码")
+    @ApiModelProperty(name = "companyCertify",value = "企业认证信息")
     private String companyCertify;
     @ApiModelProperty(name = "placeId",value = "办公区域id")
     private String placeId;
     @ApiModelProperty(name = "logo",value = "logo")
     private String logo;
+    @ApiModelProperty(name = "companyCertifys",value = "企业认证信息")
+    private List<String> companyCertifys;
     @ApiModelProperty(name = "createTime",value = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
@@ -139,6 +142,14 @@ public class CompanyDTO extends BaseCompanyDTO{
     @Override
     public void setCompanyId(String companyId) {
         this.companyId = companyId;
+    }
+
+    public List<String> getCompanyCertifys() {
+        return companyCertifys;
+    }
+
+    public void setCompanyCertifys(List<String> companyCertifys) {
+        this.companyCertifys = companyCertifys;
     }
 
     @Override

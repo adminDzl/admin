@@ -3,6 +3,7 @@ package com.wolves.service.system;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
@@ -80,7 +81,14 @@ public class CompanyService {
 	 * @return
 	 */
 	public CompanyDTO selectCompanyById(String companyId){
-		return (CompanyDTO) dao.findForObject("CompanyMapper.selectCompanyById", companyId);
+		CompanyDTO companyDTO = (CompanyDTO) dao.findForObject("CompanyMapper.selectCompanyById", companyId);
+		if (companyDTO != null){
+			if (!companyDTO.getCompanyCertify().equals("")) {
+				String[] arr = companyDTO.getCompanyCertify().split(",");
+				companyDTO.setCompanyCertifys(Arrays.asList(arr));
+			}
+		}
+		return companyDTO;
 	}
 
 	/**

@@ -172,7 +172,9 @@
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">企业认证:</td>
-				<td><input type="text" name="COMPANY_CERTIFY" id="COMPANY_CERTIFY" value="${pd.COMPANY_CERTIFY}" maxlength="32" placeholder="这里输入企业认证" title="企业认证"/></td>
+				<td>
+					<input type="text" name="COMPANY_CERTIFY" id="COMPANY_CERTIFY" value="${pd.COMPANY_CERTIFY}" maxlength="32" placeholder="这里输入企业认证" title="企业认证"/>
+				</td>
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">企业logo:</td>
