@@ -39,6 +39,16 @@
                 $("#NEWS_TITLE").focus();
                 return false;
             }
+            if($("#NEWS_CONTENT").val()==""){
+                $("#NEWS_CONTENT").tips({
+                    side:3,
+                    msg:'请输入新闻内容',
+                    bg:'#AE81FF',
+                    time:2
+                });
+                $("#NEWS_CONTENT").focus();
+                return false;
+            }
             if($("#ATTACH_URL").val()==""){
                 $("#ATTACH_URL").tips({
                     side:3,
@@ -52,6 +62,15 @@
             $("#Form").submit();
             $("#zhongxin").hide();
             $("#zhongxin2").show();;
+        }
+
+        $(function(){
+            window.setTimeout(setContent,1000);//一秒后再调用赋值方法
+        });
+
+        //给ueditor插入值
+        function setContent(){
+            UE.getEditor('editor').execCommand('insertHtml', $('#testcon').html());
         }
 
         //上传文件
@@ -87,10 +106,20 @@
 		<table id="table_report" class="table table-striped table-bordered table-hover">
 
 			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">新闻标题:</td>
+				<td style="width:70px;text-align: right;padding-top: 13px;">申请标题:</td>
 				<td>
 					<input type="text" name="NEWS_TITLE" id="NEWS_TITLE" value="${pd.NEWS_TITLE}" maxlength="32" placeholder="这里输入新闻标题" title="新闻标题"/>
 					<input type="number" name="NEWS_TYPE" id="NEWS_TYPE" value="3" style="display: none"/>
+				</td>
+			</tr>
+
+			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;">申请内容:</td>
+				<td>
+					<textarea id="editor" name="NEWS_CONTENT" type="text/plain" style="width: 690px; height: 430px; margin: 0 auto;" ></textarea >
+					<code id="testcon" style="display:none;">
+						${pd.NEWS_CONTENT}
+					</code>
 				</td>
 			</tr>
 
@@ -121,6 +150,17 @@
 <script src="static/js/ace.min.js"></script>
 <script type="text/javascript" src="static/js/chosen.jquery.min.js"></script><!-- 下拉框 -->
 <script type="text/javascript" src="static/js/bootstrap-datepicker.min.js"></script><!-- 日期框 -->
+
+<!-- 编辑框-->
+<script type="text/javascript" charset="utf-8">window.UEDITOR_HOME_URL = "<%=path%>/plugins/ueditor/";</script>
+<script type="text/javascript" charset="utf-8" src="plugins/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="plugins/ueditor/ueditor.all.js"></script>
+<!-- 编辑框-->
+
+<!--提示框-->
+<script type="text/javascript" src="static/js/jquery.tips.js"></script>
+<!--引入属于此页面的js -->
+<script type="text/javascript" src="static/js/myjs/toolEmail.js"></script>
 <script type="text/javascript">
     $(top.hangge());
     $(function() {

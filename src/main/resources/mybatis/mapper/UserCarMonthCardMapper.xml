@@ -149,4 +149,27 @@
 		where
 		a.user_car_month_card_id = #{user_car_month_card_id}
 	</select>
+
+	<!-- 新增-->
+	<insert id="createMonthCard" parameterType="com.wolves.dto.UserCarMonthCardDTO" flushCache="false">
+		insert into USER_CAR_MONTH_CARD(
+		USER_ID,
+		CARD_NO,
+		PRICE,
+		USE_TIL_DATE,
+		CARD_STATUS,
+		CREATE_TIME,
+		UPDATE_TIME,
+		user_car_month_card_id
+		) values (
+		#{userId},
+		#{cardNo},
+		#{price},
+		#{useTilDate},
+		#{cardStatus},
+		now(),
+		now(),
+		#{userCarMonthCardId}
+		)
+	</insert>
 </mapper>

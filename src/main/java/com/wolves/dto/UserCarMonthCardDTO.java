@@ -2,6 +2,9 @@ package com.wolves.dto;
 
 import java.util.Date;
 
+/**
+ * @author gf
+ */
 public class UserCarMonthCardDTO {
 
     private String userCarMonthCardId;

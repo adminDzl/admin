@@ -16,6 +16,7 @@ import com.wolves.entity.app.PayOrder;
 import com.wolves.service.system.payorder.PayOrderService;
 import com.wolves.service.system.user.UserService;
 import com.wolves.util.StringUtils;
+import com.wolves.util.UuidUtil;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
 import com.wolves.entity.system.Page;
@@ -189,8 +190,17 @@ public class UserCarMonthCardService {
 		return pd;
 	}
 
+	/**
+	 * 创建月卡用户
+	 * @param userCarMonthCardDTOS
+	 */
 	public void createMonthCard(List<UserCarMonthCardDTO> userCarMonthCardDTOS){
-
+		if (userCarMonthCardDTOS != null && !userCarMonthCardDTOS.isEmpty()){
+			for (UserCarMonthCardDTO userCarMonthCardDTO : userCarMonthCardDTOS){
+				userCarMonthCardDTO.setUserCarMonthCardId(UuidUtil.get32UUID());
+				dao.save("UserCarMonthCardMapper.createMonthCard", userCarMonthCardDTO);
+			}
+		}
 	}
 }
 

@@ -17,6 +17,9 @@ public class ApplyDataDTO {
     @ApiModelProperty(name = "title",value = "标题")
     private String title;
 
+    @ApiModelProperty(name = "newsContent",value = "内容")
+    private String newsContent;
+
     @ApiModelProperty(name = "attachUrl",value = "下载链接")
     private String attachUrl;
 
@@ -42,6 +45,14 @@ public class ApplyDataDTO {
 
     public void setAttachUrl(String attachUrl) {
         this.attachUrl = attachUrl;
+    }
+
+    public String getNewsContent() {
+        return newsContent;
+    }
+
+    public void setNewsContent(String newsContent) {
+        this.newsContent = newsContent;
     }
 
     @Override

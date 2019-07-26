@@ -315,7 +315,16 @@
 					</select>
 				</td>
 			</tr>
-			
+			<tr>
+				<td>
+					<select name="COMPANY_ID" id="COMPANY_ID" maxlength="32" placeholder="这里选择公司" title="公司" value="${pd.COMPANY_ID}">
+						<option value=''>请选择公司</option>
+						<c:forEach items="${company}" varStatus="status" var="item">
+							<option value="${item.companyId }" <c:if test="${item.companyId == pd.COMPANY_ID}">selected</c:if>>${item.companyName }</option>
+						</c:forEach>
+					</select>
+				</td>
+			</tr>
 			<tr>
 				<td class="center" colspan="2">
 					<a class="btn btn-mini btn-primary" onclick="save();">保存</a>

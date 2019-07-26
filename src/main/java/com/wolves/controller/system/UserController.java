@@ -147,6 +147,7 @@ public class UserController extends BaseController {
 		mv.addObject("msg", "editU");
 		mv.addObject("pd", pd);
 		mv.addObject("roleList", roleList);
+		mv.addObject("company", companyService.selectAllCompany());
 		return mv;
 	}
 	
@@ -162,6 +163,7 @@ public class UserController extends BaseController {
 		mv.addObject("msg", "saveU");
 		mv.addObject("pd", pd);
 		mv.addObject("roleList", roleList);
+		mv.addObject("company", companyService.selectAllCompany());
 		return mv;
 	}
 	

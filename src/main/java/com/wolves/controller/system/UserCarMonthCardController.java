@@ -249,7 +249,7 @@ public class UserCarMonthCardController extends BaseController {
 			String status = pd.get("status").toString();
 			if (status.equals("0")){
 				List<UserCarMonthCardDTO> userCarMonthCardDTOS = usercarmonthcardService.getCompanyData(monthCard);
-				
+				usercarmonthcardService.createMonthCard(userCarMonthCardDTOS);
 				pd.put("msg", "ok");
 			}
 		}
