@@ -356,7 +356,7 @@
 			var USERNAME = $("#nav-search-input").val();
 			var lastLoginStart = $("#lastLoginStart").val();
 			var lastLoginEnd = $("#lastLoginEnd").val();
-			var ROLE_ID = $("#role_id").val();
+			var ROLE_ID = "";
 			var STATUS = $("#STATUS").val();
 			window.location.href='<%=basePath%>appuser/excel.do?USERNAME='+USERNAME+'&lastLoginStart='+lastLoginStart+'&lastLoginEnd='+lastLoginEnd+'&ROLE_ID='+ROLE_ID+'&STATUS='+STATUS;
 		}

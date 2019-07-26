@@ -332,7 +332,7 @@
 		from USER u, SYS_ROLE r
 		where u.ROLE_ID = r.ROLE_ID
 		and 1 = 1
-		and r.PARENT_ID = '7'
+		and r.PARENT_ID = '1'
 		<if test="USERNAME != null and USERNAME != ''"><!-- 用户名检索 -->
 			and (
 				u.USERNAME LIKE CONCAT(CONCAT('%', #{USERNAME}),'%')
