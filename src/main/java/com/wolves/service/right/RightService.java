@@ -1,11 +1,13 @@
 package com.wolves.service.right;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wolves.dto.CompanyOrStaffRightDTO;
 import com.wolves.dto.right.RightDTO;
 import com.wolves.framework.common.Constant;
 import com.wolves.service.system.appuser.AppUserService;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,9 +27,8 @@ public class RightService {
      * @param companyId
      * @return
      */
-    public JSONObject existCompanyAndStaffRight(String userId, String companyId){
+    public List<CompanyOrStaffRightDTO> existCompanyAndStaffRight(String userId, String companyId){
         List<RightDTO> rightDTOS = appUserService.selectRightByUserIdAndCompanyId(userId, companyId);
-        JSONObject obj = new JSONObject();
         boolean companyFlag = false;
         boolean staffFlag = false;
         for(RightDTO rightDTO : rightDTOS){
@@ -38,17 +39,24 @@ public class RightService {
                   staffFlag = true;
               }
         }
+        CompanyOrStaffRightDTO companyDTO = new CompanyOrStaffRightDTO();
+        companyDTO.setResourceName(Constant.editCompanyRight);
         if(companyFlag){
-            obj.put(Constant.editCompanyRight, true);
+            companyDTO.setHasResource(1);
         } else {
-            obj.put(Constant.editCompanyRight, false);
+            companyDTO.setHasResource(0);
         }
+        CompanyOrStaffRightDTO staffDTO = new CompanyOrStaffRightDTO();
+        staffDTO.setResourceName(Constant.verifyStafyRight);
         if(staffFlag){
-            obj.put(Constant.verifyStafyRight, true);
+            staffDTO.setHasResource(1);
         } else {
-            obj.put(Constant.verifyStafyRight, true);
+            staffDTO.setHasResource(0);
         }
-        return obj;
+        List<CompanyOrStaffRightDTO> list = new ArrayList<CompanyOrStaffRightDTO>();
+        list.add(companyDTO);
+        list.add(staffDTO);
+        return list;
     }
 
 

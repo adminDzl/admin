@@ -1,6 +1,7 @@
 package com.wolves.controller.api;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wolves.dto.CompanyOrStaffRightDTO;
 import com.wolves.dto.ResourceDTO;
 import com.wolves.dto.right.AddRoleDTO;
 import com.wolves.dto.right.CompanyRightDTO;
@@ -71,10 +72,10 @@ public class RightController {
             return result;
         }
         //判断用户是否有企业编辑权限和人员权限
-        JSONObject obj = rightService.existCompanyAndStaffRight(user.getUserId(), companyDTO.getCompanyId());
+        List<CompanyOrStaffRightDTO> list = rightService.existCompanyAndStaffRight(user.getUserId(), companyDTO.getCompanyId());
         result.setMsg("success");
         result.setResult(ResultCode.SUCCESS);
-        result.setData(obj);
+        result.setData(list);
         return result;
     }
 

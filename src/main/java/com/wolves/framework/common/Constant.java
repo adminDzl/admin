@@ -15,10 +15,6 @@ public class Constant {
      */
     public static final String companyPayRight = "companyPay";
     /**
-     * 编辑门禁权限
-     */
-    public static final String editGateRight = "editGate";
-    /**
      * 人员审核权限
      */
     public static final String verifyStafyRight = "verifyStaff";
