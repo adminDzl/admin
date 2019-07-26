@@ -2,6 +2,7 @@ package com.wolves.service.right;
 
 import com.wolves.dao.DaoSupport;
 import com.wolves.dto.ResourceDTO;
+import com.wolves.dto.resource.AppResourceDTO;
 import com.wolves.dto.right.AddRoleDTO;
 import com.wolves.dto.right.RoleDTO;
 import com.wolves.dto.role.UpdateRoleDTO;
@@ -20,14 +21,12 @@ public class AppRoleService {
     private DaoSupport dao;
 
     /**
-     * 根据企业id获取所有角色
-     * @param companyId
+     * 根据所有资源
      * @return
      */
-    public List<ResourceDTO> getResourceByCompanyId(String companyId){
+    public List<AppResourceDTO> getResources(){
         PageData pd = new PageData();
-        pd.put("companyId", companyId);
-        return (List<ResourceDTO>)dao.findForList("AppRoleMapper.getResourceByCompanyId", pd);
+        return (List<AppResourceDTO>)dao.findForList("AppResourceMapper.getResources", pd);
     }
 
     /**
@@ -51,19 +50,6 @@ public class AppRoleService {
         pd.put("companyId", companyId);
         pd.put("roleId", roleId);
         return (List<ResourceDTO>)dao.findForList("AppRoleMapper.getRolesByCompanyIdAndRoleId", pd);
-    }
-
-    /**
-     * 添加角色
-     * @param roleName
-     * @param companyId
-     */
-    @Transactional
-    public void addRole(String roleName, String companyId){
-        PageData pd = new PageData();
-        pd.put("companyId", companyId);
-        pd.put("roleName", roleName);
-        dao.save("", pd);
     }
 
     /**
@@ -110,7 +96,7 @@ public class AppRoleService {
         PageData rolePd = new PageData();
         rolePd.put("roleName", roleName);
         rolePd.put("companyId", companyId);
-        dao.save("", rolePd);
+        dao.save("AppRoleMapper.save", rolePd);
 
         List<ResourceDTO> resourceDTOList = addRoleDTO.getResourceDTOList();
         PageData resourcePd = new PageData();
@@ -120,7 +106,7 @@ public class AppRoleService {
                 //添加角色-资源权限关联关系
                 resourcePd.put("resource_id", resourceDTO.getResourceId());
                 resourcePd.put("status", 1);
-                dao.save("", "");
+                dao.save("AppRoleResourceMapper.save", resourcePd);
             }
         }
 

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AppRoleResourceMapper">
+
+    <insert id="save" parameterType="pd">
+        insert into app_role_resource(role_id, resource_id, status) values (#{roleId}, #{resourceId}, #{status})
+    </insert>
+</mapper>

@@ -1,8 +1,8 @@
 package com.wolves.controller.api;
 
-import com.alibaba.fastjson.JSONObject;
 import com.wolves.dto.CompanyOrStaffRightDTO;
 import com.wolves.dto.ResourceDTO;
+import com.wolves.dto.resource.AppResourceDTO;
 import com.wolves.dto.right.AddRoleDTO;
 import com.wolves.dto.right.CompanyRightDTO;
 import com.wolves.dto.right.RoleDTO;
@@ -100,7 +100,7 @@ public class RightController {
             return result;
         }
 
-        List<ResourceDTO> list = appRoleService.getResourceByCompanyId(companyDTO.getCompanyId());
+        List<AppResourceDTO> list = appRoleService.getResources();
         result.setMsg("success");
         result.setResult(ResultCode.SUCCESS);
         result.setData(list);
