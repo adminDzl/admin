@@ -131,6 +131,8 @@ public class RightController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
+        //判断该员工是否有添加角色的权限
+        //todo。。。
         //添加角色
         try{
             appRoleService.addRoleAndRight(addRole, companyDTO.getCompanyId());
