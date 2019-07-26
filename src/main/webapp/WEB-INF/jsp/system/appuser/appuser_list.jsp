@@ -57,6 +57,7 @@
 						<th>证件号</th>
 						<th>公司</th>
 						<th>职位</th>
+						<th>App端数据报表查看</th>
 						<th><i class="icon-time hidden-phone"></i>注册时间</th>
 						<th class="center">状态</th>
 						<th class="center">操作</th>
@@ -79,6 +80,10 @@
 								<td>${user.SFID }</td>
 								<td>${user.COMPANY_NAME }</td>
 								<td>${user.POSITION }</td>
+								<td style="width: 60px;" class="center">
+									<c:if test="${user.HAS_DATE_RIGHT == '0' }"><span class="label label-important arrowed-in">否</span></c:if>
+									<c:if test="${user.HAS_DATE_RIGHT == '1' }"><span class="label label-success arrowed">是</span></c:if>
+								</td>
 								<td>${user.CREATE_TIME }</td>
 								<td style="width: 60px;" class="center">
 									<c:if test="${user.STATUS == '0' }"><span class="label label-important arrowed-in">冻结</span></c:if>

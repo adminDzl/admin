@@ -60,6 +60,7 @@
 		<result column="is_bind_id_card" property="isBindIdCard"/>
 		<result column="id_card_front_url" property="idCardFrontUrl"/>
 		<result column="id_card_back_url" property="idCardBackUrl"/>
+		<result column="has_date_right" property="hasDateRight"/>
 	</resultMap>
 
 	<resultMap type="com.wolves.dto.user.UserDTO" id="UserDTOResultMap">

@@ -33,7 +33,7 @@
 							<option value="">全部</option>
 							<option value="0" <c:if test="${pd.STATUS == '0' }">selected</c:if>>待支付</option>
 							<option value="1" <c:if test="${pd.STATUS == '1' }">selected</c:if>>支付完成</option>
-							<option value="2" <c:if test="${pd.STATUS == '2' }">selected</c:if>>支付失败</option>
+							<option value="2" <c:if test="${pd.STATUS == '2' }">selected</c:if>>支付取消</option>
 					  	</select>
 					</td>
 					<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"  title="检索"><i class="icon-search"></i></button></td>
@@ -77,7 +77,7 @@
 										<td>
 											<c:if test="${var.STATUS == 0}"><span class="label label-success arrowed">待支付</span></c:if>
 											<c:if test="${var.STATUS == 1}"><span class="label label-success arrowed">支付完成</span></c:if>
-											<c:if test="${var.STATUS == 2}"><span class="label label-success arrowed">支付失败</span></c:if>
+											<c:if test="${var.STATUS == 2}"><span class="label label-success arrowed">支付取消</span></c:if>
 										</td>
 										<td>${var.CREATE_TIME}</td>
 								<%--<td style="width: 100px;" class="center">--%>

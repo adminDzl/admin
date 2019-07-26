@@ -75,16 +75,6 @@
 			$("#COMPANY_CERTIFY").focus();
 			return false;
 		}
-		if($("#PLACE_ID").val()==""){
-			$("#PLACE_ID").tips({
-				side:3,
-	            msg:'请输入企业租位',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#PLACE_ID").focus();
-			return false;
-		}
 		if($("#LOGO").val()==""){
 			$("#LOGO").tips({
 				side:3,
@@ -138,7 +128,7 @@
             success: function(data){
                 if (data.result === 0){
                     var fs = data.data.join(',');
-                    $("#PATH").val(fs)
+                    $("#LOGO").val(fs)
                 }
             }
         });
@@ -169,10 +159,10 @@
 				<td>
 					<select name="STATUS" id="STATUS" maxlength="32" placeholder="这里选择企业状态" title="企业状态" >
 						<option value=''>请选择</option>
-						<option value="0" <c:if test="${0 == pd.TYPE}">selected</c:if>>待入驻</option>
-						<option value="2" <c:if test="${2 == pd.TYPE}">selected</c:if>>拒绝入驻</option>
-						<option value="1" <c:if test="${1 == pd.TYPE}">selected</c:if>>已入驻</option>
-						<option value="3" <c:if test="${3 == pd.TYPE}">selected</c:if>>已退场</option>
+						<option value="0" <c:if test="${0 == pd.STATUS}">selected</c:if>>待入驻</option>
+						<option value="2" <c:if test="${2 == pd.STATUS}">selected</c:if>>拒绝入驻</option>
+						<option value="1" <c:if test="${1 == pd.STATUS}">selected</c:if>>已入驻</option>
+						<option value="3" <c:if test="${3 == pd.STATUS}">selected</c:if>>已退场</option>
 					</select>
 				</td>
 			</tr>
@@ -183,10 +173,6 @@
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">企业认证:</td>
 				<td><input type="text" name="COMPANY_CERTIFY" id="COMPANY_CERTIFY" value="${pd.COMPANY_CERTIFY}" maxlength="32" placeholder="这里输入企业认证" title="企业认证"/></td>
-			</tr>
-			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">企业租位:</td>
-				<td><input type="text" name="PLACE_ID" id="PLACE_ID" value="${pd.PLACE_ID}" maxlength="32" placeholder="这里输入企业租位" title="企业租位"/></td>
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">企业logo:</td>

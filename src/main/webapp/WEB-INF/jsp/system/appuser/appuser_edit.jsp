@@ -47,16 +47,16 @@
 	//保存
 	function save(){
 		
-		if($("#role_id").val()==""){
-			$("#role_id").tips({
-				side:3,
-	            msg:'选择角色',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#role_id").focus();
-			return false;
-		}
+		// if($("#role_id").val()==""){
+		// 	$("#role_id").tips({
+		// 		side:3,
+	    //         msg:'选择角色',
+	    //         bg:'#AE81FF',
+	    //         time:2
+	    //     });
+		// 	$("#role_id").focus();
+		// 	return false;
+		// }
 		if($("#loginname").val()=="" || $("#loginname").val()=="此用户名已存在!"){
 			
 			$("#loginname").tips({
@@ -107,27 +107,6 @@
 			$("#EMAIL").focus();
 			return false;
 		}
-		
-		if($("#user_id").val()=="" && $("#password").val()==""){
-			$("#password").tips({
-				side:3,
-	            msg:'输入密码',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#password").focus();
-			return false;
-		}
-		if($("#password").val()!=$("#chkpwd").val()){
-			$("#chkpwd").tips({
-				side:3,
-	            msg:'两次密码不相同',
-	            bg:'#AE81FF',
-	            time:3
-	        });
-			$("#chkpwd").focus();
-			return false;
-		}
 		if($("#name").val()==""){
 			$("#name").tips({
 				side:3,
@@ -136,6 +115,26 @@
 	            time:3
 	        });
 			$("#name").focus();
+			return false;
+		}
+		if($("#SEX").val()==""){
+			$("#SEX").tips({
+				side:3,
+				msg:'选择性别',
+				bg:'#AE81FF',
+				time:3
+			});
+			$("#SEX").focus();
+			return false;
+		}
+		if($("#HAS_DATE_RIGHT").val()==""){
+			$("#HAS_DATE_RIGHT").tips({
+				side:3,
+				msg:'选择是否有APP数据查看权限',
+				bg:'#AE81FF',
+				time:3
+			});
+			$("#HAS_DATE_RIGHT").focus();
 			return false;
 		}
 		if($("#START_TIME").val()!= "" && $("#END_TIME").val() != ""){
@@ -284,16 +283,28 @@
 			</tr>
 			
 			<tr>
-				<td><input type="password" name="PASSWORD" id="password"  placeholder="输入密码"  title="密码"/></td>
 				<td><input type="tel" name="PHONE" id="PHONE" value="${pd.PHONE }" placeholder="这里输入手机号" title="手机号"/></td>
-			</tr>
-			<tr>
-				<td><input type="password" name="chkpwd" id="chkpwd"  placeholder="确认密码"  title="确认密码"/></td>
 				<td><input type="text" name="SFID" id="SFID" value="${pd.SFID }" placeholder="这里输入身份证号" title="身份证号" /></td>
 			</tr>
 			<tr>
 				<td><input type="text" name="NAME" id="name"  value="${pd.NAME }" placeholder="这里输入姓名" title="姓名" /></td>
 				<td><input type="number" name="YEARS" id="YEARS" class="input_txt" value="${pd.YEARS }" placeholder="开通年限(请输入数字)" title="开通年限" /></td>
+			</tr>
+			<tr>
+				<td>
+					<select name="SEX" id="SEX" maxlength="32" placeholder="这里选择性别" title="性别" value="${pd.SEX}">
+						<option value=''>请选择性别</option>
+						<option value="男" <c:if test="${'男' == pd.SEX}">selected</c:if>>男</option>
+						<option value="女" <c:if test="${'女' == pd.SEX}">selected</c:if>>女</option>
+					</select>
+				</td>
+				<td>
+					<select name="HAS_DATE_RIGHT" id="HAS_DATE_RIGHT" maxlength="32" placeholder="是否有APP数据查看权限" title="数据查看" value="${pd.HAS_DATE_RIGHT}">
+						<option value=''>请选择是否有APP数据报表查看权限</option>
+						<option value="0" <c:if test="${0 == pd.HAS_DATE_RIGHT}">selected</c:if>>否</option>
+						<option value="1" <c:if test="${1 == pd.HAS_DATE_RIGHT}">selected</c:if>>是</option>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<td><input type="text" name="BZ" id="BZ"value="${pd.BZ }" placeholder="这里输入备注" title="备注"/></td>

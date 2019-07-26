@@ -98,9 +98,11 @@
 				a.STATUS,	
 				a.CREATE_TIME,	
 				a.UPDATE_TIME,	
-				a.PAYMENT_ID
+				a.PAYMENT_ID,
+				c.COMPANY_NAME
 		from 
 				PAYMENT a
+		LEFT JOIN company c ON (c.company_id = a.COMPANY_ID)
 	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
