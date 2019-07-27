@@ -255,26 +255,27 @@
 		<div id="zhongxin">
 		<table>
 			
-			<c:if test="${pd.ROLE_ID != '1'}">	
-			<tr class="info">
-				<td>
-				<select class="chzn-select" name="ROLE_ID" id="role_id" data-placeholder="请选择等级" style="vertical-align:top;"  title="级别">
-				<option value=""></option>
-				<c:forEach items="${roleList}" var="role">
-					<option value="${role.ROLE_ID }" <c:if test="${role.ROLE_ID == pd.ROLE_ID }">selected</c:if>>${role.ROLE_NAME }</option>
-				</c:forEach>
-				</select>
-				</td>
-				<td><input class="span10 date-picker" name="START_TIME" id="START_TIME" value="${pd.START_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="开通日期"  title="开通日期"/></td>
-			</tr>
-			</c:if>
-			<c:if test="${pd.ROLE_ID == '1'}">
-			<input name="ROLE_ID" id="role_id" value="1" type="hidden" />
-			</c:if>
+			<%--<c:if test="${pd.ROLE_ID != '1'}">	--%>
+			<%--<tr class="info">--%>
+				<%--<td>--%>
+				<%--<select class="chzn-select" name="ROLE_ID" id="role_id" data-placeholder="请选择等级" style="vertical-align:top;"  title="级别">--%>
+				<%--<option value=""></option>--%>
+				<%--<c:forEach items="${roleList}" var="role">--%>
+					<%--<option value="${role.ROLE_ID }" <c:if test="${role.ROLE_ID == pd.ROLE_ID }">selected</c:if>>${role.ROLE_NAME }</option>--%>
+				<%--</c:forEach>--%>
+				<%--</select>--%>
+				<%--</td>--%>
+				<%--<td><input class="span10 date-picker" name="START_TIME" id="START_TIME" value="${pd.START_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="开通日期"  title="开通日期"/></td>--%>
+			<%--</tr>--%>
+			<%--</c:if>--%>
+			<%--<c:if test="${pd.ROLE_ID == '1'}">--%>
+			<%--<input name="ROLE_ID" id="role_id" value="1" type="hidden" />--%>
+			<%--</c:if>--%>
 				
 			<tr>
 				<td><input type="text" name="USERNAME" id="loginname" value="${pd.USERNAME }" placeholder="这里输入用户名" title="用户名"/></td>
-				<td><input class="span10 date-picker" name="END_TIME" id="END_TIME" value="${pd.END_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="到期日期" title="到期日期"/></td>
+				<td><input type="text" name="NAME" id="name"  value="${pd.NAME }" placeholder="这里输入姓名" title="姓名" /></td>
+				<%--<td><input class="span10 date-picker" name="END_TIME" id="END_TIME" value="${pd.END_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="到期日期" title="到期日期"/></td>--%>
 			</tr>
 			
 			<tr>
@@ -286,10 +287,10 @@
 				<td><input type="tel" name="PHONE" id="PHONE" value="${pd.PHONE }" placeholder="这里输入手机号" title="手机号"/></td>
 				<td><input type="text" name="SFID" id="SFID" value="${pd.SFID }" placeholder="这里输入身份证号" title="身份证号" /></td>
 			</tr>
-			<tr>
-				<td><input type="text" name="NAME" id="name"  value="${pd.NAME }" placeholder="这里输入姓名" title="姓名" /></td>
-				<td><input type="number" name="YEARS" id="YEARS" class="input_txt" value="${pd.YEARS }" placeholder="开通年限(请输入数字)" title="开通年限" /></td>
-			</tr>
+			<%--<tr>--%>
+				<%--<td><input type="text" name="NAME" id="name"  value="${pd.NAME }" placeholder="这里输入姓名" title="姓名" /></td>--%>
+				<%--<td><input type="number" name="YEARS" id="YEARS" class="input_txt" value="${pd.YEARS }" placeholder="开通年限(请输入数字)" title="开通年限" /></td>--%>
+			<%--</tr>--%>
 			<tr>
 				<td>
 					<select name="SEX" id="SEX" maxlength="32" placeholder="这里选择性别" title="性别" value="${pd.SEX}">
