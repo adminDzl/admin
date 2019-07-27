@@ -183,7 +183,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = '<%=basePath%>decorate/goAdd.do';
+			 diag.URL = '<%=basePath%>unimpeded/goAdd.do';
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.CancelEvent = function(){
@@ -203,7 +203,7 @@
 			bootbox.confirm("确定要删除吗?", function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>decorate/delete.do?DECORATE_ID="+Id+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>unimpeded/delete.do?DECORATE_ID="+Id+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						nextPage(${page.currentPage});
 					});
@@ -215,7 +215,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="编辑";
-			 diag.URL = '<%=basePath%>decorate/goEdit.do?DECORATE_ID='+Id;
+			 diag.URL = '<%=basePath%>unimpeded/goEdit.do?DECORATE_ID='+Id;
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.CancelEvent = function(){ //关闭事件

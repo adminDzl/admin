@@ -179,7 +179,7 @@
 				<td style="width:70px;text-align: right;padding-top: 13px;">新闻头图:</td>
 				<td>
 					<input name="fileImage" id="fileImage" value="${pd.HEAD_IMAGE}" placeholder="这里上传图片" title="图片url" type="file" accept="image/*" multiple="multiple" onchange="uploadImage(this)"/>
-					<input name="HEAD_IMAGE" id="HEAD_IMAGE" value="" style="display: none"/>
+					<input name="HEAD_IMAGE" id="HEAD_IMAGE" value="${pd.HEAD_IMAGE}" style="display: none"/>
 					<c:if test="${pd.HEAD_IMAGE != '' || pd.HEAD_IMAGE != null }">
 						<a href="${pd.HEAD_IMAGE}" target="_blank" >
 							<img src="${pd.HEAD_IMAGE}" width="50" height="100"/>

@@ -46,7 +46,6 @@
 	
 	//保存
 	function save(){
-		
 		// if($("#role_id").val()==""){
 		// 	$("#role_id").tips({
 		// 		side:3,
@@ -73,7 +72,7 @@
 		}else{
 			$("#loginname").val(jQuery.trim($('#loginname').val()));
 		}
-		
+
 		if($("#NUMBER").val()==""){
 			$("#NUMBER").tips({
 				side:3,
@@ -85,8 +84,8 @@
 			return false;
 		}else{
 			$("#NUMBER").val($.trim($("#NUMBER").val()));
-		}	
-		
+		}
+
 		if($("#EMAIL").val()==""){
 			
 			$("#EMAIL").tips({
@@ -107,6 +106,7 @@
 			$("#EMAIL").focus();
 			return false;
 		}
+
 		if($("#name").val()==""){
 			$("#name").tips({
 				side:3,
@@ -127,6 +127,7 @@
 			$("#SEX").focus();
 			return false;
 		}
+
 		if($("#HAS_DATE_RIGHT").val()==""){
 			$("#HAS_DATE_RIGHT").tips({
 				side:3,
@@ -137,43 +138,45 @@
 			$("#HAS_DATE_RIGHT").focus();
 			return false;
 		}
-		if($("#START_TIME").val()!= "" && $("#END_TIME").val() != ""){
-			var t1 = $("#START_TIME").val();
-			var t2 = $("#END_TIME").val();
-			t1 = Number(t1.replace('-', '').replace('-', ''));
-			t2 = Number(t2.replace('-', '').replace('-', ''));
-			if(t1-t2>0){
-				
-				$("#END_TIME").tips({
-					side:3,
-		            msg:'到期日期必须大于开通日期',
-		            bg:'#AE81FF',
-		            time:3
-		        });
-				
-				return false;
-			}
-		}
-		if($("#YEARS").val()==""){
-			$("#YEARS").val(0);
-		}else if(isNaN(Number($("#YEARS").val()))){
-			
-			$("#YEARS").tips({
-				side:3,
-	            msg:'输入数字',
-	            bg:'#AE81FF',
-	            time:3
-	        });
-			
-			$("#YEARS").focus();
-			$("#YEARS").val(0);
-			return false;
-		}
+//		if($("#START_TIME").val()!= "" && $("#END_TIME").val() != ""){
+//			var t1 = $("#START_TIME").val();
+//			var t2 = $("#END_TIME").val();
+//			t1 = Number(t1.replace('-', '').replace('-', ''));
+//			t2 = Number(t2.replace('-', '').replace('-', ''));
+//			if(t1-t2>0){
+//
+//				$("#END_TIME").tips({
+//					side:3,
+//		            msg:'到期日期必须大于开通日期',
+//		            bg:'#AE81FF',
+//		            time:3
+//		        });
+//
+//				return false;
+//			}
+//		}
+//		if($("#YEARS").val()==""){
+//			$("#YEARS").val(0);
+//		}else if(isNaN(Number($("#YEARS").val()))){
+//
+//			$("#YEARS").tips({
+//				side:3,
+//	            msg:'输入数字',
+//	            bg:'#AE81FF',
+//	            time:3
+//	        });
+//
+//			$("#YEARS").focus();
+//			$("#YEARS").val(0);
+//			return false;
+//		}
 		
-		
+		console.log("1");
 		if($("#user_id").val()==""){
+            console.log("2");
 			hasU();
 		}else{
+            console.log("3");
 			$("#userForm").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();
@@ -279,8 +282,8 @@
 			</tr>
 			
 			<tr>
-				<td><input type="text" name="NUMBER" id="NUMBER" value="${pd.NUMBER }" maxlength="32" placeholder="这里输入编号" title="编号" onblur="hasN('${pd.USERNAME }')"/></td>
-				<td><input type="email" name="EMAIL" id="EMAIL"  value="${pd.EMAIL }" maxlength="32" placeholder="这里输入邮箱" title="邮箱" onblur="hasE('${pd.USERNAME }')"/></td>
+				<td><input type="text" name="NUMBER" id="NUMBER" value="${pd.NUMBER }" maxlength="32" placeholder="这里输入编号" title="编号" onblur="hasN('${pd.NUMBER }')"/></td>
+				<td><input type="email" name="EMAIL" id="EMAIL"  value="${pd.EMAIL }" maxlength="32" placeholder="这里输入邮箱" title="邮箱" onblur="hasE('${pd.EMAIL }')"/></td>
 			</tr>
 			
 			<tr>
