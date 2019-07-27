@@ -208,10 +208,10 @@ public class CompanyController extends BaseController {
 		ImportExcelUtil importExcelUtil = new ImportExcelUtil();
 		List<Map<String, Object>> companyList = importExcelUtil.getExcelInfo(file);
 		if (companyList != null && !companyList.isEmpty() && companyList.size() < 50000){
-			List<CompanyDTO> companyDTOS = companyService.getCompanyData(companyList);
 			pd = companyService.checkExcelData(companyList, pd);
 			String status = pd.get("status").toString();
 			if (status.equals("0")){
+                List<CompanyDTO> companyDTOS = companyService.getCompanyData(companyList);
 				companyService.createCompanyByExcel(companyDTOS);
 				pd.put("msg", "ok");
 			}

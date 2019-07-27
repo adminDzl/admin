@@ -381,7 +381,8 @@
                 processData: false,  // 不处理数据
                 contentType: false,   // 不设置内容类型
                 success: function(data){
-                    if (data.list[0].status === 1){
+                    console.log(data.list[0].status,"---->");
+                    if (data.list[0].status == 1){
                         bootbox.dialog(data.list[0].msg,
                             [
                                 {
