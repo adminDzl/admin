@@ -1229,6 +1229,12 @@ public class AppUserController {
             return result;
         }
         //查询
+        if(StringUtils.isEmpty(user.getCompanyId())){
+            result.setMsg("请设置所属公司");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+
         Map<String, Object> params = new HashMap<String, Object>(2);
         params.put("companyId", user.getCompanyId());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
