@@ -41,15 +41,13 @@ public class AppRoleService {
     }
 
     /**
-     * 根据企业id和角色id获取所有资源权限
-     * @param companyId
+     * 根据角色id获取所有资源权限
      * @return
      */
-    public List<ResourceDTO> getRolesByCompanyIdAndRoleId(String companyId, Integer roleId){
+    public List<ResourceDTO> getResourcesByRoleId(Integer roleId){
         PageData pd = new PageData();
-        pd.put("companyId", companyId);
         pd.put("roleId", roleId);
-        return (List<ResourceDTO>)dao.findForList("AppRoleMapper.getRolesByCompanyIdAndRoleId", pd);
+        return (List<ResourceDTO>)dao.findForList("AppRoleMapper.getResourcesByRoleId", pd);
     }
 
     /**

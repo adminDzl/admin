@@ -12,5 +12,9 @@
         insert into app_role(role_name, company_id) values (#{roleName}, #{companyId})
     </insert>
 
+    <select id="getResourcesByRoleId" parameterType="pd" resultType="pd">
+    select arr.resource_id as resourceId, ars.resource_name as resourceName,ars.resource_remark as rearmk, arr.`status` as hasResource  from app_role_resource arr,app_resource ars where ars.id=arr.resource_id and arr.role_id=#{roleId} and arr.`status`=1
+    </select>
+
 
 </mapper>

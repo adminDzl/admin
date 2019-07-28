@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AppUserRoleMapper">
+
+    <insert id="save" parameterType="pd">
+        insert into app_user_role(user_id, app_role_id) values (#{userId}, #{appRoleId})
+    </insert>
+
+    <delete id="deleteByUserId" parameterType="pd">
+       delete from app_user_role where user_id = #{userId}
+    </delete>
+
+    <select id="selectByUserId" parameterType="pd">
+        select ar.id as roleId, ar.role_name as roleName from app_user_role aur, app_role ar where aur.app_role_id=ar.id and aur.user_id=#{userId}
+    </select>
+</mapper>

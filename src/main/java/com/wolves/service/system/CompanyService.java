@@ -83,7 +83,7 @@ public class CompanyService {
 	public CompanyDTO selectCompanyById(String companyId){
 		CompanyDTO companyDTO = (CompanyDTO) dao.findForObject("CompanyMapper.selectCompanyById", companyId);
 		if (companyDTO != null){
-			if (!companyDTO.getCompanyCertify().equals("")) {
+			if (!StringUtils.isEmpty(companyDTO.getCompanyCertify())) {
 				String[] arr = companyDTO.getCompanyCertify().split(",");
 				companyDTO.setCompanyCertifys(Arrays.asList(arr));
 			}

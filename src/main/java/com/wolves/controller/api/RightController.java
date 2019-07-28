@@ -190,7 +190,7 @@ public class RightController {
     @ApiOperation(httpMethod="GET",value="获取角色的权限资源")
     @RequestMapping(value = "/getResourceByRole", method = RequestMethod.GET)
     public Result getResourceByRole(@RequestHeader("Authorization") String token,
-                              @Param("roleId") Integer roleId){
+                              @RequestParam("roleId") Integer roleId){
         Result result = new Result();
         User user = userService.getUser(token);
         if (user == null){
@@ -206,7 +206,7 @@ public class RightController {
             return result;
         }
 
-        List<ResourceDTO> list = appRoleService.getRolesByCompanyIdAndRoleId(companyDTO.getCompanyId(), roleId);
+        List<ResourceDTO> list = appRoleService.getResourcesByRoleId(roleId);
         result.setMsg("success");
         result.setResult(ResultCode.SUCCESS);
         result.setData(list);
@@ -283,5 +283,7 @@ public class RightController {
 //        rightService.addCompanyAdminRole(id);
 //        return null;
 //    }
+
+
 
 }
