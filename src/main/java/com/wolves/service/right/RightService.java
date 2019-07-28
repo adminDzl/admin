@@ -1,13 +1,12 @@
 package com.wolves.service.right;
 
-import com.itextpdf.text.ExceptionConverter;
 import com.wolves.dto.CompanyOrStaffRightDTO;
 import com.wolves.dto.ResourceDTO;
 import com.wolves.dto.resource.AppResourceDTO;
 import com.wolves.dto.right.AddRoleDTO;
-import com.wolves.dto.right.RightDTO;
 import com.wolves.framework.common.Constant;
 import com.wolves.service.system.appuser.AppUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -24,18 +23,19 @@ public class RightService {
     AppUserService appUserService;
     @Resource(name = "appRoleService")
     AppRoleService appRoleService;
+    @Autowired
+    AppUserRoleService appUserRoleService;
 
     /**
      * 判断用户是否能上传企业logo和人员权限
      * @param userId
-     * @param companyId
      * @return
      */
-    public List<CompanyOrStaffRightDTO> existCompanyAndStaffRight(String userId, String companyId){
-        List<RightDTO> rightDTOS = appUserService.selectRightByUserIdAndCompanyId(userId, companyId);
+    public List<CompanyOrStaffRightDTO> existCompanyAndStaffRight(String userId){
+        List<ResourceDTO> rightDTOS = appUserRoleService.getResourcesById(userId);
         boolean companyFlag = false;
         boolean staffFlag = false;
-        for(RightDTO rightDTO : rightDTOS){
+        for(ResourceDTO rightDTO : rightDTOS){
               if(Constant.editCompanyRight.equals(rightDTO.getResourceName())){
                   companyFlag = true;
               }
@@ -74,16 +74,11 @@ public class RightService {
 
         AddRoleDTO addRoleDTO = new AddRoleDTO();
         addRoleDTO.setRoleName("admin");
-        List<ResourceDTO> resourceDTOList = new ArrayList<ResourceDTO>();
-        ResourceDTO resourceDTO;
+        List<Integer> resourceDTOList = new ArrayList();
         for(AppResourceDTO item : list){
-            resourceDTO = new ResourceDTO();
-            resourceDTO.setResourceId(item.getId());
-            resourceDTO.setResourceName(item.getResourceName());
-            resourceDTO.setHasResource(1);
-            resourceDTOList.add(resourceDTO);
+            resourceDTOList.add(item.getId());
         }
-        addRoleDTO.setResourceDTOList(resourceDTOList);
+        addRoleDTO.setResourceId(resourceDTOList);
         //插入admin角色
         appRoleService.addRoleAndRight(addRoleDTO, companyId);
     }

@@ -16,8 +16,6 @@ public class ResourceDTO implements Serializable {
     private String resourceName;
     @ApiModelProperty(value = "备注")
     private String remark;
-    @ApiModelProperty(value = "是否拥有（1是，0否）")
-    private Integer hasResource;
 
     public String getRemark() {
         return remark;
@@ -43,12 +41,5 @@ public class ResourceDTO implements Serializable {
         this.resourceName = resourceName;
     }
 
-    public Integer getHasResource() {
-        return hasResource;
-    }
-
-    public void setHasResource(Integer hasResource) {
-        this.hasResource = hasResource;
-    }
 
 }

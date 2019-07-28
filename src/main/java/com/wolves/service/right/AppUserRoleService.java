@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("appUserRoleService")
@@ -20,6 +21,8 @@ public class AppUserRoleService {
 
     @Resource(name = "daoSupport")
     private DaoSupport dao;
+    @Resource(name = "appRoleService")
+    private AppRoleService appRoleService;
 
     /**
      * 获取某人的角色
@@ -28,6 +31,21 @@ public class AppUserRoleService {
         PageData pd = new PageData();
         pd.put("userId", userId);
         return (RoleBasicDTO) dao.findForObject("AppUserRoleMapper.selectByUserId", pd);
+    }
+
+    /**
+     * 获取某人的资源
+     */
+    public List<ResourceDTO> getResourcesById(String userId){
+        List<ResourceDTO> list = new ArrayList<ResourceDTO>();
+        PageData pd = new PageData();
+        pd.put("userId", userId);
+        RoleBasicDTO roleBasicDTO = (RoleBasicDTO) dao.findForObject("AppUserRoleMapper.selectByUserId", pd);
+        Integer roleId = roleBasicDTO.getRoleId();
+        if(null != roleId){
+            list = appRoleService.getResourcesByRoleId(roleBasicDTO.getRoleId());
+        }
+        return list;
     }
 
     /**

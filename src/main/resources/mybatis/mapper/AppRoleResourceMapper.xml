@@ -4,6 +4,10 @@
 <mapper namespace="AppRoleResourceMapper">
 
     <insert id="save" parameterType="pd">
-        insert into app_role_resource(role_id, resource_id, status) values (#{roleId}, #{resourceId}, #{status})
+        insert into app_role_resource(role_id, resource_id) values (#{roleId}, #{resourceId})
     </insert>
+
+    <delete id="deleteByRoleId" parameterType="pd">
+        delete from app_role_resource where role_id=#{id}
+    </delete>
 </mapper>

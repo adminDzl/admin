@@ -11,7 +11,7 @@
        delete from app_user_role where user_id = #{userId}
     </delete>
 
-    <select id="selectByUserId" parameterType="pd">
+    <select id="selectByUserId" parameterType="pd"  resultType="com.wolves.dto.right.RoleBasicDTO">
         select ar.id as roleId, ar.role_name as roleName from app_user_role aur, app_role ar where aur.app_role_id=ar.id and aur.user_id=#{userId}
     </select>
 </mapper>
