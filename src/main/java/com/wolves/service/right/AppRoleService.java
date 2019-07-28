@@ -100,11 +100,11 @@ public class AppRoleService {
 
         List<ResourceDTO> resourceDTOList = addRoleDTO.getResourceDTOList();
         PageData resourcePd = new PageData();
-        resourcePd.put("role_id", rolePd.get("id"));
+        resourcePd.put("roleId", rolePd.get("id"));
         for(ResourceDTO resourceDTO : resourceDTOList){
             if(1 == resourceDTO.getHasResource()){
                 //添加角色-资源权限关联关系
-                resourcePd.put("resource_id", resourceDTO.getResourceId());
+                resourcePd.put("resourceId", resourceDTO.getResourceId());
                 resourcePd.put("status", 1);
                 dao.save("AppRoleResourceMapper.save", resourcePd);
             }

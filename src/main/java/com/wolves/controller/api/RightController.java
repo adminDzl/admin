@@ -277,4 +277,11 @@ public class RightController {
         return null;
     }
 
+//    @ApiOperation(httpMethod="GET",value="给指定公司添加最高权限的角色")
+//    @RequestMapping(value = "/addAdmin", method = RequestMethod.GET)
+//    public Result addAdmin(@RequestParam("companyId") String id){
+//        rightService.addCompanyAdminRole(id);
+//        return null;
+//    }
+
 }

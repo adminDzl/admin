@@ -1,7 +1,10 @@
 package com.wolves.service.right;
 
-import com.alibaba.fastjson.JSONObject;
+import com.itextpdf.text.ExceptionConverter;
 import com.wolves.dto.CompanyOrStaffRightDTO;
+import com.wolves.dto.ResourceDTO;
+import com.wolves.dto.resource.AppResourceDTO;
+import com.wolves.dto.right.AddRoleDTO;
 import com.wolves.dto.right.RightDTO;
 import com.wolves.framework.common.Constant;
 import com.wolves.service.system.appuser.AppUserService;
@@ -17,9 +20,10 @@ import java.util.List;
 @Service
 public class RightService {
 
-    @Resource(name="appUserService")
+    @Resource(name = "appUserService")
     AppUserService appUserService;
-
+    @Resource(name = "appRoleService")
+    AppRoleService appRoleService;
 
     /**
      * 判断用户是否能上传企业logo和人员权限
@@ -57,6 +61,31 @@ public class RightService {
         list.add(companyDTO);
         list.add(staffDTO);
         return list;
+    }
+
+    /**
+     * 给指定的公司添加最高权限的角色
+     * @param companyId
+     * @throws RuntimeException 说明该公司已存在admin角色
+     */
+    public void addCompanyAdminRole(String companyId) throws RuntimeException {
+        //获取公司的所有权限
+        List<AppResourceDTO> list = appRoleService.getResources();
+
+        AddRoleDTO addRoleDTO = new AddRoleDTO();
+        addRoleDTO.setRoleName("admin");
+        List<ResourceDTO> resourceDTOList = new ArrayList<ResourceDTO>();
+        ResourceDTO resourceDTO;
+        for(AppResourceDTO item : list){
+            resourceDTO = new ResourceDTO();
+            resourceDTO.setResourceId(item.getId());
+            resourceDTO.setResourceName(item.getResourceName());
+            resourceDTO.setHasResource(1);
+            resourceDTOList.add(resourceDTO);
+        }
+        addRoleDTO.setResourceDTOList(resourceDTOList);
+        //插入admin角色
+        appRoleService.addRoleAndRight(addRoleDTO, companyId);
     }
 
 

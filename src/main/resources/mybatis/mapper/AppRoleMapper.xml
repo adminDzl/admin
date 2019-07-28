@@ -8,7 +8,7 @@
       where ar.company_id = #{companyId, jdbcType=VARCHAR}
     </select>
 
-    <insert id="save" parameterType="pd">
+    <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into app_role(role_name, company_id) values (#{roleName}, #{companyId})
     </insert>
 
