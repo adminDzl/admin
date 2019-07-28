@@ -8,7 +8,6 @@ public class RoleDTO {
     private String roleName;
     private List<UserRightDTO> userRightDTOList;
 
-
     public String getRoleName() {
         return roleName;
     }

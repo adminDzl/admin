@@ -37,7 +37,7 @@ public class AppRoleService {
     public List<RoleDTO> getRolesByCompanyId(String companyId){
         PageData pd = new PageData();
         pd.put("companyId", companyId);
-        return (List<RoleDTO>)dao.findForList("AppRoleMapper.getRolesByCompanyId", pd);
+        return (List<RoleDTO>)dao.findForList("AppRoleMapper.findByCompanyId", pd);
     }
 
     /**
