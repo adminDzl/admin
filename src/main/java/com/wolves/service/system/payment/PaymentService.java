@@ -2,6 +2,8 @@ package com.wolves.service.system.payment;
 
 import java.util.List;
 import javax.annotation.Resource;
+
+import com.wolves.dto.pay.PayMentDTO;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
 import com.wolves.entity.system.Page;
@@ -60,6 +62,16 @@ public class PaymentService {
 	*/
 	public void deleteAll(String[] ArrayDATA_IDS){
 		dao.delete("PaymentMapper.deleteAll", ArrayDATA_IDS);
+	}
+
+	/**
+	 * 查询缴费记录
+	 * @param companyId
+	 * @return
+	 */
+	public List<PayMentDTO> selectPayMentById(String companyId){
+
+		return (List<PayMentDTO>)dao.findForList("PaymentMapper.selectPayMentById", companyId);
 	}
 }
 

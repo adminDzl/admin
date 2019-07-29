@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="PaymentMapper">
+
+	<resultMap type="com.wolves.dto.pay.PayMentDTO" id="ResultMap">
+		<id column="payment_id" property="paymentId"/>
+		<result column="company_id" property="companyId"/>
+		<result column="payment_type" property="paymentType"/>
+		<result column="amount" property="amount"/>
+		<result column="payment_date" property="paymentDate"/>
+		<result column="status" property="status"/>
+		<result column="create_time" property="createTime"/>
+	</resultMap>
+
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into PAYMENT(
@@ -113,4 +124,18 @@
                  #{item}
 		</foreach>
 	</delete>
+
+	<select id="selectPayMentById" parameterType="com.wolves.dto.pay.PayMentDTO" resultMap="ResultMap">
+		select
+			a.payment_id,
+			a.company_id,
+			a.payment_type,
+			a.amount,
+			a.payment_date,
+			a.status,
+			a.create_time
+		from
+		PAYMENT a
+		WHERE a.company_id = #{companyId}
+	</select>
 </mapper>
