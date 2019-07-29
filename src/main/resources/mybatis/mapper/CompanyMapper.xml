@@ -24,6 +24,9 @@
 	<insert id="save" parameterType="pd">
 		insert into COMPANY(
 			COMPANY_NAME,
+			COME_TIME,
+			AGREEMENT_TIME,
+			SCALE,
 			TYPE,	
 			STATUS,	
 			DESCRIPTION,	
@@ -35,14 +38,17 @@
 			COMPANY_ID
 		) values (
 			#{COMPANY_NAME},
+			#{COME_TIME},
+			#{AGREEMENT_TIME},
+			#{SCALE},
 			#{TYPE},	
 			#{STATUS},	
 			#{DESCRIPTION},	
 			#{COMPANY_CERTIFY},	
 			#{PLACE_ID},	
 			#{LOGO},	
-			#{CREATE_TIME},	
-			#{UPDATE_TIME},	
+			now(),
+			now(),
 			#{COMPANY_ID}
 		)
 	</insert>
@@ -58,6 +64,15 @@
 			set
 				<if test="COMPANY_NAME != null">
 					COMPANY_NAME = #{COMPANY_NAME},
+				</if>
+				<if test="COME_TIME != null">
+					COME_TIME = #{COME_TIME},
+				</if>
+				<if test="AGREEMENT_TIME != null">
+					AGREEMENT_TIME = #{AGREEMENT_TIME},
+				</if>
+				<if test="SCALE != null">
+					SCALE = #{SCALE},
 				</if>
 				<if test="TYPE != null">
 					TYPE = #{TYPE},
@@ -89,6 +104,9 @@
 	<select id="findById" parameterType="pd" resultType="pd">
 		select 
 			COMPANY_NAME,
+			COME_TIME,
+			AGREEMENT_TIME,
+			SCALE,
 			TYPE,	
 			STATUS,	
 			DESCRIPTION,	

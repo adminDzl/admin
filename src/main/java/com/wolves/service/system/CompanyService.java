@@ -8,13 +8,16 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wolves.common.CompanyTypeEnum;
 import com.wolves.common.StatusEnum;
 import com.wolves.dto.user.BaseCompanyDTO;
 import com.wolves.dto.user.CompanyDTO;
 import com.wolves.dto.user.UserExcelDTO;
+import com.wolves.service.right.RightService;
 import com.wolves.util.StringUtils;
 import com.wolves.util.UuidUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
 import com.wolves.entity.system.Page;
@@ -25,12 +28,20 @@ public class CompanyService {
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
+	@Autowired
+	private RightService rightService;
 	
 	/**
 	* 新增
 	*/
 	public void save(PageData pd){
 		dao.save("CompanyMapper.save", pd);
+		List<BaseCompanyDTO> baseCompanyDTOS = this.selectCompanyByName(pd.getString("COMPANY_NAME"));
+		if (baseCompanyDTOS != null && !baseCompanyDTOS.isEmpty()){
+			for (BaseCompanyDTO baseCompanyDTO : baseCompanyDTOS){
+				rightService.addCompanyAdminRole(baseCompanyDTO.getCompanyId());
+			}
+		}
 	}
 	
 	/**
@@ -107,6 +118,12 @@ public class CompanyService {
 	public void saveCompany(CompanyDTO companyDTO){
 
 		dao.save("CompanyMapper.saveCompany", companyDTO);
+		List<BaseCompanyDTO> baseCompanyDTOS = this.selectCompanyByName(companyDTO.getCompanyName());
+		if (baseCompanyDTOS != null && !baseCompanyDTOS.isEmpty()){
+			for (BaseCompanyDTO baseCompanyDTO : baseCompanyDTOS){
+				rightService.addCompanyAdminRole(baseCompanyDTO.getCompanyId());
+			}
+		}
 	}
 
 	/**
