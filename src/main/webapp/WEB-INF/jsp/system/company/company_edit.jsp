@@ -185,11 +185,17 @@
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">入驻时间:</td>
-				<td><input class="span10 date-picker" name="CREATE_TIME" id="CREATE_TIME" value="${pd.CREATE_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="创建时间" title="创建时间"/></td>
+				<td><input class="span10 date-picker" name="COME_TIME" id="COME_TIME" value="${pd.COME_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="入住时间" title="入住时间"/></td>
 			</tr>
 			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">修改时间:</td>
-				<td><input class="span10 date-picker" name="UPDATE_TIME" id="UPDATE_TIME" value="${pd.UPDATE_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="修改时间" title="修改时间"/></td>
+				<td style="width:70px;text-align: right;padding-top: 13px;">合约截止时间:</td>
+				<td><input class="span10 date-picker" name="AGREEMENT_TIME" id="AGREEMENT_TIME" value="${pd.UPDATE_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="合约截止时间" title="合约截止时间"/></td>
+			</tr>
+			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;">企业规模:</td>
+				<td>
+					<input type="text" name="SCALE" id="SCALE" value="${pd.SCALE}" maxlength="32" placeholder="这里输入企业规模" title="企业规模"/>
+				</td>
 			</tr>
 			<tr>
 				<td style="text-align: center;" colspan="10">

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wolves.common.*;
 import com.wolves.dto.*;
 import com.wolves.dto.pay.CompantYearPayDTO;
+import com.wolves.dto.pay.PayMentDTO;
 import com.wolves.dto.user.*;
 import com.wolves.entity.app.PayOrder;
 import com.wolves.entity.app.User;
@@ -15,6 +16,7 @@ import com.wolves.service.system.SmsService;
 import com.wolves.service.system.decorate.DecorateService;
 import com.wolves.service.system.floorman.FloorManService;
 import com.wolves.service.system.newstip.NewsTipService;
+import com.wolves.service.system.payment.PaymentService;
 import com.wolves.service.system.payorder.PayOrderService;
 import com.wolves.service.system.repair.RepairApplyService;
 import com.wolves.service.system.tipmsg.TipMsgService;
@@ -74,6 +76,8 @@ public class AppUserController {
     private DecorateService decorateService;
     @Resource(name="payorderService")
     private PayOrderService payorderService;
+    @Resource(name="paymentService")
+    private PaymentService paymentService;
 
     /**
      * 登陆,返回token
@@ -532,6 +536,29 @@ public class AppUserController {
         params.put("size", size);
 
         result.setData(payOrderService.selectPayOrderByUserId(params));
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("查询成功");
+        return result;
+    }
+
+    @ApiOperation(httpMethod="POST",value="我的缴费V2",notes="我的缴费V2")
+    @RequestMapping(value = "/paymentV2", method = RequestMethod.POST)
+    public Result<List<PayMentDTO>> paymentV2(@RequestHeader("Authorization") String token){
+        Result<List<PayMentDTO>> result = new Result<List<PayMentDTO>>();
+
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        if (StringUtils.isEmpty(user.getCompanyId())){
+            result.setResult(ResultCode.FAIL);
+            result.setMsg("请设置公司");
+            return result;
+        }
+        //查询缴费记录
+        result.setData(paymentService.selectPayMentById(user.getCompanyId()));
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("查询成功");
         return result;

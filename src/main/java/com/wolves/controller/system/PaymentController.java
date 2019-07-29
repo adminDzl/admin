@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 
+import com.wolves.common.StatusEnum;
 import com.wolves.service.system.CompanyService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -59,7 +60,7 @@ public class PaymentController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		pd.put("PAYMENT_ID", this.get32UUID());
-		pd.put("STATUS", 0);
+		pd.put("STATUS", StatusEnum.SUCCESS.getKey());
 		pd.put("CREATE_TIME", Tools.date2Str(new Date()));
 		pd.put("UPDATE_TIME", Tools.date2Str(new Date()));
 		paymentService.save(pd);
