@@ -6,7 +6,6 @@ import com.wolves.common.StatusEnum;
 import com.wolves.dto.PageDataDTO;
 import com.wolves.dto.UserCarBindDTO;
 import com.wolves.dto.UserParkingDTO;
-import com.wolves.dto.user.UserExcelDTO;
 import com.wolves.entity.app.User;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
@@ -19,8 +18,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
