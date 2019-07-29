@@ -1,8 +1,10 @@
 package com.wolves.service.system.payment;
 
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 
+import com.wolves.dto.pay.CompantYearPayDTO;
 import com.wolves.dto.pay.PayMentDTO;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
@@ -72,6 +74,26 @@ public class PaymentService {
 	public List<PayMentDTO> selectPayMentById(String companyId){
 
 		return (List<PayMentDTO>)dao.findForList("PaymentMapper.selectPayMentById", companyId);
+	}
+
+	/**
+	 * 查询当年缴费
+	 * @param params
+	 * @return
+	 */
+	public CompantYearPayDTO selectPaymentByCompanyId(Map<String, Object> params){
+
+		return (CompantYearPayDTO)dao.findForObject("PaymentMapper.selectPaymentByCompanyId", params);
+	}
+
+	/**
+	 * 查询缴费记录列表
+	 * @param page
+	 * @return
+	 */
+	public List<PageData> selectSumByTime(Page page){
+
+		return (List<PageData>)dao.findForList("PaymentMapper.selectPayMentSumByTime", page);
 	}
 }
 

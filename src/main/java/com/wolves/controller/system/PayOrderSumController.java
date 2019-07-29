@@ -2,6 +2,7 @@ package com.wolves.controller.system;
 
 import com.wolves.controller.base.BaseController;
 import com.wolves.entity.system.Page;
+import com.wolves.service.system.payment.PaymentService;
 import com.wolves.service.system.payorder.PayOrderService;
 import com.wolves.util.*;
 import org.apache.shiro.SecurityUtils;
@@ -32,8 +33,8 @@ public class PayOrderSumController extends BaseController {
 	 * 菜单地址(权限用)
 	 */
 	String menuUrl = "payordersum/list.do";
-	@Resource(name="payorderService")
-	private PayOrderService payorderService;
+	@Resource(name="paymentService")
+	private PaymentService paymentService;
 	
 	/**
 	 * 列表
@@ -44,7 +45,7 @@ public class PayOrderSumController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		page.setPd(pd);
-		List<PageData> varList = payorderService.selectSumByTime(page);
+		List<PageData> varList = paymentService.selectSumByTime(page);
 		mv.setViewName("system/payorder/payordersum_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
@@ -58,14 +59,14 @@ public class PayOrderSumController extends BaseController {
 	 */
 	@RequestMapping(value="/excel")
 	public ModelAndView exportExcel(){
-		logBefore(logger, "导出PayOrder到excel");
+		logBefore(logger, "导出payordersum到excel");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
 		ModelAndView mv = new ModelAndView();
 		PageData pd = this.getPageData();
 		try{
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
-			titles.add("类型（1-水电物业，2-停车费，3-场地预定费，4-一卡通费用）");
+			titles.add("备注");
 			titles.add("付费金额");
 			titles.add("付费时间");
 			titles.add("确认时间");
@@ -73,15 +74,15 @@ public class PayOrderSumController extends BaseController {
 			titles.add("创建时间");
 			titles.add("更新时间");
 			dataMap.put("titles", titles);
-			List<PageData> varOList = payorderService.listAll(pd);
+			List<PageData> varOList = paymentService.listAll(pd);
 			List<PageData> varList = new ArrayList<PageData>();
 			for(int i=0;i<varOList.size();i++){
 				PageData vpd = new PageData();
-				vpd.put("var1", varOList.get(i).get("PAY_TYPE").toString());
-				vpd.put("var2", varOList.get(i).getString("PAY_AMOUNT"));
-				vpd.put("var3", varOList.get(i).getString("PAY_TIME"));
-				vpd.put("var4", varOList.get(i).getString("RETURN_TIME"));
-				vpd.put("var5", varOList.get(i).get("PAY_STATUS").toString());
+				vpd.put("var1", varOList.get(i).get("PAYMENT_TYPE").toString());
+				vpd.put("var2", varOList.get(i).getString("AMOUNT"));
+				vpd.put("var3", varOList.get(i).getString("PAYMENT_DATE"));
+				vpd.put("var4", varOList.get(i).getString("CREATE_TIME"));
+				vpd.put("var5", varOList.get(i).get("STATUS").toString());
 				vpd.put("var6", varOList.get(i).getString("CREATE_TIME"));
 				vpd.put("var7", varOList.get(i).getString("UPDATE_TIME"));
 				varList.add(vpd);

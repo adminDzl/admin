@@ -1266,7 +1266,7 @@ public class AppUserController {
         params.put("companyId", user.getCompanyId());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         params.put("time", formatter.format(System.currentTimeMillis()));
-        CompantYearPayDTO compantYearPayDTO = payorderService.queryCompanyPayById(params);
+        CompantYearPayDTO compantYearPayDTO = paymentService.selectPaymentByCompanyId(params);
 
         result.setData(compantYearPayDTO);
         result.setResult(ResultCode.SUCCESS);
