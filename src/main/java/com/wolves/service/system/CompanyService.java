@@ -13,8 +13,10 @@ import com.wolves.common.CompanyTypeEnum;
 import com.wolves.common.StatusEnum;
 import com.wolves.dto.user.BaseCompanyDTO;
 import com.wolves.dto.user.CompanyDTO;
+import com.wolves.dto.user.ReportDataDTO;
 import com.wolves.dto.user.UserExcelDTO;
 import com.wolves.service.right.RightService;
+import com.wolves.service.system.payorder.PayOrderService;
 import com.wolves.util.StringUtils;
 import com.wolves.util.UuidUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ public class CompanyService {
 	private DaoSupport dao;
 	@Autowired
 	private RightService rightService;
+	@Resource(name="payorderService")
+	private PayOrderService payorderService;
 	
 	/**
 	* 新增
@@ -245,6 +249,36 @@ public class CompanyService {
 	public void updateCompanyById(CompanyDTO companyDTO){
 
 		dao.update("CompanyMapper.updateCompanyById", companyDTO);
+	}
+
+	/**
+	 * 查询数据报表
+	 * @return
+	 */
+	public ReportDataDTO selectReportData(){
+		ReportDataDTO reportDataDTO = (ReportDataDTO) dao.findForObject("CompanyMapper.selectReportData", null);
+
+		PageData payAmount = payorderService.selectPayAmount();
+		String inconme = "0";
+		if (payAmount != null && payAmount.get("amout") != null){
+			inconme = payAmount.get("amout").toString();
+		}
+		reportDataDTO.setIncome(inconme);
+		//未缴费企业
+		reportDataDTO.setNoPayCompanyNum("0");
+		//当前保修数量
+		reportDataDTO.setWarrantyNum("0");
+		//保修审核中
+		reportDataDTO.setWarrantyAuditNum("0");
+		//正在维修中
+		reportDataDTO.setWarrantyInitNum("0");
+		//本月新增报修
+		reportDataDTO.setMonthNewWarranty("0");
+		//本月完成报修
+		reportDataDTO.setMonthAchieveWarranty("0");
+
+
+		return reportDataDTO;
 	}
 }
 

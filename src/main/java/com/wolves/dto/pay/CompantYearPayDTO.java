@@ -17,6 +17,9 @@ public class CompantYearPayDTO {
     @ApiModelProperty(name = "id",value = "ID")
     private String id;
 
+    @ApiModelProperty(name = "companyId",value = "公司ID")
+    private String companyId;
+
     @ApiModelProperty(name = "companyName",value = "公司名称")
     private String companyName;
 
@@ -39,6 +42,14 @@ public class CompantYearPayDTO {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
     }
 
     public String getCompanyName() {

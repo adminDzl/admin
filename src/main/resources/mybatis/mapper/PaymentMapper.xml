@@ -141,51 +141,59 @@
 		WHERE a.company_id = #{companyId}
 	</select>
 
+    <!--多家公司待缴纳费用-->
 	<select id="selectPayMentSumByTime" parameterType="page" resultType="pd">
-		SELECT
-		p.PAYMENT_ID,
-		c.COMPANY_NAME,
-		SUM(p.amount) AS T, -- 全部需要缴纳费用
-		SUM(IFNULL(a.amount, 0)) AS Y, -- 已经缴纳费用
-		SUM(p.amount) - SUM(IFNULL(a.amount, 0)) AS D, -- 待缴纳费用
-		p.CREATE_TIME
-		FROM
-		PAYMENT p
-		LEFT JOIN PAYMENT a ON (a.payment_id = p.payment_id AND a.status = 1)
-		LEFT JOIN company c ON (c.company_id = p.company_id)
-		WHERE 1=1
-		<if test="pd.TIME != null and pd.TIME != '' ">
-			AND DATE_FORMAT(p.create_time,'%Y') = DATE_FORMAT(#{pd.TIME},'%Y')
-		</if>
-		<if test="pd.COMPANY_NAME != null and pd.COMPANY_NAME != '' ">
-			AND c.COMPANY_NAME = #{pd.COMPANY_NAME}
-		</if>
-		GROUP BY
-		p.company_id
-		ORDER BY p.create_time DESC
+        SELECT
+        a.PAYMENT_ID,
+        a.COMPANY_ID,
+        c.COMPANY_NAME,
+        SUM(a.amount) AS waitTotalAmount
+        FROM PAYMENT a
+        LEFT JOIN company c ON (c.company_id = a.company_id)
+        WHERE
+        a.status = 0
+        <if test="pd.TIME != null and pd.TIME != '' ">
+            AND DATE_FORMAT(a.create_time,'%Y') = DATE_FORMAT(#{pd.TIME},'%Y')
+        </if>
+        <if test="pd.COMPANY_NAME != null and pd.COMPANY_NAME != '' ">
+            AND c.COMPANY_NAME = #{pd.COMPANY_NAME}
+        </if>
+        GROUP BY a.company_id
+        ORDER BY a.create_time DESC
 	</select>
 
+    <!--一家公司全部待缴纳费用-->
+    <select id="selectAllWaitAmount" parameterType="pd" resultType="pd">
+        SELECT
+        a.PAYMENT_ID,
+        a.COMPANY_ID,
+        c.COMPANY_NAME,
+        SUM(a.amount) AS waitTotalAmount
+        FROM PAYMENT a
+        LEFT JOIN company c ON (c.company_id = a.company_id)
+        WHERE
+        a.status = 0 AND a.company_id = #{companyId}
+        GROUP BY a.company_id
+    </select>
+
+    <!--一家公司待缴纳费用-->
 	<select id="selectPaymentByCompanyId" parameterType="com.wolves.dto.pay.CompantYearPayDTO" resultMap="CompanyPayResultMap">
-		SELECT
-		p.payment_id AS id,
-		c.COMPANY_NAME as companyName,
-		SUM(p.amount) AS yearTotalPay, -- 全部需要缴纳费用
-		SUM(IFNULL(a.amount, 0)) AS yearYetPay, -- 已经缴纳费用
-		SUM(p.amount) - SUM(IFNULL(a.amount, 0)) AS yearWaitPay, -- 待缴纳费用
-		p.CREATE_TIME AS createTime
-		FROM
-		PAYMENT p
-		LEFT JOIN PAYMENT a ON (a.payment_id = p.payment_id AND a.status = 1)
-		LEFT JOIN company c ON (c.company_id = p.company_id)
-		WHERE 1=1
-		<if test="companyId != null">
-			AND p.company_id = #{companyId}
-		</if>
-		<if test="time != null and time != '' ">
-			AND DATE_FORMAT(p.create_time,'%Y') = DATE_FORMAT(#{time},'%Y')
-		</if>
-		GROUP BY
-		p.company_id
-		ORDER BY p.create_time DESC
+        SELECT
+        a.PAYMENT_ID AS id,
+        a.COMPANY_ID AS companyId,
+        c.COMPANY_NAME AS companyName,
+        SUM(a.amount) AS yearTotalPay,
+        a.create_time AS createTime
+        FROM PAYMENT a
+        LEFT JOIN company c ON (c.company_id = a.company_id)
+        WHERE
+        a.status = 0
+        <if test="companyId != null and companyId != '' ">
+            AND a.company_id = #{companyId}
+        </if>
+        <if test="time != null and time != '' ">
+            AND DATE_FORMAT(a.create_time,'%Y') = DATE_FORMAT(#{time},'%Y')
+        </if>
+        GROUP BY a.company_id
 	</select>
 </mapper>

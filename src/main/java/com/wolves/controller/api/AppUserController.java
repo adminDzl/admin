@@ -1273,4 +1273,24 @@ public class AppUserController {
         result.setMsg("查询成功");
         return result;
     }
+
+    @ApiOperation(httpMethod="POST",value="查询数据报表",notes="查询数据报表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+    })
+    @RequestMapping(value = "queryReportData", method = RequestMethod.POST)
+    public Result queryReportData(@RequestHeader("Authorization") String token){
+        Result result = new Result();
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+
+        result.setData(companyService.selectReportData());
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("查询成功");
+        return result;
+    }
 }

@@ -60,6 +60,7 @@ public class PaymentController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		pd.put("PAYMENT_ID", this.get32UUID());
+        pd.put("STATUS", StatusEnum.INIT.getKey());
 		pd.put("CREATE_TIME", Tools.date2Str(new Date()));
 		pd.put("UPDATE_TIME", Tools.date2Str(new Date()));
 		paymentService.save(pd);

@@ -20,6 +20,11 @@
 		<result column="company_name" property="companyName"/>
 	</resultMap>
 
+	<resultMap type="com.wolves.dto.user.ReportDataDTO" id="ReportDataResultMap">
+		<result column="companyNum" property="companyNum"/>
+		<result column="personNum" property="personNum"/>
+	</resultMap>
+
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into COMPANY(
@@ -286,4 +291,12 @@
 		where
 		COMPANY_ID = #{companyId}
 	</update>
+
+	<select id="selectReportData" parameterType="com.wolves.dto.user.ReportDataDTO" resultMap="ReportDataResultMap">
+		SELECT
+		COUNT(company_id) AS companyNum,
+		SUM(scale) AS personNum
+		FROM
+		company where type = 2 AND status = 1
+	</select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.wolves.controller.system;
 
+import com.wolves.common.NewsTypeEnum;
 import com.wolves.controller.base.BaseController;
 import com.wolves.entity.system.Page;
 import com.wolves.service.system.payment.PaymentService;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -35,6 +37,8 @@ public class PayOrderSumController extends BaseController {
 	String menuUrl = "payordersum/list.do";
 	@Resource(name="paymentService")
 	private PaymentService paymentService;
+	@Resource(name="payorderService")
+	private PayOrderService payorderService;
 	
 	/**
 	 * 列表
@@ -45,7 +49,9 @@ public class PayOrderSumController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		page.setPd(pd);
-		List<PageData> varList = paymentService.selectSumByTime(page);
+
+		List<PageData> varList = paymentService.selectSummary(page, pd);
+
 		mv.setViewName("system/payorder/payordersum_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);

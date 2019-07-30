@@ -75,5 +75,24 @@ public class PayOrderService {
 
 		return (List<PayOrder>)dao.findForList("PayOrderMapper.selectPayOrderByUserId", params);
 	}
+
+    /**
+     * 查询一家公司全部已经缴纳费用
+     * @param params
+     * @return
+     */
+    public PageData selectAllAmount(Map<String,Object> params){
+
+        return (PageData)dao.findForObject("PayOrderMapper.selectAllAmount", params);
+    }
+
+	/**
+	 * 查询全部收入
+	 * @return
+	 */
+	public PageData selectPayAmount(){
+
+		return (PageData)dao.findForObject("PayOrderMapper.selectPayAmount", null);
+	}
 }
 
