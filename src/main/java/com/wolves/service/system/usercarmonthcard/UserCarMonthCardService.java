@@ -1,5 +1,8 @@
 package com.wolves.service.system.usercarmonthcard;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -7,9 +10,13 @@ import javax.annotation.Resource;
 
 import com.wolves.common.PayTypeEnum;
 import com.wolves.common.StatusEnum;
+import com.wolves.dto.UserCarMonthCardDTO;
 import com.wolves.dto.user.ExportDTO;
 import com.wolves.entity.app.PayOrder;
 import com.wolves.service.system.payorder.PayOrderService;
+import com.wolves.service.system.user.UserService;
+import com.wolves.util.StringUtils;
+import com.wolves.util.UuidUtil;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
 import com.wolves.entity.system.Page;
@@ -26,6 +33,8 @@ public class UserCarMonthCardService {
 	private DaoSupport dao;
 	@Resource(name="payorderService")
 	private PayOrderService payorderService;
+	@Resource(name="userService")
+	private UserService userService;
 	
 	/**
 	* 新增
@@ -97,6 +106,101 @@ public class UserCarMonthCardService {
 		params.put("payType", PayTypeEnum.PARKING_RETE.getKey());
 		params.put("payStatus", StatusEnum.SUCCESS.getKey());
 		return payorderService.selectPayOrderByUserId(params);
+	}
+
+	/**
+	 * 获取数据
+	 * @param lists
+	 */
+	public List<UserCarMonthCardDTO> getCompanyData(List<Map<String, Object>> lists){
+		List<UserCarMonthCardDTO> userCarMonthCardDTOS = new ArrayList<UserCarMonthCardDTO>();
+		if (lists != null && !lists.isEmpty()){
+			for (Map<String, Object> map : lists){
+				UserCarMonthCardDTO userCarMonthCardDTO = this.getData(map);
+				userCarMonthCardDTOS.add(userCarMonthCardDTO);
+			}
+		}
+
+		return userCarMonthCardDTOS;
+	}
+
+	private UserCarMonthCardDTO getData(Map<String, Object> map){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		UserCarMonthCardDTO userCarMonthCardDTO = new UserCarMonthCardDTO();
+		Object userName = map.get("用户名");
+		userCarMonthCardDTO.setUserName(userName.toString());
+		com.wolves.entity.app.User user = new com.wolves.entity.app.User();
+		user.setUsername(userName.toString());
+		user = userService.getUserByPhone(user);
+		if (user != null){
+			userCarMonthCardDTO.setUserId(user.getUserId());
+		}
+		Object mothCard = map.get("月卡号");
+		userCarMonthCardDTO.setCardNo(mothCard.toString());
+		Object pricer = map.get("金额");
+		userCarMonthCardDTO.setPrice(pricer.toString());
+		try {
+			Object comeTime = map.get("有效日期");
+			userCarMonthCardDTO.setUseTilDate(sdf.parse(comeTime.toString()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return userCarMonthCardDTO;
+	}
+
+	public PageData checkExcelData(List<Map<String, Object>> list, PageData pd){
+
+		if (list != null && !list.isEmpty()){
+			for (Map<String, Object> map : list){
+				Object name = map.get("用户名");
+				if (StringUtils.isEmpty(name.toString().trim())){
+					pd.put("msg", "用户名称不能为空");
+					pd.put("status", "1");
+					return pd;
+				}
+				com.wolves.entity.app.User user = new com.wolves.entity.app.User();
+				user.setUsername(name.toString());
+				user = userService.getUserByPhone(user);
+				if (user == null){
+					pd.put("msg", "该用户不存在");
+					pd.put("status", "1");
+					return pd;
+				}
+				Object phone = map.get("月卡号");
+				if (StringUtils.isEmpty(phone.toString().trim())){
+					pd.put("msg", "月卡号不能为空");
+					pd.put("status", "1");
+					return pd;
+				}
+				Object email = map.get("金额");
+				if (StringUtils.isEmpty(email.toString().trim())){
+					pd.put("msg", "金额不能为空");
+					pd.put("status", "1");
+					return pd;
+				}
+				Object company = map.get("有效日期");
+				if (StringUtils.isEmpty(company.toString().trim())){
+					pd.put("msg", "有效日期不能为空");
+					pd.put("status", "1");
+					return pd;
+				}
+			}
+		}
+		pd.put("status", "0");
+		return pd;
+	}
+
+	/**
+	 * 创建月卡用户
+	 * @param userCarMonthCardDTOS
+	 */
+	public void createMonthCard(List<UserCarMonthCardDTO> userCarMonthCardDTOS){
+		if (userCarMonthCardDTOS != null && !userCarMonthCardDTOS.isEmpty()){
+			for (UserCarMonthCardDTO userCarMonthCardDTO : userCarMonthCardDTOS){
+				userCarMonthCardDTO.setUserCarMonthCardId(UuidUtil.get32UUID());
+				dao.save("UserCarMonthCardMapper.createMonthCard", userCarMonthCardDTO);
+			}
+		}
 	}
 }
 

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 
+import com.wolves.common.StatusEnum;
 import com.wolves.service.system.CompanyService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -59,7 +60,7 @@ public class PaymentController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		pd.put("PAYMENT_ID", this.get32UUID());
-		pd.put("STATUS", 0);
+        pd.put("STATUS", StatusEnum.INIT.getKey());
 		pd.put("CREATE_TIME", Tools.date2Str(new Date()));
 		pd.put("UPDATE_TIME", Tools.date2Str(new Date()));
 		paymentService.save(pd);
@@ -182,25 +183,30 @@ public class PaymentController extends BaseController {
 		try{
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
-			titles.add("缴费单位id");
-			titles.add("类型（1-物业、2-水、3-电）");
+			titles.add("缴费单位");
+			titles.add("备注");
 			titles.add("缴费金额");
 			titles.add("费用月度");
 			titles.add("状态");
 			titles.add("创建时间");
-			titles.add("更新时间");
 			dataMap.put("titles", titles);
 			List<PageData> varOList = paymentService.listAll(pd);
 			List<PageData> varList = new ArrayList<PageData>();
 			for(int i=0;i<varOList.size();i++){
 				PageData vpd = new PageData();
-				vpd.put("var1", varOList.get(i).getString("USER_ID"));
+				vpd.put("var1", varOList.get(i).getString("COMPANY_NAME"));
 				vpd.put("var2", varOList.get(i).get("PAYMENT_TYPE").toString());
 				vpd.put("var3", varOList.get(i).getString("AMOUNT"));
 				vpd.put("var4", varOList.get(i).getString("PAYMENT_DATE"));
-				vpd.put("var5", varOList.get(i).get("STATUS").toString());
+				String status = varOList.get(i).get("STATUS").toString();
+				String state = "待支付";
+				if (status.equals("1")){
+					state = "支付完成";
+ 				}else if (status.equals("2")){
+					state = "取消支付";
+				}
+				vpd.put("var5", state);
 				vpd.put("var6", varOList.get(i).getString("CREATE_TIME"));
-				vpd.put("var7", varOList.get(i).getString("UPDATE_TIME"));
 				varList.add(vpd);
 			}
 			dataMap.put("varList", varList);

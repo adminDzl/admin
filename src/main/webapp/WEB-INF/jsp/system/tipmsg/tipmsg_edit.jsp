@@ -81,8 +81,8 @@
 				<td>
 					<select name="MSG_TYPE" id="MSG_TYPE" maxlength="32" placeholder="这里输消息类型" title="消息类型" value="${pd.MSG_TYPE}" >
 						<option value=''>请选择</option>
-						<option value="1">公告消息</option>
-						<option value="2">进度提醒</option>
+						<option value="1" <c:if test="${1 == pd.MSG_TYPE}">selected</c:if> >公告消息</option>
+						<option value="2" <c:if test="${2 == pd.MSG_TYPE}">selected</c:if> >进度提醒</option>
 					</select>
 				</td>
 			</tr>
@@ -96,7 +96,15 @@
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">提醒内容:</td>
-				<td><input type="text" name="ALERT_CONTENT" id="ALERT_CONTENT" value="${pd.ALERT_CONTENT}" maxlength="32" placeholder="这里输入提醒内容" title="提醒内容"/></td>
+				<td>
+					<textarea style="width: 208px;height: 82px;"
+							  name="ALERT_CONTENT"
+							  id="ALERT_CONTENT"
+							  value=""
+							  maxlength="32" placeholder="这里输入提醒内容" title="提醒内容">
+						${pd.ALERT_CONTENT}
+					</textarea>
+				</td>
 			</tr>
 			<tr>
 				<td style="text-align: center;" colspan="10">

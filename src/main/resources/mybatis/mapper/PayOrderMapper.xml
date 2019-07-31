@@ -171,56 +171,30 @@
 		</if>
 	</select>
 
-	<select id="selectSumByTime" parameterType="page" resultType="pd">
+	<!-- 一家公司往年已缴费记录-->
+	<select id="selectAllAmount" parameterType="pd" resultType="pd">
 		SELECT
-			p.PAYORDER_ID,
-			p.USER_ID,
-			c.COMPANY_NAME,
-			SUM(p.pay_amount) AS T, -- 全部需要缴纳费用
-			SUM(IFNULL(o.pay_amount, 0)) AS Y, -- 已经缴纳费用
-			SUM(p.pay_amount) - SUM(IFNULL(o.pay_amount, 0)) AS D, -- 待缴纳费用
-			p.CREATE_TIME
-		FROM
-			pay_order p
-		LEFT JOIN pay_order o ON (p.payorder_id = o.payorder_id AND o.pay_status = 1)
-		LEFT JOIN USER u ON (u.USER_ID = o.USER_ID)
-		LEFT JOIN company c ON (c.company_id = u.company_id)
-		WHERE
-			1=1
-			<if test="pd.TIME != null and pd.TIME != '' ">
-				AND DATE_FORMAT(p.create_time,'%Y') = DATE_FORMAT(#{pd.TIME},'%Y')
-			</if>
-			<if test="pd.COMPANY_NAME != null and pd.COMPANY_NAME != '' ">
-				AND c.COMPANY_NAME = #{pd.COMPANY_NAME}
-			</if>
-		GROUP BY
-		u.USER_ID
-		ORDER BY p.create_time DESC
-	</select>
-
-	<select id="queryCompanyPayById" parameterType="com.wolves.dto.pay.CompantYearPayDTO" resultMap="CompanyPayResultMap">
-		SELECT
-			p.PAYORDER_ID AS id,
-			p.USER_ID AS userId,
-			c.COMPANY_NAME as companyName,
-			SUM(p.pay_amount) AS yearTotalPay, -- 全部需要缴纳费用
-			SUM(IFNULL(o.pay_amount, 0)) AS yearYetPay, -- 已经缴纳费用
-			SUM(p.pay_amount) - SUM(IFNULL(o.pay_amount, 0)) AS yearWaitPay, -- 待缴纳费用
-			p.CREATE_TIME AS createTime
-		FROM
-		pay_order p
-		LEFT JOIN pay_order o ON (p.payorder_id = o.payorder_id AND o.pay_status = 1)
-		LEFT JOIN USER u ON (u.USER_ID = o.USER_ID)
-		LEFT JOIN company c ON (c.company_id = u.company_id)
-		WHERE 1=1
+		p.PAYORDER_ID,
+		c.COMPANY_ID,
+		c.COMPANY_NAME,
+		SUM(pay_amount) AS yetTotalAmout
+		FROM pay_order p
+		LEFT JOIN `user` u ON (p.user_id = u.user_id)
+		LEFT JOIN company c ON (u.company_id = c.company_id)
+		WHERE p.pay_status = 1
 		<if test="companyId != null">
 			AND c.company_id = #{companyId}
 		</if>
 		<if test="time != null and time != '' ">
 			AND DATE_FORMAT(p.create_time,'%Y') = DATE_FORMAT(#{time},'%Y')
 		</if>
-		GROUP BY
-		u.USER_ID
-		ORDER BY p.create_time DESC
+		GROUP BY c.company_id
+	</select>
+
+	<select id="selectPayAmount" parameterType="pd" resultType="pd">
+		SELECT
+		SUM(pay_amount) AS amout
+		FROM pay_order p
+		WHERE p.pay_status = 1
 	</select>
 </mapper>

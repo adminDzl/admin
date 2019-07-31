@@ -1,12 +1,9 @@
 package com.wolves.dto.right;
 
-import java.util.List;
-
-public class RoleDTO {
+public class RoleBasicDTO {
 
     private Integer roleId;
     private String roleName;
-    private List<UserRightDTO> userRightDTOList;
 
     public String getRoleName() {
         return roleName;
@@ -22,13 +19,5 @@ public class RoleDTO {
 
     public void setRoleId(Integer roleId) {
         this.roleId = roleId;
-    }
-
-    public List<UserRightDTO> getUserRightDTOList() {
-        return userRightDTOList;
-    }
-
-    public void setUserRightDTOList(List<UserRightDTO> userRightDTOList) {
-        this.userRightDTOList = userRightDTOList;
     }
 }

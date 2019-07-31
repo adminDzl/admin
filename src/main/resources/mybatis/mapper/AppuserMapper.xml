@@ -86,6 +86,9 @@
 			<if test="PASSWORD != null and PASSWORD != ''">
 				,PASSWORD = #{PASSWORD}
 			</if>
+			<if test="HAS_DATE_RIGHT != null">
+				,HAS_DATE_RIGHT = #{HAS_DATE_RIGHT}
+			</if>
 			where 
 				USER_ID = #{USER_ID}
 	</update>
@@ -111,7 +114,8 @@
 			EMAIL,
 			NUMBER,
 			COMPANY_ID,
-			POSITION
+			POSITION,
+			HAS_DATE_RIGHT
 		from 
 			USER
 		where 
@@ -139,7 +143,8 @@
 			EMAIL,
 			NUMBER,
 			COMPANY_ID,
-			POSITION
+			POSITION,
+			HAS_DATE_RIGHT
 		from
 		USER
 		where 
@@ -170,7 +175,8 @@
 			EMAIL,
 			NUMBER,
 			COMPANY_ID,
-			POSITION
+			POSITION,
+			HAS_DATE_RIGHT
 		from
 		USER
 		where 
@@ -201,7 +207,8 @@
 			EMAIL,
 			NUMBER,
 			COMPANY_ID,
-			POSITION
+			POSITION,
+			HAS_DATE_RIGHT
 		from 
 			USER
 		where 
@@ -229,7 +236,8 @@
 			EMAIL,
 			NUMBER,
 			COMPANY_ID,
-			POSITION
+			POSITION,
+			HAS_DATE_RIGHT
 		) values (
 			#{USER_ID},
 			#{USERNAME},
@@ -250,7 +258,8 @@
 			#{EMAIL},
 			#{NUMBER},
 			#{COMPANY_ID},
-			#{POSITION}
+			#{POSITION},
+			#{HAS_DATE_RIGHT}
 		)
 	</insert>
 	<!-- 用户列表(app用户组) -->
@@ -271,6 +280,7 @@
 				u.NUMBER,
 				u.COMPANY_ID,
 				u.POSITION,
+				u.HAS_DATE_RIGHT,
 				u.CREATE_TIME,
 				u.UPDATE_TIME,
 				co.COMPANY_NAME
@@ -317,11 +327,12 @@
 				r.ROLE_ID,
 				r.ROLE_NAME,
 				u.COMPANY_ID,
-				u.POSITION
+				u.POSITION,
+				u.HAS_DATE_RIGHT
 		from USER u, SYS_ROLE r
 		where u.ROLE_ID = r.ROLE_ID
 		and 1 = 1
-		and r.PARENT_ID = '7'
+		and r.PARENT_ID = '1'
 		<if test="USERNAME != null and USERNAME != ''"><!-- 用户名检索 -->
 			and (
 				u.USERNAME LIKE CONCAT(CONCAT('%', #{USERNAME}),'%')
@@ -363,6 +374,6 @@
 	<select id="findByAppRoleId" parameterType="pd" resultType="com.wolves.dto.right.UserRightDTO">
 		select u.user_id as userId, u.name as userName from user u
 		left join app_user_role ar on u.user_id = ar.user_id
-			where ar.id=#{roleId, jdbcType=INTEGER}
+			where ar.app_role_id=#{roleId, jdbcType=INTEGER}
 	</select>
 </mapper>

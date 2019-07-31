@@ -177,7 +177,7 @@
 			 diag.Drag=true;
 			 diag.Title ="新增";
 			 diag.URL = '<%=basePath%>company/goAdd.do';
-			 diag.Width = 450;
+			 diag.Width = 490;
 			 diag.Height = 355;
 			 diag.CancelEvent = function(){
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
@@ -209,7 +209,7 @@
 			 diag.Drag=true;
 			 diag.Title ="编辑";
 			 diag.URL = '<%=basePath%>company/goEdit.do?COMPANY_ID='+Id;
-			 diag.Width = 450;
+			 diag.Width = 490;
 			 diag.Height = 355;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
@@ -326,7 +326,7 @@
                 processData: false,  // 不处理数据
                 contentType: false,   // 不设置内容类型
                 success: function(data){
-                    if (data.list[0].status === 1){
+                    if (data.list[0].status == 1){
                         bootbox.dialog(data.list[0].msg,
                             [
                                 {

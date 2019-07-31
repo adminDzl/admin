@@ -75,16 +75,6 @@
 			$("#COMPANY_CERTIFY").focus();
 			return false;
 		}
-		if($("#PLACE_ID").val()==""){
-			$("#PLACE_ID").tips({
-				side:3,
-	            msg:'请输入企业租位',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#PLACE_ID").focus();
-			return false;
-		}
 		if($("#LOGO").val()==""){
 			$("#LOGO").tips({
 				side:3,
@@ -138,7 +128,7 @@
             success: function(data){
                 if (data.result === 0){
                     var fs = data.data.join(',');
-                    $("#PATH").val(fs)
+                    $("#LOGO").val(fs)
                 }
             }
         });
@@ -169,10 +159,10 @@
 				<td>
 					<select name="STATUS" id="STATUS" maxlength="32" placeholder="这里选择企业状态" title="企业状态" >
 						<option value=''>请选择</option>
-						<option value="0" <c:if test="${0 == pd.TYPE}">selected</c:if>>待入驻</option>
-						<option value="2" <c:if test="${2 == pd.TYPE}">selected</c:if>>拒绝入驻</option>
-						<option value="1" <c:if test="${1 == pd.TYPE}">selected</c:if>>已入驻</option>
-						<option value="3" <c:if test="${3 == pd.TYPE}">selected</c:if>>已退场</option>
+						<option value="0" <c:if test="${0 == pd.STATUS}">selected</c:if>>待入驻</option>
+						<option value="2" <c:if test="${2 == pd.STATUS}">selected</c:if>>拒绝入驻</option>
+						<option value="1" <c:if test="${1 == pd.STATUS}">selected</c:if>>已入驻</option>
+						<option value="3" <c:if test="${3 == pd.STATUS}">selected</c:if>>已退场</option>
 					</select>
 				</td>
 			</tr>
@@ -182,11 +172,9 @@
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">企业认证:</td>
-				<td><input type="text" name="COMPANY_CERTIFY" id="COMPANY_CERTIFY" value="${pd.COMPANY_CERTIFY}" maxlength="32" placeholder="这里输入企业认证" title="企业认证"/></td>
-			</tr>
-			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">企业租位:</td>
-				<td><input type="text" name="PLACE_ID" id="PLACE_ID" value="${pd.PLACE_ID}" maxlength="32" placeholder="这里输入企业租位" title="企业租位"/></td>
+				<td>
+					<input type="text" name="COMPANY_CERTIFY" id="COMPANY_CERTIFY" value="${pd.COMPANY_CERTIFY}" maxlength="32" placeholder="这里输入企业认证" title="企业认证"/>
+				</td>
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">企业logo:</td>
@@ -197,11 +185,17 @@
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">入驻时间:</td>
-				<td><input class="span10 date-picker" name="CREATE_TIME" id="CREATE_TIME" value="${pd.CREATE_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="创建时间" title="创建时间"/></td>
+				<td><input class="span10 date-picker" name="COME_TIME" id="COME_TIME" value="${pd.COME_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="入住时间" title="入住时间"/></td>
 			</tr>
 			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">修改时间:</td>
-				<td><input class="span10 date-picker" name="UPDATE_TIME" id="UPDATE_TIME" value="${pd.UPDATE_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="修改时间" title="修改时间"/></td>
+				<td style="width:70px;text-align: right;padding-top: 13px;">合约截止时间:</td>
+				<td><input class="span10 date-picker" name="AGREEMENT_TIME" id="AGREEMENT_TIME" value="${pd.UPDATE_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="合约截止时间" title="合约截止时间"/></td>
+			</tr>
+			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;">企业规模:</td>
+				<td>
+					<input type="text" name="SCALE" id="SCALE" value="${pd.SCALE}" maxlength="32" placeholder="这里输入企业规模" title="企业规模"/>
+				</td>
 			</tr>
 			<tr>
 				<td style="text-align: center;" colspan="10">

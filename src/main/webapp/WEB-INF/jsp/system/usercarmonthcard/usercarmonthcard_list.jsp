@@ -111,7 +111,12 @@
 			<tr>
 				<td style="vertical-align:top;">
 					<c:if test="${QX.add == 1 }">
-					<a class="btn btn-small btn-warning" onclick="importt();">批量导入</a>
+					<a class="btn btn-small btn-warning" onclick="importt(this);">批量导入</a>
+					<input id="fileSelect"
+						   type="file"
+						   accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+						   style="display: none" multiple="multiple" onchange="uploadFile(this)"
+					/>
 					</c:if>
 					<c:if test="${QX.del == 1 }">
 					<a class="btn btn-small btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='icon-trash'></i></a>
@@ -144,8 +149,44 @@
 			$("#Form").submit();
 		}
 		function importt(){
-			bootbox.alert("开发中，尽请期待！");
+            document.getElementById("fileSelect").click();
 		}
+        function uploadFile(obj) {
+            var files = obj.files ;
+            var formData = new FormData();
+            for(var i = 0;i<files.length;i++){
+                formData.append("uploadFile", files[i]);
+            }
+            $.ajax({
+                type: "POST",
+                url: '<%=basePath%>usercarmonthcard/importMonthCardUserExcel?tm='+new Date().getTime(),
+                data: formData,
+                dataType:'json',
+                cache: false,
+                processData: false,  // 不处理数据
+                contentType: false,   // 不设置内容类型
+                success: function(data){
+                    if (data.list[0].status == 1){
+                        bootbox.dialog(data.list[0].msg,
+                            [
+                                {
+                                    "label" : "关闭",
+                                    "class" : "btn-small btn-success",
+                                    "callback": function() {
+                                        //Example.show("great success");
+                                    }
+                                }
+                            ]
+                        );
+                    }else {
+                        $.each(data.list, function(i, list){
+                            nextPage(${page.currentPage});
+                        });
+                    }
+                }
+            });
+        }
+
 		function add(){
 			 top.jzts();
 			 var diag = new top.Dialog();

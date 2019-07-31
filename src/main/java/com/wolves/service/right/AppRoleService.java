@@ -37,19 +37,17 @@ public class AppRoleService {
     public List<RoleDTO> getRolesByCompanyId(String companyId){
         PageData pd = new PageData();
         pd.put("companyId", companyId);
-        return (List<RoleDTO>)dao.findForList("AppRoleMapper.getRolesByCompanyId", pd);
+        return (List<RoleDTO>)dao.findForList("AppRoleMapper.findByCompanyId", pd);
     }
 
     /**
-     * 根据企业id和角色id获取所有资源权限
-     * @param companyId
+     * 根据角色id获取所有资源权限
      * @return
      */
-    public List<ResourceDTO> getRolesByCompanyIdAndRoleId(String companyId, Integer roleId){
+    public List<ResourceDTO> getResourcesByRoleId(Integer roleId){
         PageData pd = new PageData();
-        pd.put("companyId", companyId);
         pd.put("roleId", roleId);
-        return (List<ResourceDTO>)dao.findForList("AppRoleMapper.getRolesByCompanyIdAndRoleId", pd);
+        return (List<ResourceDTO>)dao.findForList("AppRoleMapper.getResourcesByRoleId", pd);
     }
 
     /**
@@ -67,18 +65,21 @@ public class AppRoleService {
             throw new RuntimeException("角色名称不能为空");
         }
         PageData rolePd = new PageData();
-        rolePd.put("roleId", roleId);
+        rolePd.put("id", roleId);
         rolePd.put("roleName", roleName);
-        dao.update("", rolePd);
+        dao.update("AppRoleMapper.updateById", rolePd);
 
-        List<ResourceDTO> resourceDTOList = updateRoleDTO.getResourceList();
+        List<Integer> resourceIds = updateRoleDTO.getResourceList();
         //删除角色所有的权限
-        dao.delete("", rolePd);
-        for(ResourceDTO resourceDTO : resourceDTOList){
-            if(1 == resourceDTO.getHasResource()){
-                //插入关联角色权限关联关系
-                dao.save("", "");
-            }
+        dao.delete("AppRoleResourceMapper.deleteByRoleId", rolePd);
+
+        PageData resourcePd;
+        for(Integer item : resourceIds){
+            resourcePd = new PageData();
+            resourcePd.put("roleId", roleId);
+            resourcePd.put("resourceId", item);
+            //插入关联角色权限关联关系
+            dao.save("AppRoleResourceMapper.save", resourcePd);
         }
     }
 
@@ -98,16 +99,14 @@ public class AppRoleService {
         rolePd.put("companyId", companyId);
         dao.save("AppRoleMapper.save", rolePd);
 
-        List<ResourceDTO> resourceDTOList = addRoleDTO.getResourceDTOList();
+        List<Integer> resourceList = addRoleDTO.getResourceId();
         PageData resourcePd = new PageData();
-        resourcePd.put("role_id", rolePd.get("id"));
-        for(ResourceDTO resourceDTO : resourceDTOList){
-            if(1 == resourceDTO.getHasResource()){
-                //添加角色-资源权限关联关系
-                resourcePd.put("resource_id", resourceDTO.getResourceId());
-                resourcePd.put("status", 1);
-                dao.save("AppRoleResourceMapper.save", resourcePd);
-            }
+        resourcePd.put("roleId", rolePd.get("id"));
+        for(Integer item : resourceList){
+            //添加角色-资源权限关联关系
+            resourcePd.put("resourceId",item);
+            resourcePd.put("status", 1);
+            dao.save("AppRoleResourceMapper.save", resourcePd);
         }
 
     }

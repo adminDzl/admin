@@ -8,9 +8,17 @@
       where ar.company_id = #{companyId, jdbcType=VARCHAR}
     </select>
 
-    <insert id="save" parameterType="pd">
+    <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into app_role(role_name, company_id) values (#{roleName}, #{companyId})
     </insert>
+
+    <select id="getResourcesByRoleId" parameterType="pd" resultType="com.wolves.dto.ResourceDTO">
+    select arr.resource_id as resourceId, ars.resource_name as resourceName,ars.resource_remark as remark  from app_role_resource arr,app_resource ars where ars.id=arr.resource_id and arr.role_id=#{roleId}
+    </select>
+
+    <update id="updateById" parameterType="pd">
+        update app_role set role_name=#{roleName} where id=#{id}
+    </update>
 
 
 </mapper>

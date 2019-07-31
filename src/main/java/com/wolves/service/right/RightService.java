@@ -1,10 +1,12 @@
 package com.wolves.service.right;
 
-import com.alibaba.fastjson.JSONObject;
 import com.wolves.dto.CompanyOrStaffRightDTO;
-import com.wolves.dto.right.RightDTO;
+import com.wolves.dto.ResourceDTO;
+import com.wolves.dto.resource.AppResourceDTO;
+import com.wolves.dto.right.AddRoleDTO;
 import com.wolves.framework.common.Constant;
 import com.wolves.service.system.appuser.AppUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -17,21 +19,23 @@ import java.util.List;
 @Service
 public class RightService {
 
-    @Resource(name="appUserService")
+    @Resource(name = "appUserService")
     AppUserService appUserService;
-
+    @Resource(name = "appRoleService")
+    AppRoleService appRoleService;
+    @Autowired
+    AppUserRoleService appUserRoleService;
 
     /**
      * 判断用户是否能上传企业logo和人员权限
      * @param userId
-     * @param companyId
      * @return
      */
-    public List<CompanyOrStaffRightDTO> existCompanyAndStaffRight(String userId, String companyId){
-        List<RightDTO> rightDTOS = appUserService.selectRightByUserIdAndCompanyId(userId, companyId);
+    public List<CompanyOrStaffRightDTO> existCompanyAndStaffRight(String userId){
+        List<ResourceDTO> rightDTOS = appUserRoleService.getResourcesById(userId);
         boolean companyFlag = false;
         boolean staffFlag = false;
-        for(RightDTO rightDTO : rightDTOS){
+        for(ResourceDTO rightDTO : rightDTOS){
               if(Constant.editCompanyRight.equals(rightDTO.getResourceName())){
                   companyFlag = true;
               }
@@ -57,6 +61,26 @@ public class RightService {
         list.add(companyDTO);
         list.add(staffDTO);
         return list;
+    }
+
+    /**
+     * 给指定的公司添加最高权限的角色
+     * @param companyId
+     * @throws RuntimeException 说明该公司已存在admin角色
+     */
+    public void addCompanyAdminRole(String companyId) throws RuntimeException {
+        //获取公司的所有权限
+        List<AppResourceDTO> list = appRoleService.getResources();
+
+        AddRoleDTO addRoleDTO = new AddRoleDTO();
+        addRoleDTO.setRoleName("admin");
+        List<Integer> resourceDTOList = new ArrayList();
+        for(AppResourceDTO item : list){
+            resourceDTOList.add(item.getId());
+        }
+        addRoleDTO.setResourceId(resourceDTOList);
+        //插入admin角色
+        appRoleService.addRoleAndRight(addRoleDTO, companyId);
     }
 
 

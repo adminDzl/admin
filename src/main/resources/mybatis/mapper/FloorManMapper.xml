@@ -127,7 +127,7 @@
 
 	<select id="selectFloorMan" parameterType="com.wolves.dto.FloorManDTO" resultMap="FloorManResultMap">
 		select
-				b.build_no,
+				a.build_no,
 				b.build_master_name,
 				b.master_tel,
 				a.floor,
@@ -136,7 +136,7 @@
 				a.create_time
 		from
 				FLOOR_MAN a
-				LEFT JOIN BUILD_MAN b ON (b.BUILD_NO = a.BUILDMAN_ID)
+				LEFT JOIN BUILD_MAN b ON (b.BUILDMAN_ID = a.build_no)
 	</select>
 
 	<select id="selectFloorManByBuildNo" parameterType="com.wolves.dto.FloorManAllDTO" resultMap="FloorManAllResultMap">

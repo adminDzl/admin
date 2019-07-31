@@ -296,6 +296,7 @@ public class UserService {
 					userInfo.setName(userExcelDTO.getName());
 					userInfo.setEmail(userExcelDTO.getEmail());
 					userInfo.setCompanyId(baseCompanyDTOs.get(0).getCompanyId());
+					userInfo.setStatus(StatusEnum.SUCCESS.getKey());
 					//身份证已经绑定
 					this.saveUser(userInfo);
 				}

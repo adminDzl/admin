@@ -145,6 +145,7 @@
 		from 
 				YARD_APPOINT a
 				LEFT JOIN YARD b ON (a.PLACE_ID = b.YARD_ID)
+				ORDER BY a.create_time DESC
 	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
@@ -190,6 +191,7 @@
 		<if test="endTime != null">
 			AND date_format(a.end_time,'%Y-%m-%d %H:%i:%S') <![CDATA[ <= ]]> date_format(#{endTime},'%Y-%m-%d %H:%i:%S')
 		</if>
+		ORDER BY a.create_time DESC
 		<if test="size != 0 and size != null">
 			LIMIT ${start}, ${size};
 		</if>
@@ -209,6 +211,7 @@
 		FROM
 			yard_appoint a
 		WHERE place_id = #{yardId} AND date_format(a.begin_time,'%Y-%m-%d') = date_format(#{time},'%Y-%m-%d')
+		ORDER BY a.create_time DESC
 	</select>
 
 	<select id="listYardAppoint" parameterType="pd" resultType="pd">
@@ -228,6 +231,7 @@
 		LEFT JOIN `user` u ON (u.user_id = a.apply_user_id)
 		LEFT JOIN company c ON (c.company_id = u.company_id)
 		WHERE a.`status` = 1
+		ORDER BY a.create_time DESC
 	</select>
 
 	<select id="selectYardAppointById" parameterType="com.wolves.dto.AppointmentDTO" resultMap="appointmentResultMap">

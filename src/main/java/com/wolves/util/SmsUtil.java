@@ -100,6 +100,7 @@ public class SmsUtil {
 	public static void main(String[] args) throws Exception{
 //		String jixin = sendByJixin("13918147924", "你好test");
 //		System.out.println(jixin);
+//		sendByHuaXin("13918147924", "你好test");
 
 		String huaxin = sendByChuanglan("13918147924", "您的验证码是：4625【煦睿科技】");
 		//sendSms2("13511111111","您的验证码是：1111。请不要把验证码泄露给其他人。");

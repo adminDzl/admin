@@ -65,16 +65,7 @@
 			$("#PAYMENT_DATE").focus();
 			return false;
 		}
-		if($("#STATUS").val()==""){
-			$("#STATUS").tips({
-				side:3,
-	            msg:'请输入状态',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#STATUS").focus();
-			return false;
-		}
+
 		$("#Form").submit();
 		$("#zhongxin").hide();
 		$("#zhongxin2").show();
@@ -110,6 +101,7 @@
 				<td style="width:70px;text-align: right;padding-top: 13px;">费用月度:</td>
 				<td><input class="span10 date-picker" name="PAYMENT_DATE" id="PAYMENT_DATE" value="${pd.PAYMENT_DATE}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="费用月度" title="费用月度"/></td>
 			</tr>
+
 			<tr>
 				<td style="text-align: center;" colspan="10">
 					<a class="btn btn-mini btn-primary" onclick="save();">保存</a>

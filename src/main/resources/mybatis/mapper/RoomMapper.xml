@@ -66,10 +66,12 @@
 			a.ROOM_ID,
 			f.floor,
 			f.build_no,
+			b.build_name,
 			c.company_name
 		FROM
 			ROOM a
 		LEFT JOIN floor_man f ON (f.floorman_id = a.floorman_id)
+		LEFT JOIN build_man b ON (b.BUILDMAN_ID = f.build_no)
 		left join company c on a.company_id=c.company_id
 		WHERE 1=1
 		<if test="pd.build_no != '' and pd.build_no != null ">
@@ -81,7 +83,7 @@
 		<if test="pd.lastLoginEnd != '' and pd.lastLoginEnd != null ">
 			<![CDATA[  AND DATE_FORMAT(a.create_time, '%Y-%m-%d') <= DATE_FORMAT(#{pd.lastLoginEnd, jdbcType=VARCHAR}, '%Y-%m-%d') ]]>
 		</if>
-		ORDER BY a.create_time DESC
+		ORDER BY f.floor DESC
 	</select>
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">

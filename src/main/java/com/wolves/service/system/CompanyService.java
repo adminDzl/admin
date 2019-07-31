@@ -3,17 +3,23 @@ package com.wolves.service.system;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wolves.common.CompanyTypeEnum;
 import com.wolves.common.StatusEnum;
 import com.wolves.dto.user.BaseCompanyDTO;
 import com.wolves.dto.user.CompanyDTO;
+import com.wolves.dto.user.ReportDataDTO;
 import com.wolves.dto.user.UserExcelDTO;
+import com.wolves.service.right.RightService;
+import com.wolves.service.system.payorder.PayOrderService;
 import com.wolves.util.StringUtils;
 import com.wolves.util.UuidUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
 import com.wolves.entity.system.Page;
@@ -24,12 +30,22 @@ public class CompanyService {
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
+	@Autowired
+	private RightService rightService;
+	@Resource(name="payorderService")
+	private PayOrderService payorderService;
 	
 	/**
 	* 新增
 	*/
 	public void save(PageData pd){
 		dao.save("CompanyMapper.save", pd);
+		List<BaseCompanyDTO> baseCompanyDTOS = this.selectCompanyByName(pd.getString("COMPANY_NAME"));
+		if (baseCompanyDTOS != null && !baseCompanyDTOS.isEmpty()){
+			for (BaseCompanyDTO baseCompanyDTO : baseCompanyDTOS){
+				rightService.addCompanyAdminRole(baseCompanyDTO.getCompanyId());
+			}
+		}
 	}
 	
 	/**
@@ -80,7 +96,14 @@ public class CompanyService {
 	 * @return
 	 */
 	public CompanyDTO selectCompanyById(String companyId){
-		return (CompanyDTO) dao.findForObject("CompanyMapper.selectCompanyById", companyId);
+		CompanyDTO companyDTO = (CompanyDTO) dao.findForObject("CompanyMapper.selectCompanyById", companyId);
+		if (companyDTO != null){
+			if (!StringUtils.isEmpty(companyDTO.getCompanyCertify())) {
+				String[] arr = companyDTO.getCompanyCertify().split(",");
+				companyDTO.setCompanyCertifys(Arrays.asList(arr));
+			}
+		}
+		return companyDTO;
 	}
 
 	/**
@@ -99,6 +122,12 @@ public class CompanyService {
 	public void saveCompany(CompanyDTO companyDTO){
 
 		dao.save("CompanyMapper.saveCompany", companyDTO);
+		List<BaseCompanyDTO> baseCompanyDTOS = this.selectCompanyByName(companyDTO.getCompanyName());
+		if (baseCompanyDTOS != null && !baseCompanyDTOS.isEmpty()){
+			for (BaseCompanyDTO baseCompanyDTO : baseCompanyDTOS){
+				rightService.addCompanyAdminRole(baseCompanyDTO.getCompanyId());
+			}
+		}
 	}
 
 	/**
@@ -220,6 +249,36 @@ public class CompanyService {
 	public void updateCompanyById(CompanyDTO companyDTO){
 
 		dao.update("CompanyMapper.updateCompanyById", companyDTO);
+	}
+
+	/**
+	 * 查询数据报表
+	 * @return
+	 */
+	public ReportDataDTO selectReportData(){
+		ReportDataDTO reportDataDTO = (ReportDataDTO) dao.findForObject("CompanyMapper.selectReportData", null);
+
+		PageData payAmount = payorderService.selectPayAmount();
+		String inconme = "0";
+		if (payAmount != null && payAmount.get("amout") != null){
+			inconme = payAmount.get("amout").toString();
+		}
+		reportDataDTO.setIncome(inconme);
+		//未缴费企业
+		reportDataDTO.setNoPayCompanyNum("0");
+		//当前保修数量
+		reportDataDTO.setWarrantyNum("0");
+		//保修审核中
+		reportDataDTO.setWarrantyAuditNum("0");
+		//正在维修中
+		reportDataDTO.setWarrantyInitNum("0");
+		//本月新增报修
+		reportDataDTO.setMonthNewWarranty("0");
+		//本月完成报修
+		reportDataDTO.setMonthAchieveWarranty("0");
+
+
+		return reportDataDTO;
 	}
 }
 

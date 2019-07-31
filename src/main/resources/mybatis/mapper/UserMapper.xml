@@ -60,6 +60,7 @@
 		<result column="is_bind_id_card" property="isBindIdCard"/>
 		<result column="id_card_front_url" property="idCardFrontUrl"/>
 		<result column="id_card_back_url" property="idCardBackUrl"/>
+		<result column="has_date_right" property="hasDateRight"/>
 	</resultMap>
 
 	<resultMap type="com.wolves.dto.user.UserDTO" id="UserDTOResultMap">
@@ -179,7 +180,19 @@
 
 	<!--根据电话号码查询数据-->
 	<select id="getUserByPhone" parameterType="com.wolves.entity.app.User" resultMap="UserResultMap2">
-		SELECT * FROM USER WHERE PHONE = #{phone}
+		SELECT
+		*
+		FROM
+		USER
+		<where>
+		 1=1
+			<if test="phone != null">
+				AND PHONE = #{phone}
+			</if>
+			<if test="username != null">
+				AND username = #{username}
+			</if>
+		</where>
 	</select>
 
 	<!--根据token 查询用户数据-->

@@ -13,6 +13,7 @@ import com.wolves.entity.app.User;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
 import com.wolves.service.right.AppRoleService;
+import com.wolves.service.right.AppUserRoleService;
 import com.wolves.service.right.RightService;
 import com.wolves.service.system.CompanyService;
 import com.wolves.service.system.appuser.AppUserService;
@@ -22,7 +23,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -50,6 +50,8 @@ public class RightController {
     AppRoleService appRoleService;
     @Autowired
     CompanyService companyService;
+    @Autowired
+    AppUserRoleService appUserRoleService;
 
     /**
      * 获取用户是否有企业编辑权限和人员权限
@@ -72,7 +74,7 @@ public class RightController {
             return result;
         }
         //判断用户是否有企业编辑权限和人员权限
-        List<CompanyOrStaffRightDTO> list = rightService.existCompanyAndStaffRight(user.getUserId(), companyDTO.getCompanyId());
+        List<CompanyOrStaffRightDTO> list = rightService.existCompanyAndStaffRight(user.getUserId());
         result.setMsg("success");
         result.setResult(ResultCode.SUCCESS);
         result.setData(list);
@@ -138,19 +140,19 @@ public class RightController {
             appRoleService.addRoleAndRight(addRole, companyDTO.getCompanyId());
         } catch (Exception e){
             e.printStackTrace();
-            result.setMsg(e.getMessage());
+            result.setMsg("角色已存在");
             result.setResult(ResultCode.FAIL);
             return result;
         }
         result.setMsg("success");
         result.setResult(ResultCode.SUCCESS);
-        return null;
+        return result;
     }
 
     /**
      * 获取用户对应公司的所有角色及角色对应的所有用户
      */
-    @ApiOperation(httpMethod="GET",value="获取用户对应公司的所有角色")
+    @ApiOperation(httpMethod="GET",value="获取用户对应公司的所有角色及角色对应的所有用户")
     @RequestMapping(value = "/roles", method = RequestMethod.GET)
     public Result<CompanyRightDTO> getRolesByToken(@RequestHeader("Authorization") String token){
         Result result = new Result();
@@ -192,7 +194,7 @@ public class RightController {
     @ApiOperation(httpMethod="GET",value="获取角色的权限资源")
     @RequestMapping(value = "/getResourceByRole", method = RequestMethod.GET)
     public Result getResourceByRole(@RequestHeader("Authorization") String token,
-                              @Param("roleId") Integer roleId){
+                              @RequestParam("roleId") Integer roleId){
         Result result = new Result();
         User user = userService.getUser(token);
         if (user == null){
@@ -208,7 +210,7 @@ public class RightController {
             return result;
         }
 
-        List<ResourceDTO> list = appRoleService.getRolesByCompanyIdAndRoleId(companyDTO.getCompanyId(), roleId);
+        List<ResourceDTO> list = appRoleService.getResourcesByRoleId(roleId);
         result.setMsg("success");
         result.setResult(ResultCode.SUCCESS);
         result.setData(list);
@@ -257,7 +259,7 @@ public class RightController {
     /**
      * 根据角色id
      */
-    @ApiOperation(httpMethod="GET",value="获取app用户的所有权限")
+    @ApiOperation(httpMethod="GET",value="获取当前app用户的所有权限")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public Result getRightsByToken(@RequestHeader("Authorization") String token){
         Result result = new Result();
@@ -276,7 +278,20 @@ public class RightController {
             return result;
         }
         //返回当前用户在所在公司的所有app权限
-        return null;
+        List<ResourceDTO> list = appUserRoleService.getResourcesById(user.getUserId());
+        result.setData(list);
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("success");
+        return result;
     }
+
+//    @ApiOperation(httpMethod="GET",value="给指定公司添加最高权限的角色")
+//    @RequestMapping(value = "/addAdmin", method = RequestMethod.GET)
+//    public Result addAdmin(@RequestParam("companyId") String id){
+//        rightService.addCompanyAdminRole(id);
+//        return null;
+//    }
+
+
 
 }

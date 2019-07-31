@@ -76,24 +76,23 @@ public class PayOrderService {
 		return (List<PayOrder>)dao.findForList("PayOrderMapper.selectPayOrderByUserId", params);
 	}
 
+    /**
+     * 查询一家公司全部已经缴纳费用
+     * @param params
+     * @return
+     */
+    public PageData selectAllAmount(Map<String,Object> params){
+
+        return (PageData)dao.findForObject("PayOrderMapper.selectAllAmount", params);
+    }
+
 	/**
-	 * 查询汇总数据
-	 * @param page
+	 * 查询全部收入
 	 * @return
 	 */
-	public List<PageData> selectSumByTime(Page page){
+	public PageData selectPayAmount(){
 
-		return (List<PageData>)dao.findForList("PayOrderMapper.selectSumByTime", page);
-	}
-
-	/**
-	 * 查询当年缴费
-	 * @param params
-	 * @return
-	 */
-	public CompantYearPayDTO queryCompanyPayById(Map<String, Object> params){
-
-		return (CompantYearPayDTO)dao.findForObject("PayOrderMapper.queryCompanyPayById", params);
+		return (PageData)dao.findForObject("PayOrderMapper.selectPayAmount", null);
 	}
 }
 

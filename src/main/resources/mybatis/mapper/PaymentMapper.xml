@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="PaymentMapper">
+
+	<resultMap type="com.wolves.dto.pay.PayMentDTO" id="ResultMap">
+		<id column="payment_id" property="paymentId"/>
+		<result column="company_id" property="companyId"/>
+		<result column="payment_type" property="paymentType"/>
+		<result column="amount" property="amount"/>
+		<result column="payment_date" property="paymentDate"/>
+		<result column="status" property="status"/>
+		<result column="create_time" property="createTime"/>
+	</resultMap>
+
+	<resultMap id="CompanyPayResultMap" type="com.wolves.dto.pay.CompantYearPayDTO"></resultMap>
+
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into PAYMENT(
@@ -98,9 +111,11 @@
 				a.STATUS,	
 				a.CREATE_TIME,	
 				a.UPDATE_TIME,	
-				a.PAYMENT_ID
+				a.PAYMENT_ID,
+				c.COMPANY_NAME
 		from 
 				PAYMENT a
+		LEFT JOIN company c ON (c.company_id = a.COMPANY_ID)
 	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
@@ -111,4 +126,74 @@
                  #{item}
 		</foreach>
 	</delete>
+
+	<select id="selectPayMentById" parameterType="com.wolves.dto.pay.PayMentDTO" resultMap="ResultMap">
+		select
+			a.payment_id,
+			a.company_id,
+			a.payment_type,
+			a.amount,
+			a.payment_date,
+			a.status,
+			a.create_time
+		from
+		PAYMENT a
+		WHERE a.company_id = #{companyId}
+	</select>
+
+    <!--多家公司待缴纳费用-->
+	<select id="selectPayMentSumByTime" parameterType="page" resultType="pd">
+        SELECT
+        a.PAYMENT_ID,
+        a.COMPANY_ID,
+        c.COMPANY_NAME,
+        SUM(a.amount) AS waitTotalAmount
+        FROM PAYMENT a
+        LEFT JOIN company c ON (c.company_id = a.company_id)
+        WHERE
+        a.status = 0
+        <if test="pd.TIME != null and pd.TIME != '' ">
+            AND DATE_FORMAT(a.create_time,'%Y') = DATE_FORMAT(#{pd.TIME},'%Y')
+        </if>
+        <if test="pd.COMPANY_NAME != null and pd.COMPANY_NAME != '' ">
+            AND c.COMPANY_NAME = #{pd.COMPANY_NAME}
+        </if>
+        GROUP BY a.company_id
+        ORDER BY a.create_time DESC
+	</select>
+
+    <!--一家公司全部待缴纳费用-->
+    <select id="selectAllWaitAmount" parameterType="pd" resultType="pd">
+        SELECT
+        a.PAYMENT_ID,
+        a.COMPANY_ID,
+        c.COMPANY_NAME,
+        SUM(a.amount) AS waitTotalAmount
+        FROM PAYMENT a
+        LEFT JOIN company c ON (c.company_id = a.company_id)
+        WHERE
+        a.status = 0 AND a.company_id = #{companyId}
+        GROUP BY a.company_id
+    </select>
+
+    <!--一家公司待缴纳费用-->
+	<select id="selectPaymentByCompanyId" parameterType="com.wolves.dto.pay.CompantYearPayDTO" resultMap="CompanyPayResultMap">
+        SELECT
+        a.PAYMENT_ID AS id,
+        a.COMPANY_ID AS companyId,
+        c.COMPANY_NAME AS companyName,
+        SUM(a.amount) AS yearTotalPay,
+        a.create_time AS createTime
+        FROM PAYMENT a
+        LEFT JOIN company c ON (c.company_id = a.company_id)
+        WHERE
+        a.status = 0
+        <if test="companyId != null and companyId != '' ">
+            AND a.company_id = #{companyId}
+        </if>
+        <if test="time != null and time != '' ">
+            AND DATE_FORMAT(a.create_time,'%Y') = DATE_FORMAT(#{time},'%Y')
+        </if>
+        GROUP BY a.company_id
+	</select>
 </mapper>

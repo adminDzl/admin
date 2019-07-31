@@ -124,8 +124,10 @@ public class NewsTipService {
 			for (NewsTipDTO newsTipDTO : newsTipDTOS){
 				String content = AppUtil.getTextFromHtml(newsTipDTO.getNewsContent());
 				if (StringUtils.isNotEmpty(content)){
-					if (content.length() > 20){
-						content = content.substring(0, 20);
+					if (content.length() > 30){
+						content = content.substring(0, 30)+"......";
+					}else {
+						content = content+"......";
 					}
 				}
 				newsTipDTO.setBreviaryContent(content);

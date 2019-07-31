@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.wolves.dto.BuildDTO;
 import com.wolves.dto.FloorDTO;
 import com.wolves.dto.RoomDTO;
-import com.wolves.dto.user.CompanyDTO;
 import com.wolves.entity.app.User;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;

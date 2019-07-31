@@ -35,6 +35,7 @@ public class User {
     private String isBindIdCard;
     private String idCardFrontUrl;
     private String idCardBackUrl;
+    private String hasDateRight;
 
     public String getHeadImage() {
         return headImage;
@@ -242,6 +243,14 @@ public class User {
 
     public void setIdCardBackUrl(String idCardBackUrl) {
         this.idCardBackUrl = idCardBackUrl;
+    }
+
+    public String getHasDateRight() {
+        return hasDateRight;
+    }
+
+    public void setHasDateRight(String hasDateRight) {
+        this.hasDateRight = hasDateRight;
     }
 
     @Override

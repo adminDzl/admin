@@ -20,10 +20,18 @@
 		<result column="company_name" property="companyName"/>
 	</resultMap>
 
+	<resultMap type="com.wolves.dto.user.ReportDataDTO" id="ReportDataResultMap">
+		<result column="companyNum" property="companyNum"/>
+		<result column="personNum" property="personNum"/>
+	</resultMap>
+
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into COMPANY(
 			COMPANY_NAME,
+			COME_TIME,
+			AGREEMENT_TIME,
+			SCALE,
 			TYPE,	
 			STATUS,	
 			DESCRIPTION,	
@@ -35,14 +43,17 @@
 			COMPANY_ID
 		) values (
 			#{COMPANY_NAME},
+			#{COME_TIME},
+			#{AGREEMENT_TIME},
+			#{SCALE},
 			#{TYPE},	
 			#{STATUS},	
 			#{DESCRIPTION},	
 			#{COMPANY_CERTIFY},	
 			#{PLACE_ID},	
 			#{LOGO},	
-			#{CREATE_TIME},	
-			#{UPDATE_TIME},	
+			now(),
+			now(),
 			#{COMPANY_ID}
 		)
 	</insert>
@@ -58,6 +69,15 @@
 			set
 				<if test="COMPANY_NAME != null">
 					COMPANY_NAME = #{COMPANY_NAME},
+				</if>
+				<if test="COME_TIME != null">
+					COME_TIME = #{COME_TIME},
+				</if>
+				<if test="AGREEMENT_TIME != null">
+					AGREEMENT_TIME = #{AGREEMENT_TIME},
+				</if>
+				<if test="SCALE != null">
+					SCALE = #{SCALE},
 				</if>
 				<if test="TYPE != null">
 					TYPE = #{TYPE},
@@ -89,6 +109,9 @@
 	<select id="findById" parameterType="pd" resultType="pd">
 		select 
 			COMPANY_NAME,
+			COME_TIME,
+			AGREEMENT_TIME,
+			SCALE,
 			TYPE,	
 			STATUS,	
 			DESCRIPTION,	
@@ -268,4 +291,12 @@
 		where
 		COMPANY_ID = #{companyId}
 	</update>
+
+	<select id="selectReportData" parameterType="com.wolves.dto.user.ReportDataDTO" resultMap="ReportDataResultMap">
+		SELECT
+		COUNT(company_id) AS companyNum,
+		SUM(scale) AS personNum
+		FROM
+		company where type = 2 AND status = 1
+	</select>
 </mapper>

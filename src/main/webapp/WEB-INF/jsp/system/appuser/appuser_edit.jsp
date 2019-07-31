@@ -46,17 +46,16 @@
 	
 	//保存
 	function save(){
-		
-		if($("#role_id").val()==""){
-			$("#role_id").tips({
-				side:3,
-	            msg:'选择角色',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#role_id").focus();
-			return false;
-		}
+		// if($("#role_id").val()==""){
+		// 	$("#role_id").tips({
+		// 		side:3,
+	    //         msg:'选择角色',
+	    //         bg:'#AE81FF',
+	    //         time:2
+	    //     });
+		// 	$("#role_id").focus();
+		// 	return false;
+		// }
 		if($("#loginname").val()=="" || $("#loginname").val()=="此用户名已存在!"){
 			
 			$("#loginname").tips({
@@ -73,7 +72,7 @@
 		}else{
 			$("#loginname").val(jQuery.trim($('#loginname').val()));
 		}
-		
+
 		if($("#NUMBER").val()==""){
 			$("#NUMBER").tips({
 				side:3,
@@ -85,8 +84,8 @@
 			return false;
 		}else{
 			$("#NUMBER").val($.trim($("#NUMBER").val()));
-		}	
-		
+		}
+
 		if($("#EMAIL").val()==""){
 			
 			$("#EMAIL").tips({
@@ -107,27 +106,7 @@
 			$("#EMAIL").focus();
 			return false;
 		}
-		
-		if($("#user_id").val()=="" && $("#password").val()==""){
-			$("#password").tips({
-				side:3,
-	            msg:'输入密码',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#password").focus();
-			return false;
-		}
-		if($("#password").val()!=$("#chkpwd").val()){
-			$("#chkpwd").tips({
-				side:3,
-	            msg:'两次密码不相同',
-	            bg:'#AE81FF',
-	            time:3
-	        });
-			$("#chkpwd").focus();
-			return false;
-		}
+
 		if($("#name").val()==""){
 			$("#name").tips({
 				side:3,
@@ -138,43 +117,66 @@
 			$("#name").focus();
 			return false;
 		}
-		if($("#START_TIME").val()!= "" && $("#END_TIME").val() != ""){
-			var t1 = $("#START_TIME").val();
-			var t2 = $("#END_TIME").val();
-			t1 = Number(t1.replace('-', '').replace('-', ''));
-			t2 = Number(t2.replace('-', '').replace('-', ''));
-			if(t1-t2>0){
-				
-				$("#END_TIME").tips({
-					side:3,
-		            msg:'到期日期必须大于开通日期',
-		            bg:'#AE81FF',
-		            time:3
-		        });
-				
-				return false;
-			}
-		}
-		if($("#YEARS").val()==""){
-			$("#YEARS").val(0);
-		}else if(isNaN(Number($("#YEARS").val()))){
-			
-			$("#YEARS").tips({
+		if($("#SEX").val()==""){
+			$("#SEX").tips({
 				side:3,
-	            msg:'输入数字',
-	            bg:'#AE81FF',
-	            time:3
-	        });
-			
-			$("#YEARS").focus();
-			$("#YEARS").val(0);
+				msg:'选择性别',
+				bg:'#AE81FF',
+				time:3
+			});
+			$("#SEX").focus();
 			return false;
 		}
+
+		if($("#HAS_DATE_RIGHT").val()==""){
+			$("#HAS_DATE_RIGHT").tips({
+				side:3,
+				msg:'选择是否有APP数据查看权限',
+				bg:'#AE81FF',
+				time:3
+			});
+			$("#HAS_DATE_RIGHT").focus();
+			return false;
+		}
+//		if($("#START_TIME").val()!= "" && $("#END_TIME").val() != ""){
+//			var t1 = $("#START_TIME").val();
+//			var t2 = $("#END_TIME").val();
+//			t1 = Number(t1.replace('-', '').replace('-', ''));
+//			t2 = Number(t2.replace('-', '').replace('-', ''));
+//			if(t1-t2>0){
+//
+//				$("#END_TIME").tips({
+//					side:3,
+//		            msg:'到期日期必须大于开通日期',
+//		            bg:'#AE81FF',
+//		            time:3
+//		        });
+//
+//				return false;
+//			}
+//		}
+//		if($("#YEARS").val()==""){
+//			$("#YEARS").val(0);
+//		}else if(isNaN(Number($("#YEARS").val()))){
+//
+//			$("#YEARS").tips({
+//				side:3,
+//	            msg:'输入数字',
+//	            bg:'#AE81FF',
+//	            time:3
+//	        });
+//
+//			$("#YEARS").focus();
+//			$("#YEARS").val(0);
+//			return false;
+//		}
 		
-		
+		console.log("1");
 		if($("#user_id").val()==""){
+            console.log("2");
 			hasU();
 		}else{
+            console.log("3");
 			$("#userForm").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();
@@ -256,44 +258,57 @@
 		<div id="zhongxin">
 		<table>
 			
-			<c:if test="${pd.ROLE_ID != '1'}">	
-			<tr class="info">
-				<td>
-				<select class="chzn-select" name="ROLE_ID" id="role_id" data-placeholder="请选择等级" style="vertical-align:top;"  title="级别">
-				<option value=""></option>
-				<c:forEach items="${roleList}" var="role">
-					<option value="${role.ROLE_ID }" <c:if test="${role.ROLE_ID == pd.ROLE_ID }">selected</c:if>>${role.ROLE_NAME }</option>
-				</c:forEach>
-				</select>
-				</td>
-				<td><input class="span10 date-picker" name="START_TIME" id="START_TIME" value="${pd.START_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="开通日期"  title="开通日期"/></td>
-			</tr>
-			</c:if>
-			<c:if test="${pd.ROLE_ID == '1'}">
-			<input name="ROLE_ID" id="role_id" value="1" type="hidden" />
-			</c:if>
+			<%--<c:if test="${pd.ROLE_ID != '1'}">	--%>
+			<%--<tr class="info">--%>
+				<%--<td>--%>
+				<%--<select class="chzn-select" name="ROLE_ID" id="role_id" data-placeholder="请选择等级" style="vertical-align:top;"  title="级别">--%>
+				<%--<option value=""></option>--%>
+				<%--<c:forEach items="${roleList}" var="role">--%>
+					<%--<option value="${role.ROLE_ID }" <c:if test="${role.ROLE_ID == pd.ROLE_ID }">selected</c:if>>${role.ROLE_NAME }</option>--%>
+				<%--</c:forEach>--%>
+				<%--</select>--%>
+				<%--</td>--%>
+				<%--<td><input class="span10 date-picker" name="START_TIME" id="START_TIME" value="${pd.START_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="开通日期"  title="开通日期"/></td>--%>
+			<%--</tr>--%>
+			<%--</c:if>--%>
+			<%--<c:if test="${pd.ROLE_ID == '1'}">--%>
+			<%--<input name="ROLE_ID" id="role_id" value="1" type="hidden" />--%>
+			<%--</c:if>--%>
 				
 			<tr>
 				<td><input type="text" name="USERNAME" id="loginname" value="${pd.USERNAME }" placeholder="这里输入用户名" title="用户名"/></td>
-				<td><input class="span10 date-picker" name="END_TIME" id="END_TIME" value="${pd.END_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="到期日期" title="到期日期"/></td>
+				<td><input type="text" name="NAME" id="name"  value="${pd.NAME }" placeholder="这里输入姓名" title="姓名" /></td>
+				<%--<td><input class="span10 date-picker" name="END_TIME" id="END_TIME" value="${pd.END_TIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="到期日期" title="到期日期"/></td>--%>
 			</tr>
 			
 			<tr>
-				<td><input type="text" name="NUMBER" id="NUMBER" value="${pd.NUMBER }" maxlength="32" placeholder="这里输入编号" title="编号" onblur="hasN('${pd.USERNAME }')"/></td>
-				<td><input type="email" name="EMAIL" id="EMAIL"  value="${pd.EMAIL }" maxlength="32" placeholder="这里输入邮箱" title="邮箱" onblur="hasE('${pd.USERNAME }')"/></td>
+				<td><input type="text" name="NUMBER" id="NUMBER" value="${pd.NUMBER }" maxlength="32" placeholder="这里输入编号" title="编号" onblur="hasN('${pd.NUMBER }')"/></td>
+				<td><input type="email" name="EMAIL" id="EMAIL"  value="${pd.EMAIL }" maxlength="32" placeholder="这里输入邮箱" title="邮箱" onblur="hasE('${pd.EMAIL }')"/></td>
 			</tr>
 			
 			<tr>
-				<td><input type="password" name="PASSWORD" id="password"  placeholder="输入密码"  title="密码"/></td>
 				<td><input type="tel" name="PHONE" id="PHONE" value="${pd.PHONE }" placeholder="这里输入手机号" title="手机号"/></td>
-			</tr>
-			<tr>
-				<td><input type="password" name="chkpwd" id="chkpwd"  placeholder="确认密码"  title="确认密码"/></td>
 				<td><input type="text" name="SFID" id="SFID" value="${pd.SFID }" placeholder="这里输入身份证号" title="身份证号" /></td>
 			</tr>
+			<%--<tr>--%>
+				<%--<td><input type="text" name="NAME" id="name"  value="${pd.NAME }" placeholder="这里输入姓名" title="姓名" /></td>--%>
+				<%--<td><input type="number" name="YEARS" id="YEARS" class="input_txt" value="${pd.YEARS }" placeholder="开通年限(请输入数字)" title="开通年限" /></td>--%>
+			<%--</tr>--%>
 			<tr>
-				<td><input type="text" name="NAME" id="name"  value="${pd.NAME }" placeholder="这里输入姓名" title="姓名" /></td>
-				<td><input type="number" name="YEARS" id="YEARS" class="input_txt" value="${pd.YEARS }" placeholder="开通年限(请输入数字)" title="开通年限" /></td>
+				<td>
+					<select name="SEX" id="SEX" maxlength="32" placeholder="这里选择性别" title="性别" value="${pd.SEX}">
+						<option value=''>请选择性别</option>
+						<option value="男" <c:if test="${'男' == pd.SEX}">selected</c:if>>男</option>
+						<option value="女" <c:if test="${'女' == pd.SEX}">selected</c:if>>女</option>
+					</select>
+				</td>
+				<td>
+					<select name="HAS_DATE_RIGHT" id="HAS_DATE_RIGHT" maxlength="32" placeholder="是否有APP数据查看权限" title="数据查看" value="${pd.HAS_DATE_RIGHT}">
+						<option value=''>请选择是否有APP数据报表查看权限</option>
+						<option value="0" <c:if test="${0 == pd.HAS_DATE_RIGHT}">selected</c:if>>否</option>
+						<option value="1" <c:if test="${1 == pd.HAS_DATE_RIGHT}">selected</c:if>>是</option>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<td><input type="text" name="BZ" id="BZ"value="${pd.BZ }" placeholder="这里输入备注" title="备注"/></td>
@@ -304,7 +319,16 @@
 					</select>
 				</td>
 			</tr>
-			
+			<tr>
+				<td>
+					<select name="COMPANY_ID" id="COMPANY_ID" maxlength="32" placeholder="这里选择公司" title="公司" value="${pd.COMPANY_ID}">
+						<option value=''>请选择公司</option>
+						<c:forEach items="${company}" varStatus="status" var="item">
+							<option value="${item.companyId }" <c:if test="${item.companyId == pd.COMPANY_ID}">selected</c:if>>${item.companyName }</option>
+						</c:forEach>
+					</select>
+				</td>
+			</tr>
 			<tr>
 				<td class="center" colspan="2">
 					<a class="btn btn-mini btn-primary" onclick="save();">保存</a>

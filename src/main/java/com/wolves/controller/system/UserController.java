@@ -147,6 +147,7 @@ public class UserController extends BaseController {
 		mv.addObject("msg", "editU");
 		mv.addObject("pd", pd);
 		mv.addObject("roleList", roleList);
+		mv.addObject("company", companyService.selectAllCompany());
 		return mv;
 	}
 	
@@ -162,6 +163,7 @@ public class UserController extends BaseController {
 		mv.addObject("msg", "saveU");
 		mv.addObject("pd", pd);
 		mv.addObject("roleList", roleList);
+		mv.addObject("company", companyService.selectAllCompany());
 		return mv;
 	}
 	
@@ -235,12 +237,12 @@ public class UserController extends BaseController {
 		ImportExcelUtil importExcelUtil = new ImportExcelUtil();
 		List<Map<String, Object>> userList = importExcelUtil.getExcelInfo(file);
 		if (userList != null && !userList.isEmpty() && userList.size() < 50000){
-			List<UserExcelDTO> userExcelDTOS = userService.getUserData(userList);
 			//判断
 			pd = userService.checkExcelData(userList, pd);
 			String status = pd.get("status").toString();
 			if (status.equals("0")){
 				//保存数据
+				List<UserExcelDTO> userExcelDTOS = userService.getUserData(userList);
 				pd = userService.saveExcelUser(userExcelDTOS, pd);
 				String sta = pd.get("status").toString();
 				if (sta.equals("0")){

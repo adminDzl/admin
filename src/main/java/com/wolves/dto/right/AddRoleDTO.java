@@ -1,6 +1,5 @@
 package com.wolves.dto.right;
 
-import com.wolves.dto.ResourceDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -15,8 +14,8 @@ public class AddRoleDTO implements Serializable {
 
     @ApiModelProperty(value = "角色名称")
     private String roleName;
-    @ApiModelProperty(value = "资源权限列表")
-    private List<ResourceDTO> resourceDTOList;
+    @ApiModelProperty(value = "资源权限id")
+    private List<Integer> resourceId;
 
     public String getRoleName() {
         return roleName;
@@ -26,11 +25,11 @@ public class AddRoleDTO implements Serializable {
         this.roleName = roleName;
     }
 
-    public List<ResourceDTO> getResourceDTOList() {
-        return resourceDTOList;
+    public List<Integer> getResourceId() {
+        return resourceId;
     }
 
-    public void setResourceDTOList(List<ResourceDTO> resourceDTOList) {
-        this.resourceDTOList = resourceDTOList;
+    public void setResourceId(List<Integer> resourceId) {
+        this.resourceId = resourceId;
     }
 }
