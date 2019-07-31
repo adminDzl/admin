@@ -101,7 +101,7 @@
 							  name="ALERT_CONTENT"
 							  id="ALERT_CONTENT"
 							  value=""
-							  maxlength="32" placeholder="这里输入提醒内容" title="提醒内容">
+							  maxlength="200" placeholder="这里输入提醒内容" title="提醒内容">
 						${pd.ALERT_CONTENT}
 					</textarea>
 				</td>
