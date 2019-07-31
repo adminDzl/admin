@@ -1,6 +1,5 @@
 package com.wolves.controller.system;
 
-import com.wolves.common.NewsTypeEnum;
 import com.wolves.controller.base.BaseController;
 import com.wolves.entity.system.Page;
 import com.wolves.service.system.payment.PaymentService;
@@ -19,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -57,6 +55,39 @@ public class PayOrderSumController extends BaseController {
 		mv.addObject("pd", pd);
 		mv.addObject(Const.SESSION_QX,this.getHC());
 		return mv;
+	}
+
+	/**
+	 * 去未缴费公司页面
+	 */
+	@RequestMapping(value="/goWaitPay")
+	public ModelAndView goWaitPay(){
+		logBefore(logger, "去新增goWaitPay页面");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		List<PageData> varList = paymentService.queryNoPayCompany();
+		mv.setViewName("system/payorder/waitPaycompany_list");
+		mv.addObject("varList", varList);
+		mv.addObject("pd", pd);
+		return mv;
+	}
+
+	/**
+	 * 一键催缴
+	 */
+	@RequestMapping(value="/worth")
+	@ResponseBody
+	public Object worth(){
+		logBefore(logger, "一键催缴worth");
+		PageData pd = this.getPageData();
+		Map<String,Object> map = new HashMap<String,Object>(10);
+		List<PageData> pdList = new ArrayList<PageData>();
+
+		pd = paymentService.worthMsg();
+
+		pdList.add(pd);
+		map.put("list", pdList);
+		return AppUtil.returnObject(pd, map);
 	}
 	
 	/**

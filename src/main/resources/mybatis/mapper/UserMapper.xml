@@ -75,6 +75,11 @@
 		<result column="logo" property="logo"/>
 		<result column="company_certify" property="companyCertify"/>
 	</resultMap>
+
+	<resultMap type="com.wolves.dto.user.ManagerUserDTO" id="ManagerUserDTOResultMap">
+		<id column="user_id" property="userId"/>
+		<result column="name" property="name"/>
+	</resultMap>
 	
 	<!-- 判断用户名和密码 -->
 	<select id="getUserInfo" parameterType="User" resultMap="userResultMap">
@@ -232,5 +237,19 @@
 			`user` u
 		LEFT JOIN company c ON (u.company_id = c.company_id AND c.status = 1)
 		WHERE u.token = #{token}
+	</select>
+
+	<!--根据公司id查询负责人-->
+	<select id="selectManagerUserByCompanyId" parameterType="com.wolves.dto.user.ManagerUserDTO" resultMap="ManagerUserDTOResultMap">
+		SELECT
+			u.user_id,
+			u.`name`,
+			r.role_name
+		FROM
+			`user` u
+		LEFT JOIN company c ON (u.company_id = c.company_id AND c.status = 1)
+		LEFT JOIN app_role r ON (r.company_id = u.company_id)
+		LEFT JOIN app_user_role a ON (a.user_id = u.user_id AND a.app_role_id = r.id)
+		WHERE r.role_name = 'admin' AND u.company_id = #{companyId}
 	</select>
 </mapper>

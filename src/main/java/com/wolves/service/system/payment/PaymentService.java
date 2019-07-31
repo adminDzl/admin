@@ -1,6 +1,8 @@
 package com.wolves.service.system.payment;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +10,11 @@ import javax.annotation.Resource;
 
 import com.wolves.dto.pay.CompantYearPayDTO;
 import com.wolves.dto.pay.PayMentDTO;
+import com.wolves.dto.user.ManagerUserDTO;
+import com.wolves.dto.user.ToMsgDTO;
 import com.wolves.service.system.payorder.PayOrderService;
+import com.wolves.service.system.tipmsg.TipMsgService;
+import com.wolves.service.system.user.UserService;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
 import com.wolves.entity.system.Page;
@@ -21,6 +27,10 @@ public class PaymentService {
 	private DaoSupport dao;
     @Resource(name="payorderService")
     private PayOrderService payorderService;
+	@Resource(name="userService")
+	private UserService userService;
+	@Resource(name="tipmsgService")
+	private TipMsgService tipmsgService;
 	
 	/**
 	* 新增
@@ -200,6 +210,80 @@ public class PaymentService {
 			}
 		}
 		return varList;
+	}
+
+	/**
+	 * 查询未缴费公司名单
+	 * @return
+	 */
+	public List<PageData> queryNoPayCompany(){
+		Page page = new Page();
+		PageData pd = new PageData();
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+		pd.put("TIME", df.format(System.currentTimeMillis()));
+
+		List<PageData> pageDataList = this.selectSummary(page, pd);
+		List<PageData> pageDatas = new ArrayList<PageData>();
+		if (pageDataList != null && !pageDataList.isEmpty()){
+			for (PageData pageData : pageDataList){
+				Object wpay = pageData.get("D");
+				if (wpay != null){
+					BigDecimal waitPay = new BigDecimal(pageData.get("D").toString());
+					if (waitPay.compareTo(BigDecimal.ZERO) > 0){
+						pageDatas.add(pageData);
+					}
+				}
+			}
+		}
+		return pageDatas;
+	}
+
+	/**
+	 * 一键催缴
+	 * @return
+	 */
+	public PageData worthMsg(){
+		PageData pd = new PageData();
+		List<PageData> pageDatas = this.queryNoPayCompany();
+		List<ToMsgDTO> toMsgDTOs = new ArrayList<ToMsgDTO>();
+		if (pageDatas != null && !pageDatas.isEmpty()){
+			for (PageData pageData : pageDatas){
+				Object companyId = pageData.get("COMPANY_ID");
+				Object companyName = pageData.get("COMPANY_NAME");
+				Object totalAmount = pageData.get("D");
+				if (companyId == null){
+					pd.put("msg", companyName+"无该企业信息");
+					pd.put("status", "1");
+					return pd;
+				}
+				//查询所属负责人
+				ToMsgDTO toMsgDTO = new ToMsgDTO();
+				toMsgDTO.setType(1);
+				toMsgDTO.setMsgType(1);
+				toMsgDTO.setTitle("园区缴费通知:急！急！急！");
+				toMsgDTO.setContent(companyName+",你们企业还有"+totalAmount+"元还没有缴费，请尽快进行缴费。 谢谢！！！！！！");
+				List<ManagerUserDTO> managerUserDTOs = userService.selectManagerUserByCompanyId(companyId.toString());
+				if (managerUserDTOs != null && !managerUserDTOs.isEmpty()){
+					for (ManagerUserDTO managerUserDTO : managerUserDTOs){
+						if (managerUserDTO.getUserId() == null){
+							pd.put("msg", companyName+",该企业下的负责人不存在");
+							pd.put("status", "1");
+							return pd;
+						}
+						toMsgDTO.setUserId(managerUserDTO.getUserId());
+						toMsgDTOs.add(toMsgDTO);
+					}
+				}else {
+					pd.put("msg", companyName+",该企业没有设置公司负责人角色");
+					pd.put("status", "1");
+					return pd;
+				}
+			}
+		}
+		tipmsgService.addTipMsg(toMsgDTOs);
+		pd.put("status", "0");
+		pd.put("msg", "ok");
+		return pd;
 	}
 }
 

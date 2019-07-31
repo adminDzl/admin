@@ -1095,6 +1095,7 @@ public class AppUserController {
             return result;
         }
         Map<String, Object> params = new HashMap<String, Object>();
+        params.put("toUser", user.getUserId());
         params.put("start", (page - 1) * size);
         params.put("size", size);
 
