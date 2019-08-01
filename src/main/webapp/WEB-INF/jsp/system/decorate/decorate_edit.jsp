@@ -39,6 +39,16 @@
                 $("#NEWS_TITLE").focus();
                 return false;
             }
+			if($("#HEAD_IMAGE").val()==""){
+				$("#HEAD_IMAGE").tips({
+					side:3,
+					msg:'请选择头图',
+					bg:'#AE81FF',
+					time:2
+				});
+				$("#HEAD_IMAGE").focus();
+				return false;
+			}
             if($("#NEWS_CONTENT").val()==""){
                 $("#NEWS_CONTENT").tips({
                     side:3,
@@ -97,6 +107,40 @@
             });
         }
 
+		//上传图片
+		function uploadImage(obj){
+			var files = obj.files ;
+			var formData = new FormData();
+			for(var i = 0;i<files.length;i++){
+				formData.append("files", files[i]);
+			}
+			$.ajax({
+				url: '<%=basePath%>/app/user/saveFile',
+				type: "POST",
+				data:formData,
+				dataType:'json',//json 返回值类型
+				cache:false,         //不设置缓存
+				processData: false,  // 不处理数据
+				contentType: false,   // 不设置内容类型
+				success: function(data){
+					if (data.result === 0){
+						var fs = data.data.join(',');
+						$("#HEAD_IMAGE").val(fs)
+					}
+				}
+			});
+		}
+
+		//删除图片
+		function delImage(img, id) {
+			var url = "decorate/delImage.do?HEAD_IMAGE=" + img + "&NEWSTIP_ID=" + id + "&guid=" + new Date().getTime();
+			$.get(url, function (data) {
+				if (data === "success") {
+					document.location.reload();
+				}
+			});
+		}
+
 	</script>
 </head>
 <body>
@@ -110,6 +154,20 @@
 				<td>
 					<input type="text" name="NEWS_TITLE" id="NEWS_TITLE" value="${pd.NEWS_TITLE}" maxlength="32" placeholder="这里输入新闻标题" title="新闻标题"/>
 					<input type="number" name="NEWS_TYPE" id="NEWS_TYPE" value="3" style="display: none"/>
+				</td>
+			</tr>
+
+			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;">新闻头图:</td>
+				<td>
+					<input name="fileImage" id="fileImage" value="${pd.HEAD_IMAGE}" placeholder="这里上传图片" title="图片url" type="file" accept="image/*" multiple="multiple" onchange="uploadImage(this)"/>
+					<input name="HEAD_IMAGE" id="HEAD_IMAGE" value="${pd.HEAD_IMAGE}" style="display: none"/>
+					<c:if test="${pd.HEAD_IMAGE != '' || pd.HEAD_IMAGE != null }">
+						<a href="${pd.HEAD_IMAGE}" target="_blank" >
+							<img src="${pd.HEAD_IMAGE}" width="50" height="100"/>
+						</a>
+						<input type="button" class="btn btn-mini btn-danger" value="删除" onclick="delImage('${pd.HEAD_IMAGE}','${pd.NEWSTIP_ID}');"
+					</c:if>
 				</td>
 			</tr>
 

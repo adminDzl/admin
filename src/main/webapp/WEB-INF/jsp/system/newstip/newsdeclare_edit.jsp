@@ -38,13 +38,23 @@
 			$("#NEWS_TYPE").focus();
 			return false;
 		}
-		if($("#NEWS_TITLE").val()==""){
-			$("#NEWS_TITLE").tips({
+		if($("#HEAD_IMAGE").val()==""){
+			$("#HEAD_IMAGE").tips({
 				side:3,
-	            msg:'请输入新闻标题',
+	            msg:'请选择头图',
 	            bg:'#AE81FF',
 	            time:2
 	        });
+			$("#HEAD_IMAGE").focus();
+			return false;
+		}
+		if($("#NEWS_TITLE").val()==""){
+			$("#NEWS_TITLE").tips({
+				side:3,
+				msg:'请输入新闻标题',
+				bg:'#AE81FF',
+				time:2
+			});
 			$("#NEWS_TITLE").focus();
 			return false;
 		}
