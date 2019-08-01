@@ -193,18 +193,19 @@ public class PaymentService {
 					if (yet != null && yet.get("yetTotalAmout") != null){
 						yetAmount = new BigDecimal(yet.get("yetTotalAmout").toString());
 					}
-					pageData.put("T", waitAmount.subtract(yetAmount));
+                    //查询当年已经缴纳费用
+                    params.put("time", pd.get("TIME"));
+                    PageData yetYear = payorderService.selectAllAmount(params);
+                    BigDecimal yetYearAmount = new BigDecimal("0");
+                    if (yetYear != null && yetYear.get("yetTotalAmout") != null){
+                        yetYearAmount = new BigDecimal(yetYear.get("yetTotalAmout").toString());
+                    }
+                    BigDecimal totalAmount = waitAmount.subtract(yetAmount).add(yetYearAmount);
+					pageData.put("T", waitAmount.subtract(yetAmount).add(yetYearAmount));
 
-					//查询当年已经缴纳费用
-					params.put("time", pd.get("TIME"));
-					PageData yetYear = payorderService.selectAllAmount(params);
-					BigDecimal yetYearAmount = new BigDecimal("0");
-					if (yetYear != null && yetYear.get("yetTotalAmout") != null){
-						yetYearAmount = new BigDecimal(yetYear.get("yetTotalAmout").toString());
-					}
 					pageData.put("Y", yetYearAmount);
 					//当年未缴纳 = 当年待缴纳费用-当年已经缴纳费用
-					pageData.put("D", waitYearAmount.subtract(yetYearAmount));
+					pageData.put("D", totalAmount.subtract(yetYearAmount));
 
 				}
 			}
@@ -256,12 +257,7 @@ public class PaymentService {
 					pd.put("status", "1");
 					return pd;
 				}
-				//查询所属负责人
-				ToMsgDTO toMsgDTO = new ToMsgDTO();
-				toMsgDTO.setType(1);
-				toMsgDTO.setMsgType(1);
-				toMsgDTO.setTitle("园区缴费通知:急！急！急！");
-				toMsgDTO.setContent(companyName+",你们企业还有"+totalAmount+"元还没有缴费，请尽快进行缴费。 谢谢！！！！！！");
+
 				List<ManagerUserDTO> managerUserDTOs = userService.selectManagerUserByCompanyId(companyId.toString());
 				if (managerUserDTOs != null && !managerUserDTOs.isEmpty()){
 					for (ManagerUserDTO managerUserDTO : managerUserDTOs){
@@ -270,8 +266,14 @@ public class PaymentService {
 							pd.put("status", "1");
 							return pd;
 						}
-						toMsgDTO.setUserId(managerUserDTO.getUserId());
-						toMsgDTOs.add(toMsgDTO);
+                        //查询所属负责人
+                        ToMsgDTO toMsgDTO = new ToMsgDTO();
+                        toMsgDTO.setType(1);
+                        toMsgDTO.setMsgType(1);
+                        toMsgDTO.setTitle("你公司当前有未缴费的费用");
+                        toMsgDTO.setContent("您好，您的公司当前仍有未缴纳的费用需要结清，请点击【缴纳费用】进行支付。");
+                        toMsgDTO.setUserId(managerUserDTO.getUserId());
+                        toMsgDTOs.add(toMsgDTO);
 					}
 				}else {
 					pd.put("msg", companyName+",该企业没有设置公司负责人角色");
