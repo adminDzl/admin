@@ -142,7 +142,6 @@ public class PaymentService {
             if (yet != null && yet.get("yetTotalAmout") != null){
                 yetAmount = new BigDecimal(yet.get("yetTotalAmout").toString());
             }
-            compantYearPayDTO.setYearTotalPay(waitAmount.subtract(yetAmount).toString());
 
             //查询当年已经缴纳费用
             maps.put("time", params.get("time"));
@@ -152,10 +151,14 @@ public class PaymentService {
             if (yetYear != null && yetYear.get("yetTotalAmout") != null){
                 yetYearAmount = new BigDecimal(yetYear.get("yetTotalAmout").toString());
             }
+
+            BigDecimal totalAmount = waitAmount.subtract(yetAmount).add(yetYearAmount);
+            compantYearPayDTO.setYearTotalPay(waitAmount.subtract(yetAmount).add(yetYearAmount).toString());
+
             compantYearPayDTO.setYearYetPay(yetYearAmount.toString());
 
             //当年未缴纳 = 当年待缴纳费用-当年已经缴纳费用
-            compantYearPayDTO.setYearWaitPay(waitYearAmount.subtract(yetYearAmount).toString());
+            compantYearPayDTO.setYearWaitPay(totalAmount.subtract(yetYearAmount).toString());
         }
 		return compantYearPayDTO;
 	}
