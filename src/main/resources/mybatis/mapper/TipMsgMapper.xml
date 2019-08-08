@@ -150,7 +150,7 @@
 		SELECT
 			*
 		FROM tip_msg
-		WHERE to_user = #{toUser}
+		WHERE (to_user = #{toUser} OR to_user = 'ALL')
 		ORDER BY create_time DESC
 		LIMIT #{start}, #{size}
 	</select>

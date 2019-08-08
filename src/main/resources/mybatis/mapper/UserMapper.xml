@@ -80,6 +80,12 @@
 		<id column="user_id" property="userId"/>
 		<result column="name" property="name"/>
 	</resultMap>
+
+	<resultMap type="com.wolves.dto.user.UserListDTO" id="UserListResultMap">
+		<id column="user_id" property="userId"/>
+		<result column="name" property="name"/>
+		<result column="company_name" property="companyName"/>
+	</resultMap>
 	
 	<!-- 判断用户名和密码 -->
 	<select id="getUserInfo" parameterType="User" resultMap="userResultMap">
@@ -251,5 +257,16 @@
 		LEFT JOIN app_role r ON (r.company_id = u.company_id)
 		LEFT JOIN app_user_role a ON (a.user_id = u.user_id AND a.app_role_id = r.id)
 		WHERE r.role_name = 'admin' AND u.company_id = #{companyId}
+	</select>
+
+	<select id="selectAllUser" parameterType="com.wolves.dto.user.UserListDTO" resultMap="UserListResultMap">
+		SELECT
+			u.user_id,
+			u.`name`,
+			c.company_name
+		FROM
+			`user` u
+		LEFT JOIN company c ON (u.company_id = c.company_id AND c.status = 1)
+		WHERE u.`name` != 'admin'
 	</select>
 </mapper>
