@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -14,6 +15,8 @@ import java.util.Map;
 
 import javax.net.ssl.SSLContext;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
@@ -165,5 +168,65 @@ public class HttpClientUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 发送POST 请求获取响应json
+     * form-data格式
+     *
+     * @return
+     */
+    public static JSONObject httpHttpFormData(String url, Map<String, Object> params) {
+        URL u = null;
+        HttpURLConnection con = null;
+        // 构建请求参数
+        StringBuffer sb = new StringBuffer();
+        if (params != null) {
+            for (Map.Entry<String, Object> e : params.entrySet()) {
+                sb.append(e.getKey());
+                sb.append("=");
+                sb.append(e.getValue());
+                sb.append("&");
+            }
+            //去掉最后一个&
+            sb.substring(0, sb.length() - 1);
+        }
+        // 尝试发送请求
+        try {
+            u = new URL(url);
+            con = (HttpURLConnection) u.openConnection();
+            //// POST 只能为大写，严格限制，post会不识别
+            con.setRequestMethod("POST");
+            con.setDoOutput(true);
+            con.setDoInput(true);
+            con.setUseCaches(false);
+            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            OutputStreamWriter osw = new OutputStreamWriter(con.getOutputStream(), "UTF-8");
+            osw.write(sb.toString());
+            osw.flush();
+            osw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (con != null) {
+                con.disconnect();
+            }
+        }
+
+        // 读取返回内容
+        StringBuffer buffer = new StringBuffer();
+        try {
+            //一定要有返回值，否则无法把请求发送给server端。
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
+            String temp;
+            while ((temp = br.readLine()) != null) {
+                buffer.append(temp);
+                buffer.append("\n");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JSONObject jsonObject = JSON.parseObject(buffer.toString());
+        return jsonObject;
     }
 }
