@@ -4,7 +4,7 @@
 <mapper namespace="AppUserRoleMapper">
 
     <insert id="save" parameterType="pd">
-        insert into app_user_role(user_id, app_role_id) values (#{userId}, #{appRoleId})
+        insert into app_user_role(user_id, app_role_id) values (#{userId}, #{roleId})
     </insert>
 
     <delete id="deleteByUserId" parameterType="pd">
@@ -14,4 +14,8 @@
     <select id="selectByUserId" parameterType="pd"  resultType="com.wolves.dto.right.RoleBasicDTO">
         select ar.id as roleId, ar.role_name as roleName from app_user_role aur, app_role ar where aur.app_role_id=ar.id and aur.user_id=#{userId}
     </select>
+
+    <delete id="deleteUserInRole" parameterType="pd">
+        delete from app_user_role where user_id=#{userId} and app_role_id=#{roleId}
+    </delete>
 </mapper>
