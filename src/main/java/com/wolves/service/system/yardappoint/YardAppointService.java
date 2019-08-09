@@ -125,8 +125,9 @@ public class YardAppointService {
 		//计算时长
 		long hours = DateUtil.printDifference(applyYardDTO.getBeginTime(), applyYardDTO.getEndTime());
 		PageData pd = new PageData();
+		String id = UuidUtil.get32UUID();
 		//主键
-		pd.put("YARDAPPOINT_ID", UuidUtil.get32UUID());
+		pd.put("YARDAPPOINT_ID", id);
 		//场地ID
 		pd.put("PLACE_ID", applyYardDTO.getYardId());
 		//预定人ID
@@ -149,6 +150,7 @@ public class YardAppointService {
 
 		result.setResult(ResultCode.SUCCESS);
 		result.setMsg("预约成功");
+		result.setData(id);
 		return result;
 	}
 
