@@ -5,10 +5,13 @@ import com.wolves.common.*;
 import com.wolves.dto.*;
 import com.wolves.dto.pay.CompantYearPayDTO;
 import com.wolves.dto.pay.PayMentDTO;
+import com.wolves.dto.repair.AttachmentDTO;
+import com.wolves.dto.repair.ProcessLogDTO;
 import com.wolves.dto.user.*;
 import com.wolves.entity.app.PayOrder;
 import com.wolves.entity.app.User;
 import com.wolves.entity.system.Decorate;
+import com.wolves.entity.system.Repair;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
 import com.wolves.service.system.CompanyService;
@@ -409,20 +412,63 @@ public class AppUserController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
-        String content = repairParamsDTO.getContent();
-        if (StringUtils.isEmpty(content.trim())){
+        String title = repairParamsDTO.getTitle();
+        if (StringUtils.isEmpty(title.trim())){
             result.setResult(ResultCode.FAIL);
-            result.setMsg("请填写申报内容");
+            result.setMsg("请填写报修标题");
             return result;
         }
-        List<String> imageUrl = repairParamsDTO.getImageUrl();
-        if (imageUrl == null){
+
+        String louyus = repairParamsDTO.getLouyus();
+        if (StringUtils.isEmpty(louyus)){
             result.setResult(ResultCode.FAIL);
-            result.setMsg("请上传图片");
+            result.setMsg("请选择报修楼宇");
             return result;
         }
-        //保存
-        repairApplyService.saveRepair(user.getUserId(), content, org.apache.commons.lang.StringUtils.join(imageUrl, ","));
+
+        String loutis = repairParamsDTO.getLoutis();
+        if (StringUtils.isEmpty(loutis)){
+            result.setResult(ResultCode.FAIL);
+            result.setMsg("请选择报修楼体");
+            return result;
+        }
+
+        String floor = repairParamsDTO.getFloor();
+        if (StringUtils.isEmpty(floor)){
+            result.setResult(ResultCode.FAIL);
+            result.setMsg("请选择报修楼层");
+            return result;
+        }
+
+        String quyus = repairParamsDTO.getQuyus();
+        if (StringUtils.isEmpty(quyus)){
+            result.setResult(ResultCode.FAIL);
+            result.setMsg("请填写报修区域");
+            return result;
+        }
+
+        String faultclassify = repairParamsDTO.getFaultclassify();
+        if (StringUtils.isEmpty(faultclassify)){
+            result.setResult(ResultCode.FAIL);
+            result.setMsg("请填选择故障分类");
+            return result;
+        }
+
+        String syss = repairParamsDTO.getSyss();
+        if (StringUtils.isEmpty(syss)){
+            result.setResult(ResultCode.FAIL);
+            result.setMsg("请填选择系统分类");
+            return result;
+        }
+
+        String describes = repairParamsDTO.getDescribes();
+        if (StringUtils.isEmpty(describes)){
+            result.setResult(ResultCode.FAIL);
+            result.setMsg("请填写详细信息");
+            return result;
+        }
+
+        repairApplyService.createRepair(user, repairParamsDTO);
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("保存成功");
         return result;
@@ -433,9 +479,9 @@ public class AppUserController {
      */
     @ApiOperation(httpMethod="POST",value="我的报修",notes="我的报修列表")
     @RequestMapping(value = "/repair", method = RequestMethod.POST)
-    public Result<List<RepairApplyDTO>> repair(@RequestHeader("Authorization") String token,
-                       @RequestBody PageDataDTO pageDataDTO){
-        Result<List<RepairApplyDTO>> result = new Result<List<RepairApplyDTO>>();
+    public Result<List<Repair>> repair(@RequestHeader("Authorization") String token,
+                                       @RequestBody PageDataDTO pageDataDTO){
+        Result<List<Repair>> result = new Result<List<Repair>>();
         Integer page = pageDataDTO.getPage();
         if (page < 0){
             result.setMsg("页数必须大于0");
@@ -478,9 +524,9 @@ public class AppUserController {
             @ApiImplicitParam(name = "jsonObject",value = "{\"repairApplyId\":\"ID\"}",required = true,paramType = "body",dataType = "JSONObject")
     })
     @RequestMapping(value = "/repairDetail", method = RequestMethod.POST)
-    public Result<RepairApplyDetailDTO> repairDetail(@RequestHeader("Authorization") String token,
+    public Result<Repair> repairDetail(@RequestHeader("Authorization") String token,
                              @RequestBody JSONObject jsonObject){
-        Result<RepairApplyDetailDTO> result = new Result<RepairApplyDetailDTO>();
+        Result<Repair> result = new Result<Repair>();
         User user = userService.getUser(token);
         if (user == null){
             result.setMsg("请登录");
@@ -498,6 +544,92 @@ public class AppUserController {
         result.setData(repairApplyService.selectRepairApplyById(repairApplyId));
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("查询成功");
+        return result;
+    }
+
+    @ApiOperation(httpMethod="POST",value="报修附件信息",notes="报修附件信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+            @ApiImplicitParam(name = "jsonObject",value = "{\"repairApplyId\":\"ID\"}",required = true,paramType = "body",dataType = "JSONObject")
+    })
+    @RequestMapping(value = "/repairFile", method = RequestMethod.POST)
+    public Result<List<AttachmentDTO>> repairFile(@RequestHeader("Authorization") String token,
+                                                 @RequestBody JSONObject jsonObject){
+        Result<List<AttachmentDTO>> result = new Result<List<AttachmentDTO>>();
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+
+        String repairApplyId = jsonObject.getString("repairApplyId");
+        if (StringUtils.isEmpty(repairApplyId)){
+            result.setResult(ResultCode.FAIL);
+            result.setMsg("repairApplyId不能为空");
+            return result;
+        }
+
+        result.setData(repairApplyService.listAttachment(repairApplyId));
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("查询成功");
+        return result;
+    }
+
+    @ApiOperation(httpMethod="POST",value="报修日志信息",notes="报修日志信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+            @ApiImplicitParam(name = "jsonObject",value = "{\"repairApplyId\":\"ID\"}",required = true,paramType = "body",dataType = "JSONObject")
+    })
+    @RequestMapping(value = "/repairLog", method = RequestMethod.POST)
+    public Result<List<ProcessLogDTO>> repairLog(@RequestHeader("Authorization") String token,
+                                @RequestBody JSONObject jsonObject){
+        Result<List<ProcessLogDTO>> result = new Result<List<ProcessLogDTO>>();
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+
+        String repairApplyId = jsonObject.getString("repairApplyId");
+        if (StringUtils.isEmpty(repairApplyId)){
+            result.setResult(ResultCode.FAIL);
+            result.setMsg("repairApplyId不能为空");
+            return result;
+        }
+        result.setData(repairApplyService.listProcessLog(repairApplyId));
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("查询成功");
+        return result;
+    }
+
+    @ApiOperation(httpMethod="POST",value="撤销报修",notes="撤销报修")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+            @ApiImplicitParam(name = "jsonObject",value = "{\"repairApplyId\":\"ID\"}",required = true,paramType = "body",dataType = "JSONObject")
+    })
+    @RequestMapping(value = "/backOutRepair", method = RequestMethod.POST)
+    public Result backOutRepair(@RequestHeader("Authorization") String token,
+                                       @RequestBody JSONObject jsonObject){
+        Result result = new Result();
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+
+        String repairApplyId = jsonObject.getString("repairApplyId");
+        if (StringUtils.isEmpty(repairApplyId)){
+            result.setResult(ResultCode.FAIL);
+            result.setMsg("repairApplyId不能为空");
+            return result;
+        }
+
+        repairApplyService.stopJobs(repairApplyId);
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("撤销成功");
         return result;
     }
 

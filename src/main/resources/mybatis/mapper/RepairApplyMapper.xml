@@ -2,35 +2,54 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="RepairApplyMapper">
 
-	<resultMap type="com.wolves.dto.user.RepairApplyDTO" id="ResultMap">
+	<resultMap type="com.wolves.entity.system.Repair" id="ResultMap">
 		<id column="repair_apply_id" property="repairApplyId"/>
-		<result column="apply_content" property="applyContent"/>
-		<result column="apply_status" property="applyStatus"/>
-		<result column="create_time" property="createTime"/>
-	</resultMap>
-
-	<resultMap type="com.wolves.dto.user.RepairApplyDetailDTO" id="DetailResultMap">
-		<result column="apply_content" property="applyContent"/>
+		<result column="user_id`" property="userId"/>
+		<result column="title" property="title"/>
+		<result column="louyus" property="louyus"/>
+		<result column="loutis" property="loutis"/>
+		<result column="floor" property="floor"/>
+		<result column="quyus" property="quyus"/>
+		<result column="faultclassify" property="faultclassify"/>
+		<result column="syss" property="syss"/>
+		<result column="content" property="describes" />
 		<result column="image_urls" property="imageUrls"/>
-		<result column="apply_status" property="applyStatus"/>
-		<result column="create_time" property="createTimne"/>
+		<result column="proc_id" property="procId"/>
+		<result column="wjbiid" property="wjbiid"/>
+		<result column="task_id" property="taskId"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
 	</resultMap>
 
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into REPAIR_APPLY(
 			USER_ID,
-			APPLY_CONTENT,	
-			IMAGE_URLS,	
-			APPLY_STATUS,	
+			TITLE,
+			LOUYUS,
+			LOUTIS,
+			FLOOR,
+			QUYUS,
+			FAULTCLASSIFY,
+			SYSS,
+			CONTENT,
+			IMAGE_URLS,
+			STATUS,
 			CREATE_TIME,	
 			UPDATE_TIME,	
 			REPAIR_APPLY_ID
 		) values (
 			#{USER_ID},
-			#{APPLY_CONTENT},	
-			#{IMAGE_URLS},	
-			#{APPLY_STATUS},	
+			#{TITLE},
+			#{LOUYUS},
+			#{LOUTIS},
+			#{FLOOR},
+			#{QUYUS},
+			#{FAULTCLASSIFY},
+			#{SYSS},
+			#{CONTENT},
+			#{IMAGE_URLS},
+			#{STATUS},
 			#{CREATE_TIME},	
 			#{UPDATE_TIME},	
 			#{REPAIR_APPLY_ID}
@@ -47,10 +66,16 @@
 		update  REPAIR_APPLY
 			set
 				USER_ID = #{USER_ID},
-				APPLY_CONTENT = #{APPLY_CONTENT},
+				TITLE = #{TITLE},
+				LOUYUS = #{LOUYUS},
+				LOUTIS = #{LOUTIS},
+				FLOOR = #{FLOOR},
+				QUYUS = #{QUYUS},
+				FAULTCLASSIFY = #{FAULTCLASSIFY},
+				SYSS = #{SYSS},
+				CONTENT = #{CONTENT},
 				IMAGE_URLS = #{IMAGE_URLS},
-				APPLY_STATUS = #{APPLY_STATUS},
-				CREATE_TIME = #{CREATE_TIME},
+				STATUS = #{STATUS},
 				UPDATE_TIME = #{UPDATE_TIME},
 			REPAIR_APPLY_ID = REPAIR_APPLY_ID
 			where 
@@ -60,9 +85,16 @@
 	<select id="findById" parameterType="pd" resultType="pd">
 		select
 			USER_ID,
-			APPLY_CONTENT,	
-			IMAGE_URLS,	
-			APPLY_STATUS,	
+			TITLE,
+			LOUYUS,
+			LOUTIS,
+			FLOOR,
+			QUYUS,
+			FAULTCLASSIFY,
+			SYSS,
+			CONTENT,
+			IMAGE_URLS,
+			STATUS,
 			CREATE_TIME,	
 			UPDATE_TIME,	
 			REPAIR_APPLY_ID
@@ -75,9 +107,16 @@
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
 			a.USER_ID,
-			a.APPLY_CONTENT,
+			a.TITLE,
+			a.LOUYUS,
+			a.LOUTIS,
+			a.FLOOR,
+			a.QUYUS,
+			a.FAULTCLASSIFY,
+			a.SYSS,
+			a.CONTENT,
 			a.IMAGE_URLS,
-			a.APPLY_STATUS,
+			a.STATUS,
 			a.CREATE_TIME,
 			a.UPDATE_TIME,
 			a.REPAIR_APPLY_ID,
@@ -85,19 +124,28 @@
 		from 
 			REPAIR_APPLY a
 		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
+		WHERE a.STATUS = 0
 	</select>
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">
 		select
 			a.USER_ID,
-			a.APPLY_CONTENT,
+			a.TITLE,
+			a.LOUYUS,
+			a.LOUTIS,
+			a.FLOOR,
+			a.QUYUS,
+			a.FAULTCLASSIFY,
+			a.SYSS,
+			a.CONTENT,
 			a.IMAGE_URLS,
-			a.APPLY_STATUS,
+			a.STATUS,
 			a.CREATE_TIME,
 			a.UPDATE_TIME,
 			a.REPAIR_APPLY_ID
 		from
 			REPAIR_APPLY a
+		WHERE a.STATUS = 0
 	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
@@ -110,12 +158,9 @@
 	</delete>
 
 	<!--查询我的报修列表-->
-	<select id="selectRepairApplyByUserId" parameterType="com.wolves.dto.user.RepairApplyDTO" resultMap="ResultMap">
+	<select id="selectRepairApplyByUserId" parameterType="com.wolves.entity.system.Repair" resultMap="ResultMap">
 		SELECT
-			repair_apply_id,
-			apply_content,
-			apply_status,
-			create_time
+			*
 		FROM repair_apply
 		WHERE user_id = #{userId}
 		ORDER BY create_time DESC
@@ -123,12 +168,9 @@
 	</select>
 
 	<!--根据id查询详情-->
-	<select id="selectRepairApplyById" parameterType="com.wolves.dto.user.RepairApplyDetailDTO" resultMap="DetailResultMap">
+	<select id="selectRepairApplyById" parameterType="com.wolves.entity.system.Repair" resultMap="ResultMap">
 		  SELECT
-			  apply_content,
-			  image_urls,
-			  apply_status,
-			  create_time
+			  *
 		  FROM repair_apply
 		  WHERE repair_apply_id = #{repairApplyId}
 	</select>
@@ -136,18 +178,36 @@
 	<!--保存-->
 	<insert id="saveRepair" parameterType="com.wolves.entity.system.Repair">
 		insert into REPAIR_APPLY(
-		USER_ID,
-		APPLY_CONTENT,
-		IMAGE_URLS,
-		APPLY_STATUS,
-		CREATE_TIME,
-		UPDATE_TIME,
+		user_id,
+		title,
+		louyus,
+		loutis,
+		floor,
+		quyus,
+		faultclassify,
+		syss,
+		content,
+		proc_id,
+		wjbiid,
+		task_id,
+		status,
+		create_time,
+		update_time,
 		REPAIR_APPLY_ID
 		) values (
 		#{userId},
-		#{applyContent},
-		#{imageUrls},
-		#{applyStatus},
+		#{title},
+		#{louyus},
+		#{loutis},
+		#{floor},
+		#{quyus},
+		#{faultclassify},
+		#{syss},
+		#{describes},
+		#{procId},
+		#{wjbiid},
+		#{taskId},
+		#{status},
 		now(),
 		now(),
 		#{repairApplyId}

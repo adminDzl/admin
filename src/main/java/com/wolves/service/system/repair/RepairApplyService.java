@@ -5,16 +5,16 @@ import java.util.Map;
 import java.util.HashMap;
 import javax.annotation.Resource;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.wolves.common.RepairClientConstants;
-import com.wolves.common.StatusEnum;
 import com.wolves.dto.repair.AttachmentDTO;
 import com.wolves.dto.repair.ProcessLogDTO;
 import com.wolves.dto.repair.WorkorderDTO;
-import com.wolves.dto.user.RepairApplyDTO;
-import com.wolves.dto.user.RepairApplyDetailDTO;
+import com.wolves.dto.user.CompanyDTO;
+import com.wolves.dto.user.RepairParamsDTO;
+import com.wolves.entity.app.User;
 import com.wolves.entity.system.Repair;
+import com.wolves.service.system.CompanyService;
 import com.wolves.util.HttpClientUtil;
 import com.wolves.util.Logger;
 import com.wolves.util.UuidUtil;
@@ -30,6 +30,8 @@ public class RepairApplyService {
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
+    @Resource(name = "companyService")
+    private CompanyService companyService;
 	
 	/**
 	* 新增
@@ -85,8 +87,8 @@ public class RepairApplyService {
 	 * @param params
 	 * @return
 	 */
-	public List<RepairApplyDTO> selectRepairApplyByUserId(Map<String, Object> params){
-		return (List<RepairApplyDTO>) dao.findForList("RepairApplyMapper.selectRepairApplyByUserId", params);
+	public List<Repair> selectRepairApplyByUserId(Map<String, Object> params){
+		return (List<Repair>) dao.findForList("RepairApplyMapper.selectRepairApplyByUserId", params);
 	}
 
 	/**
@@ -94,23 +96,32 @@ public class RepairApplyService {
 	 * @param repairApplyId
 	 * @return
 	 */
-	public RepairApplyDetailDTO selectRepairApplyById(String repairApplyId){
-		return (RepairApplyDetailDTO)dao.findForObject("RepairApplyMapper.selectRepairApplyById", repairApplyId);
+	public Repair selectRepairApplyById(String repairApplyId){
+		return (Repair)dao.findForObject("RepairApplyMapper.selectRepairApplyById", repairApplyId);
 	}
 
 	/**
 	 * 保存信息
 	 * @param userId
-	 * @param content
-	 * @param imageUrls
+	 * @param repairParamsDTO
+	 * @param jsonObject
 	 */
-	public Integer saveRepair(String userId, String content, String imageUrls){
+	public Integer saveRepair(String userId, RepairParamsDTO repairParamsDTO, JSONObject jsonObject){
 		Repair repair = new Repair();
-		repair.setApplyContent(content);
-		repair.setImageUrls(imageUrls);
-		repair.setApplyStatus(Integer.valueOf(StatusEnum.INIT.getKey()));
 		repair.setRepairApplyId(UuidUtil.get32UUID());
 		repair.setUserId(userId);
+        repair.setTitle(repairParamsDTO.getTitle());//标题
+        repair.setLouyus(repairParamsDTO.getLouyus());//楼宇
+        repair.setLoutis(repairParamsDTO.getLoutis());//楼体
+        repair.setFloor(repairParamsDTO.getFloor());//楼层
+        repair.setQuyus(repairParamsDTO.getQuyus());//区域
+        repair.setFaultclassify(repairParamsDTO.getFaultclassify());//故障分类
+        repair.setSyss(repairParamsDTO.getSyss());//系统分类
+        repair.setDescribes(repairParamsDTO.getDescribes());//详细信息
+        repair.setStatus(0);
+        repair.setProcId("");
+        repair.setWjbiid("");
+        repair.setTaskId("");
 		return (Integer) dao.save("RepairApplyMapper.saveRepair", repair);
 	}
 
@@ -131,28 +142,32 @@ public class RepairApplyService {
 	}
 
 	//创建工单
-	public Integer createRepair(){
+	public Integer createRepair(User user ,RepairParamsDTO repairParamsDTO){
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("appType", RepairClientConstants.APP_TYPE);
 
-		params.put("title", "");//标题
-		params.put("apply", "");//申请人姓名
-		params.put("applyphone", "");//申请人号码
-		params.put("applyemail", "");//申请人邮箱
-		params.put("company", "");//公司
-		params.put("louyus", "");//楼宇
-		params.put("loutis", "");//楼体
-		params.put("floor", "");//楼层
-		params.put("quyus", "");//区域
-		params.put("faultclassify", "");//故障分类
-		params.put("syss", "");//系统分类
-		params.put("describes", "");//详细信息
+		params.put("title", repairParamsDTO.getTitle());//标题
+		params.put("apply", user.getName());//申请人姓名
+		params.put("applyphone", user.getPhone());//申请人号码
+		params.put("applyemail", user.getEmail());//申请人邮箱
+        CompanyDTO companyDTO = companyService.selectCompanyById(user.getCompanyId());
+		params.put("company", companyDTO.getCompanyName());//公司
+		params.put("louyus", repairParamsDTO.getLouyus());//楼宇
+		params.put("loutis", repairParamsDTO.getLoutis());//楼体
+		params.put("floor", repairParamsDTO.getFloor());//楼层
+		params.put("quyus", repairParamsDTO.getQuyus());//区域
+		params.put("faultclassify", repairParamsDTO.getFaultclassify());//故障分类
+		params.put("syss", repairParamsDTO.getSyss());//系统分类
+		params.put("describes", repairParamsDTO.getDescribes());//详细信息
 
+        this.repairLogin();
 		JSONObject jsonObject = HttpClientUtil.httpHttpFormData(RepairClientConstants.ADDRESS+RepairClientConstants.CREATE, params);
 		Integer res = jsonObject.getInteger("res");
 		if (res != 1){
-			logger.warn("创建工单失败, 消息如下："+jsonObject.toJSONString());
+            logger.warn("工单创建失败, 消息如下："+jsonObject.toJSONString());
 		}
+		//保存
+        this.saveRepair(user.getUserId(), repairParamsDTO, jsonObject);
 		return res;
 	}
 
@@ -164,6 +179,7 @@ public class RepairApplyService {
 		params.put("startTime", "");//开始时间
 		params.put("endTime", "");//结束时间
 
+        this.repairLogin();
 		JSONObject jsonObject = HttpClientUtil.httpHttpFormData(RepairClientConstants.ADDRESS+RepairClientConstants.QUERY, params);
 		Integer res = jsonObject.getInteger("res");
 		if (res != 1){
@@ -176,11 +192,17 @@ public class RepairApplyService {
 	}
 
 	//工单日志信息
-	public List<ProcessLogDTO> listProcessLog(){
+	public List<ProcessLogDTO> listProcessLog(String repairApplyId){
+        Repair repair = this.selectRepairApplyById(repairApplyId);
+        if (repair == null){
+            logger.warn("查询报修记录信息不存在, 消息如下-> repairApplyId:"+repairApplyId);
+        }
+
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("appType", RepairClientConstants.APP_TYPE);
-		params.put("wjbiid", "");//工单唯一标识
+		params.put("wjbiid", repair.getWjbiid());//工单唯一标识
 
+        this.repairLogin();
 		JSONObject jsonObject = HttpClientUtil.httpHttpFormData(RepairClientConstants.ADDRESS+RepairClientConstants.LOG, params);
 		Integer res = jsonObject.getInteger("res");
 		if (res != 1){
@@ -193,11 +215,17 @@ public class RepairApplyService {
 	}
 
 	//工单附件信息
-	public List<AttachmentDTO> listAttachment(){
+	public List<AttachmentDTO> listAttachment(String repairApplyId){
+        Repair repair = this.selectRepairApplyById(repairApplyId);
+        if (repair == null){
+            logger.warn("查询报修记录信息不存在, 消息如下-> repairApplyId:"+repairApplyId);
+        }
+
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("appType", RepairClientConstants.APP_TYPE);
-		params.put("wjbiid", "");//工单唯一标识
+		params.put("wjbiid", repair.getWjbiid());//工单唯一标识
 
+        this.repairLogin();
 		JSONObject jsonObject = HttpClientUtil.httpHttpFormData(RepairClientConstants.ADDRESS+RepairClientConstants.ATTACH, params);
 		Integer res = jsonObject.getInteger("res");
 		if (res != 1){
@@ -210,13 +238,19 @@ public class RepairApplyService {
 	}
 
 	//撤销工单
-	public Integer stopJobs(){
+	public Integer stopJobs(String repairApplyId){
+        Repair repair = this.selectRepairApplyById(repairApplyId);
+        if (repair == null){
+            logger.warn("查询报修记录信息不存在, 消息如下-> repairApplyId:"+repairApplyId);
+        }
+
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("appType", RepairClientConstants.APP_TYPE);
-		params.put("procId", "");//流程实例id
-		params.put("wjbiid", "");//工单唯一标识
-		params.put("taskId", "");//用户环节id
+		params.put("procId", repair.getProcId());//流程实例id
+		params.put("wjbiid", repair.getWjbiid());//工单唯一标识
+		params.put("taskId", repair.getTaskId());//用户环节id
 
+        this.repairLogin();
 		JSONObject jsonObject = HttpClientUtil.httpHttpFormData(RepairClientConstants.ADDRESS+RepairClientConstants.STOP, params);
 		Integer res = jsonObject.getInteger("res");
 		if (res != 1){
