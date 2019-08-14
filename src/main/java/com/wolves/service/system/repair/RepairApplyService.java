@@ -100,6 +100,14 @@ public class RepairApplyService {
 		return (Repair)dao.findForObject("RepairApplyMapper.selectRepairApplyById", repairApplyId);
 	}
 
+    /**
+     * 修改状态
+     * @param repairApplyId
+     */
+	public void updateStatusById(String repairApplyId){
+        dao.update("RepairApplyMapper.updateStatusById", repairApplyId);
+    }
+
 	/**
 	 * 保存信息
 	 * @param userId
@@ -119,9 +127,9 @@ public class RepairApplyService {
         repair.setSyss(repairParamsDTO.getSyss());//系统分类
         repair.setDescribes(repairParamsDTO.getDescribes());//详细信息
         repair.setStatus(0);
-        repair.setProcId("");
-        repair.setWjbiid("");
-        repair.setTaskId("");
+        repair.setProcId(jsonObject.getString("procId"));
+        repair.setWjbiid(jsonObject.getString("wjbiid"));
+        repair.setTaskId(jsonObject.getString("taskId"));
 		return (Integer) dao.save("RepairApplyMapper.saveRepair", repair);
 	}
 
@@ -166,8 +174,9 @@ public class RepairApplyService {
 		if (res != 1){
             logger.warn("工单创建失败, 消息如下："+jsonObject.toJSONString());
 		}
+        JSONObject object = jsonObject.getJSONObject("obj");
 		//保存
-        this.saveRepair(user.getUserId(), repairParamsDTO, jsonObject);
+        this.saveRepair(user.getUserId(), repairParamsDTO, object);
 		return res;
 	}
 
@@ -256,6 +265,7 @@ public class RepairApplyService {
 		if (res != 1){
 			logger.warn("撤销工单失败, 消息如下："+jsonObject.toJSONString());
 		}
+        this.updateStatusById(repairApplyId);
 		return res;
 	}
 }

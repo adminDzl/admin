@@ -162,7 +162,7 @@
 		SELECT
 			*
 		FROM repair_apply
-		WHERE user_id = #{userId}
+		WHERE status = 0 AND user_id = #{userId}
 		ORDER BY create_time DESC
 		LIMIT #{start}, #{size}
 	</select>
@@ -213,4 +213,14 @@
 		#{repairApplyId}
 		)
 	</insert>
+
+    <update id="updateStatusById" parameterType="java.lang.String">
+        update  REPAIR_APPLY
+        set
+        STATUS = 1,
+        UPDATE_TIME = now(),
+        REPAIR_APPLY_ID = REPAIR_APPLY_ID
+        where
+        REPAIR_APPLY_ID = #{repairApplyId}
+    </update>
 </mapper>
