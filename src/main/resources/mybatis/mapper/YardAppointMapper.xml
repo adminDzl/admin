@@ -7,6 +7,7 @@
 		<result column="place_type" property="placeType"/>
 		<result column="position" property="position"/>
 		<result column="image_url" property="imageUrl"/>
+		<result column="service_phone" property="servicePhone"/>
 		<result column="place_date" property="placeDate"/>
 		<result column="begin_time" property="beginTime"/>
 		<result column="end_time" property="endTime"/>
@@ -164,6 +165,7 @@
 			y.place_type,
 			y.position,
 			y.image_url,
+			y.service_phone,
 			a.place_date,
 			a.begin_time,
 			a.end_time,
@@ -222,6 +224,7 @@
 		u.phone,
 		b.position,
 		b.place_type,
+		b.service_phone,
 		a.book_fee,
 		a.begin_time,
 		a.end_time
@@ -240,6 +243,7 @@
 			y.place_type,
 			y.position,
 			y.image_url,
+			y.service_phone,
 			a.place_date,
 			a.begin_time,
 			a.end_time,

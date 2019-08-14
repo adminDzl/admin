@@ -160,8 +160,12 @@
 				<td><input type="text" name="EQUIPMENT" id="EQUIPMENT" value="${pd.EQUIPMENT}" maxlength="32" placeholder="这里输入设备描述" title="设备描述"/></td>
 			</tr>
 			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">价格:</td>
-				<td><input type="text" name="RENT_FEE" id="RENT_FEE" value="${pd.RENT_FEE}" maxlength="32" placeholder="这里输入价格" title="价格"/></td>
+				<td style="width:70px;text-align: right;padding-top: 13px;">价格(元/半小时):</td>
+				<td><input type="text" name="RENT_FEE" id="RENT_FEE" value="${pd.RENT_FEE}" maxlength="32" placeholder="这里输入价格(元/半小时)" title="价格"/></td>
+			</tr>
+			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;">客服号码:</td>
+				<td><input type="text" name="SERVICE_PHONE" id="SERVICE_PHONE" value="${pd.SERVICE_PHONE}" maxlength="32" placeholder="这里输入客服号码" title="客服号码"/></td>
 			</tr>
 			<tr>
 				<td style="text-align: center;" colspan="10">
