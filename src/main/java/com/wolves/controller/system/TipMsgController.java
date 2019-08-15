@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
+
+import com.wolves.service.system.user.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -42,6 +44,8 @@ public class TipMsgController extends BaseController {
 	String menuUrl = "tipmsg/list.do";
 	@Resource(name="tipmsgService")
 	private TipMsgService tipmsgService;
+	@Resource(name="userService")
+	private UserService userService;
 	
 	/**
 	 * 新增
@@ -119,6 +123,7 @@ public class TipMsgController extends BaseController {
 		mv.setViewName("system/tipmsg/tipmsg_edit");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
+		mv.addObject("userList", userService.selectAllUser());
 		return mv;
 	}	
 	
@@ -134,6 +139,7 @@ public class TipMsgController extends BaseController {
 		mv.setViewName("system/tipmsg/tipmsg_edit");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
+		mv.addObject("userList", userService.selectAllUser());
 		return mv;
 	}	
 	

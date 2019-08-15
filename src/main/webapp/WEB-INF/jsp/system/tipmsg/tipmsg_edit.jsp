@@ -88,7 +88,15 @@
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">通知人群:</td>
-				<td><input type="text" name="TO_USER" id="TO_USER" value="${pd.TO_USER}" maxlength="32" placeholder="这里输入通知人群" title="通知人群"/></td>
+				<td>
+					<select name="TO_USER" id="TO_USER" maxlength="32" placeholder="这里选择通知人" title="通知人员" value="${pd.TO_USER}">
+						<option value=''>请选择</option>
+						<option value='ALL' <c:if test="${'ALL' == pd.TO_USER}">selected</c:if>>全部</option>
+						<c:forEach items="${userList}" varStatus="status" var="item">
+							<option value="${item.userId }" <c:if test="${item.userId == pd.TO_USER}">selected</c:if>>${item.name }</option>
+						</c:forEach>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">提醒标题:</td>
@@ -101,7 +109,7 @@
 							  name="ALERT_CONTENT"
 							  id="ALERT_CONTENT"
 							  value=""
-							  maxlength="32" placeholder="这里输入提醒内容" title="提醒内容">
+							  maxlength="200" placeholder="这里输入提醒内容" title="提醒内容">
 						${pd.ALERT_CONTENT}
 					</textarea>
 				</td>

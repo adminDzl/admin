@@ -1,6 +1,8 @@
 package com.wolves.service.system.payment;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +10,11 @@ import javax.annotation.Resource;
 
 import com.wolves.dto.pay.CompantYearPayDTO;
 import com.wolves.dto.pay.PayMentDTO;
+import com.wolves.dto.user.ManagerUserDTO;
+import com.wolves.dto.user.ToMsgDTO;
 import com.wolves.service.system.payorder.PayOrderService;
+import com.wolves.service.system.tipmsg.TipMsgService;
+import com.wolves.service.system.user.UserService;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
 import com.wolves.entity.system.Page;
@@ -21,6 +27,10 @@ public class PaymentService {
 	private DaoSupport dao;
     @Resource(name="payorderService")
     private PayOrderService payorderService;
+	@Resource(name="userService")
+	private UserService userService;
+	@Resource(name="tipmsgService")
+	private TipMsgService tipmsgService;
 	
 	/**
 	* 新增
@@ -132,7 +142,6 @@ public class PaymentService {
             if (yet != null && yet.get("yetTotalAmout") != null){
                 yetAmount = new BigDecimal(yet.get("yetTotalAmout").toString());
             }
-            compantYearPayDTO.setYearTotalPay(waitAmount.subtract(yetAmount).toString());
 
             //查询当年已经缴纳费用
             maps.put("time", params.get("time"));
@@ -142,10 +151,14 @@ public class PaymentService {
             if (yetYear != null && yetYear.get("yetTotalAmout") != null){
                 yetYearAmount = new BigDecimal(yetYear.get("yetTotalAmout").toString());
             }
+
+            BigDecimal totalAmount = waitAmount.subtract(yetAmount).add(yetYearAmount);
+            compantYearPayDTO.setYearTotalPay(waitAmount.subtract(yetAmount).add(yetYearAmount).toString());
+
             compantYearPayDTO.setYearYetPay(yetYearAmount.toString());
 
             //当年未缴纳 = 当年待缴纳费用-当年已经缴纳费用
-            compantYearPayDTO.setYearWaitPay(waitYearAmount.subtract(yetYearAmount).toString());
+            compantYearPayDTO.setYearWaitPay(totalAmount.subtract(yetYearAmount).toString());
         }
 		return compantYearPayDTO;
 	}
@@ -183,23 +196,99 @@ public class PaymentService {
 					if (yet != null && yet.get("yetTotalAmout") != null){
 						yetAmount = new BigDecimal(yet.get("yetTotalAmout").toString());
 					}
-					pageData.put("T", waitAmount.subtract(yetAmount));
+                    //查询当年已经缴纳费用
+                    params.put("time", pd.get("TIME"));
+                    PageData yetYear = payorderService.selectAllAmount(params);
+                    BigDecimal yetYearAmount = new BigDecimal("0");
+                    if (yetYear != null && yetYear.get("yetTotalAmout") != null){
+                        yetYearAmount = new BigDecimal(yetYear.get("yetTotalAmout").toString());
+                    }
+                    BigDecimal totalAmount = waitAmount.subtract(yetAmount).add(yetYearAmount);
+					pageData.put("T", waitAmount.subtract(yetAmount).add(yetYearAmount));
 
-					//查询当年已经缴纳费用
-					params.put("time", pd.get("TIME"));
-					PageData yetYear = payorderService.selectAllAmount(params);
-					BigDecimal yetYearAmount = new BigDecimal("0");
-					if (yetYear != null && yetYear.get("yetTotalAmout") != null){
-						yetYearAmount = new BigDecimal(yetYear.get("yetTotalAmout").toString());
-					}
 					pageData.put("Y", yetYearAmount);
 					//当年未缴纳 = 当年待缴纳费用-当年已经缴纳费用
-					pageData.put("D", waitYearAmount.subtract(yetYearAmount));
+					pageData.put("D", totalAmount.subtract(yetYearAmount));
 
 				}
 			}
 		}
 		return varList;
+	}
+
+	/**
+	 * 查询未缴费公司名单
+	 * @return
+	 */
+	public List<PageData> queryNoPayCompany(){
+		Page page = new Page();
+		PageData pd = new PageData();
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+		pd.put("TIME", df.format(System.currentTimeMillis()));
+
+		List<PageData> pageDataList = this.selectSummary(page, pd);
+		List<PageData> pageDatas = new ArrayList<PageData>();
+		if (pageDataList != null && !pageDataList.isEmpty()){
+			for (PageData pageData : pageDataList){
+				Object wpay = pageData.get("D");
+				if (wpay != null){
+					BigDecimal waitPay = new BigDecimal(pageData.get("D").toString());
+					if (waitPay.compareTo(BigDecimal.ZERO) > 0){
+						pageDatas.add(pageData);
+					}
+				}
+			}
+		}
+		return pageDatas;
+	}
+
+	/**
+	 * 一键催缴
+	 * @return
+	 */
+	public PageData worthMsg(){
+		PageData pd = new PageData();
+		List<PageData> pageDatas = this.queryNoPayCompany();
+		List<ToMsgDTO> toMsgDTOs = new ArrayList<ToMsgDTO>();
+		if (pageDatas != null && !pageDatas.isEmpty()){
+			for (PageData pageData : pageDatas){
+				Object companyId = pageData.get("COMPANY_ID");
+				Object companyName = pageData.get("COMPANY_NAME");
+				Object totalAmount = pageData.get("D");
+				if (companyId == null){
+					pd.put("msg", companyName+"无该企业信息");
+					pd.put("status", "1");
+					return pd;
+				}
+
+				List<ManagerUserDTO> managerUserDTOs = userService.selectManagerUserByCompanyId(companyId.toString());
+				if (managerUserDTOs != null && !managerUserDTOs.isEmpty()){
+					for (ManagerUserDTO managerUserDTO : managerUserDTOs){
+						if (managerUserDTO.getUserId() == null){
+							pd.put("msg", companyName+",该企业下的负责人不存在");
+							pd.put("status", "1");
+							return pd;
+						}
+                        //查询所属负责人
+                        ToMsgDTO toMsgDTO = new ToMsgDTO();
+                        toMsgDTO.setType(1);
+                        toMsgDTO.setMsgType(1);
+                        toMsgDTO.setTitle("你公司当前有未缴费的费用");
+                        toMsgDTO.setContent("您好，您的公司当前仍有未缴纳的费用需要结清，请点击【缴纳费用】进行支付。");
+                        toMsgDTO.setUserId(managerUserDTO.getUserId());
+                        toMsgDTOs.add(toMsgDTO);
+					}
+				}else {
+					pd.put("msg", companyName+",该企业没有设置公司负责人角色");
+					pd.put("status", "1");
+					return pd;
+				}
+			}
+		}
+		tipmsgService.addTipMsg(toMsgDTOs);
+		pd.put("status", "0");
+		pd.put("msg", "ok");
+		return pd;
 	}
 }
 

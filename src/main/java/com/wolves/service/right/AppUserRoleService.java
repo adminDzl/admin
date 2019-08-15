@@ -63,4 +63,16 @@ public class AppUserRoleService {
         dao.save("AppUserRoleMapper.save", pd);
     }
 
+    /**
+     * 删除某人的角色
+     * 角色不能有多个
+     */
+    @Transactional
+    public void deleteUserInRole(String userId, Integer roleId){
+        PageData pd = new PageData();
+        pd.put("userId", userId);
+        pd.put("roleId", roleId);
+        dao.delete("AppUserRoleMapper.deleteUserInRole", pd);
+    }
+
 }

@@ -5,6 +5,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import com.wolves.dto.user.TipMsgDTO;
+import com.wolves.dto.user.ToMsgDTO;
+import com.wolves.util.UuidUtil;
 import org.springframework.stereotype.Service;
 import com.wolves.dao.DaoSupport;
 import com.wolves.entity.system.Page;
@@ -91,5 +93,28 @@ public class TipMsgService {
 
 		return (TipMsgDTO) dao.findForObject("TipMsgMapper.selectTipMsgById", tipMsgId);
 	}
+
+	/**
+	 * 添加单条信息
+	 * @param toMsgDTO
+	 */
+	public void createTipMsg(ToMsgDTO toMsgDTO){
+		toMsgDTO.setTipmsgId(UuidUtil.get32UUID());
+		dao.save("TipMsgMapper.saveTipMsg", toMsgDTO);
+	}
+
+	/**
+	 * 添加多条信息
+	 * @param toMsgDTOs 信息内容
+	 */
+	public void addTipMsg(List<ToMsgDTO> toMsgDTOs){
+		if (toMsgDTOs != null && !toMsgDTOs.isEmpty()){
+			for (ToMsgDTO toMsgDTO : toMsgDTOs){
+				toMsgDTO.setTipmsgId(UuidUtil.get32UUID());
+				dao.save("TipMsgMapper.saveTipMsg", toMsgDTO);
+			}
+		}
+	}
+
 }
 

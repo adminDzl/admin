@@ -9,6 +9,7 @@
 		<result column="image_url" property="imageUrl"/>
 		<result column="equipment" property="equipment"/>
 		<result column="rent_fee" property="rentFee"/>
+		<result column="service_phone" property="servicePhone"/>
 		<result column="create_time" property="createTime"/>
 	</resultMap>
 
@@ -19,7 +20,8 @@
 			POSITION,	
 			IMAGE_URL,	
 			EQUIPMENT,	
-			RENT_FEE,	
+			RENT_FEE,
+			SERVICE_PHONE,
 			CREATE_TIME,	
 			UPDATE_TIME,	
 			YARD_ID
@@ -28,7 +30,8 @@
 			#{POSITION},	
 			#{IMAGE_URL},	
 			#{EQUIPMENT},	
-			#{RENT_FEE},	
+			#{RENT_FEE},
+			#{SERVICE_PHONE},
 			#{CREATE_TIME},	
 			#{UPDATE_TIME},	
 			#{YARD_ID}
@@ -59,6 +62,9 @@
 			<if test="RENT_FEE != null">
 				RENT_FEE = #{RENT_FEE},
 			</if>
+			<if test="SERVICE_PHONE != null">
+				SERVICE_PHONE = #{SERVICE_PHONE},
+			</if>
 				UPDATE_TIME = now(),
 				YARD_ID = YARD_ID
 			where 
@@ -71,7 +77,8 @@
 			POSITION,	
 			IMAGE_URL,	
 			EQUIPMENT,	
-			RENT_FEE,	
+			RENT_FEE,
+			SERVICE_PHONE,
 			CREATE_TIME,	
 			UPDATE_TIME,	
 			YARD_ID
@@ -87,7 +94,8 @@
 				a.POSITION,	
 				a.IMAGE_URL,	
 				a.EQUIPMENT,	
-				a.RENT_FEE,	
+				a.RENT_FEE,
+				a.SERVICE_PHONE,
 				a.CREATE_TIME,	
 				a.UPDATE_TIME,	
 				a.YARD_ID
@@ -115,7 +123,8 @@
 				a.POSITION,	
 				a.IMAGE_URL,	
 				a.EQUIPMENT,	
-				a.RENT_FEE,	
+				a.RENT_FEE,
+				a.SERVICE_PHONE,
 				a.CREATE_TIME,	
 				a.UPDATE_TIME,	
 				a.YARD_ID
@@ -139,6 +148,7 @@
 		a.image_url,
 		a.equipment,
 		a.rent_fee,
+		a.service_phone,
 		a.create_time,
 		a.yard_id
 		from
@@ -158,6 +168,7 @@
 		a.image_url,
 		a.equipment,
 		a.rent_fee,
+		a.service_phone,
 		a.create_time,
 		a.yard_id
 		from
@@ -182,6 +193,9 @@
 				</if>
 				<if test="rentFee != null">
 					RENT_FEE = #{rentFee},
+				</if>
+				<if test="servicePhone != null">
+					SERVICE_PHONE = #{servicePhone},
 				</if>
 				UPDATE_TIME = now(),
 				YARD_ID = YARD_ID

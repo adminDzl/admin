@@ -17,6 +17,9 @@ public class ApplyDataDTO {
     @ApiModelProperty(name = "title",value = "标题")
     private String title;
 
+    @ApiModelProperty(name = "headImage",value = "头图")
+    private String headImage;
+
     @ApiModelProperty(name = "newsContent",value = "内容")
     private String newsContent;
 
@@ -37,6 +40,14 @@ public class ApplyDataDTO {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getHeadImage() {
+        return headImage;
+    }
+
+    public void setHeadImage(String headImage) {
+        this.headImage = headImage;
     }
 
     public String getAttachUrl() {

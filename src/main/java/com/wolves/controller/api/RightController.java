@@ -3,10 +3,7 @@ package com.wolves.controller.api;
 import com.wolves.dto.CompanyOrStaffRightDTO;
 import com.wolves.dto.ResourceDTO;
 import com.wolves.dto.resource.AppResourceDTO;
-import com.wolves.dto.right.AddRoleDTO;
-import com.wolves.dto.right.CompanyRightDTO;
-import com.wolves.dto.right.RoleDTO;
-import com.wolves.dto.right.UserRightDTO;
+import com.wolves.dto.right.*;
 import com.wolves.dto.role.UpdateRoleDTO;
 import com.wolves.dto.user.CompanyDTO;
 import com.wolves.entity.app.User;
@@ -19,6 +16,7 @@ import com.wolves.service.system.CompanyService;
 import com.wolves.service.system.appuser.AppUserService;
 import com.wolves.service.system.user.UserService;
 import com.wolves.util.Logger;
+import com.wolves.util.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -291,6 +289,97 @@ public class RightController {
 //        rightService.addCompanyAdminRole(id);
 //        return null;
 //    }
+
+    /**
+     * 给角色添加用户
+     */
+    @ApiOperation(httpMethod="POST", value="给角色添加用户")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+    })
+    @RequestMapping(value = "/addUserToRole", method = RequestMethod.POST)
+    public Result addRole(@RequestHeader("Authorization") String token,
+                          @RequestBody UserRoleDTO userRole){
+        Result result = new Result();
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+
+        if(StringUtils.isEmpty(userRole.getUserId())){
+            result.setMsg("用户id不能为空");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+
+        if(null == userRole.getRoleId()){
+            result.setMsg("角色id不能为空");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+
+        CompanyDTO companyDTO = companyService.selectCompanyById(user.getCompanyId());
+        if(null == companyDTO){
+            result.setMsg("尚未加入任何公司");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        try{
+            appRoleService.addUserToRole(userRole);
+        } catch (Exception e){
+            e.printStackTrace();
+            result.setMsg("角色已存在");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        result.setMsg("success");
+        result.setResult(ResultCode.SUCCESS);
+        return result;
+    }
+
+    /**
+     * 删除角色下的用户
+     */
+    @ApiOperation(httpMethod="POST", value="删除角色下的用户")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+    })
+    @RequestMapping(value = "/deleteUserInRole", method = RequestMethod.POST)
+    public Result deleteUserInRole(@RequestHeader("Authorization") String token,
+                          @RequestBody UserRoleDTO userRole){
+        Result result = new Result();
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+
+        if(StringUtils.isEmpty(userRole.getUserId())){
+            result.setMsg("用户id不能为空");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+
+        if(null == userRole.getRoleId()){
+            result.setMsg("角色id不能为空");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+
+        CompanyDTO companyDTO = companyService.selectCompanyById(user.getCompanyId());
+        if(null == companyDTO){
+            result.setMsg("尚未加入任何公司");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        appRoleService.deleteUserInRole(userRole);
+        result.setMsg("success");
+        result.setResult(ResultCode.SUCCESS);
+        return result;
+    }
 
 
 

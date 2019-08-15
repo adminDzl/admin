@@ -53,7 +53,8 @@
 						<th class="center">所处位置</th>
 						<th class="center">图片url</th>
 						<th class="center">设备描述</th>
-						<th class="center">价格(元/小时)</th>
+						<th class="center">价格(元/半小时)</th>
+						<th class="center">客服号码</th>
 						<th class="center">创建时间</th>
 						<th class="center">操作</th>
 					</tr>
@@ -93,6 +94,7 @@
 										</td>
 										<td>${var.EQUIPMENT}</td>
 										<td>${var.RENT_FEE}</td>
+										<td>${var.SERVICE_PHONE}</td>
 										<td>${var.CREATE_TIME}</td>
 								<td style="width: 100px;" class="center">
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">

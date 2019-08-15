@@ -5,12 +5,13 @@ import com.wolves.dto.ResourceDTO;
 import com.wolves.dto.resource.AppResourceDTO;
 import com.wolves.dto.right.AddRoleDTO;
 import com.wolves.dto.right.RoleDTO;
+import com.wolves.dto.right.UserRoleDTO;
 import com.wolves.dto.role.UpdateRoleDTO;
 import com.wolves.util.PageData;
 import com.wolves.util.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.annotation.Resource;
 import java.util.List;
 
@@ -19,6 +20,8 @@ public class AppRoleService {
 
     @Resource(name = "daoSupport")
     private DaoSupport dao;
+    @Autowired
+    private AppUserRoleService appUserRoleService;
 
     /**
      * 根据所有资源
@@ -109,6 +112,22 @@ public class AppRoleService {
             dao.save("AppRoleResourceMapper.save", resourcePd);
         }
 
+    }
+
+    /**
+     * 给角色添加用户
+     * @param userRole
+     */
+    public void addUserToRole(UserRoleDTO userRole){
+        appUserRoleService.addRoleToUser(userRole.getUserId(), userRole.getRoleId());
+    }
+
+    /**
+     * 删除角色中的用户
+     * @param userRole
+     */
+    public void deleteUserInRole(UserRoleDTO userRole){
+        appUserRoleService.deleteUserInRole(userRole.getUserId(), userRole.getRoleId());
     }
 
 }

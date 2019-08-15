@@ -37,6 +37,9 @@ public class YardDTO {
     @ApiModelProperty(name = "rentFee",value = "价格")
     private BigDecimal rentFee;
 
+    @ApiModelProperty(name = "servicePhone",value = "客服号码")
+    private String servicePhone;
+
     @ApiModelProperty(name = "createTime",value = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
@@ -95,6 +98,14 @@ public class YardDTO {
 
     public void setRentFee(BigDecimal rentFee) {
         this.rentFee = rentFee;
+    }
+
+    public String getServicePhone() {
+        return servicePhone;
+    }
+
+    public void setServicePhone(String servicePhone) {
+        this.servicePhone = servicePhone;
     }
 
     public Date getCreateTime() {

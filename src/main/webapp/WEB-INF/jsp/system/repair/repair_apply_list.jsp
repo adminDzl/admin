@@ -70,11 +70,11 @@
 									<th>${var.NAME}</th>
 									<td>
                                         <c:choose>
-                                            <c:when test="${fn:length(var.APPLY_CONTENT) >= 30}">
-                                                <span title="${var.APPLY_CONTENT}">${fn:substring(var.APPLY_CONTENT ,0,30)}……</span>
+                                            <c:when test="${fn:length(var.CONTENT) >= 30}">
+                                                <span title="${var.CONTENT}">${fn:substring(var.CONTENT ,0,30)}……</span>
                                             </c:when>
                                             <c:otherwise>
-                                                <span title="${var.APPLY_CONTENT }">${var.APPLY_CONTENT }</span>
+                                                <span title="${var.CONTENT }">${var.CONTENT }</span>
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
@@ -84,9 +84,9 @@
 										</c:forTokens>
 									</td>
 									<td>
-										<c:if test="${var.APPLY_STATUS == 0}"><span class="label label-success arrowed">待审核</span></c:if>
-										<c:if test="${var.APPLY_STATUS == 1}"><span class="label label-success arrowed">审核成功</span></c:if>
-										<c:if test="${var.APPLY_STATUS == 2}"><span class="label label-success arrowed">审核驳回</span></c:if>
+										<c:if test="${var.STATUS == 0}"><span class="label label-success arrowed">待审核</span></c:if>
+										<c:if test="${var.STATUS == 1}"><span class="label label-success arrowed">审核成功</span></c:if>
+										<c:if test="${var.STATUS == 2}"><span class="label label-success arrowed">审核驳回</span></c:if>
 									</td>
 									<td>${var.CREATE_TIME}</td>
 								<td style="width: 100px;" class="center">

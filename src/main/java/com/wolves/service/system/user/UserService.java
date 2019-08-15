@@ -320,4 +320,23 @@ public class UserService {
 
 		return (UserDTO) dao.findForObject("UserMapper.getUserDTOByToken", token);
 	}
+
+	/**
+	 * 根据公司id查询公司负责人
+	 * @param companyId
+	 * @return
+	 */
+	public List<ManagerUserDTO> selectManagerUserByCompanyId(String companyId){
+
+		return (List<ManagerUserDTO>) dao.findForList("UserMapper.selectManagerUserByCompanyId", companyId);
+	}
+
+	/**
+	 * 查询所有人员
+	 * @return
+	 */
+	public List<UserListDTO> selectAllUser(){
+
+		return (List<UserListDTO>) dao.findForList("UserMapper.selectAllUser", null);
+	}
 }

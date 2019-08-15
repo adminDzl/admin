@@ -150,6 +150,7 @@
 		SELECT
 			*
 		FROM tip_msg
+		WHERE (to_user = #{toUser} OR to_user = 'ALL')
 		ORDER BY create_time DESC
 		LIMIT #{start}, #{size}
 	</select>
@@ -161,4 +162,29 @@
 		FROM tip_msg
 		WHERE tipmsg_id = #{tipMsgId}
 	</select>
+
+	<!--添加信息-->
+	<insert id="saveTipMsg" parameterType="com.wolves.dto.user.ToMsgDTO" flushCache="false">
+		insert into tip_msg(
+		TYPE,
+		msg_type,
+		to_user,
+		alert_title,
+		`read`,
+		alert_content,
+		CREATE_TIME,
+		UPDATE_TIME,
+		tipmsg_id
+		) values (
+		#{type},
+		#{msgType},
+		#{userId},
+		#{title},
+		0,
+		#{content},
+		now(),
+		now(),
+		#{tipmsgId}
+		)
+	</insert>
 </mapper>

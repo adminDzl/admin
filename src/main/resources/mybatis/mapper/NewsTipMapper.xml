@@ -14,6 +14,7 @@
 	<resultMap type="com.wolves.dto.ApplyDataDTO" id="ApplyResultMap">
 		<id column="newstip_id" property="id"/>
 		<result column="news_title" property="title"/>
+		<result column="head_image" property="headImage"/>
 		<result column="news_content" property="newsContent"/>
 		<result column="attach_url" property="attachUrl"/>
 	</resultMap>
@@ -247,6 +248,7 @@
 		SELECT
 		newstip_id,
 		news_title,
+		head_image,
 		news_content,
 		attach_url,
 		create_time
