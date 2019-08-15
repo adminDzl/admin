@@ -84,9 +84,9 @@
 								<th>${var.COMPANY_NAME}</th>
 								<th>${var.NAME}</th>
 								<th>${var.SEX}</th>
-								<th>${var.SFID}</th>
+								<th>${var.ID_CARD}</th>
 								<th>${var.PHONE}</th>
-								<td>${var.BUILD_NAME}
+								<td>${var.BUILDMAN}
 									<c:if test="${var.FLOOR != null && var.FLOOR != ''}">
 										,第${var.FLOOR}层
 									</c:if>

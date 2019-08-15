@@ -805,7 +805,7 @@ public class AppUserController {
     @ApiOperation(httpMethod="POST",value="一卡通申请",notes="一卡通申请")
     @RequestMapping(value = "/apply", method = RequestMethod.POST)
     public Result createApply(@RequestHeader("Authorization") String token,
-                            @RequestBody DecorateDataDTO decorateDataDTO){
+                            @RequestBody List<DecorateDataDTO> decorateDataDTOs){
         Result result = new Result();
         //使用token获取登陆人信息
         User user = userService.getUser(token);
@@ -814,27 +814,41 @@ public class AppUserController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
-        if (StringUtils.isEmpty(decorateDataDTO.getIdCard())){
-            result.setMsg("请填写身份证号码");
-            result.setResult(ResultCode.FAIL);
-            return result;
+        if (decorateDataDTOs != null && !decorateDataDTOs.isEmpty()){
+            for (DecorateDataDTO decorateDataDTO : decorateDataDTOs){
+                if (StringUtils.isEmpty(decorateDataDTO.getType())){
+                    result.setMsg("请选择业务类型");
+                    result.setResult(ResultCode.FAIL);
+                    return result;
+                }
+                if (StringUtils.isEmpty(decorateDataDTO.getName())){
+                    result.setMsg("请填写姓名");
+                    result.setResult(ResultCode.FAIL);
+                    return result;
+                }
+                if (StringUtils.isEmpty(decorateDataDTO.getSex())){
+                    result.setMsg("请选择性别");
+                    result.setResult(ResultCode.FAIL);
+                    return result;
+                }
+                if (StringUtils.isEmpty(decorateDataDTO.getIdCard())){
+                    result.setMsg("请填写身份证号码");
+                    result.setResult(ResultCode.FAIL);
+                    return result;
+                }
+                if (StringUtils.isEmpty(decorateDataDTO.getPhone())){
+                    result.setMsg("请填写手机号码");
+                    result.setResult(ResultCode.FAIL);
+                    return result;
+                }
+                if (StringUtils.isEmpty(decorateDataDTO.getAccess())){
+                    result.setMsg("请填写门禁权限");
+                    result.setResult(ResultCode.FAIL);
+                    return result;
+                }
+            }
         }
-        if (StringUtils.isEmpty(decorateDataDTO.getBuildmanId())){
-            result.setMsg("请选择所在楼栋");
-            result.setResult(ResultCode.FAIL);
-            return result;
-        }
-        if (StringUtils.isEmpty(decorateDataDTO.getFloor())){
-            result.setMsg("请填写所在楼层");
-            result.setResult(ResultCode.FAIL);
-            return result;
-        }
-        if (StringUtils.isEmpty(decorateDataDTO.getRoom())){
-            result.setMsg("请填写所在房间");
-            result.setResult(ResultCode.FAIL);
-            return result;
-        }
-        decorateService.saveApply(token, decorateDataDTO);
+        decorateService.saveApply(token, decorateDataDTOs);
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("提交成功");
         return result;
@@ -857,7 +871,7 @@ public class AppUserController {
         return result;
     }
 
-    @ApiOperation(httpMethod="POST",value="获取我的统一申请列表",notes="获取我的统一申请列表")
+    @ApiOperation(httpMethod="POST",value="获取我的一卡通申请列表",notes="获取我的一卡通申请列表")
     @RequestMapping(value = "/getMyApply", method = RequestMethod.POST)
     public Result<List<Decorate>> getMyApply(@RequestHeader("Authorization") String token){
         Result<List<Decorate>> result = new Result<List<Decorate>>();
@@ -874,7 +888,7 @@ public class AppUserController {
         return result;
     }
 
-    @ApiOperation(httpMethod="POST",value="查询申请明细",notes="查询申请明细")
+    @ApiOperation(httpMethod="POST",value="查询一卡通申请明细",notes="查询一卡通申请明细")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
             @ApiImplicitParam(name = "jsonObject",value = "{\"decorateId\":\"ID\"}",required = true,paramType = "body",dataType = "JSONObject")

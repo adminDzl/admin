@@ -8,11 +8,16 @@ import javax.annotation.Resource;
 import com.wolves.common.ApplyTypeEnum;
 import com.wolves.common.StatusEnum;
 import com.wolves.dao.DaoSupport;
+import com.wolves.dto.FloorManDTO;
+import com.wolves.dto.RoomDTO;
 import com.wolves.dto.user.DecorateDataDTO;
 import com.wolves.dto.user.UnionDTO;
 import com.wolves.entity.app.User;
 import com.wolves.entity.system.Decorate;
 import com.wolves.entity.system.Page;
+import com.wolves.service.system.buildman.BuildManService;
+import com.wolves.service.system.floorman.FloorManService;
+import com.wolves.service.system.room.RoomService;
 import com.wolves.service.system.user.UserService;
 import com.wolves.util.PageData;
 import com.wolves.util.StringUtils;
@@ -24,8 +29,18 @@ public class DecorateService {
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
+
 	@Resource(name="userService")
 	private UserService userService;
+
+	@Resource(name="buildmanService")
+	private BuildManService buildManService;
+
+	@Resource(name="floormanService")
+	private FloorManService floorManService;
+
+	@Resource(name="roomService")
+	private RoomService roomService;
 	
 	/**
 	* 新增
@@ -88,22 +103,46 @@ public class DecorateService {
 	/**
 	 * 保存申请
 	 */
-	public void saveApply(String token, DecorateDataDTO decorateDataDTO){
+	public void saveApply(String token, List<DecorateDataDTO> decorateDataDTOs){
 		User user = userService.getUser(token);
-		Decorate decorate = new Decorate();
-		decorate.setDecorateNo(UuidUtil.get32UUID());
-		decorate.setDecorateId(UuidUtil.get32UUID());
-		decorate.setUserId(user.getUserId());
-		decorate.setBuildmanId(decorateDataDTO.getBuildmanId());
-		decorate.setFloor(decorateDataDTO.getFloor());
-		decorate.setRoom(decorateDataDTO.getRoom());
-		decorate.setContent(decorateDataDTO.getContent());
-		decorate.setFileUrl(decorateDataDTO.getFileUrl());
-		decorate.setStatus(Integer.valueOf(StatusEnum.INIT.getKey()));
-		dao.save("DecorateMapper.saveApply", decorate);
-		user.setSfid(decorateDataDTO.getIdCard());
-		user.setSex(decorateDataDTO.getSex());
-		userService.updateUser(user);
+		if (decorateDataDTOs != null && !decorateDataDTOs.isEmpty()){
+			for (DecorateDataDTO decorateDataDTO : decorateDataDTOs){
+				Decorate decorate = new Decorate();
+				decorate.setDecorateNo(UuidUtil.get32UUID());
+				decorate.setDecorateId(UuidUtil.get32UUID());
+				decorate.setUserId(user.getUserId());
+				decorate.setType(decorateDataDTO.getType());
+				decorate.setName(decorateDataDTO.getName());
+				decorate.setSex(decorateDataDTO.getSex());
+				decorate.setIdCard(decorateDataDTO.getIdCard());
+				decorate.setPhone(decorateDataDTO.getPhone());
+				decorate.setAccess(decorateDataDTO.getAccess());
+
+				List<RoomDTO> roomDTOs = roomService.selectRoomByCompanyId(user.getCompanyId());
+				if (roomDTOs != null && !roomDTOs.isEmpty()){
+					decorate.setRoom(roomDTOs.get(0).getName());
+					FloorManDTO floorManDTO = floorManService.selectFloorManById(roomDTOs.get(0).getFloormanId());
+					if (floorManDTO !=  null){
+						decorate.setFloor(floorManDTO.getFloor());
+						PageData pd = new PageData();
+						pd.put("BUILDMAN_ID", floorManDTO.getBuildNo());
+						pd = buildManService.findById(pd);
+						if (pd != null && pd.get("BUILD_NAME") != null){
+							decorate.setBuildman(pd.get("BUILD_NAME").toString());
+						}
+					}
+				}
+				decorate.setContent(decorateDataDTO.getContent());
+				decorate.setFileUrl(decorateDataDTO.getFileUrl());
+				decorate.setStatus(Integer.valueOf(StatusEnum.INIT.getKey()));
+				dao.save("DecorateMapper.saveApply", decorate);
+				if (decorateDataDTO.getPhone().equals(user.getPhone())){
+					user.setSfid(decorateDataDTO.getIdCard());
+					user.setSex(decorateDataDTO.getSex());
+					userService.updateUser(user);
+				}
+			}
+		}
 	}
 
 	/**

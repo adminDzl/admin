@@ -23,8 +23,26 @@ public class Decorate {
     @ApiModelProperty(name = "userId",value = "用户Id")
     private String userId;
 
-    @ApiModelProperty(name = "buildmanId",value = "楼栋")
-    private String buildmanId;
+    @ApiModelProperty(name = "type",value = "身份证")
+    private String type;
+
+    @ApiModelProperty(name = "name",value = "姓名")
+    private String name;
+
+    @ApiModelProperty(name = "sex",value = "男或女")
+    private String sex;
+
+    @ApiModelProperty(name = "idCard",value = "身份证")
+    private String idCard;
+
+    @ApiModelProperty(name = "phone",value = "手机号码")
+    private String phone;
+
+    @ApiModelProperty(name = "access",value = "权限")
+    private String access;
+
+    @ApiModelProperty(name = "buildman",value = "楼栋")
+    private String buildman;
 
     @ApiModelProperty(name = "floor",value = "楼层")
     private String floor;
@@ -73,12 +91,60 @@ public class Decorate {
         this.userId = userId;
     }
 
-    public String getBuildmanId() {
-        return buildmanId;
+    public String getType() {
+        return type;
     }
 
-    public void setBuildmanId(String buildmanId) {
-        this.buildmanId = buildmanId;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAccess() {
+        return access;
+    }
+
+    public void setAccess(String access) {
+        this.access = access;
+    }
+
+    public String getBuildman() {
+        return buildman;
+    }
+
+    public void setBuildman(String buildman) {
+        this.buildman = buildman;
     }
 
     public String getFloor() {
@@ -135,22 +201,5 @@ public class Decorate {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
-    }
-
-    @Override
-    public String toString() {
-        return "Decorate{" +
-                "decorateId='" + decorateId + '\'' +
-                ", decorateNo='" + decorateNo + '\'' +
-                ", userId='" + userId + '\'' +
-                ", buildmanId='" + buildmanId + '\'' +
-                ", floor='" + floor + '\'' +
-                ", room='" + room + '\'' +
-                ", content='" + content + '\'' +
-                ", fileUrl='" + fileUrl + '\'' +
-                ", status=" + status +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                '}';
     }
 }

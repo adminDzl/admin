@@ -1,5 +1,6 @@
 package com.wolves.dto.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -11,40 +12,43 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "一卡通申请参数")
 public class DecorateDataDTO {
 
-    @ApiModelProperty(name = "idCard",value = "身份证")
-    private String idCard;
+    @ApiModelProperty(name = "type",value = "身份证")
+    private String type;
 
-    @ApiModelProperty(name = "buildmanId",value = "楼栋")
-    private String buildmanId;
+    @ApiModelProperty(name = "name",value = "姓名")
+    private String name;
 
     @ApiModelProperty(name = "sex",value = "男或女")
     private String sex;
 
-    @ApiModelProperty(name = "floor",value = "楼层")
-    private String floor;
+    @ApiModelProperty(name = "idCard",value = "身份证")
+    private String idCard;
 
-    @ApiModelProperty(name = "room",value = "所在房间")
-    private String room;
+    @ApiModelProperty(name = "phone",value = "手机号码")
+    private String phone;
+
+    @ApiModelProperty(name = "access",value = "权限")
+    private String access;
 
     @ApiModelProperty(name = "content",value = "备注")
     private String content;
 
     private String fileUrl;
 
-    public String getIdCard() {
-        return idCard;
+    public String getType() {
+        return type;
     }
 
-    public void setIdCard(String idCard) {
-        this.idCard = idCard;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getBuildmanId() {
-        return buildmanId;
+    public String getName() {
+        return name;
     }
 
-    public void setBuildmanId(String buildmanId) {
-        this.buildmanId = buildmanId;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSex() {
@@ -55,20 +59,28 @@ public class DecorateDataDTO {
         this.sex = sex;
     }
 
-    public String getFloor() {
-        return floor;
+    public String getIdCard() {
+        return idCard;
     }
 
-    public void setFloor(String floor) {
-        this.floor = floor;
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
     }
 
-    public String getRoom() {
-        return room;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setRoom(String room) {
-        this.room = room;
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAccess() {
+        return access;
+    }
+
+    public void setAccess(String access) {
+        this.access = access;
     }
 
     public String getContent() {
@@ -90,11 +102,14 @@ public class DecorateDataDTO {
     @Override
     public String toString() {
         return "DecorateDataDTO{" +
-                "idCard='" + idCard + '\'' +
-                ", buildmanId='" + buildmanId + '\'' +
-                ", floor='" + floor + '\'' +
-                ", room='" + room + '\'' +
+                "type='" + type + '\'' +
+                ", name='" + name + '\'' +
+                ", sex='" + sex + '\'' +
+                ", idCard='" + idCard + '\'' +
+                ", phone='" + phone + '\'' +
+                ", access='" + access + '\'' +
                 ", content='" + content + '\'' +
+                ", fileUrl='" + fileUrl + '\'' +
                 '}';
     }
 }

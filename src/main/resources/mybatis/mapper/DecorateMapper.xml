@@ -21,7 +21,13 @@
 		insert into DECORATE(
 			DECORATE_NO,
 			USER_ID,
-			BUILDMAN_ID,
+			`TYPE`,
+			`NAME`,
+			SEX,
+			ID_CARD,
+			PHONE,
+			ACCESS,
+			BUILDMAN,
 			FLOOR,
 			ROOM,
 			CONTENT,	
@@ -32,7 +38,13 @@
 		) values (
 			#{DECORATE_NO},
 			#{USER_ID},
-			#{BUILDMAN_ID},
+			#{BUILDMAN},
+			#{TYPE},
+			#{NAME},
+			#{SEX},
+			#{ID_CARD},
+			#{PHONE},
+			#{ACCESS},
 			#{FLOOR},
 			#{ROOM},
 			#{CONTENT},	
@@ -55,8 +67,26 @@
 				<if test="USER_ID != null">
 					USER_ID = #{USER_ID},
 				</if>
-				<if test="BUILDMAN_ID != null">
-					BUILDMAN_ID = #{BUILDMAN_ID},
+				<if test="TYPE != null">
+					`TYPE` = #{TYPE},
+				</if>
+				<if test="NAME != null">
+					`NAME` = #{NAME},
+				</if>
+				<if test="SEX != null">
+					SEX = #{SEX},
+				</if>
+				<if test="ID_CARD != null">
+					ID_CARD = #{ID_CARD},
+				</if>
+				<if test="PHONE != null">
+					PHONE = #{PHONE},
+				</if>
+				<if test="ACCESS != null">
+					ACCESS = #{ACCESS},
+				</if>
+				<if test="BUILDMAN != null">
+					BUILDMAN = #{BUILDMAN},
 				</if>
 				<if test="FLOOR != null">
 					FLOOR = #{FLOOR},
@@ -83,7 +113,13 @@
 		select
 			a.USER_ID,
 			a.DECORATE_NO,
-			b.BUILD_NAME,
+		  	a.`TYPE`,
+			a.`NAME`,
+			a.SEX,
+			a.ID_CARD,
+			a.PHONE,
+			a.ACCESS,
+			a.BUILDMAN,
 			a.FLOOR,
 			a.ROOM,
 			a.CONTENT,
@@ -92,16 +128,11 @@
 			a.CREATE_TIME,
 			a.UPDATE_TIME,
 			a.DECORATE_ID,
-			c.COMPANY_NAME,
-			u.NAME,
-			u.SFID,
-			u.PHONE,
-			u.SEX
+			c.COMPANY_NAME
 		from 
 			DECORATE a
 		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
 		LEFT JOIN company c ON (c.company_id = u.company_id)
-		LEFT JOIN BUILD_MAN b ON (b.BUILDMAN_ID = a.BUILDMAN_ID)
 		where 
 			DECORATE_ID = #{DECORATE_ID}
 	</select>
@@ -110,7 +141,13 @@
 		select
 			a.USER_ID,
 			a.DECORATE_NO,
-			b.BUILD_NAME,
+			a.`TYPE`,
+			a.`NAME`,
+			a.SEX,
+			a.ID_CARD,
+			a.PHONE,
+			a.ACCESS,
+			a.BUILDMAN,
 			a.FLOOR,
 			a.ROOM,
 			a.CONTENT,
@@ -118,15 +155,9 @@
 			a.STATUS,
 			a.CREATE_TIME,
 			a.UPDATE_TIME,
-			a.DECORATE_ID,
-			u.NAME,
-			u.SFID,
-			u.PHONE,
-			u.SEX
+			a.DECORATE_ID
 		from
 			DECORATE a
-		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
-		LEFT JOIN BUILD_MAN b ON (b.BUILDMAN_ID = a.BUILDMAN_ID)
 		WHERE 1=1
 	</select>
 	<!--查询一卡通申请-->
@@ -134,7 +165,13 @@
 		select
 			a.DECORATE_NO,
 			a.USER_ID,
-			b.BUILD_NAME,
+			a.`TYPE`,
+			a.`NAME`,
+			a.SEX,
+			a.ID_CARD,
+			a.PHONE,
+			a.ACCESS,
+			a.BUILDMAN,
 			a.FLOOR,
 			a.ROOM,
 			a.CONTENT,
@@ -143,16 +180,11 @@
 			a.CREATE_TIME,
 			a.UPDATE_TIME,
 			a.DECORATE_ID,
-			u.NAME,
-			u.SEX,
-			u.SFID,
-			u.PHONE,
 			c.COMPANY_NAME
 		from
 		DECORATE a
 		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
 		LEFT JOIN company c ON (c.company_id = u.company_id)
-		LEFT JOIN BUILD_MAN b ON (b.BUILDMAN_ID = a.BUILDMAN_ID)
 		ORDER BY c.COMPANY_NAME,a.STATUS DESC
 	</select>
 	<!-- 列表(全部) -->
@@ -160,7 +192,13 @@
 		select
 				a.DECORATE_NO,
 				a.USER_ID,
-				a.BUILDMAN_ID,
+				a.`TYPE`,
+				a.`NAME`,
+				a.SEX,
+				a.ID_CARD,
+				a.PHONE,
+				a.ACCESS,
+				a.BUILDMAN,
 				a.FLOOR,
 				a.ROOM,
 				a.CONTENT,
@@ -187,7 +225,13 @@
 		insert into DECORATE(
 			DECORATE_NO,
 			USER_ID,
-			BUILDMAN_ID,
+			`TYPE`,
+			`NAME`,
+			SEX,
+			ID_CARD,
+			PHONE,
+			ACCESS,
+			BUILDMAN,
 			FLOOR,
 			ROOM,
 			<if test="content != null and content != ''">
@@ -203,7 +247,13 @@
 		) values (
 			#{decorateNo},
 			#{userId},
-			#{buildmanId},
+			#{type},
+			#{name},
+			#{sex},
+			#{idCard},
+			#{phone},
+			#{access},
+			#{buildman},
 			#{floor},
 			#{room},
 			<if test="content != null and content != ''">
@@ -245,13 +295,15 @@
 	<select id="findUnionById" parameterType="com.wolves.dto.user.UnionDTO" resultMap="UnionDTOResultMap">
 		select
 		a.user_id,
-		a.buildman_id,
+		a.type,
+		a.name,
+		a.sex,
+		a.id_card AS idCard,
+		a.phone,
+		a.access,
+		a.buildman,
 		a.floor,
 		a.room,
-		u.name,
-		u.sfid AS idCard,
-		u.phone,
-		u.sex,
 		c.company_id AS companyId,
 		c.company_name AS companyName,
 		c.type,
