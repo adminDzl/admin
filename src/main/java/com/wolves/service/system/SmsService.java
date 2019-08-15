@@ -46,7 +46,7 @@ public class SmsService {
         String msgReturn = "";
         try{
 //            msgReturn = SmsUtil.sendByHuaXin(tel, msg);
-            msgReturn = SmsUtil.sendByChuanglan(tel, msg);
+            msgReturn = SmsUtil.sendByJiXinTong(tel, msg);
         } catch (Exception e){
             logger.error("发送短信失败", e);
         }

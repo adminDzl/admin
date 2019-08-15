@@ -42,7 +42,7 @@ public class SmsController {
         }
         String tel = telObj.toString();
         String code = (Math.random()*9+1)*100000 + "";
-        String msg = "您的验证码是：code【煦睿科技】".replaceAll("code", code);
+        String msg = ("您的验证码是：code【opark】").replaceAll("code", code);
 
         return smsService.sendSms(tel, Constants.SMS_TYPE, code, msg);
     }

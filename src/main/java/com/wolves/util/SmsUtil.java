@@ -1,5 +1,12 @@
 package com.wolves.util;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import com.alibaba.fastjson.JSON;
@@ -97,12 +104,55 @@ public class SmsUtil {
 		return returnString;
 	}
 
+	public static String sendByJiXinTong(String phone, String msg) throws Exception {
+		BufferedReader In = null;
+		PrintWriter Out = null;
+		HttpURLConnection HttpConn = null;
+
+		String data = "id=271289483&pwd=baogang12345&to="+phone+"&content=" + URLEncoder.encode(msg, "gb2312") + "&time=";
+		try {
+			java.net.URL url=new URL("http://service.winic.org/sys_port/gateway/index.asp");
+			HttpConn=(HttpURLConnection)url.openConnection();
+			HttpConn.setRequestMethod("POST");
+			HttpConn.setDoInput(true);
+			HttpConn.setDoOutput(true);
+
+			Out=new PrintWriter(HttpConn.getOutputStream());
+			Out.println(data);
+			Out.flush();
+
+			if(HttpConn.getResponseCode() == HttpURLConnection.HTTP_OK){
+				StringBuffer content = new StringBuffer();
+				String tempStr = "";
+				In = new BufferedReader(new InputStreamReader(HttpConn.getInputStream()));
+				while((tempStr = In.readLine()) != null){
+					content.append(tempStr);
+				}
+				In.close();
+				return "Success";
+			}
+			else
+			{
+				throw new Exception("HTTP_POST_ERROR_RETURN_STATUS：" + HttpConn.getResponseCode());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			Out.close();
+			HttpConn.disconnect();
+		}
+		return null;
+	}
+
+
+
 	public static void main(String[] args) throws Exception{
 //		String jixin = sendByJixin("13918147924", "你好test");
 //		System.out.println(jixin);
 //		sendByHuaXin("13918147924", "你好test");
 
-		String huaxin = sendByChuanglan("13918147924", "您的验证码是：4625【煦睿科技】");
+		//String huaxin = sendByChuanglan("13918147924", "您的验证码是：4625【煦睿科技】");
+		sendByJiXinTong("13918147924", "您的验证码是：4625【opark】");
 		//sendSms2("13511111111","您的验证码是：1111。请不要把验证码泄露给其他人。");
 	}
 
