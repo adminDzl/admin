@@ -45,7 +45,7 @@ public class CarController {
      * 查询车牌简称
      */
     @ApiOperation(httpMethod="POST",value="查询车牌简称",notes="查询车牌简称")
-    @RequestMapping(value = "/getLicensePlate", method = RequestMethod.GET)
+    @RequestMapping(value = "/getLicensePlate", method = RequestMethod.POST)
     public Result<Map<String, Object>> getLicensePlate(){
         Result<Map<String, Object>> result = new Result<Map<String, Object>>();
         Map<String, Object> map = LicensePlateEnum.queryAll();

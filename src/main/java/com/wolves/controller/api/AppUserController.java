@@ -392,7 +392,8 @@ public class AppUserController {
             result.setMsg("该企业已经存在");
             return result;
         }
-        companyService.createCompany(name, false);
+        String companyId = companyService.createCompany(name, false);
+        result.setData(companyId);
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("保存成功");
         return result;

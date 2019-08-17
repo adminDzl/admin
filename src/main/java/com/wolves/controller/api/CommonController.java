@@ -1,6 +1,9 @@
 package com.wolves.controller.api;
 
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.wolves.common.LicensePlateEnum;
 import com.wolves.common.OSSClientConstants;
 import com.wolves.dto.DownFileDTO;
 import com.wolves.dto.PictureDTO;
@@ -11,6 +14,7 @@ import com.wolves.service.system.user.UserService;
 import com.wolves.util.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.util.*;
 
 /**
@@ -80,5 +85,33 @@ public class CommonController {
         return result;
     }
 
+    @ApiOperation(value = "获取报修楼栋选项", notes = "获取报修楼栋选项")
+    @RequestMapping(value = "/queryBulid", method = RequestMethod.POST)
+    public Result<JSONArray> queryBulid(){
+        Result<JSONArray> result = new Result<JSONArray>();
+        String path = getClass().getClassLoader().getResource("bulid.json").toString();
+        path = path.replace("\\", "/");
+        if (path.contains(":")) {
+            path = path.replace("file:/","");
+        }
+        JSONArray jsonArray = null;
+        try {
+            String input = FileUtils.readFileToString(new File(path), "UTF-8");
+            JSONArray array = JSONArray.parseArray(input);
+
+            if (array != null){
+                jsonArray = array;
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            jsonArray = null;
+        }
+
+        result.setData(jsonArray);
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("查询成功");
+        return result;
+    }
 
 }

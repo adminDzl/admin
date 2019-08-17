@@ -145,7 +145,7 @@ public class CompanyService {
 	 * @param name 企业名称
 	 * @param y true 审核通过
 	 */
-	public void createCompany(String name, Boolean y){
+	public String createCompany(String name, Boolean y){
 		//判断企业是否存在
 		CompanyDTO companyDTO = new CompanyDTO();
 		companyDTO.setType(Integer.valueOf(CompanyTypeEnum.out.getKey()));
@@ -157,6 +157,8 @@ public class CompanyService {
 		companyDTO.setCompanyName(name);
 		companyDTO.setCompanyId(UuidUtil.get32UUID());
 		this.saveCompany(companyDTO);
+		List<BaseCompanyDTO> baseCompanyDTOs = this.selectCompanyByName(name);
+		return baseCompanyDTOs.get(0).getCompanyId();
 	}
 
 
