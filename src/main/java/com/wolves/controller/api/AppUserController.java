@@ -193,7 +193,7 @@ public class AppUserController {
         }
         //判断手机验证码是否存在
         if (!code.equals("901486")){
-            PageData pageData = smsService.selectOneByPhone(telephone, Integer.valueOf(SmsTypeEnum.login.getKey()));
+            PageData pageData = smsService.selectOneByPhone(telephone, Integer.valueOf(SmsTypeEnum.register.getKey()));
             String smsCode = pageData.getString("CODE");
             if (!code.equals(smsCode)){
                 result.setMsg("填写的手机验证码不正确");
