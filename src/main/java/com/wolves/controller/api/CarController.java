@@ -3,15 +3,14 @@ package com.wolves.controller.api;
 import com.alibaba.fastjson.JSONObject;
 import com.wolves.common.LicensePlateEnum;
 import com.wolves.common.StatusEnum;
-import com.wolves.dto.PageDataDTO;
-import com.wolves.dto.UserCarBindDTO;
-import com.wolves.dto.UserParkingDTO;
+import com.wolves.dto.*;
 import com.wolves.entity.app.User;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
 import com.wolves.service.system.appuser.UserCarBindService;
 import com.wolves.service.system.parking.ParkingService;
 import com.wolves.service.system.user.UserService;
+import com.wolves.service.system.usercarmonthcard.UserCarMonthCardService;
 import com.wolves.util.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -40,6 +39,8 @@ public class CarController {
     private UserCarBindService usercarbindService;
     @Resource(name="parkingService")
     private ParkingService parkingService;
+    @Resource(name="usercarmonthcardService")
+    private UserCarMonthCardService usercarmonthcardService;
 
     /**
      * 查询车牌简称
@@ -57,15 +58,15 @@ public class CarController {
     }
 
     /**
-     * 我的车辆信息
+     * 查询我的购买车牌月卡记录
      */
-    @ApiOperation(httpMethod="POST",value="我的车辆信息",notes="我的车辆信息")
+    @ApiOperation(httpMethod="POST",value="查询我的购买车牌月卡记录",notes="查询我的购买车牌月卡记录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
     })
     @RequestMapping(value = "/myCar", method = RequestMethod.POST)
-    public Result<UserCarBindDTO> myCar(@RequestHeader("Authorization") String token){
-        Result<UserCarBindDTO> result = new Result<UserCarBindDTO>();
+    public Result<List<UserCarsDTO>> myCar(@RequestHeader("Authorization") String token){
+        Result<List<UserCarsDTO>> result = new Result<List<UserCarsDTO>>();
         //使用token获取登陆人信息
         User user = userService.getUser(token);
         if (user == null){
@@ -74,22 +75,18 @@ public class CarController {
             return result;
         }
 
-        result.setData(usercarbindService.selectCarBindByUserId(user.getUserId()));
+        result.setData(usercarmonthcardService.selectUserCarByUserId(user.getUserId()));
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("查询成功");
         return result;
     }
 
     /**
-     * 绑定车牌
+     * 购买我的车辆月卡
      */
     @ApiOperation(httpMethod="POST",value="绑定车牌",notes="绑定车牌")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
-            @ApiImplicitParam(name = "jsonObject",value = "{\"plate\":\"车牌号\"}",required = true,paramType = "body",dataType = "JSONObject")
-    })
     @RequestMapping(value = "/bingCar", method = RequestMethod.POST)
-    public Result bingCar(@RequestHeader("Authorization") String token, @RequestBody JSONObject jsonObject){
+    public Result bingCar(@RequestHeader("Authorization") String token, @RequestBody UserCarDTO userCarDTO){
         Result result = new Result();
         //使用token获取登陆人信息
         User user = userService.getUser(token);
@@ -98,31 +95,55 @@ public class CarController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
-        //查询绑定车牌信息
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("userId", user.getUserId());
-        params.put("status", StatusEnum.SUCCESS.getKey());
-        List<UserCarBindDTO> userCarBindDTOs = usercarbindService.selectMyCar(params);
-        if (userCarBindDTOs != null && !userCarBindDTOs.isEmpty()){
-            result.setMsg("已存在车辆信息，不需重复提交");
-            result.setResult(ResultCode.FAIL);
-            return result;
-        }
-        String plate = jsonObject.getString("plate");
+        String plate = userCarDTO.getPlate();
         if (StringUtils.isEmpty(plate.trim())){
             result.setMsg("请填写你的车牌号");
             result.setResult(ResultCode.FAIL);
             return result;
         }
-
+        //查询绑定车牌信息
+        UserCarMonthCardDTO userCarMonthCardDTO = usercarmonthcardService.selectCarByCarNo(plate);
+        if (userCarMonthCardDTO != null){
+            result.setMsg("该车牌已经购买了月卡");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
         //存入数据
-        PageData pd = new PageData();
-        pd.put("USER_CAR_BIND_ID", UuidUtil.get32UUID());
-        pd.put("STATUS", StatusEnum.INIT.getKey());
-        pd.put("USER_ID",user.getUserId());
-        pd.put("CAR_NO",plate);
-        pd.put("REMARK","");
-        usercarbindService.save(pd);
+        usercarmonthcardService.createUserCar(user, userCarDTO);
+
+        //返回结果
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("提交成功");
+        return result;
+    }
+
+    /**
+     * 续费，停车卡记录
+     */
+    @ApiOperation(httpMethod="POST",value="续费停车月卡",notes="续费停车月卡")
+    @RequestMapping(value = "/RenewalCar", method = RequestMethod.POST)
+    public Result RenewalCar(@RequestHeader("Authorization") String token, @RequestBody UserCarRenewalDTO userCarRenewalDTO){
+        Result result = new Result();
+        //使用token获取登陆人信息
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+       String id = userCarRenewalDTO.getUserCarMonthCardId();
+        if (StringUtils.isEmpty(id)){
+            result.setMsg("请选择你续费的月卡");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        //修改
+        Integer status = usercarmonthcardService.updateCarDateById(user, userCarRenewalDTO);
+        if (status == 0){
+            result.setMsg("该月卡信息不存在");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
 
         //返回结果
         result.setResult(ResultCode.SUCCESS);

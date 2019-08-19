@@ -48,9 +48,9 @@
 						<th class="center">序号</th>
 						<th class="center">用户名</th>
 						<th class="center">月卡号</th>
+						<th class="center">车牌号</th>
 						<th class="center">金额</th>
 						<th class="center">有效日期</th>
-						<th class="center">月卡状态</th>
 						<th class="center">创建时间</th>
 						<th class="center">操作</th>
 					</tr>
@@ -67,12 +67,9 @@
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 										<td>${var.NAME}</td>
 										<td>${var.CARD_NO}</td>
+										<td>${var.CAR_NO}</td>
 										<td>${var.PRICE}</td>
 										<td>${var.USE_TIL_DATE}</td>
-										<td>
-											<c:if test="${var.CARD_STATUS == 1}"><span class="label label-success arrowed">有效</span></c:if>
-											<c:if test="${var.CARD_STATUS == 0}"><span class="label label-success arrowed">过期</span></c:if>
-										</td>
 										<td>${var.CREATE_TIME}</td>
 								<td style="width: 100px;" class="center">
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">

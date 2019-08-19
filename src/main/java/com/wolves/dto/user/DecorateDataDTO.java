@@ -1,6 +1,5 @@
 package com.wolves.dto.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -12,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "一卡通申请参数")
 public class DecorateDataDTO {
 
-    @ApiModelProperty(name = "type",value = "身份证")
+    @ApiModelProperty(name = "type",value = "业务类型")
     private String type;
 
     @ApiModelProperty(name = "name",value = "姓名")

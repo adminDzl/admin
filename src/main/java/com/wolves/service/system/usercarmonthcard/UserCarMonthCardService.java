@@ -2,17 +2,18 @@ package com.wolves.service.system.usercarmonthcard;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 import javax.annotation.Resource;
 
 import com.wolves.common.PayTypeEnum;
 import com.wolves.common.StatusEnum;
+import com.wolves.dto.UserCarDTO;
 import com.wolves.dto.UserCarMonthCardDTO;
+import com.wolves.dto.UserCarRenewalDTO;
+import com.wolves.dto.UserCarsDTO;
 import com.wolves.dto.user.ExportDTO;
 import com.wolves.entity.app.PayOrder;
+import com.wolves.entity.app.User;
 import com.wolves.service.system.payorder.PayOrderService;
 import com.wolves.service.system.user.UserService;
 import com.wolves.util.StringUtils;
@@ -201,6 +202,95 @@ public class UserCarMonthCardService {
 				dao.save("UserCarMonthCardMapper.createMonthCard", userCarMonthCardDTO);
 			}
 		}
+	}
+
+	/**
+	 * 创建单个月卡
+	 * @param userCarMonthCardDTO
+	 */
+	public void createMonthCardCar(UserCarMonthCardDTO userCarMonthCardDTO){
+		userCarMonthCardDTO.setUserCarMonthCardId(UuidUtil.get32UUID());
+		dao.save("UserCarMonthCardMapper.createMonthCard", userCarMonthCardDTO);
+	}
+
+	/**
+	 * 通过车牌号查询
+	 * @param carNo
+	 * @return
+	 */
+	public UserCarMonthCardDTO selectCarByCarNo(String carNo){
+
+		return (UserCarMonthCardDTO)dao.findForObject("UserCarMonthCardMapper.selectCarByCarNo", carNo);
+	}
+
+	/**
+	 * 创建车牌月卡
+	 * @param user
+	 * @param userCarDTO
+	 */
+	public void createUserCar(User user, UserCarDTO userCarDTO){
+
+		UserCarMonthCardDTO monthCardDTO = new UserCarMonthCardDTO();
+		monthCardDTO.setUserId(user.getUserId());
+		monthCardDTO.setUserName(user.getName());
+		monthCardDTO.setCardNo(UuidUtil.get32UUID());
+		monthCardDTO.setCarNo(userCarDTO.getPlate());
+		monthCardDTO.setPrice("30");
+		Integer day = userCarDTO.getMonth()*30;
+		monthCardDTO.setUseTilDate(this.getDay(day));
+		this.createMonthCardCar(monthCardDTO);
+	}
+
+	private Date getDay(Integer day){
+		Calendar calendar2 = Calendar.getInstance();
+		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+		calendar2.add(Calendar.DATE, day);
+		String dayAfter = sdf2.format(calendar2.getTime());
+
+		try {
+			return sdf2.parse(dayAfter);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * 查询购买月卡车辆信息
+	 * @param userId
+	 * @return
+	 */
+	public List<UserCarsDTO> selectUserCarByUserId(String userId){
+
+		return (List<UserCarsDTO>)dao.findForList("UserCarMonthCardMapper.selectUserCarByUserId", userId);
+	}
+
+	/**
+	 * 通过id查询
+	 * @param userCarMonthCardId
+	 * @return
+	 */
+	public UserCarMonthCardDTO selectUserCarById(String userCarMonthCardId){
+
+		return (UserCarMonthCardDTO)dao.findForObject("UserCarMonthCardMapper.selectUserCarById", userCarMonthCardId);
+	}
+
+	/**
+	 * 缴费
+	 * @param user
+	 * @param userCarRenewalDTO
+	 * @return
+	 */
+	public Integer updateCarDateById(User user, UserCarRenewalDTO userCarRenewalDTO){
+		UserCarMonthCardDTO userCarMonthCardDTO = this.selectUserCarById(userCarRenewalDTO.getUserCarMonthCardId());
+		if (userCarMonthCardDTO != null){
+			Integer day = userCarRenewalDTO.getMonth()*30;
+			userCarMonthCardDTO.setUpdateTime(this.getDay(day));
+
+			dao.update("UserCarMonthCardMapper.updateCarDateById", userCarMonthCardDTO);
+			return 1;
+		}
+		return 0;
 	}
 }
 

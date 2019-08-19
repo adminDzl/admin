@@ -18,23 +18,43 @@
 		<result column="ID_CARD_BACK_URL" property="imageBack"/>
 	</resultMap>
 
+	<resultMap type="com.wolves.dto.UserCarMonthCardDTO" id="UserCarResultMap">
+		<id column="user_car_month_card_id" property="userCarMonthCardId"/>
+		<result column="user_id" property="userId"/>
+		<result column="card_no" property="cardNo"/>
+		<result column="car_no" property="carNo"/>
+		<result column="price" property="price"/>
+		<result column="use_til_date" property="useTilDate"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+	</resultMap>
+
+	<resultMap type="com.wolves.dto.UserCarsDTO" id="UserCarsResultMap">
+		<id column="user_car_month_card_id" property="userCarMonthCardId"/>
+		<result column="user_id" property="userId"/>
+		<result column="card_no" property="cardNo"/>
+		<result column="car_no" property="carNo"/>
+		<result column="use_til_date" property="useTilDate"/>
+		<result column="create_time" property="createTime"/>
+	</resultMap>
+
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into USER_CAR_MONTH_CARD(
 			USER_ID,	
-			CARD_NO,	
+			CARD_NO,
+			CAR_NO,
 			PRICE,	
-			USE_TIL_DATE,	
-			CARD_STATUS,	
+			USE_TIL_DATE,
 			CREATE_TIME,	
 			UPDATE_TIME,	
 			user_car_month_card_id
 		) values (
 			#{USER_ID},	
-			#{CARD_NO},	
+			#{CARD_NO},
+			#{CAR_NO},
 			#{PRICE},	
-			#{USE_TIL_DATE},	
-			#{CARD_STATUS},	
+			#{USE_TIL_DATE},
 			now(),
 			now(),
 			#{user_car_month_card_id}
@@ -52,9 +72,9 @@
 			set 
 				USER_ID = #{USER_ID},
 				CARD_NO = #{CARD_NO},
+				CAR_NO = #{CAR_NO},
 				PRICE = #{PRICE},
 				USE_TIL_DATE = #{USE_TIL_DATE},
-				CARD_STATUS = #{CARD_STATUS},
 				UPDATE_TIME = now(),
 			user_car_month_card_id = user_car_month_card_id
 			where 
@@ -65,9 +85,9 @@
 		select 
 			a.USER_ID,
 			a.CARD_NO,
+			a.CAR_NO,
 			a.PRICE,
 			a.USE_TIL_DATE,
-			a.CARD_STATUS,
 			a.CREATE_TIME,
 			a.UPDATE_TIME,
 			a.user_car_month_card_id,
@@ -84,10 +104,10 @@
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
 				a.USER_ID,	
-				a.CARD_NO,	
+				a.CARD_NO,
+				a.CAR_NO,
 				a.PRICE,	
-				a.USE_TIL_DATE,	
-				a.CARD_STATUS,	
+				a.USE_TIL_DATE,
 				a.CREATE_TIME,	
 				a.UPDATE_TIME,	
 				a.user_car_month_card_id,
@@ -100,10 +120,10 @@
 	<select id="listAll" parameterType="pd" resultType="pd">
 		select
 				a.USER_ID,	
-				a.CARD_NO,	
+				a.CARD_NO,
+				a.CAR_NO,
 				a.PRICE,	
-				a.USE_TIL_DATE,	
-				a.CARD_STATUS,	
+				a.USE_TIL_DATE,
 				a.CREATE_TIME,	
 				a.UPDATE_TIME,	
 				a.user_car_month_card_id
@@ -124,9 +144,9 @@
 		select
 		a.USER_ID,
 		a.CARD_NO,
+		a.CAR_NO,
 		a.PRICE,
 		a.USE_TIL_DATE,
-		a.CARD_STATUS,
 		a.CREATE_TIME,
 		a.UPDATE_TIME,
 		a.user_car_month_card_id,
@@ -135,7 +155,6 @@
 		u.PHONE,
 		u.ID_CARD_FRONT_URL,
 		u.ID_CARD_BACK_URL,
-		b.CAR_NO,
 		p.PAY_AMOUNT,
 		p.PAY_TIME,
 		c.COMPANY_ID,
@@ -143,7 +162,6 @@
 		from
 		USER_CAR_MONTH_CARD a
 		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
-		LEFT JOIN USER_CAR_BIND b ON (b.USER_ID = a.USER_ID AND b.STATUS = 1)
 		LEFT JOIN PAY_ORDER p ON (p.USER_ID = a.USER_ID AND p.PAY_TYPE = 4 AND p.PAY_STATUS = 1)
 		LEFT JOIN COMPANY c ON (c.COMPANY_ID = u.COMPANY_ID)
 		where
@@ -155,6 +173,7 @@
 		insert into USER_CAR_MONTH_CARD(
 		USER_ID,
 		CARD_NO,
+		CAR_NO,
 		PRICE,
 		USE_TIL_DATE,
 		CARD_STATUS,
@@ -164,12 +183,74 @@
 		) values (
 		#{userId},
 		#{cardNo},
+		#{carNo},
 		#{price},
 		#{useTilDate},
-		#{cardStatus},
 		now(),
 		now(),
 		#{userCarMonthCardId}
 		)
 	</insert>
+
+	<select id="selectCarByCarNo" parameterType="com.wolves.dto.UserCarMonthCardDTO" resultMap="UserCarResultMap">
+		SELECT
+		user_car_month_card_id,
+		user_id,
+		card_no,
+		car_no
+		price,
+		use_til_date,
+		create_time,
+		update_time
+		FROM USER_CAR_MONTH_CARD
+		WHERE car_no = #{carNo} AND use_til_date > now()  LIMIT 1
+	</select>
+
+	<select id="selectUserCarByUserId" parameterType="com.wolves.dto.UserCarsDTO" resultMap="UserCarsResultMap">
+		SELECT
+		user_car_month_card_id,
+		user_id,
+		card_no,
+		car_no
+		price,
+		use_til_date,
+		create_time
+		FROM USER_CAR_MONTH_CARD
+		WHERE user_id = #{userId} AND use_til_date > now()
+	</select>
+
+	<select id="selectUserCarById" parameterType="com.wolves.dto.UserCarMonthCardDTO" resultMap="UserCarResultMap">
+		SELECT
+		user_car_month_card_id,
+		user_id,
+		card_no,
+		car_no
+		price,
+		use_til_date,
+		create_time,
+		update_time
+		FROM USER_CAR_MONTH_CARD
+		WHERE user_car_month_card_id = #{userCarMonthCardId}
+	</select>
+
+	<update id="updateCarDateById" parameterType="com.wolves.dto.UserCarMonthCardDTO">
+		update  USER_CAR_MONTH_CARD
+			set
+				<if test="userId != null">
+					USER_ID = #{userId},
+				</if>
+				<if test="cardNo != null">
+					CARD_NO = #{cardNo},
+				</if>
+				<if test="carNo != null">
+					CAR_NO = #{carNo},
+				</if>
+				<if test="useTilDate != null">
+					USE_TIL_DATE = #{useTilDate},
+				</if>
+				UPDATE_TIME = now(),
+				user_car_month_card_id = user_car_month_card_id
+			where
+				user_car_month_card_id = #{userCarMonthCardId}
+	</update>
 </mapper>

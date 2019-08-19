@@ -806,7 +806,7 @@ public class AppUserController {
     @ApiOperation(httpMethod="POST",value="一卡通申请",notes="一卡通申请")
     @RequestMapping(value = "/apply", method = RequestMethod.POST)
     public Result createApply(@RequestHeader("Authorization") String token,
-                            @RequestBody List<DecorateDataDTO> decorateDataDTOs){
+                              @RequestBody List<DecorateDataDTO> decorateDataDTOs){
         Result result = new Result();
         //使用token获取登陆人信息
         User user = userService.getUser(token);

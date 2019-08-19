@@ -1,29 +1,36 @@
 package com.wolves.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.Date;
 
 /**
- * @author gf
+ * Created by Administrator on 2019/8/19.
  */
-public class UserCarMonthCardDTO {
+@ApiModel(description = "我购买月卡的车辆信息")
+public class UserCarsDTO {
 
+    @ApiModelProperty(name = "userCarMonthCardId",value = "ID")
     private String userCarMonthCardId;
 
+    @ApiModelProperty(name = "userId",value = "用户ID")
     private String userId;
 
-    private String userName;
-
+    @ApiModelProperty(name = "cardNo",value = "月卡号")
     private String cardNo;
 
+    @ApiModelProperty(name = "carNo",value = "车牌号")
     private String carNo;
 
-    private String price;
-
+    @ApiModelProperty(name = "useTilDate",value = "到期时间")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date useTilDate;
 
+    @ApiModelProperty(name = "createTime",value = "创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
-
-    private Date updateTime;
 
     public String getUserCarMonthCardId() {
         return userCarMonthCardId;
@@ -39,14 +46,6 @@ public class UserCarMonthCardDTO {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public String getCardNo() {
@@ -65,14 +64,6 @@ public class UserCarMonthCardDTO {
         this.carNo = carNo;
     }
 
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
     public Date getUseTilDate() {
         return useTilDate;
     }
@@ -89,24 +80,15 @@ public class UserCarMonthCardDTO {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
     @Override
     public String toString() {
-        return "UserCarMonthCardDTO{" +
+        return "UserCarsDTO{" +
                 "userCarMonthCardId='" + userCarMonthCardId + '\'' +
                 ", userId='" + userId + '\'' +
                 ", cardNo='" + cardNo + '\'' +
-                ", price='" + price + '\'' +
+                ", carNo='" + carNo + '\'' +
                 ", useTilDate=" + useTilDate +
                 ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
                 '}';
     }
 }
