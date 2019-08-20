@@ -101,10 +101,6 @@
 				</td>
 			</tr>
 			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;"> 区域:</td>
-				<td><input type="text" name="area" id="area" value="${pd.AREA}" maxlength="32" placeholder="区域" title="区域"/></td>
-			</tr>
-			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;"> 楼层:</td>
 				<td><input type="text" name="FLOOR" id="FLOOR" value="${pd.FLOOR}" maxlength="32" placeholder="这里输入 楼层" title=" 楼层"/></td>
 			</tr>

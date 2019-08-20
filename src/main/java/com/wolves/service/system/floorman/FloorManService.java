@@ -44,7 +44,16 @@ public class FloorManService {
 	public List<PageData> list(Page page) {
 		return (List<PageData>)dao.findForList("FloorManMapper.datalistPage", page);
 	}
-	
+
+	/**
+	 *列表
+	 */
+	public List<PageData> getByBodyId(Integer bodyId){
+		PageData pd = new PageData();
+		pd.put("bodyId", bodyId);
+		return (List<PageData>)dao.findForList("FloorManMapper.getByBodyId", pd);
+	}
+
 	/**
 	*列表(全部)
 	*/

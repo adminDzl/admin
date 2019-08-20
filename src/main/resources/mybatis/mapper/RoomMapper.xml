@@ -14,13 +14,15 @@
 			FLOORMAN_ID,	
 			ROOM_NAME,	
 			ROOM_ID,
-			COMPANY_ID
+			area,
+			COMPANY_ID,
 			create_time,
 			update_time
 		) values (
 			#{FLOORMAN_ID},	
 			#{ROOM_NAME},	
 			#{ROOM_ID},
+			#{AREA},
 			#{COMPANY_ID},
 			now(),
 			now()
@@ -39,6 +41,7 @@
 				ROOM_NAME = #{ROOM_NAME},
 				FLOORMAN_ID=#{FLOORMAN_ID},
 				COMPANY_ID=#{COMPANY_ID},
+				AREA=#{AREA},
 				update_time = now()
 			where 
 				ROOM_ID = #{ROOM_ID}
@@ -51,7 +54,9 @@
 			a.ROOM_ID,
 			f.build_no,
 			f.floor,
-			a.company_id
+			a.company_id,
+			a.AREA,
+			f.build_body_id
 		from 
 			ROOM a
 		LEFT JOIN floor_man f ON (f.floorman_id = a.floorman_id)
@@ -61,16 +66,19 @@
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		SELECT
-			a.FLOORMAN_ID,
-			a.ROOM_NAME,
-			a.ROOM_ID,
-			f.floor,
-			f.build_no,
-			b.build_name,
-			c.company_name
+		a.FLOORMAN_ID,
+		a.ROOM_NAME,
+		a.ROOM_ID,
+		f.floor,
+		f.build_no,
+		b.build_name,
+		d.body_name,
+		a.area,
+		c.company_name
 		FROM
-			ROOM a
+		ROOM a
 		LEFT JOIN floor_man f ON (f.floorman_id = a.floorman_id)
+		left join build_body d on (f.build_body_id = d.id)
 		LEFT JOIN build_man b ON (b.BUILDMAN_ID = f.build_no)
 		left join company c on a.company_id=c.company_id
 		WHERE 1=1

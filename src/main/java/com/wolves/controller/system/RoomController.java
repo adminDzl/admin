@@ -14,6 +14,7 @@ import com.wolves.dto.FloorManAllDTO;
 import com.wolves.dto.user.BaseCompanyDTO;
 import com.wolves.entity.system.Page;
 import com.wolves.service.system.CompanyService;
+import com.wolves.service.system.buildbody.BuildBodyService;
 import com.wolves.service.system.buildman.BuildManService;
 import com.wolves.service.system.floorman.FloorManService;
 import org.apache.shiro.SecurityUtils;
@@ -50,6 +51,8 @@ public class RoomController extends BaseController {
 	private BuildManService buildmanService;
 	@Resource(name="companyService")
 	private CompanyService companyService;
+	@Resource(name="buildBodyService")
+	private BuildBodyService buildBodyService;
 	
 	/**
 	 * 新增
@@ -127,6 +130,7 @@ public class RoomController extends BaseController {
 		mv.addObject("pd", pd);
 		mv.addObject("buildman",buildmanService.listAll(pd));
 		mv.addObject("company", companyService.selectAllCompany());
+
 		return mv;
 	}	
 	
@@ -144,6 +148,12 @@ public class RoomController extends BaseController {
 		mv.addObject("pd", pd);
 		mv.addObject("buildman",buildmanService.listAll(pd));
 		mv.addObject("company", companyService.selectAllCompany());
+
+		String buildId = pd.getString("build_no");
+		mv.addObject("buildbodys",buildBodyService.getByBuildId(buildId));
+
+		Integer bodyId = (Integer)pd.get("build_body_id");
+		mv.addObject("floors",floormanService.getByBodyId(bodyId));
 		return mv;
 	}
 

@@ -75,7 +75,6 @@
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 									<td>${var.buildName}</td>
 									<td>${var.body_name}</td>
-									<td>${var.area}</td>
 									<td>${var.FLOOR}</td>
 									<td>${var.FLOOR_MASTER_NAME}</td>
 									<td>${var.MASTER_TEL}</td>

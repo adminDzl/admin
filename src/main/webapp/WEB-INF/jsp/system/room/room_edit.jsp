@@ -101,9 +101,9 @@
 		<div id="zhongxin">
 		<table id="table_report" class="table table-striped table-bordered table-hover">
 			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">楼栋:</td>
+				<td style="width:70px;text-align: right;padding-top: 13px;">楼宇:</td>
 				<td>
-					<select name="BUILD_NO" id="BUILD_NO" maxlength="32" placeholder="这里选择楼栋" title="楼栋" value="${pd.build_no}" onchange="getFloorMan();">
+					<select name="BUILD_NO" id="BUILD_NO" maxlength="32" placeholder="这里选择楼宇" title="楼宇" value="${pd.build_no}" onchange="getFloorMan();">
 						<option value=''>请选择</option>
 						<c:forEach items="${buildman}" varStatus="status" var="item">
 							<option value="${item.BUILDMAN_ID }" <c:if test="${item.BUILDMAN_ID == pd.build_no}">selected</c:if>>${item.BUILD_NAME }</option>
@@ -112,13 +112,30 @@
 				</td>
 			</tr>
 			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">楼层:</td>
+				<td style="width:70px;text-align: right;padding-top: 13px;">楼体:</td>
 				<td>
-					<select name="FLOORMAN_ID" id="FLOORMAN_ID" maxlength="32" placeholder="这里选择楼层" title="楼层" value="${pd.floorman_id}">
+					<select name="BUILD_BODY" id="BUILD_BODY" maxlength="32" placeholder="这里选择楼体" title="楼体" >
 						<option value=''>请选择</option>
-
+						<c:forEach items="${buildbodys}" varStatus="status" var="item">
+							<option value="${item.ID }" <c:if test="${item.ID==pd.build_body_id}">selected</c:if>>${item.BODY_NAME }</option>
+						</c:forEach>
 					</select>
 				</td>
+			</tr>
+			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;">楼层:</td>
+				<td>
+					<select name="FLOORMAN_ID" id="FLOORMAN_ID" maxlength="32" placeholder="这里选择楼层" title="楼层">
+						<option value=''>请选择</option>
+						<c:forEach items="${floors}" varStatus="status" var="item">
+							<option value="${item.FLOORMAN_ID }" <c:if test="${item.FLOORMAN_ID==pd.FLOORMAN_ID}">selected</c:if>>${item.FLOOR }</option>
+						</c:forEach>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;">区域:</td>
+				<td><input type="text" name="AREA" id="AREA" value="${pd.AREA}" maxlength="32" placeholder="这里输入区域" title="区域"/></td>
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">入驻公司:</td>
@@ -159,7 +176,54 @@
 			$(".chzn-select-deselect").chosen({allow_single_deselect:true}); 
 			//日期框
 			$('.date-picker').datepicker();
+			$("#BUILD_NO").change(function(){
+				appendHtml1();
+			});
+			$("#BUILD_BODY").change(function(){
+				appendHtml2();
+			});
 		});
+
+		function appendHtml1() {
+			var buildId = $("#BUILD_NO").val();
+			if('' == buildId || null == buildId || undefined == buildId){
+				$('#BUILD_BODY').html("<option value=''>请选择</option>");
+			} else {
+				$.ajax({
+					url: "/buildbody/selectByBuildId?buildId=" + buildId,
+					type: "GET",
+					success: function (data) {
+						var arr = data;
+						var newHtml = "<option value=''>请选择</option>";
+						for ( var i = 0; i <arr.length; i++){
+							newHtml = newHtml + "<option value='"+arr[i].ID+"'>"+arr[i].BODY_NAME+"</option>";
+						}
+						$('#BUILD_BODY').html(newHtml);
+					}
+				});
+			}
+		}
+
+		function appendHtml2() {
+			var bodyId = $("#BUILD_BODY").val();
+			if('' == bodyId || null == bodyId || undefined == bodyId){
+				$('#FLOORMAN_ID').html("<option value=''>请选择</option>");
+			} else {
+				$.ajax({
+					url: "/floorman/selectByBodyId?bodyId=" + bodyId,
+					type: "GET",
+					success: function (data) {
+						console.log("data",data)
+						var arr = data;
+						var newHtml = "<option value=''>请选择</option>";
+						for ( var i = 0; i <arr.length; i++){
+							newHtml = newHtml + "<option value='"+arr[i].FLOORMAN_ID+"'>"+arr[i].FLOOR+"</option>";
+						}
+						$('#FLOORMAN_ID').html(newHtml);
+					}
+				});
+			}
+		}
 		</script>
 </body>
 </html>

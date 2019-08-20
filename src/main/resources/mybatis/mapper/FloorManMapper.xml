@@ -33,7 +33,6 @@
 			MASTER_TEL,	
 			CREATE_TIME,
 			build_body_id,
-			area,
 			FLOORMAN_ID
 		) values (
 			#{BUILD_NO},	
@@ -42,7 +41,6 @@
 			#{MASTER_TEL},	
 			now(),
 			#{BUILD_BODY},
-			#{area},
 			#{FLOORMAN_ID}
 		)
 	</insert>
@@ -62,7 +60,6 @@
 				MASTER_TEL = #{MASTER_TEL},
 				CREATE_TIME = now(),
 				build_body_id = #{BUILD_BODY},
-				area = #{area},
 				FLOORMAN_ID = FLOORMAN_ID
 			where 
 				FLOORMAN_ID = #{FLOORMAN_ID}
@@ -77,12 +74,24 @@
 			MASTER_TEL,	
 			CREATE_TIME,
 			BUILD_BODY_ID,
-			AREA,
 			FLOORMAN_ID
 		from 
 			FLOOR_MAN
 		where 
 			FLOORMAN_ID = #{FLOORMAN_ID}
+	</select>
+
+	<select id="getByBodyId" parameterType="pd" resultType="pd">
+		select
+			FLOOR,
+			FLOOR_MASTER_NAME,
+			MASTER_TEL,
+			BUILD_BODY_ID,
+			FLOORMAN_ID
+		from
+			FLOOR_MAN
+		where
+			BUILD_BODY_ID = #{bodyId}
 	</select>
 
 	<!-- 列表 -->
@@ -94,7 +103,6 @@
 				a.MASTER_TEL,	
 				a.CREATE_TIME,	
 				a.FLOORMAN_ID,
-				a.area,
 				c.body_name
 		from 
 				FLOOR_MAN a

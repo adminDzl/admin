@@ -38,8 +38,10 @@
 						<label><input type="checkbox" id="zcheckbox" /><span class="lbl"></span></label>
 						</th>
 						<th class="center">序号</th>
-						<th class="center">楼栋</th>
+						<th class="center">楼宇</th>
+						<th class="center">楼体</th>
 						<th class="center">楼层</th>
+						<th class="center">区域</th>
 						<th class="center">租位号</th>
 						<th class="center">公司名</th>
 						<th class="center">操作</th>
@@ -56,7 +58,9 @@
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 								<td>${var.build_name}</td>
+								<td>${var.body_name}</td>
 								<td>${var.floor}</td>
+								<td>${var.area}</td>
 								<td>${var.ROOM_NAME}</td>
 								<td>${var.company_name}</td>
 								<td style="width: 100px;" class="center">

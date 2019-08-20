@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import com.wolves.controller.base.BaseController;
 import com.wolves.entity.system.Page;
@@ -113,6 +114,15 @@ public class FloorManController extends BaseController {
 		mv.addObject("pd", pd);
 		mv.addObject(Const.SESSION_QX,this.getHC());
 		return mv;
+	}
+
+
+
+	@RequestMapping(value="/selectByBodyId")
+	@ResponseBody
+	public List<PageData> selectByBodyId(HttpServletRequest request){
+		Integer bodyId = Integer.parseInt(request.getParameter("bodyId"));
+		return floormanService.getByBodyId(bodyId);
 	}
 	
 	/**
