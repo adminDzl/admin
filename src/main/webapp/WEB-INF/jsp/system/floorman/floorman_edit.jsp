@@ -79,15 +79,30 @@
 		<div id="zhongxin">
 		<table id="table_report" class="table table-striped table-bordered table-hover">
 			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">楼栋号:</td>
+				<td style="width:70px;text-align: right;padding-top: 13px;">楼宇:</td>
 				<td>
-					<select name="BUILD_NO" id="BUILD_NO" maxlength="32" placeholder="这里选择楼栋" title="楼栋" >
+					<select name="BUILD_NO" id="BUILD_NO" maxlength="32" placeholder="这里选择楼宇" title="楼宇" >
 						<option value=''>请选择</option>
 						<c:forEach items="${buildman}" varStatus="status" var="item">
 							<option value="${item.BUILDMAN_ID }" <c:if test="${item.BUILDMAN_ID==pd.BUILD_NO}">selected</c:if>>${item.BUILD_NAME }</option>
 						</c:forEach>
 					</select>
 				</td>
+			</tr>
+			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;">楼体:</td>
+				<td>
+					<select name="BUILD_BODY" id="BUILD_BODY" maxlength="32" placeholder="这里选择楼体" title="楼体" >
+						<option value=''>请选择</option>
+						<c:forEach items="${buildbodys}" varStatus="status" var="item">
+							<option value="${item.ID }" <c:if test="${item.ID==pd.BUILD_BODY_ID}">selected</c:if>>${item.BODY_NAME }</option>
+						</c:forEach>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;"> 区域:</td>
+				<td><input type="text" name="area" id="area" value="${pd.AREA}" maxlength="32" placeholder="区域" title="区域"/></td>
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;"> 楼层:</td>
@@ -123,7 +138,29 @@
 			$(".chzn-select").chosen();
 			$(".chzn-select-deselect").chosen({allow_single_deselect:true}); 
 			$('.date-picker').datepicker();
+			$("#BUILD_NO").change(function(){
+				appendHtml();
+			});
 		});
+		function appendHtml() {
+			var buildId = $("#BUILD_NO").val();
+			if('' == buildId || null == buildId || undefined == buildId){
+				$('#BUILD_BODY').html("<option value=''>请选择</option>");
+			} else {
+				$.ajax({
+					url: "/buildbody/selectByBuildId?buildId=" + buildId,
+					type: "GET",
+					success: function (data) {
+						var arr = data;
+						var newHtml = "<option value=''>请选择</option>";
+						for ( var i = 0; i <arr.length; i++){
+							newHtml = newHtml + "<option value='"+arr[i].ID+"'>"+arr[i].BODY_NAME+"</option>";
+						}
+						$('#BUILD_BODY').html(newHtml);
+					}
+				});
+			}
+		}
 		</script>
 </body>
 </html>

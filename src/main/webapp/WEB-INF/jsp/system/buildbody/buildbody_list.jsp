@@ -16,20 +16,7 @@
 <div id="page-content" class="clearfix">
   <div class="row-fluid">
 	<div class="row-fluid">
-			<form action="buildman/list.do" method="post" name="Form" id="Form">
-			<%--<table>--%>
-				<%--<tr>--%>
-					<%--<td>--%>
-						<%--<span class="input-icon">--%>
-							<%--<input autocomplete="off" id="nav-search-input" type="text" name="BUILD_MASTER_NAME" value="" placeholder="这里输入楼栋负责人" />--%>
-							<%--<i class="icon-search"></i>--%>
-						<%--</span>--%>
-					<%--</td>--%>
-					<%--<td><input class="span10 date-picker" name="lastLoginStart" id="lastLoginStart" value="${pd.lastLoginStart}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期"/></td>--%>
-					<%--<td><input class="span10 date-picker" name="lastLoginEnd" id="lastLoginEnd" value="${pd.lastLoginEnd}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="结束日期"/></td>--%>
-					<%--<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"  title="检索"><i class="icon-search"></i></button></td>--%>
-				<%--</tr>--%>
-			<%--</table>--%>
+			<form action="buildbody/list.do" method="post" name="Form" id="Form">
 			<table id="table_report" class="table table-striped table-bordered table-hover">
 				<thead>
 					<tr>
@@ -37,10 +24,8 @@
 						<label><input type="checkbox" id="zcheckbox" /><span class="lbl"></span></label>
 						</th>
 						<th class="center">序号</th>
-						<th class="center">楼栋</th>
-						<th class="center">楼栋负责人</th>
-						<th class="center">联系方式</th>
-						<th class="center">创建时间</th>
+						<th class="center">楼宇</th>
+						<th class="center">楼体</th>
 						<th class="center">操作</th>
 					</tr>
 				</thead>
@@ -51,27 +36,27 @@
 						<c:forEach items="${varList}" var="var" varStatus="vs">
 							<tr>
 								<td class='center' style="width: 30px;">
-									<label><input type='checkbox' name='ids' value="${var.BUILDMAN_ID}" /><span class="lbl"></span></label>
+									<label><input type='checkbox' name='ids' value="${var.ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-										<td>${var.BUILD_NAME}</td>
-										<td>${var.BUILD_MASTER_NAME}</td>
-										<td>${var.MASTER_TEL}</td>
-										<td>${var.CREATE_TIME}</td>
+								<td>${var.build_name}</td>
+								<td>${var.BODY_NAME}</td>
 								<td style="width: 100px;" class="center">
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">
 										<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>
 									</c:if>
 
 									<c:if test="${QX.edit == 1 }">
-										<a class='btn btn-mini btn-info' title="编辑" onclick="edit('${var.BUILDMAN_ID}');"><i class="icon-edit"></i></a>
+										<a class='btn btn-mini btn-info' title="编辑" onclick="edit('${var.ID}');"><i class="icon-edit"></i></a>
 									</c:if>
 									<c:if test="${QX.del == 1 }">
-										<a class='btn btn-mini btn-danger' title="删除" onclick="del('${var.BUILDMAN_ID}');"><i class='icon-trash'></i></a>
+										<a class='btn btn-mini btn-danger' title="删除" onclick="del('${var.ID}');"><i class='icon-trash'></i></a>
 									</c:if>
+
+
+
 								</td>
 							</tr>
-						
 						</c:forEach>
 						</c:if>
 						<c:if test="${QX.cha == 0 }">
@@ -88,7 +73,6 @@
 				</c:choose>
 				</tbody>
 			</table>
-			
 		<div class="page-header position-relative">
 		<table style="width:100%;">
 			<tr>
@@ -131,7 +115,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = '<%=basePath%>buildman/goAdd.do';
+			 diag.URL = '<%=basePath%>buildbody/goAdd.do';
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.CancelEvent = function(){
@@ -151,7 +135,7 @@
 			bootbox.confirm("确定要删除吗?", function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>buildman/delete.do?BUILDMAN_ID="+Id+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>buildbody/delete.do?ID="+Id+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						nextPage(${page.currentPage});
 					});
@@ -163,10 +147,10 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="编辑";
-			 diag.URL = '<%=basePath%>buildman/goEdit.do?BUILDMAN_ID='+Id;
+			 diag.URL = '<%=basePath%>buildbody/goEdit.do?ID='+Id;
 			 diag.Width = 450;
 			 diag.Height = 355;
-			 diag.CancelEvent = function(){
+			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					 nextPage(${page.currentPage});
 				}
@@ -212,7 +196,6 @@
 								}
 							 ]
 						);
-						
 						$("#zcheckbox").tips({
 							side:3,
 				            msg:'点这里全选',
@@ -226,10 +209,9 @@
 							top.jzts();
 							$.ajax({
 								type: "POST",
-								url: '<%=basePath%>buildman/deleteAll.do?tm='+new Date().getTime(),
+								url: '<%=basePath%>buildbody/deleteAll.do?tm='+new Date().getTime(),
 						    	data: {DATA_IDS:str},
 								dataType:'json',
-								//beforeSend: validateData,
 								cache: false,
 								success: function(data){
 									 $.each(data.list, function(i, list){
@@ -243,10 +225,8 @@
 			});
 		}
 		function toExcel(){
-			window.location.href='<%=basePath%>buildman/excel.do';
+			window.location.href='<%=basePath%>buildbody/excel.do';
 		}
 		</script>
-		
 	</body>
 </html>
-

@@ -50,7 +50,9 @@
 						<label><input type="checkbox" id="zcheckbox" /><span class="lbl"></span></label>
 						</th>
 						<th class="center">序号</th>
-						<th class="center">楼栋</th>
+						<th class="center">楼宇</th>
+						<th class="center">楼体</th>
+						<th class="center">区域</th>
 						<th class="center">楼层</th>
 						<th class="center">楼层负责人</th>
 						<th class="center">联系</th>
@@ -71,11 +73,13 @@
 									<label><input type='checkbox' name='ids' value="${var.FLOORMAN_ID}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-										<td>${var.buildName}</td>
-										<td>${var.FLOOR}</td>
-										<td>${var.FLOOR_MASTER_NAME}</td>
-										<td>${var.MASTER_TEL}</td>
-										<td>${var.CREATE_TIME}</td>
+									<td>${var.buildName}</td>
+									<td>${var.body_name}</td>
+									<td>${var.area}</td>
+									<td>${var.FLOOR}</td>
+									<td>${var.FLOOR_MASTER_NAME}</td>
+									<td>${var.MASTER_TEL}</td>
+									<td>${var.CREATE_TIME}</td>
 								<td style="width: 100px;" class="center">
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">
 										<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>
