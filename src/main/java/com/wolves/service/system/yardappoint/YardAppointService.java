@@ -148,6 +148,10 @@ public class YardAppointService {
 		pd.put("NOTE", applyYardDTO.getNote());
 		this.save(pd);
 
+		//发短信给企业负责人
+
+		//发短信给园区场地负责人
+
 		result.setResult(ResultCode.SUCCESS);
 		result.setMsg("预约成功");
 		result.setData(id);

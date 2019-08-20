@@ -52,7 +52,6 @@
 						<th class="center">序号</th>
 						<th class="center">楼宇</th>
 						<th class="center">楼体</th>
-						<th class="center">区域</th>
 						<th class="center">楼层</th>
 						<th class="center">楼层负责人</th>
 						<th class="center">联系</th>

@@ -151,6 +151,7 @@
 						<option value=''>请选择</option>
 						<option value="2" <c:if test="${2 == pd.TYPE}">selected</c:if>>入驻公司</option>
 						<option value="1" <c:if test="${1 == pd.TYPE}">selected</c:if>>园区公司</option>
+						<option value="3" <c:if test="${3 == pd.TYPE}">selected</c:if>>其他公司</option>
 					</select>
 				</td>
 			</tr>
