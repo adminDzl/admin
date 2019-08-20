@@ -73,6 +73,7 @@
 		<result column="company_id" property="companyId"/>
 		<result column="company_name" property="companyName"/>
 		<result column="logo" property="logo"/>
+		<result column="status" property="status"/>
 		<result column="company_certify" property="companyCertify"/>
 	</resultMap>
 
@@ -236,6 +237,7 @@
 			u.email,
 			u.phone,
 			u.company_id,
+			u.status,
 			c.company_name,
 			c.logo,
 			c.company_certify

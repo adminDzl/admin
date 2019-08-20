@@ -38,6 +38,9 @@ public class UserDTO {
     @ApiModelProperty(name = "companyCertify",value = "企业认证信息")
     private String companyCertify;
 
+    @ApiModelProperty(name = "status",value = "状态(0:冻结，1:正常，2:离职)")
+    private String status;
+
     public String getUserId() {
         return userId;
     }
@@ -116,6 +119,14 @@ public class UserDTO {
 
     public void setHeadImage(String headImage) {
         this.headImage = headImage;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

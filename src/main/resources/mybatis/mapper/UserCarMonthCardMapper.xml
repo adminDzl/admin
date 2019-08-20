@@ -186,6 +186,7 @@
 		#{carNo},
 		#{price},
 		#{useTilDate},
+		1,
 		now(),
 		now(),
 		#{userCarMonthCardId}
@@ -208,13 +209,13 @@
 
 	<select id="selectUserCarByUserId" parameterType="com.wolves.dto.UserCarsDTO" resultMap="UserCarsResultMap">
 		SELECT
-		user_car_month_card_id,
-		user_id,
-		card_no,
-		car_no
-		price,
-		use_til_date,
-		create_time
+            user_car_month_card_id,
+            user_id,
+            card_no,
+            car_no,
+            car_no price,
+            use_til_date,
+            create_time
 		FROM USER_CAR_MONTH_CARD
 		WHERE user_id = #{userId} AND use_til_date > now()
 	</select>

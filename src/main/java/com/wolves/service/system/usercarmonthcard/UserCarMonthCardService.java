@@ -237,13 +237,22 @@ public class UserCarMonthCardService {
 		monthCardDTO.setCarNo(userCarDTO.getPlate());
 		monthCardDTO.setPrice("30");
 		Integer day = userCarDTO.getMonth()*30;
-		monthCardDTO.setUseTilDate(this.getDay(day));
+		monthCardDTO.setUseTilDate(this.getDay(null, day));
 		this.createMonthCardCar(monthCardDTO);
 	}
 
-	private Date getDay(Integer day){
+    /**
+     * 获取某个时间后几个月的天数
+     * @param startDate 传递日期
+     * @param day 增加的天数
+     * @return
+     */
+	private Date getDay(Date startDate,Integer day){
 		Calendar calendar2 = Calendar.getInstance();
 		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+        if (startDate != null){
+            calendar2.setTime(startDate);
+        }
 		calendar2.add(Calendar.DATE, day);
 		String dayAfter = sdf2.format(calendar2.getTime());
 
@@ -285,7 +294,7 @@ public class UserCarMonthCardService {
 		UserCarMonthCardDTO userCarMonthCardDTO = this.selectUserCarById(userCarRenewalDTO.getUserCarMonthCardId());
 		if (userCarMonthCardDTO != null){
 			Integer day = userCarRenewalDTO.getMonth()*30;
-			userCarMonthCardDTO.setUpdateTime(this.getDay(day));
+			userCarMonthCardDTO.setUseTilDate(this.getDay(userCarMonthCardDTO.getUseTilDate(), day));
 
 			dao.update("UserCarMonthCardMapper.updateCarDateById", userCarMonthCardDTO);
 			return 1;

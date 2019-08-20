@@ -34,6 +34,7 @@
 						<option value=""></option>
 						<option value="">全部</option>
 						<option value="1" <c:if test="${pd.STATUS == '1' }">selected</c:if> >正常</option>
+						<option value="0" <c:if test="${pd.STATUS == '2' }">selected</c:if> >离职</option>
 						<option value="0" <c:if test="${pd.STATUS == '0' }">selected</c:if> >冻结</option>
 						</select>
 					</td>
@@ -88,6 +89,7 @@
 								<td style="width: 60px;" class="center">
 									<c:if test="${user.STATUS == '0' }"><span class="label label-important arrowed-in">冻结</span></c:if>
 									<c:if test="${user.STATUS == '1' }"><span class="label label-success arrowed">正常</span></c:if>
+									<c:if test="${user.STATUS == '2' }"><span class="label label-important arrowed-in">离职</span></c:if>
 								</td>
 								<td style="width: 100px;" class="center">
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">
