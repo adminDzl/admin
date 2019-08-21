@@ -11,12 +11,17 @@ import javax.annotation.Resource;
 import com.alibaba.fastjson.JSONObject;
 import com.wolves.common.CompanyTypeEnum;
 import com.wolves.common.StatusEnum;
+import com.wolves.dto.repair.WorkorderDTO;
 import com.wolves.dto.user.BaseCompanyDTO;
 import com.wolves.dto.user.CompanyDTO;
 import com.wolves.dto.user.ReportDataDTO;
 import com.wolves.dto.user.UserExcelDTO;
 import com.wolves.service.right.RightService;
+import com.wolves.service.system.payment.PaymentService;
 import com.wolves.service.system.payorder.PayOrderService;
+import com.wolves.service.system.repair.RepairApplyService;
+import com.wolves.service.system.user.UserService;
+import com.wolves.util.DateUtil;
 import com.wolves.util.StringUtils;
 import com.wolves.util.UuidUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +39,13 @@ public class CompanyService {
 	private RightService rightService;
 	@Resource(name="payorderService")
 	private PayOrderService payorderService;
+	@Resource(name="userService")
+	private UserService userService;
+	@Resource(name="repairApplyService")
+	private RepairApplyService repairApplyService;
+
+	@Resource(name="paymentService")
+	private PaymentService paymentService;
 	
 	/**
 	* 新增
@@ -265,20 +277,44 @@ public class CompanyService {
 		if (payAmount != null && payAmount.get("amout") != null){
 			inconme = payAmount.get("amout").toString();
 		}
+		//园区内注册的数量
+		reportDataDTO.setPersonNum(userService.selectAllNum());
 		reportDataDTO.setIncome(inconme);
 		//未缴费企业
-		reportDataDTO.setNoPayCompanyNum("0");
+		List<PageData> pageDatas = paymentService.queryNoPayCompany();
+		reportDataDTO.setNoPayCompanyNum(pageDatas.size()+"");
 		//当前保修数量
-		reportDataDTO.setWarrantyNum("0");
+		List<WorkorderDTO> workorderDTOs = repairApplyService.listWorkorder("", "");
+		Integer auditNum = 0;
+		if (workorderDTOs != null){
+			for (WorkorderDTO workorderDTO : workorderDTOs){
+				if ("2".equals(workorderDTO.getOrderState())){
+					auditNum++;
+				}
+			}
+		}
+		reportDataDTO.setWarrantyNum(workorderDTOs.size()+"");
 		//保修审核中
-		reportDataDTO.setWarrantyAuditNum("0");
+		reportDataDTO.setWarrantyAuditNum(auditNum+"");
 		//正在维修中
-		reportDataDTO.setWarrantyInitNum("0");
-		//本月新增报修
-		reportDataDTO.setMonthNewWarranty("0");
-		//本月完成报修
-		reportDataDTO.setMonthAchieveWarranty("0");
+		reportDataDTO.setWarrantyInitNum(auditNum+"");
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+		String startTime = simpleDateFormat.format(DateUtil.getBeginDayOfMonth());
+		String endTime = simpleDateFormat.format(DateUtil.getEndDayOfMonth());
+		List<WorkorderDTO> workorderMonthDTOs = repairApplyService.listWorkorder(startTime, endTime);
+		Integer successNum = 0;
+		if (workorderMonthDTOs != null){
+			for (WorkorderDTO workorderDTO : workorderDTOs){
+				if ("4".equals(workorderDTO.getOrderState())){
+					successNum++;
+				}
+			}
+		}
+		//本月新增报修
+		reportDataDTO.setMonthNewWarranty(workorderMonthDTOs.size()+"");
+		//本月完成报修
+		reportDataDTO.setMonthAchieveWarranty(successNum+"");
 
 		return reportDataDTO;
 	}

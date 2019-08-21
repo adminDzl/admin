@@ -15,6 +15,7 @@ import com.wolves.dto.user.RepairParamsDTO;
 import com.wolves.entity.app.User;
 import com.wolves.entity.system.Repair;
 import com.wolves.service.system.CompanyService;
+import com.wolves.service.system.payment.PaymentService;
 import com.wolves.util.HttpClientUtil;
 import com.wolves.util.Logger;
 import com.wolves.util.UuidUtil;
@@ -181,12 +182,11 @@ public class RepairApplyService {
 	}
 
 	//工单查询列表
-	public List<WorkorderDTO> listWorkorder(){
+	public List<WorkorderDTO> listWorkorder(String startTime, String endTime){
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("appType", RepairClientConstants.APP_TYPE);
-
-		params.put("startTime", "");//开始时间
-		params.put("endTime", "");//结束时间
+		params.put("startTime", startTime);//开始时间
+		params.put("endTime", endTime);//结束时间
 
         this.repairLogin();
 		JSONObject jsonObject = HttpClientUtil.httpHttpFormData(RepairClientConstants.ADDRESS+RepairClientConstants.QUERY, params);

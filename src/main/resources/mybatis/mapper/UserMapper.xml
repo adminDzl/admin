@@ -278,4 +278,13 @@
 		LEFT JOIN company c ON (u.company_id = c.company_id AND c.status = 1)
 		WHERE u.`name` != 'admin'
 	</select>
+
+	<select id="selectAllNum" parameterType="com.wolves.dto.user.UserListDTO" resultMap="UserListResultMap">
+		SELECT
+			u.user_id
+		FROM
+			`user` u
+		WHERE u.status = 1
+	</select>
+
 </mapper>

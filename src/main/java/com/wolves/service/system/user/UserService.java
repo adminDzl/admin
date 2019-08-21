@@ -345,4 +345,15 @@ public class UserService {
 
 		return (List<UserListDTO>) dao.findForList("UserMapper.selectAllUser", null);
 	}
+
+    /**
+     * 查询园区的人数
+     * @return
+     */
+	public String selectAllNum(){
+
+        List<UserListDTO> userListDTOs = (List<UserListDTO>) dao.findForList("UserMapper.selectAllNum", null);
+
+        return userListDTOs.size()+"";
+    }
 }

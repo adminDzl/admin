@@ -294,8 +294,7 @@
 
 	<select id="selectReportData" parameterType="com.wolves.dto.user.ReportDataDTO" resultMap="ReportDataResultMap">
 		SELECT
-		COUNT(company_id) AS companyNum,
-		SUM(scale) AS personNum
+		COUNT(company_id) AS companyNum
 		FROM
 		company where type = 2 AND status = 1
 	</select>
