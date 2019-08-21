@@ -54,7 +54,7 @@
 						<th class="center">提醒标题</th>
 						<th class="center">提醒内容</th>
 						<th class="center">创建时间</th>
-						<th class="center">操作</th>
+						<%--<th class="center">操作</th>--%>
 					</tr>
 				</thead>
 				<tbody>
@@ -84,17 +84,17 @@
 											</c:choose>
 										</td>
 										<td>${var.CREATE_TIME}</td>
-								<td style="width: 100px;" class="center">
-									<c:if test="${QX.edit != 1 && QX.del != 1 }">
-										<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>
-									</c:if>
-									<c:if test="${QX.edit == 1 }">
-										<a class='btn btn-mini btn-info' title="编辑" onclick="edit('${var.TIPMSG_ID}');"><i class="icon-edit"></i></a>
-									</c:if>
-									<c:if test="${QX.del == 1 }">
-										<a class='btn btn-mini btn-danger' title="删除" onclick="del('${var.TIPMSG_ID}');"><i class='icon-trash'></i></a>
-									</c:if>
-								</td>
+								<%--<td style="width: 100px;" class="center">--%>
+									<%--<c:if test="${QX.edit != 1 && QX.del != 1 }">--%>
+										<%--<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>--%>
+									<%--</c:if>--%>
+									<%--<c:if test="${QX.edit == 1 }">--%>
+										<%--<a class='btn btn-mini btn-info' title="编辑" onclick="edit('${var.TIPMSG_ID}');"><i class="icon-edit"></i></a>--%>
+									<%--</c:if>--%>
+									<%--<c:if test="${QX.del == 1 }">--%>
+										<%--<a class='btn btn-mini btn-danger' title="删除" onclick="del('${var.TIPMSG_ID}');"><i class='icon-trash'></i></a>--%>
+									<%--</c:if>--%>
+								<%--</td>--%>
 							</tr>
 						</c:forEach>
 						</c:if>

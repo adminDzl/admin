@@ -3,19 +3,18 @@ package com.wolves.controller.system;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import javax.annotation.Resource;
 
+import com.wolves.entity.app.User;
+import com.wolves.service.system.CompanyService;
 import com.wolves.service.system.user.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +45,8 @@ public class TipMsgController extends BaseController {
 	private TipMsgService tipmsgService;
 	@Resource(name="userService")
 	private UserService userService;
+	@Resource(name="companyService")
+	private CompanyService companyService;
 	
 	/**
 	 * 新增
@@ -57,10 +58,25 @@ public class TipMsgController extends BaseController {
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;}
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
-		pd.put("TIPMSG_ID", this.get32UUID());
 		pd.put("CREATE_TIME", Tools.date2Str(new Date()));
 		pd.put("UPDATE_TIME", Tools.date2Str(new Date()));
-		tipmsgService.save(pd);
+		String companyId = pd.getString("TO_USER");
+		if("ALL".equals(companyId)){
+			companyId = null;
+		}
+		List<com.wolves.entity.app.User> users = null;
+		try{
+			users = userService.getUserByCompanyId(companyId);
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		if(!CollectionUtils.isEmpty(users)){
+			for(com.wolves.entity.app.User user : users){
+				pd.put("TIPMSG_ID", this.get32UUID());
+				pd.put("TO_USER", user.getUserId());
+				tipmsgService.save(pd);
+			}
+		}
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -100,7 +116,6 @@ public class TipMsgController extends BaseController {
 	@RequestMapping(value="/list")
 	public ModelAndView list(Page page){
 		logBefore(logger, "列表TipMsg");
-		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		page.setPd(pd);
@@ -124,6 +139,7 @@ public class TipMsgController extends BaseController {
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
 		mv.addObject("userList", userService.selectAllUser());
+		mv.addObject("companys", companyService.selectAllCompany());
 		return mv;
 	}	
 	

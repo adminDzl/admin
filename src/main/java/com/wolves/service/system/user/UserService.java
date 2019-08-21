@@ -331,6 +331,12 @@ public class UserService {
 		return (List<ManagerUserDTO>) dao.findForList("UserMapper.selectManagerUserByCompanyId", companyId);
 	}
 
+
+	public List<com.wolves.entity.app.User> getUserByCompanyId(String companyId){
+
+		return (List<com.wolves.entity.app.User>) dao.findForList("UserMapper.getUserByCompanyId", companyId);
+	}
+
 	/**
 	 * 查询所有人员
 	 * @return

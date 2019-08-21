@@ -324,7 +324,7 @@ public class AppUserController {
         }
         //生成验证码,1.注册，2登陆，3忘记密码
         Integer code = Tools.getRandomNum();
-        String msg = "您的验证码是：code【煦睿科技】".replaceAll("code", code.toString());
+        String msg = "您的验证码是：code【o-park智慧园区】".replaceAll("code", code.toString());
         //保存记录
         smsService.sendSms(telephone, Integer.valueOf(type), code.toString(), msg);
         //返回结果
