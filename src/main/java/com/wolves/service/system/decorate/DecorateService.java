@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.HashMap;
 import javax.annotation.Resource;
 
-import com.wolves.common.ApplyTypeEnum;
 import com.wolves.common.StatusEnum;
 import com.wolves.dao.DaoSupport;
 import com.wolves.dto.FloorManDTO;
@@ -19,13 +18,13 @@ import com.wolves.service.system.buildman.BuildManService;
 import com.wolves.service.system.floorman.FloorManService;
 import com.wolves.service.system.room.RoomService;
 import com.wolves.service.system.user.UserService;
-import com.wolves.util.PageData;
-import com.wolves.util.StringUtils;
-import com.wolves.util.UuidUtil;
+import com.wolves.util.*;
 import org.springframework.stereotype.Service;
 
 @Service("decorateService")
 public class DecorateService {
+
+	protected Logger logger = Logger.getLogger(this.getClass());
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;

@@ -1,7 +1,7 @@
 package com.wolves.common;
 
 /**
- * 报修
+ * 报修/装修/施工
  * Created by Administrator on 2019/8/8.
  */
 public class RepairClientConstants {
@@ -41,6 +41,11 @@ public class RepairClientConstants {
      */
     public static final String STOP = "/mobile/api/stopJobs";
 
+    /**
+     * 装修申请
+     */
+    public static final String DECORATE = "/mobile/api/createZhuangxiu";
+
     public static final String USER_NAME = "APP";
     public static final String PASS_WARD = "a123456";
 
@@ -48,4 +53,6 @@ public class RepairClientConstants {
      * 固定值
      */
     public static final String APP_TYPE = "ITSM_APP";
+
+
 }
