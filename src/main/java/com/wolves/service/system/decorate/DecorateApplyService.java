@@ -148,7 +148,8 @@ public class DecorateApplyService {
         this.decorateLogin();
         JSONObject result = null;
         try {
-            String resu = HttpClientUtil.send(RepairClientConstants.DECORATE+RepairClientConstants.CREATE, jsonObject, "UTF-8");
+            String resu = HttpClientUtil.send(RepairClientConstants.ADDRESS+RepairClientConstants.DECORATE, jsonObject, "UTF-8");
+            logger.info("result:>>>>>>"+resu);
             result = JSONObject.parseObject(resu);
         } catch (IOException e) {
             e.printStackTrace();
@@ -157,8 +158,10 @@ public class DecorateApplyService {
         if (res != 1){
             logger.warn("工单创建失败, 消息如下："+jsonObject.toJSONString());
         }
+        logger.info("result:>>>>>"+JSONObject.toJSONString(result));
+        JSONObject object = result.getJSONObject("obj");
         //保存
-        this.saveDecorateApply(user.getUserId(), decorateParamDTO, result);
+        this.saveDecorateApply(user.getUserId(), decorateParamDTO, object);
         return res;
     }
 

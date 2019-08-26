@@ -15,8 +15,11 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 import java.util.Date;
 import java.util.List;
 
@@ -42,8 +45,8 @@ public class DecorationController {
      */
     @ApiOperation(httpMethod="POST",value="创建装修",notes="创建装修")
     @RequestMapping(value = "/decorate/createDecorateApply", method = RequestMethod.POST)
-    public Result createRepair(@RequestHeader("Authorization") String token,
-                               @RequestBody DecorateParamDTO decorateParamDTO){
+    public Result createDecorateApply(@RequestHeader("Authorization") String token,
+                                      @RequestBody DecorateParamDTO decorateParamDTO){
         Result result = new Result();
         User user = userService.getUser(token);
         if (user == null){
@@ -231,7 +234,7 @@ public class DecorationController {
         return result;
     }
 
-    @ApiOperation(httpMethod="POST",value="撤销报修",notes="撤销报修")
+    @ApiOperation(httpMethod="POST",value="撤销装修",notes="撤销装修")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
             @ApiImplicitParam(name = "jsonObject",value = "{\"decorationApplyId\":\"ID\"}",required = true,paramType = "body",dataType = "JSONObject")
