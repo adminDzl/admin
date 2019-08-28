@@ -5,8 +5,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.annotation.Resource;
-
-import com.wolves.entity.app.User;
 import com.wolves.service.system.CompanyService;
 import com.wolves.service.system.user.UserService;
 import org.apache.shiro.SecurityUtils;

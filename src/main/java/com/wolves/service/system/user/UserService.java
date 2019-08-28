@@ -333,8 +333,9 @@ public class UserService {
 
 
 	public List<com.wolves.entity.app.User> getUserByCompanyId(String companyId){
-
-		return (List<com.wolves.entity.app.User>) dao.findForList("UserMapper.getUserByCompanyId", companyId);
+		PageData pd = new PageData();
+		pd.put("companyId", companyId);
+		return (List<com.wolves.entity.app.User>) dao.findForList("UserMapper.getUserByCompanyId", pd);
 	}
 
 	/**
