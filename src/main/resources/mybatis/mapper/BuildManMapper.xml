@@ -5,6 +5,8 @@
 	<resultMap type="com.wolves.dto.BuildDTO" id="ResultMap">
 		<id column="buildman_id" property="id"/>
 		<result column="build_name" property="name"/>
+		<result column="build_master_name" property="buildMasterName"/>
+		<result column="master_tel" property="masterTel"/>
 	</resultMap>
 
 	<!-- 新增楼栋长-->
@@ -104,7 +106,10 @@
 
 	<select id="selectBuild" parameterType="com.wolves.dto.BuildDTO" resultMap="ResultMap">
 		select
-			buildman_id,build_name
+			buildman_id,
+			build_name,
+			build_master_name,
+			master_tel
 		from build_man
 	</select>
 </mapper>
