@@ -18,49 +18,49 @@
 <div id="page-content">
   <div class="row-fluid">
 	<div class="row-fluid">
-	<div>
-		<table>
-			<tr height="7px;"><td colspan="100"></td></tr>
-			<tr>
-			<td>
-			<%--<c:if test="${QX.edit == 1 }">--%>
-			<%--<a class="btn btn-mini btn-info" onclick="editRole('${pd.ROLE_ID }');">修改组名称<i class="icon-arrow-right  icon-on-right"></i></a>--%>
-			<%--</c:if>--%>
-				<c:choose>
-					<c:when test="${pd.ROLE_ID == '99'}">
-					</c:when>
-					<c:otherwise>
-					<c:if test="${QX.edit == 1 }">
-					<a class="btn btn-mini btn-purple" onclick="editRights('${pd.ROLE_ID }');"><i class="icon-pencil"></i>组菜单权限</a>
-					</c:if>
-					</c:otherwise>
-				</c:choose>
-				<c:choose>
-					<c:when test="${pd.ROLE_ID == '6' or pd.ROLE_ID == '4' or pd.ROLE_ID == '1' or pd.ROLE_ID == '7'}">
-					</c:when>
-					<c:otherwise>
-					 <c:if test="${QX.del == 1 }">
-					 <a class='btn btn-mini btn-danger' title="删除" onclick="delRole('${pd.ROLE_ID }','z','${pd.ROLE_NAME }');"><i class='icon-trash'></i></a>
-					 </c:if>
-					</c:otherwise>
-				</c:choose>
-			</td>
-			</tr>
-			<tr height="7px;"><td colspan="100"></td></tr>
-		</table>
-		
-		
-	</div>
+	<%--<div>--%>
+		<%--<table>--%>
+			<%--<tr height="7px;"><td colspan="100"></td></tr>--%>
+			<%--<tr>--%>
+			<%--<td>--%>
+			<%--&lt;%&ndash;<c:if test="${QX.edit == 1 }">&ndash;%&gt;--%>
+			<%--&lt;%&ndash;<a class="btn btn-mini btn-info" onclick="editRole('${pd.ROLE_ID }');">修改组名称<i class="icon-arrow-right  icon-on-right"></i></a>&ndash;%&gt;--%>
+			<%--&lt;%&ndash;</c:if>&ndash;%&gt;--%>
+				<%--<c:choose>--%>
+					<%--<c:when test="${pd.ROLE_ID == '99'}">--%>
+					<%--</c:when>--%>
+					<%--<c:otherwise>--%>
+					<%--<c:if test="${QX.edit == 1 }">--%>
+					<%--<a class="btn btn-mini btn-purple" onclick="editRights('${pd.ROLE_ID }');"><i class="icon-pencil"></i>组菜单权限</a>--%>
+					<%--</c:if>--%>
+					<%--</c:otherwise>--%>
+				<%--</c:choose>--%>
+				<%--<c:choose>--%>
+					<%--<c:when test="${pd.ROLE_ID == '6' or pd.ROLE_ID == '4' or pd.ROLE_ID == '1' or pd.ROLE_ID == '7'}">--%>
+					<%--</c:when>--%>
+					<%--<c:otherwise>--%>
+					 <%--<c:if test="${QX.del == 1 }">--%>
+					 <%--<a class='btn btn-mini btn-danger' title="删除" onclick="delRole('${pd.ROLE_ID }','z','${pd.ROLE_NAME }');"><i class='icon-trash'></i></a>--%>
+					 <%--</c:if>--%>
+					<%--</c:otherwise>--%>
+				<%--</c:choose>--%>
+			<%--</td>--%>
+			<%--</tr>--%>
+			<%--<tr height="7px;"><td colspan="100"></td></tr>--%>
+		<%--</table>--%>
+		<%----%>
+		<%----%>
+	<%--</div>--%>
 	<table id="table_report" class="table table-striped table-bordered table-hover">
 		<thead>
 		<tr>
 			<th class="center">序号</th>
 			<th>角色</th>
 			<c:if test="${QX.edit == 1 }">
-			<th class="center">增</th>
-			<th class="center">删</th>
-			<th class="center">改</th>
-			<th class="center">查</th>
+			<th style="width: 60px;" class="center">增加内容</th>
+			<th style="width: 60px;" class="center">删除内容</th>
+			<th style="width: 60px;" class="center">修改内容</th>
+			<th style="width: 60px;" class="center">查看内容</th>
 			</c:if>
 			<th style="width:155px;"  class="center">操作</th>
 		</tr>
@@ -92,10 +92,10 @@
 				<td class='center' style="width:30px;">${vs.index+1}</td>
 				<td id="ROLE_NAMETd${var.ROLE_ID }">${var.ROLE_NAME }</td>
 				<c:if test="${QX.edit == 1 }">
-				<td style="width:30px;"><a onclick="roleButton('${var.ROLE_ID }','add_qx');" class="btn btn-warning btn-mini" title="分配新增权限"><i class="icon-wrench icon-2x icon-only"></i></a></td>
-				<td style="width:30px;"><a onclick="roleButton('${var.ROLE_ID }','del_qx');" class="btn btn-warning btn-mini" title="分配删除权限"><i class="icon-wrench icon-2x icon-only"></i></a></td>
-				<td style="width:30px;"><a onclick="roleButton('${var.ROLE_ID }','edit_qx');" class="btn btn-warning btn-mini" title="分配修改权限"><i class="icon-wrench icon-2x icon-only"></i></a></td>
-				<td style="width:30px;"><a onclick="roleButton('${var.ROLE_ID }','cha_qx');" class="btn btn-warning btn-mini" title="分配查看权限"><i class="icon-wrench icon-2x icon-only"></i></a></td>
+				<td style="width:30px;" class="center"><a onclick="roleButton('${var.ROLE_ID }','add_qx');" class="btn btn-warning btn-mini" title="分配新增权限"><i class="icon-wrench icon-2x icon-only"></i></a></td>
+				<td style="width:30px;" class="center"><a onclick="roleButton('${var.ROLE_ID }','del_qx');" class="btn btn-warning btn-mini" title="分配删除权限"><i class="icon-wrench icon-2x icon-only"></i></a></td>
+				<td style="width:30px;" class="center"><a onclick="roleButton('${var.ROLE_ID }','edit_qx');" class="btn btn-warning btn-mini" title="分配修改权限"><i class="icon-wrench icon-2x icon-only"></i></a></td>
+				<td style="width:30px;" class="center"><a onclick="roleButton('${var.ROLE_ID }','cha_qx');" class="btn btn-warning btn-mini" title="分配查看权限"><i class="icon-wrench icon-2x icon-only"></i></a></td>
 				</c:if>
 				<td style="width:155px;">
 				
