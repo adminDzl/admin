@@ -142,6 +142,7 @@
 				<td>
 					<input name="fileImage" id="fileImage" value="${pd.IMAGE_URL}" placeholder="这里上传图片" title="图片url" type="file" accept="image/*" multiple="multiple" onchange="uploadImage(this)"/>
 					<input name="IMAGE_URL" id="IMAGE_URL" value="${pd.IMAGE_URL}" style="display: none"/>
+					<a type="<c:if test="${pd.IMAGE_URL == null}">hidden</c:if>">图片尺寸345*200，大小不能超过2M (视实际支持上传图片大小决定)</a>
 					<c:if test="${pd.IMAGE_URL != '' || pd.IMAGE_URL != null }">
 						<c:set value="${fn:split(pd.IMAGE_URL,',') }" var="images"/>
 						<c:forEach items="${images }" var="img">

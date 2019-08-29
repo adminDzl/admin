@@ -147,6 +147,7 @@
 					<%--</c:if>--%>
 					<input name="fileImage" id="fileImage" value="${pd.PATH}" placeholder="这里上传图片" title="图片url" type="file" accept="image/*" multiple="multiple" onchange="uploadImage(this)"/>
 					<input type="hidden" name="PATH" id="PATH" value="${pd.PATH }"/>
+						<a type="<c:if test="${pd.PATH == null}">hidden</c:if>">图片尺寸340*196，大小不能超过2M (视实际支持上传图片大小决定)</a>
 				</td>
 			</tr>
 			<tr>
