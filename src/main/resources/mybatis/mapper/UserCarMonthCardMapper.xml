@@ -109,12 +109,24 @@
 				a.PRICE,	
 				a.USE_TIL_DATE,
 				a.CREATE_TIME,	
-				a.UPDATE_TIME,	
+				a.UPDATE_TIME,
+				a.card_status,
 				a.user_car_month_card_id,
 				u.NAME
 		from 
 				USER_CAR_MONTH_CARD a
 		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
+		where 1 = 1
+		<if test="pd.field1 != null and pd.field1 != ''"><!-- 检索 -->
+			and (
+			u.NAME LIKE CONCAT(CONCAT('%', #{pd.field1}),'%')
+			or
+			a.CAR_NO LIKE CONCAT(CONCAT('%', #{pd.field1}),'%')
+			)
+		</if>
+		<if test="pd.field2 != null and pd.field2 != ''">
+			and a.card_status=#{pd.field2}
+		</if>
 	</select>
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">

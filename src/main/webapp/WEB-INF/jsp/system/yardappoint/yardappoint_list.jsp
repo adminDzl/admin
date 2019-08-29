@@ -86,9 +86,9 @@
 										<td>${var.RENT_FEE}</td>
 										<td>${var.BOOK_FEE}</td>
 										<td>
-											<c:if test="${var.STATUS == 0 }"><span class="label label-success arrowed">待审批</span></c:if>
-											<c:if test="${var.STATUS == 1 }"><span class="label label-success arrowed">已通过</span></c:if>
-											<c:if test="${var.STATUS == 2 }"><span class="label label-important arrowed-in">已驳回</span></c:if>
+											<c:if test="${var.STATUS == 0 }"><span class="label label-success arrowed">待付款</span></c:if>
+											<c:if test="${var.STATUS == 1 }"><span class="label label-success arrowed">已付款</span></c:if>
+											<c:if test="${var.STATUS == 2 }"><span class="label label-important arrowed-in">已退款</span></c:if>
 										</td>
 										<td>${var.CREATE_TIME}</td>
 								<td style="width: 100px;" class="center">
@@ -96,9 +96,9 @@
 										<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>
 									</c:if>
 
-									<c:if test="${QX.edit == 1 }">
-										<a class='btn btn-mini btn-info' title="编辑" onclick="edit('${var.YARDAPPOINT_ID}');"><i class="icon-edit"></i></a>
-									</c:if>
+									<%--<c:if test="${QX.edit == 1 }">--%>
+										<%--<a class='btn btn-mini btn-info' title="编辑" onclick="edit('${var.YARDAPPOINT_ID}');"><i class="icon-edit"></i></a>--%>
+									<%--</c:if>--%>
 									<c:if test="${QX.del == 1 }">
 										<a class='btn btn-mini btn-danger' title="删除" onclick="del('${var.YARDAPPOINT_ID}');"><i class='icon-trash'></i></a>
 									</c:if>
@@ -128,9 +128,9 @@
 		<table style="width:100%;">
 			<tr>
 				<td style="vertical-align:top;">
-					<c:if test="${QX.add == 1 }">
-					<a class="btn btn-small btn-success" onclick="add();">新增</a>
-					</c:if>
+					<%--<c:if test="${QX.add == 1 }">--%>
+					<%--<a class="btn btn-small btn-success" onclick="add();">新增</a>--%>
+					<%--</c:if>--%>
 					<c:if test="${QX.del == 1 }">
 					<a class="btn btn-small btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='icon-trash'></i></a>
 					</c:if>

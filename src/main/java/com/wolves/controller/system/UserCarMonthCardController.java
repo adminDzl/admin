@@ -177,6 +177,8 @@ public class UserCarMonthCardController extends BaseController {
 		mv.setViewName("system/usercarmonthcard/usercarmonthcard_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
+//		mv.addObject("field1", pd.getString("field1"));
+//		mv.addObject("field2", pd.getString("field2"));
 		mv.addObject(Const.SESSION_QX,this.getHC());
 		return mv;
 	}

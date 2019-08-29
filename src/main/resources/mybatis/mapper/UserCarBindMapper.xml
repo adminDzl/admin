@@ -89,6 +89,14 @@
 		from 
 				USER_CAR_BIND a
 		LEFT JOIN USER u ON (a.USER_ID = u.USER_ID)
+		where 1 = 1
+		<if test="pd.field1 != null and pd.field1 != ''"><!-- 检索 -->
+			and u.NAME LIKE CONCAT(CONCAT('%', #{pd.field1}),'%')
+		</if>
+		<if test="pd.field2 != null and pd.field2 != ''">
+			and a.STATUS=#{pd.field2}
+		</if>
+		order by a.STATUS asc
 	</select>
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">

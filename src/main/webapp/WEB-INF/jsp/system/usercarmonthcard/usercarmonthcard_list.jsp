@@ -21,7 +21,7 @@
 				<tr>
 					<td>
 						<span class="input-icon">
-							<input autocomplete="off" id="nav-search-input" type="text" name="field1" value="" placeholder="这里输入关键词" />
+							<input autocomplete="off" id="nav-search-input" type="text" name="field1" value="${field1}" placeholder="这里输入关键词" />
 							<i id="nav-search-icon" class="icon-search"></i>
 						</span>
 					</td>
@@ -47,9 +47,10 @@
 						</th>
 						<th class="center">序号</th>
 						<th class="center">用户名</th>
-						<th class="center">月卡号</th>
+						<%--<th class="center">月卡号</th>--%>
 						<th class="center">车牌号</th>
 						<th class="center">金额</th>
+						<th class="center">状态</th>
 						<th class="center">有效日期</th>
 						<th class="center">创建时间</th>
 						<th class="center">操作</th>
@@ -66,9 +67,13 @@
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 										<td>${var.NAME}</td>
-										<td>${var.CARD_NO}</td>
+										<%--<td>${var.CARD_NO}</td>--%>
 										<td>${var.CAR_NO}</td>
 										<td>${var.PRICE}</td>
+										<td>
+											<c:if test="${var.card_status == '0' }"><span class="label label-important arrowed-in">过期</span></c:if>
+											<c:if test="${var.card_status == '1' }"><span class="label label-success arrowed">有效</span></c:if>
+										</td>
 										<td>${var.USE_TIL_DATE}</td>
 										<td>${var.CREATE_TIME}</td>
 								<td style="width: 100px;" class="center">
