@@ -62,7 +62,7 @@
 			<th style="width: 60px;" class="center">修改内容</th>
 			<th style="width: 60px;" class="center">查看内容</th>
 			</c:if>
-			<th style="width:155px;"  class="center">操作</th>
+			<th style="width:170px;"  class="center">操作</th>
 		</tr>
 		</thead>
 		<c:choose>
@@ -97,7 +97,7 @@
 				<td style="width:30px;" class="center"><a onclick="roleButton('${var.ROLE_ID }','edit_qx');" class="btn btn-warning btn-mini" title="分配修改权限"><i class="icon-wrench icon-2x icon-only"></i></a></td>
 				<td style="width:30px;" class="center"><a onclick="roleButton('${var.ROLE_ID }','cha_qx');" class="btn btn-warning btn-mini" title="分配查看权限"><i class="icon-wrench icon-2x icon-only"></i></a></td>
 				</c:if>
-				<td style="width:155px;">
+				<td style="width:170px;">
 				
 				<c:if test="${QX.edit != 1 && QX.del != 1 }">
 				<div style="width:100%;" class="center">
