@@ -77,17 +77,18 @@
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
-				a.MSG_TYPE,	
-				a.TO_USER,	
-				a.ALERT_TITLE,	
-				a.ALERT_CONTENT,	
-				a.CREATE_TIME,	
-				a.UPDATE_TIME,
-				a.`TYPE`,
-				a.`READ`,
-				a.TIPMSG_ID
-		from 
-				TIP_MSG a
+			a.MSG_TYPE,
+			u.name as TO_USER,
+			a.ALERT_TITLE,
+			a.ALERT_CONTENT,
+			a.CREATE_TIME,
+			a.UPDATE_TIME,
+			a.`TYPE`,
+			a.`READ`,
+			a.TIPMSG_ID
+		from
+			TIP_MSG a
+		left join user u on u.user_id=a.TO_USER
 		WHERE 1=1
 		<if test="pd.ALERT_TITLE != '' and pd.ALERT_TITLE != null ">
 			AND a.ALERT_TITLE = #{pd.ALERT_TITLE, jdbcType=VARCHAR}
