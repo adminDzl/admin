@@ -361,7 +361,9 @@ public class SysUserController extends BaseController {
 			//执行上传
 			String fileName =  FileUpload.fileUp(file, filePath, "userexcel");
 			//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
-			List<PageData> listPd = (List)ObjectExcelRead.readExcel(filePath, fileName, 2, 0, 0);
+//			List<PageData> listPd = (List)ObjectExcelRead.readExcel(filePath, fileName, 2, 0, 0);
+			ImportExcelUtil importExcelUtil = new ImportExcelUtil();
+			List<Map<String, Object>> userList = importExcelUtil.getExcelInfo(file);
 			//权限
 			pd.put("RIGHTS", "");
 			//最后登录时间
@@ -384,24 +386,24 @@ public class SysUserController extends BaseController {
 			 * var3 :邮箱
 			 * var4 :备注
 			 */
-			for(int i=0;i<listPd.size();i++){
+			for(int i = 0; i < userList.size();i++){
 				//ID
 				pd.put("USER_ID", this.get32UUID());
 				//姓名
-				pd.put("NAME", listPd.get(i).getString("var1"));
+				pd.put("NAME", userList.get(i).get("姓名").toString());
 				//根据姓名汉字生成全拼
-				String USERNAME = GetPinyin.getPingYin(listPd.get(i).getString("var1"));
+				String USERNAME = GetPinyin.getPingYin(userList.get(i).get("姓名").toString());
 				pd.put("USERNAME", USERNAME);	
 				if(userService.findByUId(pd) != null){
 					//判断用户名是否重复
-					USERNAME = GetPinyin.getPingYin(listPd.get(i).getString("var1"))+Tools.getRandomNum();
+					USERNAME = GetPinyin.getPingYin( userList.get(i).get("姓名").toString())+Tools.getRandomNum();
 					pd.put("USERNAME", USERNAME);
 				}
 				//备注
-				pd.put("BZ", listPd.get(i).getString("var4"));
+				pd.put("BZ", userList.get(i).get("备注").toString());
 				//邮箱格式不对就跳过
-				if(Tools.checkEmail(listPd.get(i).getString("var3"))){
-					pd.put("EMAIL", listPd.get(i).getString("var3"));
+				if(Tools.checkEmail(userList.get(i).get("邮箱").toString())){
+					pd.put("EMAIL", userList.get(i).get("邮箱").toString());
 					//邮箱已存在就跳过
 					if(userService.findByUE(pd) != null){
 						continue;
@@ -410,9 +412,9 @@ public class SysUserController extends BaseController {
 					continue;
 				}
 				//编号已存在就跳过
-				pd.put("NUMBER", listPd.get(i).getString("var0"));
+				pd.put("NUMBER", userList.get(i).get("编号").toString());
 				//手机号
-				pd.put("PHONE", listPd.get(i).getString("var2"));
+				pd.put("PHONE", userList.get(i).get("手机").toString());
 				//默认密码123
 				pd.put("PASSWORD", MD5.md5("123"));
 				if(userService.findByUN(pd) != null){
