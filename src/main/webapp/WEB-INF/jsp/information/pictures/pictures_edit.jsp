@@ -118,7 +118,19 @@
             success: function(data){
                 if (data.result === 0){
                     var fs = data.data.join(',');
-                    $("#PATH").val(fs)
+                    $("#PATH").val(fs);
+
+                    bootbox.dialog("上传图片成功",
+                            [
+                                {
+                                    "label" : "关闭",
+                                    "class" : "btn-small btn-success",
+                                    "callback": function() {
+                                        //Example.show("great success");
+                                    }
+                                }
+                            ]
+                    );
                 }
             }
         });
@@ -196,6 +208,7 @@
 		<!-- ace scripts -->
 		<script src="static/assets/js/ace/elements.fileinput.js"></script>
 		<script src="static/assets/js/ace/ace.js"></script>
+        <script type="text/javascript" src="static/js/bootbox.min.js"></script><!-- 确认窗口 -->
 		<script type="text/javascript">
 		$(top.hangge());
 		$(function() {

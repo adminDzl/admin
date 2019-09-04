@@ -120,7 +120,19 @@
             success: function(data){
                 if (data.result === 0){
                     var fs = data.data.join(',');
-                    $("#HEAD_IMAGE").val(fs)
+                    $("#HEAD_IMAGE").val(fs);
+
+					bootbox.dialog("上传图片成功",
+							[
+								{
+									"label" : "关闭",
+									"class" : "btn-small btn-success",
+									"callback": function() {
+										//Example.show("great success");
+									}
+								}
+							]
+					);
                 }
             }
         });
@@ -207,6 +219,7 @@
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 		<!--引入属于此页面的js -->
 		<script type="text/javascript" src="static/js/myjs/toolEmail.js"></script>
+		<script type="text/javascript" src="static/js/bootbox.min.js"></script><!-- 确认窗口 -->
 	<script type="text/javascript">
 		$(top.hangge());
 		$(function() {

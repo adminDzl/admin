@@ -101,7 +101,19 @@
             success: function(data){
                 if (data.result === 0){
 					var fs = data.data.join(',');
-                    $("#IMAGE_URL").val(fs)
+                    $("#IMAGE_URL").val(fs);
+
+                    bootbox.dialog("上传图片成功",
+                            [
+                                {
+                                    "label" : "关闭",
+                                    "class" : "btn-small btn-success",
+                                    "callback": function() {
+                                        //Example.show("great success");
+                                    }
+                                }
+                            ]
+                    );
 				}
             }
         });
@@ -189,6 +201,7 @@
 		<script src="static/js/ace.min.js"></script>
 		<script type="text/javascript" src="static/js/chosen.jquery.min.js"></script><!-- 下拉框 -->
 		<script type="text/javascript" src="static/js/bootstrap-datepicker.min.js"></script><!-- 日期框 -->
+        <script type="text/javascript" src="static/js/bootbox.min.js"></script><!-- 确认窗口 -->
 		<script type="text/javascript">
 		$(top.hangge());
 		$(function() {
