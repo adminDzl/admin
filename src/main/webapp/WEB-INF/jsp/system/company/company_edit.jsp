@@ -129,6 +129,18 @@
                 if (data.result === 0){
                     var fs = data.data.join(',');
                     $("#LOGO").val(fs)
+
+					bootbox.dialog("上传图片成功",
+							[
+								{
+									"label" : "关闭",
+									"class" : "btn-small btn-success",
+									"callback": function() {
+										//Example.show("great success");
+									}
+								}
+							]
+					);
                 }
             }
         });
@@ -198,6 +210,19 @@
 					<input type="text" name="SCALE" id="SCALE" value="${pd.SCALE}" maxlength="32" placeholder="这里输入企业规模" title="企业规模"/>
 				</td>
 			</tr>
+			<c:if test="${msg == 'edit'}">
+				<tr>
+					<td style="width:70px;text-align: right;padding-top: 13px;">企业创建人:</td>
+					<td>
+						<select name="ADMIN_USERID" id="ADMIN_USERID" maxlength="32" placeholder="这里选择企业创建人" title="企业创建人" >
+							<option value=''>请选择</option>
+							<c:forEach items="${user}" varStatus="status" var="item">
+								<option value="${item.userId }" <c:if test="${item.userId == pd.ADMIN_USERID}">selected</c:if>>${item.name }</option>
+							</c:forEach>
+						</select>
+					</td>
+				</tr>
+			</c:if>
 			<tr>
 				<td style="text-align: center;" colspan="10">
 					<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
@@ -214,6 +239,7 @@
 		<script src="static/js/ace.min.js"></script>
 		<script type="text/javascript" src="static/js/chosen.jquery.min.js"></script><!-- 下拉框 -->
 		<script type="text/javascript" src="static/js/bootstrap-datepicker.min.js"></script><!-- 日期框 -->
+		<script type="text/javascript" src="static/js/bootbox.min.js"></script><!-- 确认窗口 -->
 		<script type="text/javascript">
 		$(top.hangge());
 		$(function() {

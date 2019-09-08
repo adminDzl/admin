@@ -14,6 +14,7 @@ import com.wolves.dto.user.CompanyDTO;
 import com.wolves.dto.user.UserExcelDTO;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
+import com.wolves.service.system.user.UserService;
 import com.wolves.util.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -41,6 +42,8 @@ public class CompanyController extends BaseController {
 	String menuUrl = "company/list.do";
 	@Resource(name="companyService")
 	private CompanyService companyService;
+	@Resource(name="userService")
+	private UserService userService;
 	
 	/**
 	 * 新增
@@ -142,6 +145,7 @@ public class CompanyController extends BaseController {
 			mv.setViewName("system/company/company_edit");
 			mv.addObject("msg", "edit");
 			mv.addObject("pd", pd);
+			mv.addObject("user", userService.getUserByCompanyId(pd.get("COMPANY_ID").toString()));
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		}						

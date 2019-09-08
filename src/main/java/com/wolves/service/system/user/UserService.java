@@ -195,7 +195,8 @@ public class UserService {
 		userInfo.setIdCardFrontUrl(registerDTO.getIdCardFrontUrl());
 		userInfo.setIdCardBackUrl(registerDTO.getIdCardBackUrl());
 		userInfo.setCompanyId(registerDTO.getCompanyId());
-		userInfo.setStatus(StatusEnum.SUCCESS.getKey());
+        //待审核状态
+		userInfo.setStatus(StatusEnum.INIT.getKey());
 		userInfo.setIp("");
 		userInfo.setEmail(registerDTO.getEmail());
 		//身份证已经绑定
@@ -331,7 +332,11 @@ public class UserService {
 		return (List<ManagerUserDTO>) dao.findForList("UserMapper.selectManagerUserByCompanyId", companyId);
 	}
 
-
+	/**
+	 * 根据企业id查询人
+	 * @param companyId
+	 * @return
+	 */
 	public List<com.wolves.entity.app.User> getUserByCompanyId(String companyId){
 		PageData pd = new PageData();
 		pd.put("companyId", companyId);
@@ -356,5 +361,28 @@ public class UserService {
         List<UserListDTO> userListDTOs = (List<UserListDTO>) dao.findForList("UserMapper.selectAllNum", null);
 
         return userListDTOs.size()+"";
+    }
+
+    /**
+     * 查询待审核注册用户列表
+     * @param companyId
+     * @return
+     */
+    public List<CheckUserDTO> selectCheckUser(String companyId){
+
+        return (List<CheckUserDTO>) dao.findForList("UserMapper.selectCheckUser", companyId);
+    }
+
+    @Transactional(rollbackFor = RuntimeException.class)
+    public Integer checkUser(CheckUserDTO checkUserDTO){
+        //判断该用户是否存在
+        com.wolves.entity.app.User user = new com.wolves.entity.app.User();
+        user.setUserId(checkUserDTO.getId());
+        user = this.selectUserByModel(user);
+        if (user.getPhone() != null){
+            user.setStatus(StatusEnum.SUCCESS.getKey());
+            return this.updateUser(user);
+        }
+        return -1;
     }
 }

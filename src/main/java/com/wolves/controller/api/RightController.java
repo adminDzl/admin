@@ -5,7 +5,9 @@ import com.wolves.dto.ResourceDTO;
 import com.wolves.dto.resource.AppResourceDTO;
 import com.wolves.dto.right.*;
 import com.wolves.dto.role.UpdateRoleDTO;
+import com.wolves.dto.user.CheckUserDTO;
 import com.wolves.dto.user.CompanyDTO;
+import com.wolves.dto.user.ManagerUserDTO;
 import com.wolves.entity.app.User;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
@@ -381,6 +383,80 @@ public class RightController {
         return result;
     }
 
+    /**
+     * 查询审核注册人信息的列表
+     * @param token
+     * @return
+     */
+    @ApiOperation(httpMethod="POST", value="查询审核注册人信息的列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+    })
+    @RequestMapping(value = "/selectCheckUserList", method = RequestMethod.POST)
+    public Result<List<CheckUserDTO>> selectCheckUserList(@RequestHeader("Authorization") String token){
+        Result<List<CheckUserDTO>> result = new Result<List<CheckUserDTO>>();
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        //判断该用户是否是负责人
+        List<ManagerUserDTO> managerUserDTOs = userService.selectManagerUserByCompanyId(user.getCompanyId());
+        Boolean isCheck = false;
+        if (managerUserDTOs != null && !managerUserDTOs.isEmpty()){
+            for (ManagerUserDTO managerUserDTO : managerUserDTOs){
+                if (managerUserDTO.getUserId().equals(user.getUserId())){
+                    isCheck = true;
+                    break;
+                }
+            }
+        }
+        if (isCheck){
+            result.setData(userService.selectCheckUser(user.getCompanyId()));
+        }
+        result.setMsg("success");
+        result.setResult(ResultCode.SUCCESS);
+        return result;
+    }
 
+    @ApiOperation(httpMethod="POST", value="审核通过注册人")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+    })
+    @RequestMapping(value = "/selectCheckSuccessUser", method = RequestMethod.POST)
+    public Result selectCheckSuccessUser(@RequestHeader("Authorization") String token,
+                                       @RequestBody List<CheckUserDTO> checkUserDTOs){
+        Result result = new Result();
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        //判断该用户是否是负责人
+        List<ManagerUserDTO> managerUserDTOs = userService.selectManagerUserByCompanyId(user.getCompanyId());
+        Boolean isCheck = false;
+        if (managerUserDTOs != null && !managerUserDTOs.isEmpty()){
+            for (ManagerUserDTO managerUserDTO : managerUserDTOs){
+                if (managerUserDTO.getUserId().equals(user.getUserId())){
+                    isCheck = true;
+                    break;
+                }
+            }
+        }
+
+        if (isCheck){
+            //审核
+            if (checkUserDTOs != null && !checkUserDTOs.isEmpty()){
+                for (CheckUserDTO checkUserDTO : checkUserDTOs){
+                    userService.checkUser(checkUserDTO);
+                }
+            }
+        }
+        result.setMsg("success");
+        result.setResult(ResultCode.SUCCESS);
+        return result;
+    }
 
 }

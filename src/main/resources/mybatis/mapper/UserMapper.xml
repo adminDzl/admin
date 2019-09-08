@@ -87,6 +87,12 @@
 		<result column="name" property="name"/>
 		<result column="company_name" property="companyName"/>
 	</resultMap>
+
+	<resultMap type="com.wolves.dto.user.CheckUserDTO" id="CheckResultMap">
+		<id column="user_id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="head_image" property="image"/>
+	</resultMap>
 	
 	<!-- 判断用户名和密码 -->
 	<select id="getUserInfo" parameterType="User" resultMap="userResultMap">
@@ -135,7 +141,7 @@
 		from USER u
 		left join SYS_ROLE r 
 		on u.ROLE_ID=r.ROLE_ID 
-		where u.STATUS=0 
+		where u.STATUS = 0
 		and u.USER_ID=#{USER_ID}
 	</select>
 
@@ -288,4 +294,14 @@
 		WHERE u.status = 1
 	</select>
 
+	<!--查询审核新注册员工列表-->
+	<select id="selectCheckUser" parameterType="com.wolves.dto.user.CheckUserDTO" resultMap="CheckResultMap">
+		SELECT
+			u.user_id,
+			u.`name`,
+			u.head_image
+		FROM
+			`user` u
+		WHERE  u.`name` != 'admin' AND u.status = 0 AND u.company_id = #{companyId}
+	</select>
 </mapper>

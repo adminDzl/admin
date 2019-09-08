@@ -37,7 +37,7 @@
 			DESCRIPTION,	
 			COMPANY_CERTIFY,	
 			PLACE_ID,	
-			LOGO,	
+			LOGO,
 			CREATE_TIME,	
 			UPDATE_TIME,	
 			COMPANY_ID
@@ -51,7 +51,7 @@
 			#{DESCRIPTION},	
 			#{COMPANY_CERTIFY},	
 			#{PLACE_ID},	
-			#{LOGO},	
+			#{LOGO},
 			now(),
 			now(),
 			#{COMPANY_ID}
@@ -97,6 +97,9 @@
 				<if test="LOGO != null">
 					LOGO = #{LOGO},
 				</if>
+				<if test="ADMIN_USERID != null">
+					ADMIN_USERID = #{ADMIN_USERID},
+				</if>
 				<if test="CREATE_TIME != null">
 					CREATE_TIME = #{CREATE_TIME},
 				</if>
@@ -117,7 +120,8 @@
 			DESCRIPTION,	
 			COMPANY_CERTIFY,	
 			PLACE_ID,	
-			LOGO,	
+			LOGO,
+			ADMIN_USERID,
 			CREATE_TIME,	
 			UPDATE_TIME,	
 			COMPANY_ID
