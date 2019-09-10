@@ -55,14 +55,14 @@
 		<thead>
 		<tr>
 			<th class="center">序号</th>
-			<th>角色</th>
+			<th>职位</th>
 			<c:if test="${QX.edit == 1 }">
-			<th style="width: 60px;" class="center">增加内容</th>
-			<th style="width: 60px;" class="center">删除内容</th>
-			<th style="width: 60px;" class="center">修改内容</th>
-			<th style="width: 60px;" class="center">查看内容</th>
+				<th style="width: 180px;" class="center">功能权限管理</th>
 			</c:if>
-			<th style="width:170px;"  class="center">操作</th>
+			<c:if test="${QX.edit == 1 }">
+				<th style="width: 80px;" class="center">菜单权限管理</th>
+			</c:if>
+			<th style="width:80px;"  class="center">操作</th>
 		</tr>
 		</thead>
 		<c:choose>
@@ -92,12 +92,17 @@
 				<td class='center' style="width:30px;">${vs.index+1}</td>
 				<td id="ROLE_NAMETd${var.ROLE_ID }">${var.ROLE_NAME }</td>
 				<c:if test="${QX.edit == 1 }">
-				<td style="width:30px;" class="center"><a onclick="roleButton('${var.ROLE_ID }','add_qx');" class="btn btn-warning btn-mini" title="分配新增权限"><i class="icon-wrench icon-2x icon-only"></i></a></td>
-				<td style="width:30px;" class="center"><a onclick="roleButton('${var.ROLE_ID }','del_qx');" class="btn btn-warning btn-mini" title="分配删除权限"><i class="icon-wrench icon-2x icon-only"></i></a></td>
-				<td style="width:30px;" class="center"><a onclick="roleButton('${var.ROLE_ID }','edit_qx');" class="btn btn-warning btn-mini" title="分配修改权限"><i class="icon-wrench icon-2x icon-only"></i></a></td>
-				<td style="width:30px;" class="center"><a onclick="roleButton('${var.ROLE_ID }','cha_qx');" class="btn btn-warning btn-mini" title="分配查看权限"><i class="icon-wrench icon-2x icon-only"></i></a></td>
+				<td style="width:30px;" class="center">
+					<a onclick="roleButton('${var.ROLE_ID }','add_qx');" class="btn btn-active btn-mini" title="分配新增权限"><i class="icon-plus-sign icon-2x icon-only"></i></a>&nbsp;&nbsp;&nbsp;
+					<a onclick="roleButton('${var.ROLE_ID }','del_qx');" class="btn btn-warning btn-mini" title="分配删除权限"><i class="icon-minus-sign icon-2x icon-only"></i></a>&nbsp;&nbsp;&nbsp;
+					<a onclick="roleButton('${var.ROLE_ID }','edit_qx');" class="btn btn-info btn-mini" title="分配修改权限"><i class="icon-edit icon-2x icon-only"></i></a>&nbsp;&nbsp;&nbsp;
+					<a onclick="roleButton('${var.ROLE_ID }','cha_qx');" class="btn btn-success btn-mini" title="分配查看权限"><i class="icon-eye-open icon-2x icon-only"></i></a>
+				</td>
 				</c:if>
-				<td style="width:170px;">
+				<c:if test="${QX.edit == 1 }">
+					<td class="center"><a class="btn btn-mini btn-purple" onclick="editRights('${var.ROLE_ID }');"><i class="icon-pencil"></i>配置</a></td>
+				</c:if>
+				<td class="center;">
 				
 				<c:if test="${QX.edit != 1 && QX.del != 1 }">
 				<div style="width:100%;" class="center">
@@ -106,7 +111,6 @@
 				</c:if>
 				
 				<c:if test="${QX.edit == 1 }">
-				<a class="btn btn-mini btn-purple" onclick="editRights('${var.ROLE_ID }');"><i class="icon-pencil"></i>查看菜单权限</a>
 				<a class='btn btn-mini btn-info' title="编辑" onclick="editRole('${var.ROLE_ID }');"><i class='icon-edit'></i></a>
 				</c:if>
 				<c:choose> 
