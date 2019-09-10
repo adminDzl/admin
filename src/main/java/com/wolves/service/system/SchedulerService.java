@@ -6,6 +6,7 @@ import com.wolves.entity.app.PayOrder;
 import com.wolves.service.system.payorder.PayOrderService;
 import com.wolves.service.system.yardappoint.YardAppointService;
 import com.wolves.util.Logger;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ import java.util.List;
  * Created by Administrator on 2019/9/10.
  */
 @Component
+@EnableScheduling
 public class SchedulerService {
 
     protected Logger logger = Logger.getLogger(this.getClass());
