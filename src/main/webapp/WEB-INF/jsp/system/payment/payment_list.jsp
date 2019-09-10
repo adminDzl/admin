@@ -28,8 +28,8 @@
 					<td><input class="span10 date-picker" name="lastLoginStart" id="lastLoginStart" value="${pd.lastLoginStart}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期"/></td>
 					<td><input class="span10 date-picker" name="lastLoginEnd" id="lastLoginEnd" value="${pd.lastLoginEnd}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="结束日期"/></td>
 					<td style="vertical-align:top;"> 
-					 	<select class="chzn-select" name="STATUS" id="STATUS" data-placeholder="支付状态" style="vertical-align:top;width: 120px;">
-							<option value=""></option>
+					 	<select name="STATUS" id="STATUS" data-placeholder="支付状态" style="vertical-align:top;width: 120px;">
+							<option value="" disabled selected style="display:none;">支付状态</option>
 							<option value="">全部</option>
 							<option value="0" <c:if test="${pd.STATUS == '0' }">selected</c:if>>待支付</option>
 							<option value="1" <c:if test="${pd.STATUS == '1' }">selected</c:if>>支付完成</option>

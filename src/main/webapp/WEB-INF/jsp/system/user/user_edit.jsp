@@ -251,9 +251,9 @@
 			<c:if test="${pd.ROLE_ID != '1'}">	
 			<tr class="info">
 				<td>
-				<select class="chzn-select" name="ROLE_ID" id="role_id" data-placeholder="请选择职位" style="vertical-align:top;">
-				<option value=""></option>
-				<c:forEach items="${roleList}" var="role">
+				<select name="ROLE_ID" id="role_id" data-placeholder="请选择职位" style="vertical-align:top;">
+					<option value="" disabled selected style="display:none;">请选择职位</option>
+					<c:forEach items="${roleList}" var="role">
 					<option value="${role.ROLE_ID }" <c:if test="${role.ROLE_ID == pd.ROLE_ID }">selected</c:if>>${role.ROLE_NAME }</option>
 				</c:forEach>
 				</select>

@@ -26,8 +26,8 @@
 						</span>
 					</td>
 					<td style="vertical-align:top;">
-					 	<select class="chzn-select" name="field2" id="field2" data-placeholder="请选择月卡状态" style="vertical-align:top;width: 140px;">
-							<option value=""></option>
+					 	<select name="field2" id="field2" data-placeholder="请选择月卡状态" style="vertical-align:top;width: 140px;">
+							<option value="" disabled selected style="display:none;">请选择月卡状态</option>
 							<option value="">全部</option>
 							<option value="1">有效</option>
 							<option value="0">过期</option>

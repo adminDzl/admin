@@ -31,14 +31,14 @@
 					<td>
 						<span class="input-icon">
 							<input autocomplete="off" id="nav-search-input" type="text" name="USERNAME" value="${pd.USERNAME }" placeholder="这里输入关键词" />
-							<i id="nav-search-icon" class="icon-search"></i>
+							<i class="icon-search"></i>
 						</span>
 					</td>
 					<td><input class="span10 date-picker" name="lastLoginStart" id="lastLoginStart"  value="${pd.lastLoginStart}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期" title="最近登录开始"/></td>
 					<td><input class="span10 date-picker" name="lastLoginEnd" name="lastLoginEnd"  value="${pd.lastLoginEnd}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="结束日期" title="最近登录结束"/></td>
 					<td style="vertical-align:top;"> 
-					 	<select class="chzn-select" name="ROLE_ID" id="role_id" data-placeholder="请选择职位" style="vertical-align:top;width: 120px;">
-						<option value=""></option>
+					 	<select name="ROLE_ID" id="role_id" placeholder="请选择职位" style="vertical-align:top;width: 120px;">
+						<option value="" disabled selected style="display:none;">请选择职位</option>
 						<option value="">全部</option>
 						<c:forEach items="${roleList}" var="role">
 							<option value="${role.ROLE_ID }" <c:if test="${pd.ROLE_ID==role.ROLE_ID}">selected</c:if>>${role.ROLE_NAME }</option>
