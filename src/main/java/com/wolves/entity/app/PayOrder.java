@@ -23,6 +23,10 @@ public class PayOrder {
 
     private Integer payStatus;
 
+    private String channelType;
+
+    private String yardappointId;
+
     private Date createTime;
 
     private Date updateTime;
@@ -105,5 +109,39 @@ public class PayOrder {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getChannelType() {
+        return channelType;
+    }
+
+    public void setChannelType(String channelType) {
+        this.channelType = channelType;
+    }
+
+    public String getYardappointId() {
+        return yardappointId;
+    }
+
+    public void setYardappointId(String yardappointId) {
+        this.yardappointId = yardappointId;
+    }
+
+    @Override
+    public String toString() {
+        return "PayOrder{" +
+                "payorderId='" + payorderId + '\'' +
+                ", payType=" + payType +
+                ", userId='" + userId + '\'' +
+                ", payAmount=" + payAmount +
+                ", payTime=" + payTime +
+                ", returnTime=" + returnTime +
+                ", remark='" + remark + '\'' +
+                ", payStatus=" + payStatus +
+                ", channelType='" + channelType + '\'' +
+                ", yardappointId='" + yardappointId + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

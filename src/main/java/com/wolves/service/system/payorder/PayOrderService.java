@@ -94,5 +94,14 @@ public class PayOrderService {
 
 		return (PageData)dao.findForObject("PayOrderMapper.selectPayAmount", null);
 	}
+
+	/**
+	 * 查询等待支付的场地预定的所有订单
+	 * @return
+	 */
+	public List<PayOrder> selectAllYard(){
+
+		return (List<PayOrder>)dao.findForList("PayOrderMapper.selectAllYard", null);
+	}
 }
 

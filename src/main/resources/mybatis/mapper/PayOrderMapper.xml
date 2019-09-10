@@ -10,6 +10,8 @@
 		<result column="pay_time" property="payTime"/>
 		<result column="return_time" property="returnTime"/>
 		<result column="pay_status" property="payStatus"/>
+		<result column="channel_type" property="channelType"/>
+		<result column="yardappoint_id" property="yardappointId"/>
 		<result column="create_time" property="createTime"/>
 		<result column="update_time" property="updateTime"/>
 	</resultMap>
@@ -152,6 +154,8 @@
 		return_time,
 		remark,
 		pay_status,
+		yardappoint_id,
+		channel_type,
 		create_time,
 		update_time
 		from pay_order
@@ -196,5 +200,23 @@
 		SUM(pay_amount) AS amout
 		FROM pay_order p
 		WHERE p.pay_status = 1
+	</select>
+
+	<select id="selectAllYard" parameterType="com.wolves.entity.app.PayOrder" resultMap="ResultMap">
+		select
+		payorder_id,
+		pay_type,
+		user_id,
+		pay_amount,
+		pay_time,
+		return_time,
+		remark,
+		pay_status,
+		yardappoint_id,
+		channel_type,
+		create_time,
+		update_time
+		from pay_order
+		where pay_status = 0 AND pay_type = 5
 	</select>
 </mapper>
