@@ -250,6 +250,28 @@
 			}
 		});
 	}
+	
+	//查询角色
+	function getUserRole() {
+		var COMPANY_ID = $("#COMPANY_ID").val();//得到第一个下拉列表的值
+		if(COMPANY_ID !== null && "" !== COMPANY_ID){
+			//通过ajax传入后台，把orderTypeName数据传到后端
+			var url = '<%=basePath%>appuser/getUserRole.do';
+
+			$.post(url,{"companyId":COMPANY_ID},function(data){
+				var option = '<option value="">请选择角色</option>';
+				$.each(data,function(i,n){//循环，i为下标从0开始，n为集合中对应的第i个对象
+					option += '<option value="'+n.roleId+'">'+n.roleName+'</option>';
+				});
+				$("#ROLE_ID").html(option);//将循环拼接的字符串插入第二个下拉列表
+			});
+
+		}else {
+			$("#ROLE_ID").find("option").remove();
+			var option = '<option value="">请选择角色</option>';
+			$("#ROLE_ID").html(option);//将循环拼接的字符串插入第二个下拉列表
+		}
+	}
 </script>
 	</head>
 <body>
@@ -322,10 +344,18 @@
 			</tr>
 			<tr>
 				<td>
-					<select name="COMPANY_ID" id="COMPANY_ID" maxlength="32" placeholder="这里选择公司" title="公司" value="${pd.COMPANY_ID}">
+					<select name="COMPANY_ID" id="COMPANY_ID" maxlength="32" placeholder="这里选择公司" title="公司" value="${pd.COMPANY_ID}" onchange="getUserRole();">
 						<option value=''>请选择公司</option>
 						<c:forEach items="${company}" varStatus="status" var="item">
 							<option value="${item.companyId }" <c:if test="${item.companyId == pd.COMPANY_ID}">selected</c:if>>${item.companyName }</option>
+						</c:forEach>
+					</select>
+				</td>
+				<td>
+					<select name="ROLE_ID" id="ROLE_ID" maxlength="32" placeholder="这里选择公司下的角色" title="角色" value="${pd.ROLE_ID}">
+						<option value=''>请选择角色</option>
+						<c:forEach items="${roles}" varStatus="status" var="item">
+							<option value="${item.roleId }" <c:if test="${item.roleId == pd.ROLE_ID}">selected</c:if>>${item.roleName }</option>
 						</c:forEach>
 					</select>
 				</td>

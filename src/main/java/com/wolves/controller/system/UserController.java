@@ -10,13 +10,17 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 
+import com.wolves.dto.FloorManAllDTO;
+import com.wolves.dto.right.RoleDTO;
 import com.wolves.dto.user.UserExcelDTO;
+import com.wolves.service.right.AppRoleService;
 import com.wolves.service.system.CompanyService;
 import com.wolves.service.system.user.UserService;
 import com.wolves.util.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -48,6 +52,8 @@ public class UserController extends BaseController {
 	CompanyService companyService;
 	@Resource(name="userService")
 	private UserService userService;
+	@Autowired
+	AppRoleService appRoleService;
 
 	/**
 	 * 保存用户
@@ -148,6 +154,8 @@ public class UserController extends BaseController {
 		mv.addObject("pd", pd);
 		mv.addObject("roleList", roleList);
 		mv.addObject("company", companyService.selectAllCompany());
+		String companyId = pd.getString("COMPANY_ID");
+		mv.addObject("roles", appRoleService.getRolesByCompanyId(companyId));
 		return mv;
 	}
 	
@@ -165,6 +173,18 @@ public class UserController extends BaseController {
 		mv.addObject("roleList", roleList);
 		mv.addObject("company", companyService.selectAllCompany());
 		return mv;
+	}
+
+	/**
+	 * 请求查询角色
+	 */
+	@RequestMapping(value="/getUserRole")
+	@ResponseBody
+	public List<RoleDTO> getUserRole(){
+		PageData pd = this.getPageData();
+		String companyId = pd.getString("companyId");
+
+		return appRoleService.getRolesByCompanyId(companyId);
 	}
 	
 	/**
