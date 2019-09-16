@@ -1,12 +1,12 @@
 package com.wolves.service.pay;
 
-import com.alibaba.fastjson.JSONObject;
 import com.wolves.common.PayTypeEnum;
 import com.wolves.common.WxPayStatusEnum;
 import com.wolves.dto.OrderDTO;
 import com.wolves.dto.pay.WxResultDTO;
 import com.wolves.entity.app.PayOrder;
 import com.wolves.entity.app.User;
+import com.wolves.service.system.payorder.PayOrderService;
 import com.wolves.service.system.user.UserService;
 import com.wolves.util.*;
 import org.slf4j.Logger;
@@ -35,6 +35,10 @@ public class WechatPayService implements PayService {
 
     @Resource(name="userService")
     private UserService userService;
+
+    @Resource(name = "payorderService")
+    private PayOrderService payorderService;
+
 
     @Override
     public WxResultDTO pay(HttpServletRequest request, String token, OrderDTO orderDTO) {
@@ -222,7 +226,6 @@ public class WechatPayService implements PayService {
                         //更新支付状态为已成功
                         if (orderAmount.compareTo(order.getPayAmount()) == 0 && !WxPayStatusEnum.SUCCESS.getKey().equals(order.getPayStatus())) {
                             logger.warn("更新数据信息..........." + out_trade_no);
-
                             order.setPayStatus(Integer.valueOf(WxPayStatusEnum.SUCCESS.getKey()));
                             logger.info(" =====支付成功====:" + out_trade_no);
                         }
@@ -258,5 +261,45 @@ public class WechatPayService implements PayService {
         }
 
     }
+
+
+    public void insertOrder(HttpServletRequest request, String token, PayOrder payOrder) {
+        User user = new User();
+        if (StringUtils.isNotEmpty(token)) {
+            user.setToken(token);
+            user = userService.getUserByToken(user);
+        }
+        //存入数据
+        PageData pd = new PageData();
+        pd.put("PAY_TYPE", payOrder.getPayType());
+        pd.put("USER_ID",user.getUserId());
+        pd.put("PAY_AMOUNT",payOrder.getPayAmount());
+        pd.put("PAYORDER_ID", payOrder.getPayorderId());
+        pd.put("CREATE_TIME", Tools.date2Str(new Date()));
+        pd.put("UPDATE_TIME", Tools.date2Str(new Date()));
+        pd.put("PAY_STATUS", "0");
+        pd.put("CHANNEL_TYPE", request.getAttribute("channel_type"));
+        pd.put("YARDAPPOINT_ID",payOrder.getYardappointId());
+        payorderService.save(pd);
+    }
+
+
+    public void updateOrder(HttpServletRequest request) {
+        //存入数据
+        PageData pd = new PageData();
+        pd.put("PAY_STATUS", "1");
+        payorderService.edit(pd);
+
+    }
+
+    public PayOrder selectPayOrderByYardappointId(HttpServletRequest request, String token, PayOrder payOrder) {
+
+        //存入数据
+        PageData pd = new PageData();
+        pd.put("YARDAPPOINT_ID", payOrder.getYardappointId());
+        payOrder = payorderService.selectPayOrderByYardappointId(pd);
+        return payOrder;
+    }
+
 
 }

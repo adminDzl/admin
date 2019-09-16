@@ -219,4 +219,24 @@
 		from pay_order
 		where pay_status = 0 AND pay_type = 5
 	</select>
+
+	<select id="selectPayOrderByYardappointId" parameterType="pd" resultMap="ResultMap">
+		select
+			PAY_TYPE,
+			USER_ID,
+			PAY_AMOUNT,
+			PAY_TIME,
+			RETURN_TIME,
+			REMARK,
+			PAY_STATUS,
+			CREATE_TIME,
+			UPDATE_TIME,
+			PAYORDER_ID,
+			CHANNEL_TYPE,
+			YARDAPPOINT_ID
+		from
+			PAY_ORDER
+		where
+			YARDAPPOINT_ID = #{YARDAPPOINT_ID} ORDER  BY  CREATE_TIME DESC limit 0,1
+	</select>
 </mapper>

@@ -103,5 +103,12 @@ public class PayOrderService {
 
 		return (List<PayOrder>)dao.findForList("PayOrderMapper.selectAllYard", null);
 	}
+
+	/**
+	 * 通过YardappointId获取数据
+	 */
+	public PayOrder  selectPayOrderByYardappointId(PageData pd){
+		return (PayOrder)dao.findForObject("PayOrderMapper.selectPayOrderByYardappointId", pd);
+	}
 }
 
