@@ -28,7 +28,7 @@
 			if($("#USER_ID").val()==""){
 			$("#USER_ID").tips({
 				side:3,
-	            msg:'请输入用户id',
+	            msg:'请选择用户',
 	            bg:'#AE81FF',
 	            time:2
 	        });
@@ -58,7 +58,15 @@
 		<table id="table_report" class="table table-striped table-bordered table-hover">
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">用户id:</td>
-				<td><input type="text" name="USER_ID" id="USER_ID" value="${pd.USER_ID}" maxlength="32" placeholder="这里输入用户id" title="用户id"/></td>
+				<td>
+					<select name="USER_ID" id="USER_ID" maxlength="32" placeholder="这里选择用户" title="用户" value="${pd.USER_ID}">
+						<option value=''>请选择</option>
+						<c:forEach items="${userList}" varStatus="status" var="item">
+							<option value="${item.userId }" <c:if test="${item.userId == pd.USER_ID }">selected</c:if>>${item.name }</option>
+						</c:forEach>
+					</select>
+				</td>
+
 			</tr>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">车牌号:</td>

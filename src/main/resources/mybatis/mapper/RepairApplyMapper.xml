@@ -125,6 +125,16 @@
 			REPAIR_APPLY a
 		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
 		WHERE a.STATUS = 0
+		<if test="pd.USERNAME != null and pd.USERNAME != ''"><!-- 关键词检索 -->
+			AND u.USERNAME LIKE CONCAT(CONCAT('%', #{pd.USERNAME}),'%')
+		</if>
+		<if test="pd.lastLoginStart != '' and pd.lastLoginStart != null ">
+			<![CDATA[  AND DATE_FORMAT(a.create_time, '%Y-%m-%d') >= DATE_FORMAT(#{pd.lastLoginStart, jdbcType=VARCHAR}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="pd.lastLoginEnd != '' and pd.lastLoginEnd != null ">
+			<![CDATA[  AND DATE_FORMAT(a.create_time, '%Y-%m-%d') <= DATE_FORMAT(#{pd.lastLoginEnd, jdbcType=VARCHAR}, '%Y-%m-%d') ]]>
+		</if>
+		ORDER BY a.CREATE_TIME DESC
 	</select>
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">

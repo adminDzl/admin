@@ -10,8 +10,10 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 
+import com.wolves.common.StatusEnum;
 import com.wolves.service.system.appuser.AppUserService;
 import com.wolves.service.system.appuser.UserCarBindService;
+import com.wolves.service.system.user.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -40,6 +42,8 @@ public class UserCarBindController extends BaseController {
 	private UserCarBindService usercarbindService;
 	@Resource(name="appUserService")
 	private AppUserService appUserService;
+	@Resource(name="userService")
+	private UserService userService;
 	
 	/**
 	 * 新增
@@ -52,7 +56,7 @@ public class UserCarBindController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		pd.put("USERCARBIND_ID", this.get32UUID());
-		pd.put("STATUS", "");
+		pd.put("STATUS", StatusEnum.INIT.getKey());
 		pd.put("CREATE_TIME", Tools.date2Str(new Date()));
 		pd.put("UPDATE_TIME", Tools.date2Str(new Date()));
 		usercarbindService.save(pd);
@@ -83,6 +87,7 @@ public class UserCarBindController extends BaseController {
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;}
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
+		pd.put("STATUS", StatusEnum.INIT.getKey());
 		usercarbindService.edit(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
@@ -118,6 +123,7 @@ public class UserCarBindController extends BaseController {
 		mv.setViewName("system/usercarbind/usercarbind_edit");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
+		mv.addObject("userList", userService.selectAllUser());
 		return mv;
 	}	
 	
@@ -133,6 +139,7 @@ public class UserCarBindController extends BaseController {
 		mv.setViewName("system/usercarbind/usercarbind_edit");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
+		mv.addObject("userList", userService.selectAllUser());
 		return mv;
 	}
 
