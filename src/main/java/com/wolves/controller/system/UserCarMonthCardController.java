@@ -271,7 +271,7 @@ public class UserCarMonthCardController extends BaseController {
 		PageData pd = this.getPageData();
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
-		titles.add("用户ID");
+		titles.add("用户");
 		titles.add("月卡号");
 		titles.add("金额");
 		titles.add("有效日期");
@@ -283,11 +283,16 @@ public class UserCarMonthCardController extends BaseController {
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();
-			vpd.put("var1", varOList.get(i).getString("USER_ID"));
+			vpd.put("var1", varOList.get(i).getString("NAME"));
 			vpd.put("var2", varOList.get(i).getString("CARD_NO"));
 			vpd.put("var3", varOList.get(i).getString("PRICE"));
 			vpd.put("var4", varOList.get(i).getString("USE_TIL_DATE"));
-			vpd.put("var5", varOList.get(i).get("CARD_STATUS").toString());
+			Object status = varOList.get(i).get("CARD_STATUS");
+			String sta = "无效";
+			if (status != null && status.equals(1)){
+				sta = "有效";
+			}
+			vpd.put("var5", sta);
 			vpd.put("var6", varOList.get(i).getString("CREATE_TIME"));
 			vpd.put("var7", varOList.get(i).getString("UPDATE_TIME"));
 			varList.add(vpd);

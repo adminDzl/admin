@@ -137,10 +137,13 @@
 				a.PRICE,	
 				a.USE_TIL_DATE,
 				a.CREATE_TIME,	
-				a.UPDATE_TIME,	
-				a.user_car_month_card_id
+				a.UPDATE_TIME,
+				a.CARD_STATUS,
+				a.user_car_month_card_id,
+				u.NAME
 		from 
 				USER_CAR_MONTH_CARD a
+		LEFT JOIN USER u ON (u.USER_ID = a.USER_ID)
 	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
