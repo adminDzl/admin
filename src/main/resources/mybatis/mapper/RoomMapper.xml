@@ -82,8 +82,8 @@
 		LEFT JOIN build_man b ON (b.BUILDMAN_ID = f.build_no)
 		left join company c on a.company_id=c.company_id
 		WHERE 1=1
-		<if test="pd.build_no != '' and pd.build_no != null ">
-			AND a.build_no = #{pd.build_no, jdbcType=VARCHAR}
+		<if test="pd.build_name != '' and pd.build_name != null ">
+			AND a.build_name = CONCAT('%',#{pd.build_name, jdbcType=VARCHAR},'%')
 		</if>
 		<if test="pd.lastLoginStart != '' and pd.lastLoginStart != null ">
 			<![CDATA[  AND DATE_FORMAT(a.create_time, '%Y-%m-%d') >= DATE_FORMAT(#{pd.lastLoginStart, jdbcType=VARCHAR}, '%Y-%m-%d') ]]>

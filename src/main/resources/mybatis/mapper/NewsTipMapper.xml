@@ -108,6 +108,19 @@
 		from 
 				NEWS_TIP a
 		WHERE a.NEWS_TYPE = 1
+		<if test="pd.title != '' and pd.title != null">
+			AND a.NEWS_TITLE LIKE CONCAT('%',#{pd.title, jdbcType=VARCHAR},'%')
+		</if>
+		<if test="pd.STATUS != null and pd.STATUS != ''">
+			AND a.STATUS = #{pd.STATUS, jdbcType=INTEGER}
+		</if>
+		<if test="pd.lastLoginStart != '' and pd.lastLoginStart != null ">
+			<![CDATA[  AND DATE_FORMAT(a.create_time, '%Y-%m-%d') >= DATE_FORMAT(#{pd.lastLoginStart, jdbcType=VARCHAR}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="pd.lastLoginEnd != '' and pd.lastLoginEnd != null ">
+			<![CDATA[  AND DATE_FORMAT(a.create_time, '%Y-%m-%d') <= DATE_FORMAT(#{pd.lastLoginEnd, jdbcType=VARCHAR}, '%Y-%m-%d') ]]>
+		</if>
+		ORDER BY a.CREATE_TIME DESC
 	</select>
 	<!-- 查询统一申请列表 -->
 	<select id="decorateList" parameterType="page" resultType="pd">
@@ -124,6 +137,19 @@
 		from
 		NEWS_TIP a
 		WHERE a.NEWS_TYPE = 3
+		<if test="pd.title != '' and pd.title != null">
+			AND a.NEWS_TITLE LIKE CONCAT('%',#{pd.title, jdbcType=VARCHAR},'%')
+		</if>
+		<if test="pd.STATUS != null and pd.STATUS != ''">
+			AND a.STATUS = #{pd.STATUS, jdbcType=INTEGER}
+		</if>
+		<if test="pd.lastLoginStart != '' and pd.lastLoginStart != null ">
+			<![CDATA[  AND DATE_FORMAT(a.create_time, '%Y-%m-%d') >= DATE_FORMAT(#{pd.lastLoginStart, jdbcType=VARCHAR}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="pd.lastLoginEnd != '' and pd.lastLoginEnd != null ">
+			<![CDATA[  AND DATE_FORMAT(a.create_time, '%Y-%m-%d') <= DATE_FORMAT(#{pd.lastLoginEnd, jdbcType=VARCHAR}, '%Y-%m-%d') ]]>
+		</if>
+		ORDER BY a.CREATE_TIME DESC
 	</select>
 	<!--查询项目申报-->
 	<select id="declarelistPage" parameterType="page" resultType="pd">
@@ -140,6 +166,19 @@
 		from
 		NEWS_TIP a
 		WHERE a.NEWS_TYPE = 2
+		<if test="pd.title != '' and pd.title != null">
+			AND a.NEWS_TITLE LIKE CONCAT('%',#{pd.title, jdbcType=VARCHAR},'%')
+		</if>
+		<if test="pd.STATUS != null and pd.STATUS != ''">
+			AND a.STATUS = #{pd.STATUS, jdbcType=INTEGER}
+		</if>
+		<if test="pd.lastLoginStart != '' and pd.lastLoginStart != null ">
+			<![CDATA[  AND DATE_FORMAT(a.create_time, '%Y-%m-%d') >= DATE_FORMAT(#{pd.lastLoginStart, jdbcType=VARCHAR}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="pd.lastLoginEnd != '' and pd.lastLoginEnd != null ">
+			<![CDATA[  AND DATE_FORMAT(a.create_time, '%Y-%m-%d') <= DATE_FORMAT(#{pd.lastLoginEnd, jdbcType=VARCHAR}, '%Y-%m-%d') ]]>
+		</if>
+		ORDER BY a.CREATE_TIME DESC
 	</select>
 	<!-- 列表(全部新闻) -->
 	<select id="listNewAll" parameterType="pd" resultType="pd">

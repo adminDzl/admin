@@ -22,20 +22,20 @@
 				<tr>
 					<td>
 						<span class="input-icon">
-							<input autocomplete="off" id="nav-search-input" type="text" name="field1" value="" placeholder="这里输入关键词" />
+							<input autocomplete="off" id="nav-search-input" type="text" name="USERNAME" value="" placeholder="这里输入报修人" />
 							<i class="icon-search"></i>
 						</span>
 					</td>
 					<td><input class="span10 date-picker" name="lastLoginStart" id="lastLoginStart" value="${pd.lastLoginStart}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期"/></td>
 					<td><input class="span10 date-picker" name="lastLoginEnd" id="lastLoginEnd" value="${pd.lastLoginEnd}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="结束日期"/></td>
-					<td style="vertical-align:top;"> 
-					 	<select name="field2" id="field2" data-placeholder="请选择" style="vertical-align:top;width: 120px;">
-							<option value="" disabled selected style="display:none;">请选择</option>
-							<option value="">全部</option>
-							<option value="">1</option>
-							<option value="">2</option>
-					  	</select>
-					</td>
+					<%--<td style="vertical-align:top;"> --%>
+					 	<%--<select name="field2" id="field2" data-placeholder="请选择" style="vertical-align:top;width: 120px;">--%>
+							<%--<option value="" disabled selected style="display:none;">请选择</option>--%>
+							<%--<option value="">全部</option>--%>
+							<%--<option value="">1</option>--%>
+							<%--<option value="">2</option>--%>
+					  	<%--</select>--%>
+					<%--</td>--%>
 					<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"  title="检索"><i class="icon-search"></i></button></td>
 					<%--<c:if test="${QX.cha == 1 }">--%>
 					<%--<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="toExcel();" title="导出到EXCEL"><i class="icon-download-alt"></i></a></td>--%>
@@ -52,7 +52,6 @@
 						<th class="center">申请人</th>
 						<th class="center">报修内容</th>
 						<th class="center">保修图片</th>
-						<th class="center">报修状态</th>
 						<th class="center">创建时间</th>
 						<th class="center">操作</th>
 					</tr>
@@ -83,19 +82,14 @@
 											<img src="${image}" style="width:30px;height:30px;" />
 										</c:forTokens>
 									</td>
-									<td>
-										<c:if test="${var.STATUS == 0}"><span class="label label-success arrowed">待审核</span></c:if>
-										<c:if test="${var.STATUS == 1}"><span class="label label-success arrowed">审核成功</span></c:if>
-										<c:if test="${var.STATUS == 2}"><span class="label label-success arrowed">审核驳回</span></c:if>
-									</td>
 									<td>${var.CREATE_TIME}</td>
 								<td style="width: 100px;" class="center">
 									<c:if test="${QX.edit != 1 && QX.del != 1 }">
 										<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="icon-lock" title="无权限"></i></span>
 									</c:if>
-									<c:if test="${QX.edit == 1 }">
-										<a class='btn btn-mini btn-info' title="编辑" onclick="edit('${var.REPAIR_APPLY_ID}');"><i class="icon-edit"></i></a>
-									</c:if>
+									<%--<c:if test="${QX.edit == 1 }">--%>
+										<%--<a class='btn btn-mini btn-info' title="编辑" onclick="edit('${var.REPAIR_APPLY_ID}');"><i class="icon-edit"></i></a>--%>
+									<%--</c:if>--%>
 									<c:if test="${QX.del == 1 }">
 										<a class='btn btn-mini btn-danger' title="删除" onclick="del('${var.REPAIR_APPLY_ID}');"><i class='icon-trash'></i></a>
 									</c:if>
@@ -121,9 +115,9 @@
 		<table style="width:100%;">
 			<tr>
 				<td style="vertical-align:top;">
-					<c:if test="${QX.add == 1 }">
-					<a class="btn btn-small btn-success" onclick="add();">新增</a>
-					</c:if>
+					<%--<c:if test="${QX.add == 1 }">--%>
+					<%--<a class="btn btn-small btn-success" onclick="add();">新增</a>--%>
+					<%--</c:if>--%>
 					<c:if test="${QX.del == 1 }">
 					<a class="btn btn-small btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='icon-trash'></i></a>
 					</c:if>

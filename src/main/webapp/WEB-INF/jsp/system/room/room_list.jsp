@@ -21,7 +21,7 @@
 				<tr>
 					<td>
 						<span class="input-icon">
-							<input autocomplete="off" id="nav-search-input" type="text" name="build_no" value="" placeholder="这里输入楼栋" />
+							<input autocomplete="off" id="nav-search-input" type="text" name="build_name" value="" placeholder="这里输入楼宇" />
 							<i class="icon-search"></i>
 						</span>
 					</td>

@@ -31,7 +31,7 @@ public class SchedulerService {
     @Resource(name="yardappointService")
     private YardAppointService yardappointService;
 
-    @Scheduled(cron = "0/5 * * * * ?")
+    @Scheduled(cron = "* 1 * * * ?")
     public void updateYardAppoint(){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         logger.info("定时任务执行开始============》 开始时间:"+sdf.format(new Date(System.currentTimeMillis())));
