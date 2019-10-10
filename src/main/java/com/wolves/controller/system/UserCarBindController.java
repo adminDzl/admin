@@ -55,7 +55,7 @@ public class UserCarBindController extends BaseController {
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;}
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
-		pd.put("USERCARBIND_ID", this.get32UUID());
+		pd.put("USER_CAR_BIND_ID", this.get32UUID());
 		pd.put("STATUS", StatusEnum.INIT.getKey());
 		pd.put("CREATE_TIME", Tools.date2Str(new Date()));
 		pd.put("UPDATE_TIME", Tools.date2Str(new Date()));
