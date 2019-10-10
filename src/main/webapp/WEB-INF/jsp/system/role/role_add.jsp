@@ -43,7 +43,7 @@
 			<div id="zhongxin">
 			<table>
 				<tr>
-					<td><input type="text" name="ROLE_NAME" id="roleName" placeholder="这里输入名称" title="名称" maxlength="32" /></td>
+					<td><input type="text" name="ROLE_NAME" id="roleName" placeholder="这里输入名称（最多16个字）" title="名称" maxlength="16" /></td>
 				</tr>
 				<tr>
 					<td style="text-align: center;">
