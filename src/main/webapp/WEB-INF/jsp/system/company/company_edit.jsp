@@ -23,6 +23,18 @@
 		<link rel="stylesheet" href="static/css/datepicker.css" /><!-- 日期框 -->
 		<script type="text/javascript" src="static/js/jquery-1.7.2.js"></script>
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
+		<style type="text/css">
+			#cover{
+				position:absolute;left:0px;top:0px;
+				background:rgba(0, 0, 0, 0.4);
+				width:100%;  /*宽度设置为100%，这样才能使隐藏背景层覆盖原页面*/
+				height:100%;
+				filter:alpha(opacity=60);  /*设置透明度为60%*/
+				opacity:0.6;  /*非IE浏览器下设置透明度为60%*/
+				display:none;
+				z-Index:999;
+			}
+		</style>
 <script type="text/javascript">
 	function save(){
 			if($("#COMPANY_NAME").val()==""){
@@ -112,6 +124,7 @@
 
 	//上传logo图片
     function uploadImage(obj){
+		cover.style.display="block";   //显示遮罩层
         var files = obj.files ;
         var formData = new FormData();
         for(var i = 0;i<files.length;i++){
@@ -128,7 +141,9 @@
             success: function(data){
                 if (data.result === 0){
                     var fs = data.data.join(',');
-                    $("#LOGO").val(fs)
+                    $("#LOGO").val(fs);
+
+					cover.style.display="none";   //隐藏遮罩层
 
 					bootbox.dialog("上传图片成功",
 							[
@@ -232,6 +247,8 @@
 		</table>
 		</div>
 		<div id="zhongxin2" class="center" style="display:none"><br/><br/><br/><br/><br/><img src="static/images/jiazai.gif" /><br/><h4 class="lighter block green">提交中...</h4></div>
+		<!-- 通过遮罩层遮住背景 -->
+		<div id="cover"></div>
 	</form>
 		<script type="text/javascript">window.jQuery || document.write("<script src='static/js/jquery-1.9.1.min.js'>\x3C/script>");</script>
 		<script src="static/js/bootstrap.min.js"></script>
