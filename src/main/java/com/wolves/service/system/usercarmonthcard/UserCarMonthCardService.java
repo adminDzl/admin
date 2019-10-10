@@ -131,13 +131,15 @@ public class UserCarMonthCardService {
 		Object userName = map.get("用户名");
 		userCarMonthCardDTO.setUserName(userName.toString());
 		com.wolves.entity.app.User user = new com.wolves.entity.app.User();
-		user.setUsername(userName.toString());
+		user.setName(userName.toString());
 		user = userService.getUserByPhone(user);
 		if (user != null){
 			userCarMonthCardDTO.setUserId(user.getUserId());
 		}
 		Object mothCard = map.get("月卡号");
 		userCarMonthCardDTO.setCardNo(mothCard.toString());
+		Object carNo = map.get("车牌号");
+		userCarMonthCardDTO.setCarNo(carNo.toString());
 		Object pricer = map.get("金额");
 		userCarMonthCardDTO.setPrice(pricer.toString());
 		try {
@@ -160,7 +162,7 @@ public class UserCarMonthCardService {
 					return pd;
 				}
 				com.wolves.entity.app.User user = new com.wolves.entity.app.User();
-				user.setUsername(name.toString());
+				user.setName(name.toString());
 				user = userService.getUserByPhone(user);
 				if (user == null){
 					pd.put("msg", "该用户不存在");
@@ -170,6 +172,12 @@ public class UserCarMonthCardService {
 				Object phone = map.get("月卡号");
 				if (StringUtils.isEmpty(phone.toString().trim())){
 					pd.put("msg", "月卡号不能为空");
+					pd.put("status", "1");
+					return pd;
+				}
+				Object carNo = map.get("车牌号");
+				if (StringUtils.isEmpty(carNo.toString().trim())){
+					pd.put("msg", "车牌号不能为空");
 					pd.put("status", "1");
 					return pd;
 				}
