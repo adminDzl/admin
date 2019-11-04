@@ -41,8 +41,7 @@ public class AppUserRoleService {
         PageData pd = new PageData();
         pd.put("userId", userId);
         RoleBasicDTO roleBasicDTO = (RoleBasicDTO) dao.findForObject("AppUserRoleMapper.selectByUserId", pd);
-        Integer roleId = roleBasicDTO.getRoleId();
-        if(null != roleId){
+        if(null != roleBasicDTO && null != roleBasicDTO.getRoleId()){
             list = appRoleService.getResourcesByRoleId(roleBasicDTO.getRoleId());
         }
         return list;
