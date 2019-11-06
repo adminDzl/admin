@@ -12,6 +12,7 @@ import javax.annotation.Resource;
 
 import com.wolves.dto.FloorManAllDTO;
 import com.wolves.dto.right.RoleDTO;
+import com.wolves.dto.right.UserRoleDTO;
 import com.wolves.dto.user.UserExcelDTO;
 import com.wolves.service.right.AppRoleService;
 import com.wolves.service.system.CompanyService;
@@ -85,6 +86,16 @@ public class UserController extends BaseController {
 			pd.put("PASSWORD", MD5.md5(pd.getString("PASSWORD")));
 		}
 		if(Jurisdiction.buttonJurisdiction(menuUrl, "edit")){
+			String userId = pd.getString("USER_ID");
+			String roleId = pd.getString("ROLE_ID");
+			if (StringUtils.isNotEmpty(userId) && StringUtils.isNotEmpty(roleId)){
+				//更新角色,先删除，再添加
+				UserRoleDTO userRoleDTO = new UserRoleDTO();
+				userRoleDTO.setUserId(userId);
+				userRoleDTO.setRoleId(Integer.valueOf(roleId));
+				appRoleService.deleteUserInRole(userRoleDTO);
+				appRoleService.addUserToRole(userRoleDTO);
+			}
 			appUserService.editU(pd);
 		}
 		mv.addObject("msg","success");
