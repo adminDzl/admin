@@ -181,12 +181,12 @@ public class PayController {
         model.setTotalAmount(payOrder.getPayAmount() + "");
         model.setProductCode("QUICK_MSECURITY_PAY");
         request.setBizModel(model);
-        request.setNotifyUrl(REQ_PORT + PORT + "/admin/api/pay/aliPayNotify");
+        request.setNotifyUrl(REQ_PORT + PORT + "/api/pay/aliPayNotify");
         String orderInfo = "";
         payOrder.setPayorderId(trade_no);
         try {
             orderInfo = AliPayApi
-                    .appPayToResponse(model, REQ_PORT + PORT + "/admin/api/pay/aliPayNotify").getBody();
+                    .appPayToResponse(model, REQ_PORT + PORT + "/api/pay/aliPayNotify").getBody();
             logger.info("orderInfo=" + orderInfo);//orderInfo 可以直接给客户端请求，无需再做处理。
         } catch (AlipayApiException e) {
             logger.error(e.getMessage());
@@ -256,7 +256,7 @@ public class PayController {
      */
     private void initWxPayApiConfig() {
         // notify_url = WxConfigUtil.notify_url;
-        notify_url = REQ_PORT + PORT + "/admin/api/pay/wxPayNotify";
+        notify_url = REQ_PORT + PORT + "/api/pay/wxPayNotify";
         WxPayApiConfig wxPayApiConfig = WxPayApiConfig.New().setAppId("wx5f7abea70c318ab0")
                 .setMchId("1548223921").setPaternerKey("quLjLa0LhFnbqJfY9gfySJKX9oLEtGOs")
                 .setPayModel(WxPayApiConfig.PayModel.BUSINESSMODEL);
@@ -357,7 +357,7 @@ public class PayController {
                     .setPayModel(WxPayApiConfigUtil.PayModel.BUSINESSMODEL);
             WxPayApiConfigKitUtil.putApiConfig(wxPayApiConfig);
             logger.info("===================wxPayApiConfig:{}" + wxPayApiConfig);
-            notify_url = REQ_PORT + PORT + "/admin/api/pay/wxPayNotify";
+            notify_url = REQ_PORT + PORT + "/api/pay/wxPayNotify";
             String out_refund_no = UuidUtil.get32UUID();
             Map<String, String> wxparams = WxPayApiConfigKitUtil.getWxPayApiConfigUtil()
                     .setTotalFee(payOrder.getPayAmount() + "")
