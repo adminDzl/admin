@@ -69,10 +69,9 @@
 								</td>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 								<td>
-									<c:if test="${var.PAY_TYPE == 1}"><span class="label label-success arrowed">水电物业</span></c:if>
-									<c:if test="${var.PAY_TYPE == 2}"><span class="label label-success arrowed">停车费</span></c:if>
-									<c:if test="${var.PAY_TYPE == 3}"><span class="label label-success arrowed">场地预定费</span></c:if>
-									<c:if test="${var.PAY_TYPE == 4}"><span class="label label-success arrowed">一卡通费用</span></c:if>
+									<c:if test="${var.PAY_TYPE == 1}"><span class="label label-success arrowed">水费</span></c:if>
+									<c:if test="${var.PAY_TYPE == 2}"><span class="label label-success arrowed">电费</span></c:if>
+									<c:if test="${var.PAY_TYPE == 3}"><span class="label label-success arrowed">物业费</span></c:if>
 								</td>
 								<td>${var.NAME}</td>
 								<td>${var.COMPANY_NAME}</td>
