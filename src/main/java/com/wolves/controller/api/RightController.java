@@ -82,6 +82,32 @@ public class RightController {
     }
 
     /**
+     * 获取用户是否有数据报表权限
+     */
+    @ApiOperation(httpMethod="GET",value="获取用户是否有数据报表权限")
+    @RequestMapping(value = "/hasDataRight", method = RequestMethod.GET)
+    public Result hasDataRight(@RequestHeader("Authorization") String token){
+        Result result = new Result();
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+
+        CompanyDTO companyDTO = companyService.selectCompanyById(user.getCompanyId());
+        if(null == companyDTO){
+            result.setMsg("尚未加入任何公司");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        result.setMsg("success");
+        result.setResult(ResultCode.SUCCESS);
+        result.setData(user.getHasDateRight());
+        return result;
+    }
+
+    /**
      * 获取公司的权限资源
      */
     @ApiOperation(httpMethod="GET",value="获取公司的权限资源")
