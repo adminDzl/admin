@@ -109,10 +109,10 @@
 	<select id="getUser" parameterType="com.wolves.entity.app.User" resultMap="UserResultMap2">
 		select * from USER
 		where 1=1
-		<if test="phone!=null and password!=null">
+		<if test="phone != null and password != null">
 			and phone = #{phone,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
 		</if>
-		<if test="userId!=null and userId>0">
+		<if test="userId != null and userId != ''">
 			and user_id = #{userId,jdbcType=VARCHAR}
 		</if>
 		<if test="token != null">

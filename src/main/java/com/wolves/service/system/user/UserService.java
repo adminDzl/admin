@@ -379,7 +379,7 @@ public class UserService {
         com.wolves.entity.app.User user = new com.wolves.entity.app.User();
         user.setUserId(checkUserDTO.getId());
         user = this.selectUserByModel(user);
-        if (user.getPhone() != null){
+        if (null != user && user.getPhone() != null){
             user.setStatus(StatusEnum.SUCCESS.getKey());
             return this.updateUser(user);
         }
