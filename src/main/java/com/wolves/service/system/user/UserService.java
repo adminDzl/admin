@@ -4,12 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
-
-import com.wolves.common.CompanyTypeEnum;
 import com.wolves.common.StatusEnum;
 import com.wolves.dto.user.*;
-import com.wolves.framework.common.Result;
-import com.wolves.framework.common.ResultCode;
 import com.wolves.service.system.CompanyService;
 import com.wolves.util.MD5;
 import com.wolves.util.StringUtils;
