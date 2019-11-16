@@ -176,6 +176,46 @@ public class RightController {
     }
 
     /**
+     * 删除app角色
+     */
+    @ApiOperation(httpMethod="POST", value="删除app角色")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+    })
+    @RequestMapping(value = "/deleteRole", method = RequestMethod.POST)
+    public Result addRole(@RequestHeader("Authorization") String token,
+                          @RequestBody DeleteRoleDTO deleteRoleDTO){
+        Result result = new Result();
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+
+        CompanyDTO companyDTO = companyService.selectCompanyById(user.getCompanyId());
+        if(null == companyDTO){
+            result.setMsg("尚未加入任何公司");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        //判断该员工是否有删除角色的权限
+        //todo。。。
+        //添加角色
+        try{
+            appRoleService.deleteRoleAndResourceAndUser(deleteRoleDTO);
+        } catch (Exception e){
+            e.printStackTrace();
+            result.setMsg("角色已存在");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        result.setMsg("success");
+        result.setResult(ResultCode.SUCCESS);
+        return result;
+    }
+
+    /**
      * 获取用户对应公司的所有角色及角色对应的所有用户
      */
     @ApiOperation(httpMethod="GET",value="获取用户对应公司的所有角色及角色对应的所有用户")

@@ -283,11 +283,8 @@ public class WechatPayService implements PayService {
         payorderService.save(pd);
     }
 
-
-    public void updateOrder(HttpServletRequest request) {
+    public void updateOrder(PageData pd) {
         //存入数据
-        PageData pd = new PageData();
-        pd.put("PAY_STATUS", "1");
         payorderService.edit(pd);
 
     }
@@ -300,6 +297,5 @@ public class WechatPayService implements PayService {
         payOrder = payorderService.selectPayOrderByYardappointId(pd);
         return payOrder;
     }
-
 
 }
