@@ -238,15 +238,6 @@ public class PayController {
         //切记alipaypublickey是支付宝的公钥，请去open.alipay.com对应应用下查看。
         //boolean AlipaySignature.rsaCheckV1(Map<String, String> params, String publicKey, String charset, String sign_type)
         boolean flag = AlipaySignature.rsaCheckV1(params, aliPay_publicKey, "utf-8", "RSA2");
-//        if (flag) {
-//            // 验证成功
-//            logger.info("AliPay ServiceImpl notify_url 验证成功succcess:{}" + params);
-//            return new Result("success");
-//        } else {
-//            logger.info("AliPay ServiceImpl notify_url 验证失败:{}" + params);
-//            return new Result("failure");
-//        }
-
         if (flag) {
             // 验证成功
             logger.info("AliPay ServiceImpl notify_url 验证成功succcess:{}" + params);
