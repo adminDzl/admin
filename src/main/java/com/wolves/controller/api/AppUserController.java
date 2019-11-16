@@ -795,9 +795,48 @@ public class AppUserController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
-        yardappointService.updateYardAppoint(yardappointId);
+        yardappointService.updateYardAppoint(yardappointId, StatusEnum.REJECT.getKey() );
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("取消预约成功");
+        return result;
+    }
+
+    @ApiOperation(httpMethod="POST",value="预约上报",notes="预约上报")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+            @ApiImplicitParam(name = "jsonObject",value = "{\"yardappointId\":\"ID\"，\"status\":\"status\"}",required = true,paramType = "body",dataType = "JSONObject")
+    })
+    @RequestMapping(value = "/reportAppoint", method = RequestMethod.POST)
+    public Result reportAppoint(@RequestHeader("Authorization") String token,@RequestBody JSONObject jsonObject){
+        Result<Decorate> result = new Result<Decorate>();
+        //使用token获取登陆人信息
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        String yardappointId = jsonObject.getString("yardappointId");
+        if (StringUtils.isEmpty(yardappointId)){
+            result.setMsg("预约id不能为空");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        String status = jsonObject.getString("status");
+        if (StringUtils.isEmpty(status)){
+            result.setMsg("预约status不能为空");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        AppointmentDTO appointmentDTO = yardappointService.selectYardAppointById(yardappointId);
+        if (appointmentDTO == null){
+            result.setMsg("该预约不存在");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        yardappointService.updateYardAppoint(yardappointId, status);
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("上报预约成功");
         return result;
     }
 
