@@ -30,7 +30,8 @@
 			PAY_STATUS,	
 			CREATE_TIME,	
 			UPDATE_TIME,	
-			PAYORDER_ID
+			PAYORDER_ID,
+			YARDAPPOINT_ID
 		) values (
 			#{PAY_TYPE},
 			#{USER_ID},
@@ -41,7 +42,8 @@
 			#{PAY_STATUS},	
 			now(),
 			now(),
-			#{PAYORDER_ID}
+			#{PAYORDER_ID},
+			#{YARDAPPOINT_ID}
 		)
 	</insert>
 	<!-- 删除-->

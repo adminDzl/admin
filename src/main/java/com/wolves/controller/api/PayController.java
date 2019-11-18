@@ -19,6 +19,7 @@ import com.wolves.entity.app.PayOrder;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
 import com.wolves.service.pay.WechatPayService;
+import com.wolves.util.PageData;
 import com.wolves.util.PublicUtil;
 import com.wolves.util.StringUtils;
 import com.wolves.util.UuidUtil;
@@ -145,13 +146,20 @@ public class PayController {
             if (("SUCCESS").equals(result_code)) {
                 // 更新订单信息
                 logger.info("更新订单信息:" + attach);
-                wechatPayService.updateOrder(request);
-                //this.updateOrder(params);
+                PageData pd = new PageData();
+                pd.put("PAY_STATUS", "1");
+                pd.put("PAYORDER_ID",params.get("trade_no"));
+                wechatPayService.updateOrder(pd);
                 // 发送通知等
                 Map<String, String> xml = new HashMap<String, String>();
                 xml.put("return_code", "SUCCESS");
                 xml.put("return_msg", "OK");
                 return new Result(PaymentKit.toXml(xml));
+            }else {
+                PageData pd = new PageData();
+                pd.put("PAY_STATUS", "2");
+                pd.put("PAYORDER_ID",params.get("trade_no"));
+                wechatPayService.updateOrder(pd);
             }
         }
         return null;
@@ -233,9 +241,18 @@ public class PayController {
         if (flag) {
             // 验证成功
             logger.info("AliPay ServiceImpl notify_url 验证成功succcess:{}" + params);
+            // 更新订单信息
+            PageData pd = new PageData();
+            pd.put("PAY_STATUS", "1");
+            pd.put("PAYORDER_ID",params.get("trade_no"));
+            wechatPayService.updateOrder(pd);
             return new Result("success");
         } else {
             logger.info("AliPay ServiceImpl notify_url 验证失败:{}" + params);
+            PageData pd = new PageData();
+            pd.put("PAY_STATUS", "2");
+            pd.put("PAYORDER_ID",params.get("trade_no"));
+            wechatPayService.updateOrder(pd);
             return new Result("failure");
         }
     }

@@ -4,6 +4,7 @@ import com.wolves.dao.DaoSupport;
 import com.wolves.dto.ResourceDTO;
 import com.wolves.dto.resource.AppResourceDTO;
 import com.wolves.dto.right.AddRoleDTO;
+import com.wolves.dto.right.DeleteRoleDTO;
 import com.wolves.dto.right.RoleDTO;
 import com.wolves.dto.right.UserRoleDTO;
 import com.wolves.dto.role.UpdateRoleDTO;
@@ -111,6 +112,27 @@ public class AppRoleService {
             resourcePd.put("status", 1);
             dao.save("AppRoleResourceMapper.save", resourcePd);
         }
+
+    }
+
+    /**
+     * 删除角色和资源权限
+     * @param deleteRoleDTO
+     * @throws RuntimeException
+     */
+    @Transactional
+    public void deleteRoleAndResourceAndUser(DeleteRoleDTO deleteRoleDTO) throws RuntimeException {
+        PageData rolePd = new PageData();
+        rolePd.put("id", deleteRoleDTO.getRoleId());
+        dao.save("AppRoleMapper.deleteRole", rolePd);
+
+        PageData roleResourcePd = new PageData();
+        roleResourcePd.put("id", deleteRoleDTO.getRoleId());
+        dao.save("AppRoleResourceMapper.deleteByRoleId", roleResourcePd);
+
+        PageData roleUserPd = new PageData();
+        roleUserPd.put("roleId", deleteRoleDTO.getRoleId());
+        dao.delete("AppUserRoleMapper.deleteRole", roleUserPd);
 
     }
 

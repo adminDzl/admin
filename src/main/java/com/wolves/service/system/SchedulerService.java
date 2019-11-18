@@ -1,6 +1,7 @@
 package com.wolves.service.system;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wolves.common.StatusEnum;
 import com.wolves.dto.AppointmentDTO;
 import com.wolves.entity.app.PayOrder;
 import com.wolves.service.system.payorder.PayOrderService;
@@ -53,7 +54,7 @@ public class SchedulerService {
                     AppointmentDTO appointmentDTO = yardappointService.selectYardAppointById(yardappointId);
                     logger.info("appointmentDTO:"+ JSONObject.toJSONString(appointmentDTO));
                     if (appointmentDTO != null && appointmentDTO.getStatus() != 2){
-                        yardappointService.updateYardAppoint(yardappointId);
+                        yardappointService.updateYardAppoint(yardappointId,  StatusEnum.REJECT.getKey());
                     }
                 }
             }

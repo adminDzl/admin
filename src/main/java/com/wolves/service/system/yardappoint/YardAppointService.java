@@ -135,7 +135,7 @@ public class YardAppointService {
 		//预定金额
 		pd.put("BOOK_FEE", yardDTO.getRentFee().multiply(BigDecimal.valueOf(hours)));
 		//预定状态
-		pd.put("STATUS", StatusEnum.SUCCESS.getKey());
+		pd.put("STATUS", StatusEnum.INIT.getKey());
 		//预定日期
 		pd.put("PLACE_DATE", applyYardDTO.getPlaceDate());
 		//开始时间
@@ -193,13 +193,13 @@ public class YardAppointService {
 	}
 
 	/**
-	 * 取消预约
+	 * 修改预约
 	 * @param yardappointId
 	 */
-	public void updateYardAppoint(String yardappointId){
+	public void updateYardAppoint(String yardappointId, String status){
 		PageData pd = new PageData();
 		pd.put("yardappointId", yardappointId);
-		pd.put("status", StatusEnum.REJECT.getKey());
+		pd.put("status", status);
 		dao.update("YardAppointMapper.updateYardAppoint", pd);
 	}
 }

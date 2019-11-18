@@ -18,4 +18,8 @@
     <delete id="deleteUserInRole" parameterType="pd">
         delete from app_user_role where user_id=#{userId} and app_role_id=#{roleId}
     </delete>
+
+    <delete id="deleteRole" parameterType="pd">
+        delete from app_user_role where app_role_id=#{roleId}
+    </delete>
 </mapper>
