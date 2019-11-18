@@ -83,5 +83,9 @@ public class RoomService {
 
 		return (List<RoomDTO>)dao.findForList("RoomMapper.selectRoomByCompanyId", companyId);
 	}
+	
+	public List<RoomDTO> selectBodyByCompanyId(String companyId) {
+		return (List<RoomDTO>)dao.findForList("RoomMapper.selectBodyByCompanyId", companyId);
+	}
 }
 

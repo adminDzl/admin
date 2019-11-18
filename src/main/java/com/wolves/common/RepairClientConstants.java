@@ -45,7 +45,17 @@ public class RepairClientConstants {
      * 装修申请
      */
     public static final String DECORATE = "/mobile/api/createZhuangxiu";
+    
+    /*
+     * 申请一卡通
+     */
+    public static final String APPLY="/mobile/api/createCardapply";
 
+    /*
+     * 申请车库包月/续费
+     */
+    public static final String CARMONTH="/mobile/api/createGarage";
+    
     public static final String USER_NAME = "APP";
     public static final String PASS_WARD = "a123456";
 
