@@ -24,8 +24,18 @@ public class UserCarMonthCardDTO {
     private Date createTime;
 
     private Date updateTime;
+    
+    private Integer months;    
 
-    public String getUserCarMonthCardId() {
+    public Integer getMonths() {
+		return months;
+	}
+
+	public void setMonths(Integer months) {
+		this.months = months;
+	}
+
+	public String getUserCarMonthCardId() {
         return userCarMonthCardId;
     }
 

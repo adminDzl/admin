@@ -46,6 +46,9 @@ public class Decorate {
 
     @ApiModelProperty(name = "floor",value = "楼层")
     private String floor;
+    
+    @ApiModelProperty(name="body",value="楼体")
+    private String body;
 
     @ApiModelProperty(name = "room",value = "房间")
     private String room;
@@ -202,4 +205,12 @@ public class Decorate {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+	public String getBody() {
+		return body;
+	}
+
+	public void setBody(String body) {
+		this.body = body;
+	}
 }

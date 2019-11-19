@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="YunweiapiMapper">
+
+	<resultMap type="com.wolves.dto.YunweiConstruction" id="ResultMap">
+		<id column="construction_id" property="constructionId"/>
+		<result column="user_id" property="userId"/>
+		<result column="title" property="title"/>
+		<result column="construction_units" property="construction_units"/>
+		<result column="construction_director" property="construction_director"/>
+		<result column="contact_way" property="contact_way"/>
+		<result column="plan_start_time" property="plan_start_time"/>
+		<result column="plan_end_time" property="plan_end_time"/>
+		<result column="construction_type" property="construction_type"/>
+		<result column="system_id" property="system_id"/>
+		<result column="describes" property="describes"/>
+		<result column="job_location" property="job_location"/>
+		<result column="safeguard_procedures" property="safeguard_procedures"/>
+		<result column="proc_id" property="procId"/>
+		<result column="wjbi_id" property="wjbiid"/>
+		<result column="task_id" property="taskId"/>
+		<result column="status" property="status"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+	</resultMap>
+
+<resultMap type="com.wolves.dto.YunweiConstructionItem" id="ResultMap2">
+		<result column="construction_id" property="constructionId"/>
+		<result column="type" property="type"/>
+		<result column="amount" property="amount"/>
+		<result column="items" property="items"/>
+</resultMap>
+	<!--保存-->
+	<insert id="saveConstructionItems" parameterType="com.wolves.dto.YunweiConstructionItem">
+		insert into construction_items(
+		construction_id,items,type,amount)
+		values(
+		#{constructionId},
+		#{items},
+		#{type},
+		#{amount}
+		)
+	</insert>
+	<insert id="saveConstruction" parameterType="com.wolves.dto.YunweiConstruction">
+		insert into construction(
+		  `construction_id`,
+		  `user_id`,
+		  `title`,
+		  `construction_units`,
+		  `construction_director`,
+		  `contact_way`,
+		  `plan_start_time`,
+		  `plan_end_time`,
+		  `construction_type`,
+		  `system_id`,
+		  `describes`,
+		  `job_location`,
+		  `safeguard_procedures`,
+		  `proc_id`,
+		  `wjbi_id`,
+		  `task_id`,
+		  `status`,
+		  `create_time`,
+		  `update_time`
+		) values (
+		  #{constructionId},
+		  #{userId},
+		  #{title},
+		  #{construction_units},
+		  #{construction_director},
+		  #{contact_way},
+		  #{plan_start_time},
+		  #{plan_end_time},
+		  #{construction_type},
+		  #{system_id},
+		  #{describes},
+		  #{job_location},
+		  #{safeguard_procedures},
+		  #{procId},
+		  #{wjbiid},
+		  #{taskId},
+		  #{status},
+		  #{createTime},
+		  #{updateTime}
+		)
+	</insert>
+<!-- 
+	<select id="selectDecorationApplyByUserId" parameterType="com.wolves.dto.decorate.DecorationApplyDTO" resultMap="ResultMap">
+		SELECT * FROM decoration_apply WHERE `status` = 0 AND `user_id` = #{userId}
+	</select>
+
+	<select id="selectDecorationApplyById" parameterType="com.wolves.dto.decorate.DecorationApplyDTO" resultMap="ResultMap">
+		SELECT * FROM decoration_apply WHERE `status` = 0 AND `decoration_apply_id` = #{decorationApplyId}
+	</select>
+
+	<update id="updateStatusById" parameterType="java.lang.String">
+		update decoration_apply
+		set
+		STATUS = 1,
+		UPDATE_TIME = now(),
+		decoration_apply_id = decoration_apply_id
+		where
+		decoration_apply_id = #{decorationApplyId}
+	</update>
+	
+	-->
+</mapper>

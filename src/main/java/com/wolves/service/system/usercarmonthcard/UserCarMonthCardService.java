@@ -242,9 +242,11 @@ public class UserCarMonthCardService {
 		monthCardDTO.setUserName(user.getName());
 		monthCardDTO.setCardNo(UuidUtil.get32UUID());
 		monthCardDTO.setCarNo(userCarDTO.getPlate());
-		monthCardDTO.setPrice("30");
-		Integer day = userCarDTO.getMonth()*30;
-		monthCardDTO.setUseTilDate(this.getDay(null, day));
+		monthCardDTO.setPrice("100");
+		//Integer day = userCarDTO.getMonth()*30;
+		//monthCardDTO.setUseTilDate(this.getDay(null, day));
+		Integer month = userCarDTO.getMonth();
+		monthCardDTO.setUseTilDate(this.getDay1(null, month));
 		this.createMonthCardCar(monthCardDTO);
 	}
 
@@ -261,6 +263,28 @@ public class UserCarMonthCardService {
             calendar2.setTime(startDate);
         }
 		calendar2.add(Calendar.DATE, day);
+		String dayAfter = sdf2.format(calendar2.getTime());
+
+		try {
+			return sdf2.parse(dayAfter);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	/**
+	 * 固定日期+月数计算
+	 * @param startDate
+	 * @param month
+	 * @return
+	 */
+	private Date getDay1(Date startDate,Integer month){
+		Calendar calendar2 = Calendar.getInstance();
+		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+        if (startDate != null){
+            calendar2.setTime(startDate);
+        }
+		calendar2.add(Calendar.MONTH, month);
 		String dayAfter = sdf2.format(calendar2.getTime());
 
 		try {
@@ -300,11 +324,28 @@ public class UserCarMonthCardService {
 	public Integer updateCarDateById(User user, UserCarRenewalDTO userCarRenewalDTO){
 		UserCarMonthCardDTO userCarMonthCardDTO = this.selectUserCarById(userCarRenewalDTO.getUserCarMonthCardId());
 		if (userCarMonthCardDTO != null){
-			Integer day = userCarRenewalDTO.getMonth()*30;
-			userCarMonthCardDTO.setUseTilDate(this.getDay(userCarMonthCardDTO.getUseTilDate(), day));
-
-			dao.update("UserCarMonthCardMapper.updateCarDateById", userCarMonthCardDTO);
-			return 1;
+			//获取截止日期
+			Date tildate=userCarMonthCardDTO.getUseTilDate();
+			System.out.println("tidate="+tildate);
+			Integer i=(new Date()).compareTo(tildate);
+			if(i<0) {//连续续费，当天日期<=tildate截止日期
+			//	System.out.println("i="+i);
+			//	Integer day = userCarRenewalDTO.getMonth()*30;
+			//	userCarMonthCardDTO.setUseTilDate(this.getDay(userCarMonthCardDTO.getUseTilDate(), day));
+				Integer month=userCarRenewalDTO.getMonth();
+				userCarMonthCardDTO.setUseTilDate(this.getDay1(userCarMonthCardDTO.getUseTilDate(),month));
+				dao.update("UserCarMonthCardMapper.updateCarDateById", userCarMonthCardDTO);
+				return 1;}
+			else {
+				//断续续费，当天日期>tildate截止日期
+				//截止日期取当前日期的月份+续卡月数
+			//	System.out.println("i="+i);
+				Integer month=userCarRenewalDTO.getMonth();
+				userCarMonthCardDTO.setUseTilDate(this.getDay1(null,month));
+				dao.update("UserCarMonthCardMapper.updateCarDateById", userCarMonthCardDTO);
+				
+				return 1;
+			}
 		}
 		return 0;
 	}
