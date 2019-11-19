@@ -26,6 +26,7 @@ import com.wolves.service.system.tipmsg.TipMsgService;
 import com.wolves.service.system.user.UserService;
 import com.wolves.service.system.yard.YardService;
 import com.wolves.service.system.yardappoint.YardAppointService;
+import com.wolves.service.system.yunweiapi.YunweiapiService;
 import com.wolves.util.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -81,6 +82,8 @@ public class AppUserController {
     private PayOrderService payorderService;
     @Resource(name="paymentService")
     private PaymentService paymentService;
+    @Resource(name="yunweiapiService")
+    private YunweiapiService yunweiapiService;
 
     /**
      * 登陆,返回token
@@ -847,10 +850,18 @@ public class AppUserController {
                 }
             }
         }
-        decorateService.saveApply(token, decorateDataDTOs);
+        
+       // decorateService.saveApply(token, decorateDataDTOs);
+        //增加传入运维系统20191116
+        yunweiapiService.createApply(user, decorateDataDTOs);   
+        
+        //
         result.setResult(ResultCode.SUCCESS);
         result.setMsg("提交成功");
         return result;
+        
+        
+        
     }
 
     @ApiOperation(httpMethod="POST",value="获取统一申请列表",notes="获取统一申请的下载列表")
