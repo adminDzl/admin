@@ -11,6 +11,7 @@ import com.wolves.service.system.appuser.UserCarBindService;
 import com.wolves.service.system.parking.ParkingService;
 import com.wolves.service.system.user.UserService;
 import com.wolves.service.system.usercarmonthcard.UserCarMonthCardService;
+import com.wolves.service.system.yunweiapi.YunweiapiService;
 import com.wolves.util.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -41,7 +42,8 @@ public class CarController {
     private ParkingService parkingService;
     @Resource(name="usercarmonthcardService")
     private UserCarMonthCardService usercarmonthcardService;
-
+    @Resource(name="yunweiapiService")
+    private YunweiapiService yunweiapiService;
     /**
      * 查询车牌简称
      */
@@ -110,6 +112,9 @@ public class CarController {
         }
         //存入数据
         usercarmonthcardService.createUserCar(user, userCarDTO);
+        //运维接口入口
+        yunweiapiService.createUserCar(user,userCarDTO);
+        
 
         //返回结果
         result.setResult(ResultCode.SUCCESS);
@@ -138,12 +143,24 @@ public class CarController {
             return result;
         }
         //修改
+        
+      //运维接口入口[先传接口，需要读未修改前的tildate
+        UserCarMonthCardDTO userCarMonthCardDTO = usercarmonthcardService.selectUserCarById(userCarRenewalDTO.getUserCarMonthCardId());
+        if (userCarMonthCardDTO == null){
+            result.setMsg("该月卡信息不存在");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }//判断是否存在月卡
+        yunweiapiService.renewCar(user, userCarRenewalDTO);
+        
         Integer status = usercarmonthcardService.updateCarDateById(user, userCarRenewalDTO);
         if (status == 0){
             result.setMsg("该月卡信息不存在");
             result.setResult(ResultCode.FAIL);
             return result;
         }
+        
+        
 
         //返回结果
         result.setResult(ResultCode.SUCCESS);

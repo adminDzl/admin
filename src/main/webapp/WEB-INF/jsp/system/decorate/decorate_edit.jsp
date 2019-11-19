@@ -207,7 +207,7 @@
 						<a href="${pd.HEAD_IMAGE}" target="_blank" >
 							<img src="${pd.HEAD_IMAGE}" width="50" height="100"/>
 						</a>
-						<input type="button" class="btn btn-mini btn-danger" value="删除" onclick="delImage('${pd.HEAD_IMAGE}','${pd.NEWSTIP_ID}');"
+						<input type="button" class="btn btn-mini btn-danger" value="删除" onclick="delImage('${pd.HEAD_IMAGE}','${pd.NEWSTIP_ID}');">
 					</c:if>
 				</td>
 			</tr>

@@ -6,7 +6,9 @@
 		<result column="room_id" property="id"/>
 		<result column="room_name" property="name"/>
 		<result column="floorman_id" property="floormanId"/>
+		<result column="BODY_NAME" property="bodyname"/>
 	</resultMap>
+	
 
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
@@ -127,5 +129,12 @@
 		room_name
 		FROM room
 		WHERE company_id = #{companyId}
+	</select>
+	
+	<select id="selectBodyByCompanyId" parameterType="com.wolves.dto.RoomDTO" resultMap="ResultMap">
+		SELECT BODY_NAME FROM room RM,floor_man fm,build_body bb
+		WHERE company_id=#{companyId}
+		AND RM.floorman_id=fm.floorman_id
+		AND fm.build_body_id=bb.ID
 	</select>
 </mapper>

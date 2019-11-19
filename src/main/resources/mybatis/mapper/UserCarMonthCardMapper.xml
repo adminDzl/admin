@@ -240,7 +240,7 @@
 		user_car_month_card_id,
 		user_id,
 		card_no,
-		car_no
+		car_no,
 		price,
 		use_til_date,
 		create_time,

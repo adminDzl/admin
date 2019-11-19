@@ -46,6 +46,9 @@ public class Decorate {
 
     @ApiModelProperty(name = "floor",value = "楼层")
     private String floor;
+    
+    @ApiModelProperty(name="body",value="楼体")
+    private String body;
 
     @ApiModelProperty(name = "room",value = "房间")
     private String room;
@@ -66,8 +69,41 @@ public class Decorate {
     @ApiModelProperty(name = "updateTime",value = "更新时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date updateTime;
+    
+    @ApiModelProperty(name = "procId",value = "流程id")
+    private String procId;
 
-    public String getDecorateId() {
+    @ApiModelProperty(name = "wjbiid",value = "工单唯一标识")
+    private String wjbiid;
+
+    @ApiModelProperty(name = "taskId",value = "用户环节ID")
+    private String taskId;
+
+    public String getProcId() {
+		return procId;
+	}
+
+	public void setProcId(String procId) {
+		this.procId = procId;
+	}
+
+	public String getWjbiid() {
+		return wjbiid;
+	}
+
+	public void setWjbiid(String wjbiid) {
+		this.wjbiid = wjbiid;
+	}
+
+	public String getTaskId() {
+		return taskId;
+	}
+
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
+	}
+
+	public String getDecorateId() {
         return decorateId;
     }
 
@@ -202,4 +238,12 @@ public class Decorate {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+	public String getBody() {
+		return body;
+	}
+
+	public void setBody(String body) {
+		this.body = body;
+	}
 }

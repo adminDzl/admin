@@ -18,6 +18,8 @@ public class RoomDTO {
     @ApiModelProperty(name = "name",value = "房间")
     private String name;
 
+    @ApiModelProperty(name="bodyname", value="楼体")
+    private String bodyname;
     /**
      * 不展示
      */
@@ -47,8 +49,17 @@ public class RoomDTO {
     public void setFloormanId(String floormanId) {
         this.floormanId = floormanId;
     }
+    
 
-    @Override
+    public String getBodyname() {
+		return bodyname;
+	}
+
+	public void setBodyname(String bodyname) {
+		this.bodyname = bodyname;
+	}
+
+	@Override
     public String toString() {
         return "RoomDTO{" +
                 "id='" + id + '\'' +
