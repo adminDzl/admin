@@ -56,6 +56,11 @@ public class RepairClientConstants {
      */
     public static final String CARMONTH="/mobile/api/createGarage";
     
+    /*
+     * 申请施工许可
+     */
+    public static final String CONSTRUCTION="/mobile/api/createConstruction";
+    
     public static final String USER_NAME = "APP";
     public static final String PASS_WARD = "a123456";
 
