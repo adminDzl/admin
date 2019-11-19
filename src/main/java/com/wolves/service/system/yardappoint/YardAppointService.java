@@ -133,7 +133,7 @@ public class YardAppointService {
 		//预定人ID
 		pd.put("APPLY_USER_ID", userId);
 		//预定金额
-		pd.put("BOOK_FEE", yardDTO.getRentFee().multiply(BigDecimal.valueOf(hours)));
+		pd.put("BOOK_FEE", yardDTO.getRentFee().multiply(BigDecimal.valueOf(2)).multiply(BigDecimal.valueOf(hours)));
 		//预定状态
 		pd.put("STATUS", StatusEnum.SUCCESS.getKey());
 		//预定日期

@@ -53,7 +53,7 @@
 						<th class="center">所处位置</th>
 						<th class="center">图片url</th>
 						<th class="center">设备描述</th>
-						<th class="center">价格(元/半小时)</th>
+						<th class="center">价格(¥/30min)</th>
 						<th class="center">客服号码</th>
 						<th class="center">创建时间</th>
 						<th class="center">操作</th>
