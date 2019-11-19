@@ -265,8 +265,9 @@
 			STATUS,
 			CREATE_TIME,
 			UPDATE_TIME,
-			DECORATE_ID
-		) values (
+			DECORATE_ID,
+			PROC_ID,
+		  	WJBI_ID,TASK_ID) values (
 			#{decorateNo},
 			#{userId},
 			#{type},
@@ -287,7 +288,10 @@
 			#{status},
 			now(),
 			now(),
-			#{decorateId}
+			#{decorateId},
+			 #{procId},
+		  #{wjbiid},
+		  #{taskId}
 		)
 	</insert>
 

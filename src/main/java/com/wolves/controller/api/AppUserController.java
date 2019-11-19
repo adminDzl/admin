@@ -851,7 +851,7 @@ public class AppUserController {
             }
         }
         
-        decorateService.saveApply(token, decorateDataDTOs);
+       // decorateService.saveApply(token, decorateDataDTOs);
         //增加传入运维系统20191116
         yunweiapiService.createApply(user, decorateDataDTOs);   
         
