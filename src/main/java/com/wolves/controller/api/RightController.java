@@ -206,7 +206,7 @@ public class RightController {
             appRoleService.deleteRoleAndResourceAndUser(deleteRoleDTO);
         } catch (Exception e){
             e.printStackTrace();
-            result.setMsg("角色已存在");
+            result.setMsg("删除失败");
             result.setResult(ResultCode.FAIL);
             return result;
         }
