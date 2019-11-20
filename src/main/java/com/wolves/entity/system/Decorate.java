@@ -69,8 +69,41 @@ public class Decorate {
     @ApiModelProperty(name = "updateTime",value = "更新时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date updateTime;
+    
+    @ApiModelProperty(name = "procId",value = "流程id")
+    private String procId;
 
-    public String getDecorateId() {
+    @ApiModelProperty(name = "wjbiid",value = "工单唯一标识")
+    private String wjbiid;
+
+    @ApiModelProperty(name = "taskId",value = "用户环节ID")
+    private String taskId;
+
+    public String getProcId() {
+		return procId;
+	}
+
+	public void setProcId(String procId) {
+		this.procId = procId;
+	}
+
+	public String getWjbiid() {
+		return wjbiid;
+	}
+
+	public void setWjbiid(String wjbiid) {
+		this.wjbiid = wjbiid;
+	}
+
+	public String getTaskId() {
+		return taskId;
+	}
+
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
+	}
+
+	public String getDecorateId() {
         return decorateId;
     }
 

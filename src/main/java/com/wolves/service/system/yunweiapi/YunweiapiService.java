@@ -32,6 +32,7 @@ import com.wolves.entity.app.User;
 import com.wolves.entity.system.Decorate;
 import com.wolves.service.system.CompanyService;
 import com.wolves.service.system.buildman.BuildManService;
+import com.wolves.service.system.decorate.DecorateService;
 import com.wolves.service.system.floorman.FloorManService;
 import com.wolves.service.system.room.RoomService;
 import com.wolves.service.system.user.UserService;
@@ -64,6 +65,8 @@ public class YunweiapiService {
 	 	private UserCarMonthCardService usercarmonthcardService;
 	 @Resource(name = "daoSupport")
 	    private DaoSupport dao;
+	 @Resource(name="decorateService")
+	 	private DecorateService decorateService;
 	
 	 /**
 	  * 一卡通申请
@@ -135,24 +138,11 @@ public class YunweiapiService {
 	        }
 	        logger.info("result:>>>>>"+JSONObject.toJSONString(result));
 	        JSONObject object = result.getJSONObject("obj");
+	        decorateService.saveApply(user, decorateParamDTOs,object);
 	        return res;	        
 	    }
 	 
-	 //----------------------------------------------------运维登陆-----------------------------------------------------------
-	    public Integer decorateLogin(){
-	        Map<String, Object> params = new HashMap<String, Object>();
-	        params.put("appType", RepairClientConstants.APP_TYPE);
-	        params.put("username", RepairClientConstants.USER_NAME);
-	        params.put("password", RepairClientConstants.PASS_WARD);
 
-	        JSONObject jsonObject = HttpClientUtil.httpHttpFormData(RepairClientConstants.ADDRESS+RepairClientConstants.LOGIN, params);
-	        Integer res = jsonObject.getInteger("res");
-	        if (res != 1){
-	            logger.warn("装修登录失败, 消息如下："+jsonObject.toJSONString());
-	        }
-	        return res;
-	    }
-	    
 	    /**
 	     * 车库申请
 	     */
@@ -331,7 +321,7 @@ public class YunweiapiService {
 	        }
 	        logger.info("result:>>>>>"+JSONObject.toJSONString(result));
 	        JSONObject object = result.getJSONObject("obj");
-
+	        
 	        return res;	 
 	    }   
 	    
@@ -397,8 +387,7 @@ public class YunweiapiService {
 	    			 System.out.println(ycI);
 	    		 }
 	    	 }
-	    }
-	    
+	    }	    
 	    
 	    /**
 	     * 获取某个时间后几个月的天数
@@ -459,4 +448,19 @@ public class YunweiapiService {
 			}
 			return null;
 		}
+		 //----------------------------------------------------运维登陆-----------------------------------------------------------
+	    public Integer decorateLogin(){
+	        Map<String, Object> params = new HashMap<String, Object>();
+	        params.put("appType", RepairClientConstants.APP_TYPE);
+	        params.put("username", RepairClientConstants.USER_NAME);
+	        params.put("password", RepairClientConstants.PASS_WARD);
+
+	        JSONObject jsonObject = HttpClientUtil.httpHttpFormData(RepairClientConstants.ADDRESS+RepairClientConstants.LOGIN, params);
+	        Integer res = jsonObject.getInteger("res");
+	        if (res != 1){
+	            logger.warn("装修登录失败, 消息如下："+jsonObject.toJSONString());
+	        }
+	        return res;
+	    }
+	    
 }

@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.HashMap;
 import javax.annotation.Resource;
 
+import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonObject;
 import com.wolves.common.StatusEnum;
 import com.wolves.dao.DaoSupport;
 import com.wolves.dto.FloorManDTO;
@@ -102,8 +104,8 @@ public class DecorateService {
 	/**
 	 * 保存申请
 	 */
-	public void saveApply(String token, List<DecorateDataDTO> decorateDataDTOs){
-		User user = userService.getUser(token);
+	public void saveApply(User user, List<DecorateDataDTO> decorateDataDTOs,JSONObject object){
+	//	User user = userService.getUser(token);
 		if (decorateDataDTOs != null && !decorateDataDTOs.isEmpty()){
 			for (DecorateDataDTO decorateDataDTO : decorateDataDTOs){
 				Decorate decorate = new Decorate();
@@ -134,6 +136,9 @@ public class DecorateService {
 				decorate.setContent(decorateDataDTO.getContent());
 				decorate.setFileUrl(decorateDataDTO.getFileUrl());
 				decorate.setStatus(Integer.valueOf(StatusEnum.INIT.getKey()));
+				decorate.setProcId(object.getString("procId"));
+				decorate.setWjbiid(object.getString("wjbiid"));
+				decorate.setTaskId(object.getString("taskId"));
 				dao.save("DecorateMapper.saveApply", decorate);
 				if (decorateDataDTO.getPhone().equals(user.getPhone())){
 					user.setSfid(decorateDataDTO.getIdCard());

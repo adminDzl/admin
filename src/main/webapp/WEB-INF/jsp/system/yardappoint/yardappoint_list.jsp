@@ -57,7 +57,7 @@
 						<th class="center">预定开始时间</th>
 						<th class="center">预约结束时间</th>
 						<th class="center">预定时长</th>
-						<th class="center">场地单价(¥/h)</th>
+						<th class="center">场地单价(¥/30min)</th>
 						<th class="center">已支付</th>
 						<th class="center">预定状态</th>
 						<th class="center">创建时间</th>
