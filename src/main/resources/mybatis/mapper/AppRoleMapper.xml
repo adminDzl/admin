@@ -21,7 +21,7 @@
     </update>
 
     <delete id="deleteRole" parameterType="pd">
-        delete from app_role where id={id}
+        delete from app_role where id=#{id}
     </delete>
 
 
