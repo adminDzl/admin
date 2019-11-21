@@ -31,6 +31,7 @@
 			CREATE_TIME,	
 			UPDATE_TIME,	
 			PAYORDER_ID,
+			CHANNEL_TYPE,
 			YARDAPPOINT_ID
 		) values (
 			#{PAY_TYPE},
@@ -43,6 +44,7 @@
 			now(),
 			now(),
 			#{PAYORDER_ID},
+			#{CHANNEL_TYPE},
 			#{YARDAPPOINT_ID}
 		)
 	</insert>
@@ -79,7 +81,8 @@
 			REMARK,
 			PAY_STATUS,	
 			CREATE_TIME,	
-			UPDATE_TIME,	
+			UPDATE_TIME,
+			CHANNEL_TYPE,
 			PAYORDER_ID
 		from 
 			PAY_ORDER
