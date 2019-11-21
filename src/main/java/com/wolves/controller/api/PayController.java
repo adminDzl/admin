@@ -113,7 +113,7 @@ public class PayController {
             wxResultDTO.setPrepayId(responseMap.get("prepayid"));
             wxResultDTO.setTimeStamp(responseMap.get("timestamp"));
             wxResultDTO.setSignType("MD5");
-            request.setAttribute("channel_type", "WX");
+            payOrder.setChannelType("WX");
             wechatPayService.insertOrder(request, token, payOrder);
 
         }
@@ -201,7 +201,8 @@ public class PayController {
         }
         Result result = new Result();
         if (StringUtils.isNotBlank(orderInfo)) {
-            requests.setAttribute("channel_type", "ALI");
+           /* requests.setAttribute("channel_type", "ALI");*/
+            payOrder.setChannelType("ALI");
             wechatPayService.insertOrder(requests, token, payOrder);
             result.setData(orderInfo);
             result.setResult(ResultCode.SUCCESS);

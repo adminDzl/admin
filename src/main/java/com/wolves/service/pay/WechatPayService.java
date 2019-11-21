@@ -278,7 +278,7 @@ public class WechatPayService implements PayService {
         pd.put("CREATE_TIME", Tools.date2Str(new Date()));
         pd.put("UPDATE_TIME", Tools.date2Str(new Date()));
         pd.put("PAY_STATUS", "0");
-        pd.put("CHANNEL_TYPE", request.getAttribute("channel_type"));
+        pd.put("CHANNEL_TYPE", payOrder.getChannelType());
         pd.put("YARDAPPOINT_ID",payOrder.getYardappointId());
         payorderService.save(pd);
     }
