@@ -43,10 +43,10 @@ public class WorkorderDTO {
     private String App_Id;
 
     @ApiModelProperty(name = "assignmentTime",value = "分派时间")
-    private Date assignmentTime;
+    private String assignmentTime;
 
     @ApiModelProperty(name = "createTime",value = "创建时间")
-    private Date createTime;
+    private String createTime;
 
     @ApiModelProperty(name = "taskId",value = "环节ID  (终止工单使用)")
     private String taskId;
@@ -137,19 +137,19 @@ public class WorkorderDTO {
         App_Id = app_Id;
     }
 
-    public Date getAssignmentTime() {
+    public String getAssignmentTime() {
         return assignmentTime;
     }
 
-    public void setAssignmentTime(Date assignmentTime) {
+    public void setAssignmentTime(String assignmentTime) {
         this.assignmentTime = assignmentTime;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
