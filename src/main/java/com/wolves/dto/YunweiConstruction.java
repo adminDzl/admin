@@ -3,6 +3,8 @@ package com.wolves.dto;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.james.mime4j.field.datetime.DateTime;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -28,10 +30,10 @@ public class YunweiConstruction {
 	    @ApiModelProperty(name = "status",value = "状态（0：正常，1：删除）")
 	    private Integer status;
 
-	    @ApiModelProperty(name = "createTime",value = "创建时间")
-	    private Date createTime;	
-	    @ApiModelProperty(name = "updateTime",value = "更新时间")
-	    private Date updateTime;
+	   // @ApiModelProperty(name = "createTime",value = "创建时间")
+	    private String createTime;	
+	  //  @ApiModelProperty(name = "updateTime",value = "更新时间")
+	    private String updateTime;
 	    
 	 public String getConstructionId() {
 			return constructionId;
@@ -69,16 +71,16 @@ public class YunweiConstruction {
 		public void setStatus(Integer status) {
 			this.status = status;
 		}
-		public Date getCreateTime() {
+		public String getCreateTime() {
 			return createTime;
 		}
-		public void setCreateTime(Date createTime) {
+		public void setCreateTime(String createTime) {
 			this.createTime = createTime;
 		}
-		public Date getUpdateTime() {
+		public String getUpdateTime() {
 			return updateTime;
 		}
-		public void setUpdateTime(Date updateTime) {
+		public void setUpdateTime(String updateTime) {
 			this.updateTime = updateTime;
 		}
 	@ApiModelProperty(name = "title",value = "标题信息")
