@@ -30,6 +30,11 @@
 		<result column="amount" property="amount"/>
 		<result column="items" property="items"/>
 </resultMap>
+
+<resultMap type="com.wolves.dto.YunweiEmail" id="ResultMap3">
+<result column="phone" property="phone"/>
+		<result column="email"  property="email"/>
+</resultMap>
 	<!--保存-->
 	<insert id="saveConstructionItems" parameterType="com.wolves.dto.YunweiConstructionItem">
 		insert into construction_items(
@@ -84,6 +89,18 @@
 		  #{updateTime}
 		)
 	</insert>
+	
+	<select id="selectConstructionByUserId" parameterType="com.wolves.dto.YunweiConstructionDTO" resultMap="ResultMap">
+	SELECT * FROM construction WHERE `status` = 0 AND `user_id` = #{userId}
+	
+	</select>
+	
+	<select id="getPhoneByCompanyId" resultMap="ResultMap3"  parameterType="com.wolves.dto.YunweiEmail">
+	SELECT PHONE,email FROM USER   WHERE COMPANY_ID=#{id}
+	and role_id=(select id from app_role where company_id=#{id} and role_name='admin' )
+	</select>
+	
+	
 <!-- 
 	<select id="selectDecorationApplyByUserId" parameterType="com.wolves.dto.decorate.DecorationApplyDTO" resultMap="ResultMap">
 		SELECT * FROM decoration_apply WHERE `status` = 0 AND `user_id` = #{userId}

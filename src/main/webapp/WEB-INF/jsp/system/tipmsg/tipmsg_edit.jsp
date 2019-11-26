@@ -25,6 +25,24 @@
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 <script type="text/javascript">
 	function save(){
+	//	alert($("#smstip").is(':checked'));
+	if($("#smstip").is(':checked')&$("#mailtip").is(':checked'))	{
+	//	alert("短信+邮件");
+		$("#TP_MSG").val("1");//1.短信+邮件
+	}else if($("#smstip").is(':checked')&!$("#mailtip").is(':checked')){
+	//	alert("duanxin");
+		$("#TP_MSG").val("2");//2.短信
+	}else if(!$("#smstip").is(':checked')&$("#mailtip").is(':checked')){
+		//alert("youjian");
+		$("#TP_MSG").val("3");//3.邮件
+	}else{
+		//alert("不发");
+		$("#TP_MSG").val("4");//4.不用短信或邮件
+	}
+	//{$("#TP_MSG").val()="1";}else{$("#TP_MSG").val()="2";}
+		//alert("xxxx");
+		//return false;
+
 			if($("#MSG_TYPE").val()==""){
 			$("#MSG_TYPE").tips({
 				side:3,
@@ -115,8 +133,14 @@
 				</td>
 			</tr>
 			<tr>
+			
 				<td style="text-align: center;" colspan="10">
-					<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
+				<input  type="checkbox"   id="mailtip"  value="邮件通知" /><span class="lbl">邮件通知</span>
+				<!--  
+					<input type="checkbox"    id="smstip"  value="短信通知" /><span class="lbl">短信通知</span>
+					-->
+				    <input type="text"   id="TP_MSG"  name="TP_MSG"  style="display:none" />
+				    <a class="btn btn-mini btn-primary" onclick="save();">保存</a>
 					<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
 				</td>
 			</tr>

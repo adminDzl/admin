@@ -27,6 +27,8 @@ import com.wolves.dto.YunweiConstruction;
 import com.wolves.dto.YunweiConstructionDTO;
 import com.wolves.dto.YunweiConstructionItem;
 import com.wolves.dto.YunweiConstructionItemDTO;
+import com.wolves.dto.YunweiEmail;
+import com.wolves.dto.decorate.DecorationApplyDTO;
 import com.wolves.dto.user.CompanyDTO;
 import com.wolves.dto.user.DecorateDataDTO;
 import com.wolves.dto.user.YunweiCarMonth;
@@ -413,6 +415,10 @@ public class YunweiapiService {
 	    	 }
 	    }	    
 	    
+	    public List<YunweiConstructionDTO> selectConstructionByUserId(String userId){
+	    	        return (List<YunweiConstructionDTO>)dao.findForList("YunweiapiMapper.selectConstructionByUserId", userId);
+	     }
+	    
 	    /**
 	     * 获取某个时间后几个月的天数
 	     * @param startDate 传递日期
@@ -487,4 +493,7 @@ public class YunweiapiService {
 	        return res;
 	    }
 	    
+	    public List<YunweiEmail> getPhoneByCompanyId(String id) {
+	    	return (List<YunweiEmail>) dao.findForList("YunweiapiMapper.getPhoneByCompanyId",id);
+	    }
 }
