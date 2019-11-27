@@ -28,7 +28,9 @@ import com.wolves.dto.YunweiConstructionDTO;
 import com.wolves.dto.YunweiConstructionItem;
 import com.wolves.dto.YunweiConstructionItemDTO;
 import com.wolves.dto.YunweiEmail;
+import com.wolves.dto.YunweiSyncOrder;
 import com.wolves.dto.decorate.DecorationApplyDTO;
+import com.wolves.dto.repair.WorkorderDTO;
 import com.wolves.dto.user.CompanyDTO;
 import com.wolves.dto.user.DecorateDataDTO;
 import com.wolves.dto.user.YunweiCarMonth;
@@ -495,5 +497,74 @@ public class YunweiapiService {
 	    
 	    public List<YunweiEmail> getPhoneByCompanyId(String id) {
 	    	return (List<YunweiEmail>) dao.findForList("YunweiapiMapper.getPhoneByCompanyId",id);
+	    }
+	   /**
+	    * 同步报修工单 
+	    */
+	    public void syncRepair() {
+	    	System.out.println("报修更新中。。。");
+	    	//查出指所有未完成的单据
+	    	List<YunweiSyncOrder> so=(List<YunweiSyncOrder>) dao.findForList("YunweiapiMapper.getRepairSync", null);
+	    	System.out.println("工单list对象"+so.toString());	    	
+	    	//搜索运维平台1个月内的单据，提取单号和状态码
+	    	List<YunweiSyncOrder> soY=this.searchRepair();	   
+	    	System.out.println("运维工单list对象"+soY.toString());
+	    	//单单比对，留下”已完成“的订单：orderState="4"	   
+	    	String str="null";
+	    	for(int i=0;i<soY.size();i++) {
+	    		for(int j=0;j<so.size();j++) {
+//	    			System.out.println("soY:"+soY.get(i).getWjbiid());
+//	    			System.out.println("so:"+so.get(j).getWjbiid());
+	    			if(so.get(j).getWjbiid().equals(soY.get(i).getWjbiid())) {
+	    				System.out.println("so:"+so.get(j).getWjbiid());
+	    				if(soY.get(i).getStatus().contentEquals("4")) {
+	    					//记录orderId
+	    					str=str+","+so.get(j).getOrderId();
+	    					System.out.println("单号："+so.get(j).getOrderId());
+	    				}
+	    			}	    			
+	    		}    		
+	    	}	    	
+	    	
+	    	//将筛选出可”完成“状态的进行更新
+	   // 	str="null,'9d1ed2fdbe43437cb48da7bf8105edaf','ab6b0f17f8e641f1a857a2b52e5b6f52'";
+	    	if(!str.equals("null")) {
+	    		//str转字符串数组
+	    	String [] strArr= str.split(","); 
+	    	System.out.println("开始更新报修工单状态。。。");
+	    	dao.update("YunweiapiMapper.syncRepair", strArr);
+	    	System.out.println("报修更新结束->");
+	    	}else {
+	    		System.out.println("报修暂无更新。。。");
+	    	}
+	    }
+	    public List<YunweiSyncOrder> searchRepair(){
+	    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	    	String startTime=formatter.format(getDay(new Date(),-30));
+	    	String endTime=formatter.format(getDay(new Date(),1));
+	    	Map<String, Object> params = new HashMap<String, Object>();
+			params.put("appType", RepairClientConstants.APP_TYPE);
+			params.put("startTime", startTime);//开始时间
+			params.put("endTime", endTime);//结束时间
+			this.decorateLogin();
+			JSONObject jsonObject = HttpClientUtil.httpHttpFormData(RepairClientConstants.ADDRESS+RepairClientConstants.QUERY, params);
+			Integer res = jsonObject.getInteger("res");
+			if (res != 1){
+				logger.warn("工单查询失败, 消息如下："+jsonObject.toJSONString());
+			}
+		//	System.out.println(jsonObject.toString());
+			List<WorkorderDTO> workorderDTOs = JSONObject.parseArray(jsonObject.getString("obj"),  WorkorderDTO.class);
+			List<YunweiSyncOrder> Yun=new ArrayList<YunweiSyncOrder>();
+	    	for(int i=0;i<workorderDTOs.size();i++) {	    		
+	    		Yun.add(new YunweiSyncOrder());
+	    		Yun.get(i).setWjbiid(workorderDTOs.get(i).getWjbiid());
+	    		Yun.get(i).setStatus(workorderDTOs.get(i).getOrderState().toString());	    		
+	    	}
+	    	if(!Yun.equals(null)) {
+	        System.out.println(Yun.toString());
+	        return Yun;
+	    	}else {	    	
+	    	return null;
+	    	}
 	    }
 }

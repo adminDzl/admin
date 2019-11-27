@@ -5,6 +5,7 @@ import com.wolves.dto.AppointmentDTO;
 import com.wolves.entity.app.PayOrder;
 import com.wolves.service.system.payorder.PayOrderService;
 import com.wolves.service.system.yardappoint.YardAppointService;
+import com.wolves.service.system.yunweiapi.YunweiapiService;
 import com.wolves.util.Logger;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -30,6 +31,9 @@ public class SchedulerService {
 
     @Resource(name="yardappointService")
     private YardAppointService yardappointService;
+    
+    @Resource(name="yunweiapiService")
+    private YunweiapiService yunweiapiService;
 
     @Scheduled(cron = "0 0/1 * * * ?")
     public void updateYardAppoint(){
@@ -60,5 +64,24 @@ public class SchedulerService {
         }
 
         logger.info("定时任务执行结束============》 结束时间:"+sdf.format(new Date(System.currentTimeMillis())));
+    }
+    
+    @Scheduled(cron = "0 0/1 * * * ?")
+    public void syncOrderStat() {
+    	Date now=new Date();
+    	System.out.println("定时任务1分钟一次-->"+now);
+    	//1同步施工单状态
+   	
+    	//2同步一卡通状态
+    	
+    	//3同步装修申请状态
+    	
+    	//4同步报修单状态**
+    	yunweiapiService.syncRepair();
+    	
+    	//同步车库？不用同步
+    	
+    	
+    	
     }
 }

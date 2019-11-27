@@ -35,6 +35,11 @@
 <result column="phone" property="phone"/>
 		<result column="email"  property="email"/>
 </resultMap>
+<resultMap type="com.wolves.dto.YunweiSyncOrder" id="ResultMap4">
+<result column="repair_apply_id" property="orderId"/>
+		<result column="wjbiid"  property="wjbiid"/>
+		<result column="status" property="status"/>
+</resultMap>
 	<!--保存-->
 	<insert id="saveConstructionItems" parameterType="com.wolves.dto.YunweiConstructionItem">
 		insert into construction_items(
@@ -100,6 +105,22 @@
 	and role_id=(select id from app_role where company_id=#{id} and role_name='admin' )
 	</select>
 	
+	<select id="getRepairSync" resultMap="ResultMap4"  >
+	select repair_apply_id,wjbiid,status from repair_apply
+	where status ='0'
+	</select>
+	<update id="syncRepair" parameterType="java.lang.String">
+	update repair_apply
+		set
+		STATUS = '1',
+		UPDATE_TIME = now()
+		where
+		repair_apply_id in 
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	
+	</update>
 	
 <!-- 
 	<select id="selectDecorationApplyByUserId" parameterType="com.wolves.dto.decorate.DecorationApplyDTO" resultMap="ResultMap">
