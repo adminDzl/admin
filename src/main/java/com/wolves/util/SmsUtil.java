@@ -129,6 +129,7 @@ public class SmsUtil {
 					content.append(tempStr);
 				}
 				In.close();
+				Thread.sleep(1000);
 				return "Success";
 			}
 			else
