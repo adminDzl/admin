@@ -14,6 +14,7 @@ import com.wolves.dto.YunweiConstruction;
 import com.wolves.dto.YunweiConstructionDTO;
 import com.wolves.dto.YunweiConstructionItem;
 import com.wolves.dto.YunweiConstructionItemDTO;
+import com.wolves.dto.decorate.DecorationApplyDTO;
 import com.wolves.entity.app.User;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
@@ -128,10 +129,25 @@ public class YunweiController {
 	        yunweiapiService.createConstruction(user, yunweiConstructionDTO);
 	        result.setResult(ResultCode.SUCCESS);
 	        result.setMsg("保存成功");
-	        return result;
-		
-		
+	        return result;	
 		
 	}
+
+	  @ApiOperation(httpMethod="POST",value="我的施工许可",notes="我的施工许可")
+	    @RequestMapping(value = "/construction/myConstruction", method = RequestMethod.POST)
+	    public Result<List<YunweiConstructionDTO>> myConstruction(@RequestHeader("Authorization") String token){
+	        Result<List<YunweiConstructionDTO>> result = new Result<List<YunweiConstructionDTO>>();
+	        User user = userService.getUser(token);
+	        if (user == null){
+	            result.setMsg("请登录");
+	            result.setResult(ResultCode.FAIL);
+	            return result;
+	        }
+
+	        result.setData(yunweiapiService.selectConstructionByUserId(user.getUserId()));
+	        result.setResult(ResultCode.SUCCESS);
+	        result.setMsg("查询成功");
+	        return result;
+	    }
 
 }

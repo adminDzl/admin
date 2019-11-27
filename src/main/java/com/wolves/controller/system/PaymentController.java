@@ -12,6 +12,8 @@ import javax.annotation.Resource;
 
 import com.wolves.common.StatusEnum;
 import com.wolves.service.system.CompanyService;
+import com.wolves.service.system.email.EmailService;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -23,14 +25,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.wolves.controller.base.BaseController;
+import com.wolves.dto.YunweiEmail;
+import com.wolves.entity.system.MailModel;
 import com.wolves.entity.system.Page;
+import com.wolves.entity.system.User;
 import com.wolves.util.AppUtil;
 import com.wolves.util.ObjectExcelView;
 import com.wolves.util.Const;
 import com.wolves.util.PageData;
+import com.wolves.util.SmsUtil;
 import com.wolves.util.Tools;
 import com.wolves.util.Jurisdiction;
 import com.wolves.service.system.payment.PaymentService;
+import com.wolves.service.system.yunweiapi.YunweiapiService;
 
 /**
  * @author gf
@@ -44,10 +51,16 @@ public class PaymentController extends BaseController {
 	 */
 	String menuUrl = "payment/list.do";
 	@Resource(name="paymentService")
-	private PaymentService paymentService;
+	private PaymentService paymentService;	
+	
+	@Resource(name="emailService")
+	private EmailService emailService;
 
 	@Resource(name="companyService")
 	private CompanyService companyService;
+	
+	@Resource(name="yunweiapiService")
+	private YunweiapiService yunweiapiService;
 	
 	/**
 	 * 新增
@@ -64,6 +77,47 @@ public class PaymentController extends BaseController {
 		pd.put("CREATE_TIME", Tools.date2Str(new Date()));
 		pd.put("UPDATE_TIME", Tools.date2Str(new Date()));
 		paymentService.save(pd);
+		//发送邮件或者短信
+		String company_id=pd.getString("COMPANY_ID");
+		List<YunweiEmail> emails=yunweiapiService.getPhoneByCompanyId(company_id);
+		System.out.println("email:"+emails.toString());
+		if(pd.getString("TP_MSG").equals("1")) {//短信+邮件
+			for(YunweiEmail email:emails) {
+				//逐个发邮件级短信
+				MailModel mail=new MailModel();
+				String tomail=emails.get(emails.size()-1).getEmail();
+				mail.setToEmails(tomail);
+				//
+				mail.setSubject("缴费提醒");
+				mail.setContent("您公司有未缴纳的费用需要结清，请点击APP【缴纳费用】进行支付");
+				
+				if(!tomail.isEmpty()) {
+					emailService.sendEmail(mail);
+					//短信内容
+					String str="您公司有未缴纳的费用需要结清，请点击APP[缴纳费用]进行支付【o-park智慧园区】";
+					SmsUtil.sendByJiXinTong(emails.get(emails.size()-1).getPhone(), str);
+				}
+			}
+		}else if(pd.getString("TP_MSG").equals("2")) {//短信
+			for(YunweiEmail email:emails) {
+			if(emails.get(emails.size()-1).getPhone()==null) {
+			String str="您公司有未缴纳的费用需要结清，请点击APP[缴纳费用]进行支付【o-park智慧园区】";
+			SmsUtil.sendByJiXinTong(emails.get(emails.size()-1).getPhone(), str);
+			}		
+			}
+		}else if(pd.getString("TP_MSG").equals("3")) {//邮件		
+			for(YunweiEmail email:emails) {
+			MailModel mail=new MailModel();
+			String tomail=emails.get(emails.size()-1).getEmail();
+			mail.setToEmails(tomail);
+			mail.setSubject("缴费提醒");
+			mail.setContent("您公司有未缴纳的费用需要结清，请点击APP【缴纳费用】进行支付");
+			if(!tomail.isEmpty()) {
+				emailService.sendEmail(mail);
+			}
+		}
+		}		
+		
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;

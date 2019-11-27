@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.annotation.Resource;
 import com.wolves.service.system.CompanyService;
+import com.wolves.service.system.email.EmailService;
 import com.wolves.service.system.user.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -19,11 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.wolves.controller.base.BaseController;
+import com.wolves.entity.system.MailModel;
 import com.wolves.entity.system.Page;
 import com.wolves.util.AppUtil;
 import com.wolves.util.ObjectExcelView;
 import com.wolves.util.Const;
 import com.wolves.util.PageData;
+import com.wolves.util.SmsUtil;
 import com.wolves.util.Tools;
 import com.wolves.util.Jurisdiction;
 import com.wolves.service.system.tipmsg.TipMsgService;
@@ -45,6 +48,8 @@ public class TipMsgController extends BaseController {
 	private UserService userService;
 	@Resource(name="companyService")
 	private CompanyService companyService;
+	@Resource(name="emailService")
+	private EmailService emailService;
 	
 	/**
 	 * 新增
@@ -53,6 +58,7 @@ public class TipMsgController extends BaseController {
 	public ModelAndView save() throws Exception{
 		logBefore(logger, "新增TipMsg");
 		//校验权限
+		System.out.println("--开始新增站内信");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;}
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
@@ -73,6 +79,38 @@ public class TipMsgController extends BaseController {
 				pd.put("TIPMSG_ID", this.get32UUID());
 				pd.put("TO_USER", user.getUserId());
 				tipmsgService.save(pd);
+				String tp_msg=pd.getString("TP_MSG");
+				if(tp_msg.equals("1")) {//短信+邮件
+					MailModel mail=new MailModel();
+					String tomail=user.getEmail();
+					mail.setToEmails(tomail);
+					mail.setContent(pd.getString("ALERT_CONTENT"));
+					mail.setSubject(pd.getString("ALERT_TITLE"));
+					System.out.println(mail.toString());
+					if(!tomail.isEmpty()) {
+						emailService.sendEmail(mail);
+					}
+					//短信
+					String str=pd.getString("ALERT_TITLE")+":"+pd.getString("ALERT_CONTENT")+"【o-park智慧园区】";
+					SmsUtil.sendByJiXinTong(user.getPhone(), str);
+					
+				}else if(tp_msg.equals("2")) {//短信
+					String str=pd.getString("ALERT_TITLE")+":"+pd.getString("ALERT_CONTENT")+"【o-park智慧园区】";
+					SmsUtil.sendByJiXinTong(user.getPhone(), str);
+				}else if(tp_msg.equals("3")) {//邮件		
+					MailModel mail=new MailModel();
+					String tomail=user.getEmail();
+					mail.setToEmails(tomail);
+					mail.setContent(pd.getString("ALERT_CONTENT"));
+					mail.setSubject(pd.getString("ALERT_TITLE"));
+					System.out.println(mail.toString());
+					if(!tomail.isEmpty()) {
+						emailService.sendEmail(mail);
+					}
+				}
+				System.out.println("pd.ALERT_CONTENT:"+pd.getString("ALERT_CONTENT"));
+				System.out.println("pd.TP_MSG:"+pd.getString("TP_MSG"));
+				System.out.println("--完成APP站内信推送");
 			}
 		}
 		mv.addObject("msg","success");
