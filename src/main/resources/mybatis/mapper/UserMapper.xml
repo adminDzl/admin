@@ -271,11 +271,11 @@
 			u.`name`,
 			r.role_name
 		FROM
-			`user` u
+			app_role r
+		LEFT JOIN app_user_role a ON (a.app_role_id = r.id)
+		LEFT JOIN `user` u ON (a.user_id = u.user_id)
 		LEFT JOIN company c ON (u.company_id = c.company_id AND c.status = 1)
-		LEFT JOIN app_role r ON (r.company_id = u.company_id)
-		LEFT JOIN app_user_role a ON (a.user_id = u.user_id AND a.app_role_id = r.id)
-		WHERE r.role_name = 'admin' AND u.company_id = #{companyId}
+		WHERE r.role_name = 'admin' AND r.company_id = #{companyId}
 	</select>
 
 	<select id="selectAllUser" parameterType="com.wolves.dto.user.UserListDTO" resultMap="UserListResultMap">
