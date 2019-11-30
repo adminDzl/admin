@@ -505,10 +505,10 @@ public class YunweiapiService {
 	    	System.out.println("报修更新中。。。");
 	    	//查出指所有未完成的单据
 	    	List<YunweiSyncOrder> so=(List<YunweiSyncOrder>) dao.findForList("YunweiapiMapper.getRepairSync", null);
-	    	System.out.println("工单list对象"+so.toString());	    	
+	    //	System.out.println("工单list对象"+so.toString());	    	
 	    	//搜索运维平台1个月内的单据，提取单号和状态码
 	    	List<YunweiSyncOrder> soY=this.searchRepair();	   
-	    	System.out.println("运维工单list对象"+soY.toString());
+	    //	System.out.println("运维工单list对象"+soY.toString());
 	    	//单单比对，留下”已完成“的订单：orderState="4"	   
 	    	String str="null";
 	    	for(int i=0;i<soY.size();i++) {
@@ -520,7 +520,7 @@ public class YunweiapiService {
 	    				if(soY.get(i).getStatus().contentEquals("4")) {
 	    					//记录orderId
 	    					str=str+","+so.get(j).getOrderId();
-	    					System.out.println("单号："+so.get(j).getOrderId());
+	    				//	System.out.println("单号："+so.get(j).getOrderId());
 	    				}
 	    			}	    			
 	    		}    		
@@ -538,6 +538,10 @@ public class YunweiapiService {
 	    		System.out.println("报修暂无更新。。。");
 	    	}
 	    }
+	    /**
+	     * 运维平台提取近一个月工单对应单号及状态的通用方法
+	     * @return
+	     */
 	    public List<YunweiSyncOrder> searchRepair(){
 	    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 	    	String startTime=formatter.format(getDay(new Date(),-30));
@@ -561,10 +565,101 @@ public class YunweiapiService {
 	    		Yun.get(i).setStatus(workorderDTOs.get(i).getOrderState().toString());	    		
 	    	}
 	    	if(!Yun.equals(null)) {
-	        System.out.println(Yun.toString());
+	    		//显示获取的运维平台的工单组
+	    //    System.out.println(Yun.toString());
 	        return Yun;
 	    	}else {	    	
 	    	return null;
 	    	}
 	    }
+	    
+	    public void syncConstruction() {
+	    	System.out.println("施工许可更新中。。。");
+	    	//查出指所有未完成的单据
+	    	List<YunweiSyncOrder> so=(List<YunweiSyncOrder>) dao.findForList("YunweiapiMapper.getConstructionSync", null);
+		    	//搜索运维平台1个月内的单据，提取单号和状态码
+		    	List<YunweiSyncOrder> soY=this.searchRepair();	  
+		    	System.out.println("工单list对象"+so.toString());	    
+		    	System.out.println("运维list对象"+soY.toString());
+		    	//单单比对，留下”已完成“的订单：orderState="4"	   
+		    	String str="null";
+		    	for(int i=0;i<soY.size();i++) {
+		    		for(int j=0;j<so.size();j++) {
+		    			if(so.get(j).getWjbiid().equals(soY.get(i).getWjbiid())) {
+		    				System.out.println("so:"+so.get(j).getWjbiid());
+		    				if(soY.get(i).getStatus().contentEquals("4")) {
+		    					str=str+","+so.get(j).getOrderId();
+		    				}
+		    			}	    			
+		    		}    		
+		    	}	    	
+		    	if(!str.equals("null")) {
+		    	String [] strArr= str.split(","); 
+		    	System.out.println("开始更新施工许可状态。。。");
+		    	dao.update("YunweiapiMapper.syncConstruction", strArr);
+		    	System.out.println("更新施工许可结束->");
+		    	}else {
+		    		System.out.println("施工许可暂无更新。。。");
+		    	}	    	
+	    }
+	    public void syncDecoration() {
+	    	System.out.println("一卡通更新中。。。");
+	    	//查出指所有未完成的单据
+	    	List<YunweiSyncOrder> so=(List<YunweiSyncOrder>) dao.findForList("YunweiapiMapper.getDecorationSync", null);
+		    	//搜索运维平台1个月内的单据，提取单号和状态码
+		    	List<YunweiSyncOrder> soY=this.searchRepair();	  
+		    	System.out.println("工单list对象"+so.toString());	    
+		    	System.out.println("运维list对象"+soY.toString());
+		    	//单单比对，留下”已完成“的订单：orderState="4"	   
+		    	String str="null";
+		    	for(int i=0;i<soY.size();i++) {
+		    		for(int j=0;j<so.size();j++) {
+		    			if(so.get(j).getWjbiid().equals(soY.get(i).getWjbiid())) {
+		    				System.out.println("so:"+so.get(j).getWjbiid());
+		    				if(soY.get(i).getStatus().contentEquals("4")) {
+		    					str=str+","+so.get(j).getOrderId();
+		    				}
+		    			}	    			
+		    		}    		
+		    	}	    	
+		    	if(!str.equals("null")) {
+		    	String [] strArr= str.split(","); 
+		    	System.out.println("开始更新一卡通状态。。。");
+		    	dao.update("YunweiapiMapper.syncDecoration", strArr);
+		    	System.out.println("更新一卡通结束->");
+		    	}else {
+		    		System.out.println("一卡通暂无更新。。。");
+		    	}	    		    	
+	    }
+	    public void syncDecorationApply() {
+	    	System.out.println("装修申请更新中。。。");
+	    	//查出指所有未完成的单据
+	    	List<YunweiSyncOrder> so=(List<YunweiSyncOrder>) dao.findForList("YunweiapiMapper.getDecorationApplySync", null);
+		    	//搜索运维平台1个月内的单据，提取单号和状态码
+		    	List<YunweiSyncOrder> soY=this.searchRepair();	  
+		    	System.out.println("工单list对象"+so.toString());	    
+		    	System.out.println("运维list对象"+soY.toString());
+		    	//单单比对，留下”已完成“的订单：orderState="4"	   
+		    	String str="null";
+		    	for(int i=0;i<soY.size();i++) {
+		    		for(int j=0;j<so.size();j++) {
+		    			if(so.get(j).getWjbiid().equals(soY.get(i).getWjbiid())) {
+		    				System.out.println("so:"+so.get(j).getWjbiid());
+		    				if(soY.get(i).getStatus().contentEquals("4")) {
+		    					str=str+","+so.get(j).getOrderId();
+		    				}
+		    			}	    			
+		    		}    		
+		    	}	    	
+		    	if(!str.equals("null")) {
+		    	String [] strArr= str.split(","); 
+		    	System.out.println("开始更新装修申请状态。。。");
+		    	dao.update("YunweiapiMapper.syncDecorationApply", strArr);
+		    	System.out.println("更新装修申请结束->");
+		    	}else {
+		    		System.out.println("装修申请无更新。。。");
+		    	}	
+	    	
+	    }
+
 }
