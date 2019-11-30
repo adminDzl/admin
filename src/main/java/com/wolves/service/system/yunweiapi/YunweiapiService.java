@@ -24,7 +24,13 @@ import com.wolves.dto.UserCarMonthCardDTO;
 import com.wolves.dto.UserCarRenewalDTO;
 import com.wolves.dto.YunweiCard;
 import com.wolves.dto.YunweiConstruction;
+import com.wolves.dto.YunweiConstructionDTO;
 import com.wolves.dto.YunweiConstructionItem;
+import com.wolves.dto.YunweiConstructionItemDTO;
+import com.wolves.dto.YunweiEmail;
+import com.wolves.dto.YunweiSyncOrder;
+import com.wolves.dto.decorate.DecorationApplyDTO;
+import com.wolves.dto.repair.WorkorderDTO;
 import com.wolves.dto.user.CompanyDTO;
 import com.wolves.dto.user.DecorateDataDTO;
 import com.wolves.dto.user.YunweiCarMonth;
@@ -325,17 +331,33 @@ public class YunweiapiService {
 	        return res;	 
 	    }   
 	    
-	    public Integer createConstruction(User user, YunweiConstruction yunweiconstruction) {
+	    public Integer createConstruction(User user, YunweiConstructionDTO yunweiConstructionDTO) {
 	        CompanyDTO companyDTO = companyService.selectCompanyById(user.getCompanyId());
-			
+	        YunweiConstruction yunweiconstruction=new YunweiConstruction();
+	        yunweiconstruction.setTitle(yunweiConstructionDTO.getTitle());
+			yunweiconstruction.setProposer(user.getName());
+			yunweiconstruction.setApply_company(companyDTO.getCompanyName());
+			yunweiconstruction.setApplyphone(user.getPhone());
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			yunweiconstruction.setApplication_time(formatter.format(new Date()));
+			yunweiconstruction.setConstruction_units(yunweiConstructionDTO.getConstruction_units());
+			yunweiconstruction.setConstruction_type(yunweiConstructionDTO.getConstruction_type());
+			yunweiconstruction.setConstruction_director(yunweiConstructionDTO.getConstruction_director());
+			yunweiconstruction.setContact_way(yunweiConstructionDTO.getContact_way());
+			yunweiconstruction.setPlan_start_time(yunweiConstructionDTO.getPlan_start_time());
+			yunweiconstruction.setPlan_end_time(yunweiConstructionDTO.getPlan_end_time());
+			yunweiconstruction.setSystem_id(yunweiConstructionDTO.getSystem_id());
+			yunweiconstruction.setDescribes(yunweiConstructionDTO.getDescribes());
+			yunweiconstruction.setJob_location(yunweiConstructionDTO.getJob_location());
+			yunweiconstruction.setSafeguard_procedures(yunweiConstructionDTO.getSafeguard_procedures());
+	        
 	        JSONObject jsonObject = new JSONObject();
 	        jsonObject.put("appType", RepairClientConstants.APP_TYPE);
 	        jsonObject.put("title",yunweiconstruction.getTitle());
 	        jsonObject.put("proposer", user.getName());//申请人
 	        jsonObject.put("applyphone",user.getPhone());//申请人联系方式
 	        jsonObject.put("apply_company",companyDTO.getCompanyName());//申请单位
-	        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	        jsonObject.put("application_time",formatter.format(new Date()));
+	        jsonObject.put("application_time",yunweiconstruction.getApplication_time());
 	        jsonObject.put("construction_units",yunweiconstruction.getConstruction_units());
 	        jsonObject.put("construction_director",yunweiconstruction.getConstruction_director());
 	        jsonObject.put("contact_way",yunweiconstruction.getContact_way());
@@ -346,7 +368,7 @@ public class YunweiapiService {
 	        jsonObject.put("describes",yunweiconstruction.getDescribes());
 	        jsonObject.put("job_location",yunweiconstruction.getJob_location());
 	        jsonObject.put("safeguard_procedures", yunweiconstruction.getSafeguard_procedures());	        
-	        jsonObject.put("itemList",yunweiconstruction.getItemList());	        
+	        jsonObject.put("itemList",yunweiConstructionDTO.getItemList());	        
  	        
 	        System.out.println("json:"+jsonObject);
 	    	
@@ -365,11 +387,11 @@ public class YunweiapiService {
 	        }
 	        logger.info("result:>>>>>"+JSONObject.toJSONString(result));
 	        JSONObject object = result.getJSONObject("obj");
-	        this.saveConstruct(user.getUserId(), yunweiconstruction, object);
+	        this.saveConstruct(user.getUserId(), yunweiconstruction,yunweiConstructionDTO.getItemList(), object);
 	        return res;	 
 	    }
 	    
-	    public void saveConstruct(String userId, YunweiConstruction yunweiconstruction, JSONObject jsonObject) {
+	    public void saveConstruct(String userId, YunweiConstruction yunweiconstruction,List<YunweiConstructionItemDTO> yciD, JSONObject jsonObject) {
 	    	String constructionId=UuidUtil.get32UUID();//本机单号
 	    	yunweiconstruction.setConstructionId(constructionId);
 	    	yunweiconstruction.setUserId(userId);
@@ -377,17 +399,27 @@ public class YunweiapiService {
 	    	yunweiconstruction.setProcId(jsonObject.getString("procId"));
 	    	yunweiconstruction.setWjbiid(jsonObject.getString("wjbiid"));
 	    	yunweiconstruction.setTaskId(jsonObject.getString("taskId"));
-	    	yunweiconstruction.setCreateTime(new Date());
-	    	yunweiconstruction.setUpdateTime(new Date());
-	    	List<YunweiConstructionItem> ycIL=yunweiconstruction.getItemList();
+	    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	    	yunweiconstruction.setCreateTime(formatter.format(new Date()));
+	    	yunweiconstruction.setUpdateTime(formatter.format(new Date()));
+	    	List<YunweiConstructionItem> ycIL=new ArrayList<YunweiConstructionItem>();
 	    	 if ((Integer) dao.save("YunweiapiMapper.saveConstruction", yunweiconstruction)==1) {
-	    		 for(YunweiConstructionItem ycI:ycIL) {
-	    			 ycI.setConstructionId(constructionId);
-	    			 dao.save("YunweiapiMapper.saveConstructionItems", ycI); 
+	    		 for(YunweiConstructionItemDTO ycI:yciD) {
+	    			 ycIL.add(new YunweiConstructionItem());
+	    			 ycIL.get(ycIL.size()-1).setConstructionId(constructionId);
+	    			 ycIL.get(ycIL.size()-1).setItems(ycI.getItems());
+	    			 ycIL.get(ycIL.size()-1).setType(ycI.getType());
+	    			 ycIL.get(ycIL.size()-1).setAmount(ycI.getAmount());
+	    			 dao.save("YunweiapiMapper.saveConstructionItems", ycIL.get(ycIL.size()-1)); 
 	    			 System.out.println(ycI);
 	    		 }
+	    		 System.out.println(ycIL);
 	    	 }
 	    }	    
+	    
+	    public List<YunweiConstructionDTO> selectConstructionByUserId(String userId){
+	    	        return (List<YunweiConstructionDTO>)dao.findForList("YunweiapiMapper.selectConstructionByUserId", userId);
+	     }
 	    
 	    /**
 	     * 获取某个时间后几个月的天数
@@ -463,4 +495,76 @@ public class YunweiapiService {
 	        return res;
 	    }
 	    
+	    public List<YunweiEmail> getPhoneByCompanyId(String id) {
+	    	return (List<YunweiEmail>) dao.findForList("YunweiapiMapper.getPhoneByCompanyId",id);
+	    }
+	   /**
+	    * 同步报修工单 
+	    */
+	    public void syncRepair() {
+	    	System.out.println("报修更新中。。。");
+	    	//查出指所有未完成的单据
+	    	List<YunweiSyncOrder> so=(List<YunweiSyncOrder>) dao.findForList("YunweiapiMapper.getRepairSync", null);
+	    	System.out.println("工单list对象"+so.toString());	    	
+	    	//搜索运维平台1个月内的单据，提取单号和状态码
+	    	List<YunweiSyncOrder> soY=this.searchRepair();	   
+	    	System.out.println("运维工单list对象"+soY.toString());
+	    	//单单比对，留下”已完成“的订单：orderState="4"	   
+	    	String str="null";
+	    	for(int i=0;i<soY.size();i++) {
+	    		for(int j=0;j<so.size();j++) {
+//	    			System.out.println("soY:"+soY.get(i).getWjbiid());
+//	    			System.out.println("so:"+so.get(j).getWjbiid());
+	    			if(so.get(j).getWjbiid().equals(soY.get(i).getWjbiid())) {
+	    				System.out.println("so:"+so.get(j).getWjbiid());
+	    				if(soY.get(i).getStatus().contentEquals("4")) {
+	    					//记录orderId
+	    					str=str+","+so.get(j).getOrderId();
+	    					System.out.println("单号："+so.get(j).getOrderId());
+	    				}
+	    			}	    			
+	    		}    		
+	    	}	    	
+	    	
+	    	//将筛选出可”完成“状态的进行更新
+	   // 	str="null,'9d1ed2fdbe43437cb48da7bf8105edaf','ab6b0f17f8e641f1a857a2b52e5b6f52'";
+	    	if(!str.equals("null")) {
+	    		//str转字符串数组
+	    	String [] strArr= str.split(","); 
+	    	System.out.println("开始更新报修工单状态。。。");
+	    	dao.update("YunweiapiMapper.syncRepair", strArr);
+	    	System.out.println("报修更新结束->");
+	    	}else {
+	    		System.out.println("报修暂无更新。。。");
+	    	}
+	    }
+	    public List<YunweiSyncOrder> searchRepair(){
+	    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	    	String startTime=formatter.format(getDay(new Date(),-30));
+	    	String endTime=formatter.format(getDay(new Date(),1));
+	    	Map<String, Object> params = new HashMap<String, Object>();
+			params.put("appType", RepairClientConstants.APP_TYPE);
+			params.put("startTime", startTime);//开始时间
+			params.put("endTime", endTime);//结束时间
+			this.decorateLogin();
+			JSONObject jsonObject = HttpClientUtil.httpHttpFormData(RepairClientConstants.ADDRESS+RepairClientConstants.QUERY, params);
+			Integer res = jsonObject.getInteger("res");
+			if (res != 1){
+				logger.warn("工单查询失败, 消息如下："+jsonObject.toJSONString());
+			}
+		//	System.out.println(jsonObject.toString());
+			List<WorkorderDTO> workorderDTOs = JSONObject.parseArray(jsonObject.getString("obj"),  WorkorderDTO.class);
+			List<YunweiSyncOrder> Yun=new ArrayList<YunweiSyncOrder>();
+	    	for(int i=0;i<workorderDTOs.size();i++) {	    		
+	    		Yun.add(new YunweiSyncOrder());
+	    		Yun.get(i).setWjbiid(workorderDTOs.get(i).getWjbiid());
+	    		Yun.get(i).setStatus(workorderDTOs.get(i).getOrderState().toString());	    		
+	    	}
+	    	if(!Yun.equals(null)) {
+	        System.out.println(Yun.toString());
+	        return Yun;
+	    	}else {	    	
+	    	return null;
+	    	}
+	    }
 }

@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wolves.dto.YunweiConstruction;
+import com.wolves.dto.YunweiConstructionDTO;
 import com.wolves.dto.YunweiConstructionItem;
+import com.wolves.dto.YunweiConstructionItemDTO;
+import com.wolves.dto.decorate.DecorationApplyDTO;
 import com.wolves.entity.app.User;
 import com.wolves.framework.common.Result;
 import com.wolves.framework.common.ResultCode;
@@ -34,7 +37,7 @@ public class YunweiController {
 	@ApiOperation(httpMethod="POST",value="施工许可",notes="施工许可")
     @RequestMapping(value = "/construction/createConstruction", method = RequestMethod.POST)
 	public Result ConstructionApply(@RequestHeader("Authorization") String token,
-    @RequestBody YunweiConstruction yunweiConstruction) {
+    @RequestBody YunweiConstructionDTO yunweiConstructionDTO) {
 		Result result = new Result();
 		 User user = userService.getUser(token);
 	        if (user == null){
@@ -42,75 +45,75 @@ public class YunweiController {
 	            result.setResult(ResultCode.FAIL);
 	            return result;
 	        }
-	        String title = yunweiConstruction.getTitle();
+	        String title = yunweiConstructionDTO.getTitle();
 	        if (StringUtils.isEmpty(title.trim())){
 	            result.setResult(ResultCode.FAIL);
 	            result.setMsg("请填写施工标题");
 	            return result;
 	        }
 	        
-	   	    String construction_units=yunweiConstruction.getConstruction_units();
+	   	    String construction_units=yunweiConstructionDTO.getConstruction_units();
 	   	    if (StringUtils.isEmpty(construction_units.trim())){
 	            result.setResult(ResultCode.FAIL);
 	            result.setMsg("请填写施工单位");
 	            return result;
 	   	    }
 	   	    
-	      	 String construction_director=yunweiConstruction.getConstruction_director();
+	      	 String construction_director=yunweiConstructionDTO.getConstruction_director();
 		   	    if (StringUtils.isEmpty(construction_director.trim())){
 		            result.setResult(ResultCode.FAIL);
 		            result.setMsg("请填写施工负责人");
 		            return result;
 		   	    }
-		   	 String contact_way=yunweiConstruction.getContact_way();
+		   	 String contact_way=yunweiConstructionDTO.getContact_way();
 		   	    if (StringUtils.isEmpty(contact_way.trim())){
 		            result.setResult(ResultCode.FAIL);
 		            result.setMsg("请填写施工联系方式");
 		            return result;
 		   	    }  	    
-	   	 String plan_start_time=yunweiConstruction.getPlan_start_time();
+	   	 String plan_start_time=yunweiConstructionDTO.getPlan_start_time();
 	   	    if (StringUtils.isEmpty(plan_start_time.trim())){
 	            result.setResult(ResultCode.FAIL);
 	            result.setMsg("请填写工作时间-开始");
 	            return result;
 	   	    }  	    
 	   	    
-	   	 String plan_end_time=yunweiConstruction.getPlan_end_time();
+	   	 String plan_end_time=yunweiConstructionDTO.getPlan_end_time();
 	   	    if (StringUtils.isEmpty(plan_end_time.trim())){
 	            result.setResult(ResultCode.FAIL);
 	            result.setMsg("请填写工作时间-结束");
 	            return result;
 	   	    }  	    
 	   	    
-	   	 String construction_type=yunweiConstruction.getConstruction_type();
+	   	 String construction_type=yunweiConstructionDTO.getConstruction_type();
 	   	    if (StringUtils.isEmpty(construction_type.trim())){
 	            result.setResult(ResultCode.FAIL);
 	            result.setMsg("请填写施工分类");
 	            return result;
 	   	    }  	    
 	   	    
-	   	 String system_id=yunweiConstruction.getSystem_id();
+	   	 String system_id=yunweiConstructionDTO.getSystem_id();
 	   	    if (StringUtils.isEmpty(system_id.trim())){
 	            result.setResult(ResultCode.FAIL);
 	            result.setMsg("请填写具体类型");
 	            return result;
 	   	    }  	    
 	   	    
-	   	 String job_location=yunweiConstruction.getJob_location();
+	   	 String job_location=yunweiConstructionDTO.getJob_location();
 	   	    if (StringUtils.isEmpty(job_location.trim())){
 	            result.setResult(ResultCode.FAIL);
 	            result.setMsg("请填写工作区域");
 	            return result;
 	   	    }  	    
 	   	    
-	   	 String safeguard_procedures=yunweiConstruction.getSafeguard_procedures();
+	   	 String safeguard_procedures=yunweiConstructionDTO.getSafeguard_procedures();
 	   	    if (StringUtils.isEmpty(safeguard_procedures.trim())){
 	            result.setResult(ResultCode.FAIL);
 	            result.setMsg("请填写保护措施");
 	            return result;
 	   	    }  	  
 	   	    
-	   	    List<YunweiConstructionItem> yt=yunweiConstruction.getItemList();
+	   	    List<YunweiConstructionItemDTO> yt=yunweiConstructionDTO.getItemList();
 	   	    if(yt.isEmpty()) {
 	   	     result.setResult(ResultCode.FAIL);
 	            result.setMsg("请填写项目");
@@ -123,13 +126,28 @@ public class YunweiController {
 //	            result.setMsg("");
 //	            return result;
 //	   	    }  	          
-	        yunweiapiService.createConstruction(user, yunweiConstruction);
+	        yunweiapiService.createConstruction(user, yunweiConstructionDTO);
 	        result.setResult(ResultCode.SUCCESS);
 	        result.setMsg("保存成功");
-	        return result;
-		
-		
+	        return result;	
 		
 	}
+
+	  @ApiOperation(httpMethod="POST",value="我的施工许可",notes="我的施工许可")
+	    @RequestMapping(value = "/construction/myConstruction", method = RequestMethod.POST)
+	    public Result<List<YunweiConstructionDTO>> myConstruction(@RequestHeader("Authorization") String token){
+	        Result<List<YunweiConstructionDTO>> result = new Result<List<YunweiConstructionDTO>>();
+	        User user = userService.getUser(token);
+	        if (user == null){
+	            result.setMsg("请登录");
+	            result.setResult(ResultCode.FAIL);
+	            return result;
+	        }
+
+	        result.setData(yunweiapiService.selectConstructionByUserId(user.getUserId()));
+	        result.setResult(ResultCode.SUCCESS);
+	        result.setMsg("查询成功");
+	        return result;
+	    }
 
 }
