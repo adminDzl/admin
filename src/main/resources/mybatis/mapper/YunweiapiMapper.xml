@@ -36,7 +36,7 @@
 		<result column="email"  property="email"/>
 </resultMap>
 <resultMap type="com.wolves.dto.YunweiSyncOrder" id="ResultMap4">
-<result column="repair_apply_id" property="orderId"/>
+<result column="orderId" property="orderId"/>
 		<result column="wjbiid"  property="wjbiid"/>
 		<result column="status" property="status"/>
 </resultMap>
@@ -96,17 +96,30 @@
 	</insert>
 	
 	<select id="selectConstructionByUserId" parameterType="com.wolves.dto.YunweiConstructionDTO" resultMap="ResultMap">
-	SELECT * FROM construction WHERE `status` = 0 AND `user_id` = #{userId}
+	SELECT * FROM construction WHERE  `user_id` = #{userId}
 	
 	</select>
 	
 	<select id="getPhoneByCompanyId" resultMap="ResultMap3"  parameterType="com.wolves.dto.YunweiEmail">
 	SELECT PHONE,email FROM USER   WHERE COMPANY_ID=#{id}
-	and role_id=(select id from app_role where company_id=#{id} and role_name='admin' )
+	and user_id in (select user_id from app_user_role 
+where app_role_id=(select id from app_role  where company_id=#{id} and role_name='admin'))
 	</select>
 	
 	<select id="getRepairSync" resultMap="ResultMap4"  >
-	select repair_apply_id,wjbiid,status from repair_apply
+	select repair_apply_id orderId,wjbiid,status from repair_apply
+	where status ='0'
+	</select>
+	<select id="getConstructionSync" resultMap="ResultMap4"  >
+	select construction_id orderId,wjbi_id wjbiid,status from construction
+	where status ='0'
+	</select>
+	<select id="getDecorationSync" resultMap="ResultMap4"  >
+	select decorate_id orderId,wjbi_id wjbiid,status from decorate
+	where status ='0'
+	</select>
+	<select id="getDecorationApplySync" resultMap="ResultMap4"  >
+	select decoration_apply_id orderId,wjbiid,status from decoration_apply
 	where status ='0'
 	</select>
 	<update id="syncRepair" parameterType="java.lang.String">
@@ -118,28 +131,40 @@
 		repair_apply_id in 
 		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
                  #{item}
-		</foreach>
-	
+		</foreach>	
 	</update>
-	
-<!-- 
-	<select id="selectDecorationApplyByUserId" parameterType="com.wolves.dto.decorate.DecorationApplyDTO" resultMap="ResultMap">
-		SELECT * FROM decoration_apply WHERE `status` = 0 AND `user_id` = #{userId}
-	</select>
-
-	<select id="selectDecorationApplyById" parameterType="com.wolves.dto.decorate.DecorationApplyDTO" resultMap="ResultMap">
-		SELECT * FROM decoration_apply WHERE `status` = 0 AND `decoration_apply_id` = #{decorationApplyId}
-	</select>
-
-	<update id="updateStatusById" parameterType="java.lang.String">
-		update decoration_apply
+	<update id="syncConstruction" parameterType="java.lang.String">
+	update construction
 		set
-		STATUS = 1,
-		UPDATE_TIME = now(),
-		decoration_apply_id = decoration_apply_id
+		STATUS = '1',
+		UPDATE_TIME = now()
 		where
-		decoration_apply_id = #{decorationApplyId}
-	</update>
-	
-	-->
+		construction_id in 
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>	
+	</update>	
+	<update id="syncDecoration" parameterType="java.lang.String">
+	update decorate
+		set
+		STATUS = '1',
+		UPDATE_TIME = now()
+		where
+		decorate_id in 
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>	
+	</update>	
+		<update id="syncDecorationApply" parameterType="java.lang.String">
+	update decoration_apply
+		set
+		STATUS = '1',
+		UPDATE_TIME = now()
+		where
+		decoration_apply_id in 
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>	
+	</update>	
+
 </mapper>

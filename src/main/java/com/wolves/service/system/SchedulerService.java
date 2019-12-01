@@ -70,13 +70,14 @@ public class SchedulerService {
     @Scheduled(cron = "0 0/1 * * * ?")
     public void syncOrderStat() {
     	Date now=new Date();
-    	System.out.println("定时任务1分钟一次-->"+now);
+    	System.out.println("同步运维工单定时任务5分钟一次-->"+now);
     	//1同步施工单状态
-   	
+    	yunweiapiService.syncConstruction();
     	//2同步一卡通状态
+    	yunweiapiService.syncDecoration();
     	
     	//3同步装修申请状态
-    	
+    	yunweiapiService.syncDecorationApply();
     	//4同步报修单状态**
     	yunweiapiService.syncRepair();
     	
