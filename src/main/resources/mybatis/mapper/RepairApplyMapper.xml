@@ -172,7 +172,7 @@
 		SELECT
 			*
 		FROM repair_apply
-		WHERE status = 0 AND user_id = #{userId}
+		WHERE  user_id = #{userId}
 		ORDER BY create_time DESC
 		LIMIT #{start}, #{size}
 	</select>
