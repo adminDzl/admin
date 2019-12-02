@@ -1489,4 +1489,45 @@ public class AppUserController {
         result.setMsg("查询成功");
         return result;
     }
+
+    @ApiOperation(httpMethod="POST",value="通知上报",notes="通知上报")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+            @ApiImplicitParam(name = "jsonObject",value = "{\"id\":\"ID\"，\"status\":\"status\"}",required = true,paramType = "body",dataType = "JSONObject")
+    })
+    @RequestMapping(value = "/reportOrder", method = RequestMethod.POST)
+    public Result reportOrder(@RequestHeader("Authorization") String token,@RequestBody JSONObject jsonObject){
+        Result<Decorate> result = new Result<Decorate>();
+        //使用token获取登陆人信息
+        User user = userService.getUser(token);
+        if (user == null){
+            result.setMsg("请登录");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        String id = jsonObject.getString("id");
+        if (StringUtils.isEmpty(id)){
+            result.setMsg("id不能为空");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        String status = jsonObject.getString("status");
+        if (StringUtils.isEmpty(status)){
+            result.setMsg("status不能为空");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+
+        PageData pd = new PageData();
+        pd.put("PAYORDER_ID", id);
+        PageData pageData = payOrderService.findById(pd);
+        if (pageData != null){
+            pageData.put("PAY_STATUS", status);
+            payorderService.edit(pageData);
+        }
+
+        result.setResult(ResultCode.SUCCESS);
+        result.setMsg("上报成功");
+        return result;
+    }
 }
