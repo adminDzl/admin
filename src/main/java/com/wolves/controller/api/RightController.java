@@ -5,6 +5,7 @@ import com.wolves.dto.ResourceDTO;
 import com.wolves.dto.resource.AppResourceDTO;
 import com.wolves.dto.right.*;
 import com.wolves.dto.role.UpdateRoleDTO;
+import com.wolves.dto.user.BaseCompanyDTO;
 import com.wolves.dto.user.CheckUserDTO;
 import com.wolves.dto.user.CompanyDTO;
 import com.wolves.dto.user.ManagerUserDTO;
@@ -18,6 +19,7 @@ import com.wolves.service.system.CompanyService;
 import com.wolves.service.system.appuser.AppUserService;
 import com.wolves.service.system.user.UserService;
 import com.wolves.util.Logger;
+import com.wolves.util.PageData;
 import com.wolves.util.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -201,6 +203,12 @@ public class RightController {
         }
         //判断该员工是否有删除角色的权限
         //todo。。。
+        PageData roleDTO = appRoleService.getRoleById(deleteRoleDTO.getRoleId());
+        if("admin".equals(roleDTO.getString("role_name")) || "未分组".equals(roleDTO.getString("role_name"))){
+            result.setMsg("该组不能删除");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
         //添加角色
         try{
             appRoleService.deleteRoleAndResourceAndUser(deleteRoleDTO);
@@ -304,6 +312,12 @@ public class RightController {
         CompanyDTO companyDTO = companyService.selectCompanyById(user.getCompanyId());
         if(null == companyDTO){
             result.setMsg("尚未加入任何公司");
+            result.setResult(ResultCode.FAIL);
+            return result;
+        }
+        PageData roleDTO = appRoleService.getRoleById(updateRoleDTO.getRoleId().toString());
+        if("admin".equals(roleDTO.getString("ROLE_NAME")) || "未分组".equals(roleDTO.getString("ROLE_NAME"))){
+            result.setMsg("该组不能删除");
             result.setResult(ResultCode.FAIL);
             return result;
         }
@@ -516,13 +530,29 @@ public class RightController {
             //审核
             if (checkUserDTOs != null && !checkUserDTOs.isEmpty()){
                 for (CheckUserDTO checkUserDTO : checkUserDTOs){
-                    userService.checkUser(checkUserDTO);
+                    userService.checkUser(checkUserDTO, user.getCompanyId());
                 }
             }
         }
         result.setMsg("success");
         result.setResult(ResultCode.SUCCESS);
         return result;
+    }
+
+    @ApiOperation(httpMethod="POST", value="test")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "认证信息", required = true, paramType = "header", defaultValue = "b8a3d7a0fe784baf8f680982a61789e8", dataType = "string"),
+    })
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    public Result test(@RequestHeader("Authorization") String token){
+        List<BaseCompanyDTO> list = companyService.selectAllCompany();
+        for(BaseCompanyDTO baseCompanyDTO : list){
+            AddRoleDTO addRoleDTO = new AddRoleDTO();
+            addRoleDTO.setRoleName("未分组");
+            addRoleDTO.setResourceId(new ArrayList<Integer>());
+            appRoleService.addRoleAndRight(addRoleDTO, baseCompanyDTO.getCompanyId());
+        }
+      return null;
     }
 
 }

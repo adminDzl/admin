@@ -95,7 +95,6 @@ public class RoleService{
 
 	public Role getRoleById(String roleId) {
 		return (Role) dao.findForObject("RoleMapper.getRoleById", roleId);
-		
 	}
 
 	public void updateRoleRights(Role role) {

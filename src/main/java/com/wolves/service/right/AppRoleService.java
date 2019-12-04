@@ -8,6 +8,7 @@ import com.wolves.dto.right.DeleteRoleDTO;
 import com.wolves.dto.right.RoleDTO;
 import com.wolves.dto.right.UserRoleDTO;
 import com.wolves.dto.role.UpdateRoleDTO;
+import com.wolves.entity.system.Role;
 import com.wolves.util.PageData;
 import com.wolves.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,7 +134,6 @@ public class AppRoleService {
         PageData roleUserPd = new PageData();
         roleUserPd.put("roleId", deleteRoleDTO.getRoleId());
         dao.delete("AppUserRoleMapper.deleteRole", roleUserPd);
-
     }
 
     /**
@@ -152,4 +152,25 @@ public class AppRoleService {
         appUserRoleService.deleteUserInRole(userRole.getUserId(), userRole.getRoleId());
     }
 
+    /**
+     *
+     * @param roleName roleName
+     * @param companyId companyId
+     */
+    public PageData getRoleByNameAndCompanyId(String roleName, String companyId){
+        PageData pd = new PageData();
+        pd.put("roleName", roleName);
+        pd.put("companyId", companyId);
+        return (PageData)dao.findForObject("AppRoleMapper.getRoleByNameAndCompanyId", pd);
+    }
+
+    /**
+     *
+     * @param roleId roleId
+     */
+    public PageData getRoleById(String roleId){
+        PageData pd = new PageData();
+        pd.put("id", roleId);
+        return (PageData) dao.findForObject("AppRoleMapper.getRoleById", pd);
+    }
 }
