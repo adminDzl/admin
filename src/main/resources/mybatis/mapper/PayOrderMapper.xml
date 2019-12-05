@@ -121,6 +121,7 @@
 		<if test="pd.PAY_STATUS != null and pd.PAY_STATUS != ''"><!-- 状态检索 -->
 			and a.PAY_STATUS=#{pd.PAY_STATUS}
 		</if>
+		order by a.CREATE_TIME desc
 	</select>
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">
@@ -244,4 +245,13 @@
 		where
 			YARDAPPOINT_ID = #{YARDAPPOINT_ID} ORDER  BY  CREATE_TIME DESC limit 0,1
 	</select>
+
+	<update id="updatePayOrder" parameterType="pd">
+		update  pay_order
+			set
+				STATUS = #{status},
+				UPDATE_TIME = now()
+			where
+				YARDAPPOINT_ID = #{yardappointId}
+	</update>
 </mapper>

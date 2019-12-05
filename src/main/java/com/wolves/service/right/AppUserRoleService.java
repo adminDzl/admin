@@ -2,16 +2,11 @@ package com.wolves.service.right;
 
 import com.wolves.dao.DaoSupport;
 import com.wolves.dto.ResourceDTO;
-import com.wolves.dto.resource.AppResourceDTO;
-import com.wolves.dto.right.AddRoleDTO;
 import com.wolves.dto.right.RoleBasicDTO;
-import com.wolves.dto.right.RoleDTO;
-import com.wolves.dto.role.UpdateRoleDTO;
+import com.wolves.entity.system.Role;
 import com.wolves.util.PageData;
-import com.wolves.util.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,5 +68,7 @@ public class AppUserRoleService {
         pd.put("roleId", roleId);
         dao.delete("AppUserRoleMapper.deleteUserInRole", pd);
     }
+
+
 
 }

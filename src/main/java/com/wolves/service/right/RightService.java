@@ -72,15 +72,21 @@ public class RightService {
         //获取公司的所有权限
         List<AppResourceDTO> list = appRoleService.getResources();
 
-        AddRoleDTO addRoleDTO = new AddRoleDTO();
-        addRoleDTO.setRoleName("admin");
+        AddRoleDTO adminRoleDTO = new AddRoleDTO();
+        adminRoleDTO.setRoleName("admin");
         List<Integer> resourceDTOList = new ArrayList();
         for(AppResourceDTO item : list){
             resourceDTOList.add(item.getId());
         }
-        addRoleDTO.setResourceId(resourceDTOList);
+        adminRoleDTO.setResourceId(resourceDTOList);
         //插入admin角色
-        appRoleService.addRoleAndRight(addRoleDTO, companyId);
+        appRoleService.addRoleAndRight(adminRoleDTO, companyId);
+
+        //插入未分组角色
+        AddRoleDTO nullRoleDTO = new AddRoleDTO();
+        nullRoleDTO.setRoleName("未分组");
+        nullRoleDTO.setResourceId(new ArrayList<Integer>());
+        appRoleService.addRoleAndRight(nullRoleDTO, companyId);
     }
 
 

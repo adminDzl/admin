@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 import com.wolves.common.StatusEnum;
+import com.wolves.dto.right.RoleDTO;
+import com.wolves.dto.right.UserRoleDTO;
 import com.wolves.dto.user.*;
+import com.wolves.service.right.AppRoleService;
 import com.wolves.service.system.CompanyService;
 import com.wolves.util.MD5;
 import com.wolves.util.StringUtils;
@@ -24,6 +27,8 @@ public class UserService {
 	private DaoSupport dao;
 	@Resource(name="companyService")
 	private CompanyService companyService;
+	@Resource(name="appRoleService")
+	private AppRoleService appRoleService;
 
 	/**
 	* 通过id获取数据
@@ -370,13 +375,19 @@ public class UserService {
     }
 
     @Transactional(rollbackFor = RuntimeException.class)
-    public Integer checkUser(CheckUserDTO checkUserDTO){
+    public Integer checkUser(CheckUserDTO checkUserDTO, String companyId){
         //判断该用户是否存在
         com.wolves.entity.app.User user = new com.wolves.entity.app.User();
         user.setUserId(checkUserDTO.getId());
         user = this.selectUserByModel(user);
+		PageData role = appRoleService.getRoleByNameAndCompanyId("未分组", companyId);
+		UserRoleDTO userRoleDTO = new UserRoleDTO();
+		userRoleDTO.setRoleId((Integer)role.get("id"));
+		userRoleDTO.setUserId(user.getUserId());
         if (null != user && user.getPhone() != null){
             user.setStatus(StatusEnum.SUCCESS.getKey());
+            //将人员加入未分组角色
+			appRoleService.addUserToRole(userRoleDTO);
             return this.updateUser(user);
         }
         return -1;

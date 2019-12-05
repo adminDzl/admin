@@ -313,4 +313,5 @@
 		set ROLE_NAME = #{ROLE_NAME}
 		where ROLE_ID = #{ROLE_ID}
 	</update>
+
 </mapper>

@@ -201,6 +201,10 @@ public class YardAppointService {
 		pd.put("yardappointId", yardappointId);
 		pd.put("status", status);
 		dao.update("YardAppointMapper.updateYardAppoint", pd);
+
+		pd.put("yardappointId", yardappointId);
+		pd.put("status", status);
+		dao.update("PayOrderMapper.updatePayOrder", pd);
 	}
 }
 

@@ -24,5 +24,15 @@
         delete from app_role where id=#{id}
     </delete>
 
+    <select id="getRoleByNameAndCompanyId" parameterType="pd" resultType="pd">
+		select * from app_role
+		where role_name=#{roleName} and company_id=#{companyId}
+	</select>
+
+    <select id="getRoleById" parameterType="pd" resultType="pd">
+		select * from app_role
+		where id=#{id}
+	</select>
+
 
 </mapper>
