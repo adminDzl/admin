@@ -203,7 +203,7 @@ public class YardAppointService {
 		dao.update("YardAppointMapper.updateYardAppoint", pd);
 
 		pd.put("yardappointId", yardappointId);
-		pd.put("status", status);
+		pd.put("PAY_STATUS", status);
 		dao.update("PayOrderMapper.updatePayOrder", pd);
 	}
 }

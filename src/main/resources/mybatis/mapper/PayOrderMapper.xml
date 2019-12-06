@@ -57,17 +57,33 @@
 	<!-- 修改 -->
 	<update id="edit" parameterType="pd">
 		update  PAY_ORDER
-			set 
+			set
+		<if test="pd.PAY_TYPE!=null and pd.PAY_TYPE!=''">
 				PAY_TYPE = #{PAY_TYPE},
+		</if>
+		<if test="pd.USER_ID!=null and pd.USER_ID!=''">
 				USER_ID = #{USER_ID},
+		</if>
+		<if test="pd.PAY_AMOUNT!=null and pd.PAY_AMOUNT!=''">
 				PAY_AMOUNT = #{PAY_AMOUNT},
+		</if>
+		<if test="pd.PAY_TIME!=null and pd.PAY_TIME!=''">
 				PAY_TIME = #{PAY_TIME},
+		</if>
+		<if test="pd.RETURN_TIME!=null and pd.RETURN_TIME!=''">
 				RETURN_TIME = #{RETURN_TIME},
+		</if>
+		<if test="pd.REMARK!=null and pd.REMARK!=''">
 				REMARK = #{REMARK},
+		</if>
+		<if test="pd.PAY_STATUS!=null and pd.PAY_STATUS!=''">
 				PAY_STATUS = #{PAY_STATUS},
-				UPDATE_TIME = now(),
-			PAYORDER_ID = PAYORDER_ID
-			where 
+		</if>
+		<if test="pd.PAYORDER_ID!=null and pd.PAYORDER_ID!=''">
+		PAYORDER_ID = PAYORDER_ID,
+		</if>
+				UPDATE_TIME = now()
+			where
 				PAYORDER_ID = #{PAYORDER_ID}
 	</update>
 	<!-- 通过ID获取数据 -->
@@ -249,7 +265,7 @@
 	<update id="updatePayOrder" parameterType="pd">
 		update  pay_order
 			set
-				STATUS = #{status},
+				PAY_STATUS = #{PAY_STATUS},
 				UPDATE_TIME = now()
 			where
 				YARDAPPOINT_ID = #{yardappointId}

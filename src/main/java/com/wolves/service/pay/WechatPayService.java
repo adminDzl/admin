@@ -269,7 +269,7 @@ public class WechatPayService implements PayService {
             user.setToken(token);
             user = userService.getUserByToken(user);
         }
-        //存入数据
+        //存入数据payOrder
         PageData pd = new PageData();
         pd.put("PAY_TYPE", payOrder.getPayType());
         pd.put("USER_ID",user.getUserId());
