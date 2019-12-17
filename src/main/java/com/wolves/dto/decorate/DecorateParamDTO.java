@@ -48,7 +48,7 @@ public class DecorateParamDTO {
     @ApiModelProperty(name = "zhuangxirenshu",value = "装修人数")
     private String zhuangxirenshu;
 
-    @ApiModelProperty(name = "zhuangxiufangwei",value = "装修范围 复选-多个选择使用,分隔")
+    @ApiModelProperty(name = "zhuangxiufangwei",value = "装修范围 复选-多个选择使用,分隔 1天花板工程，2墙面工程，3地面工程，4强电工程，5弱电工程 6给排水工程，7安装工程")
     private String zhuangxiufangwei;
 
     public String getTitle() {
