@@ -58,29 +58,26 @@
 	<update id="edit" parameterType="pd">
 		update  PAY_ORDER
 			set
-		<if test="pd.PAY_TYPE!=null and pd.PAY_TYPE!=''">
+		<if test="PAY_TYPE!=null">
 				PAY_TYPE = #{PAY_TYPE},
 		</if>
-		<if test="pd.USER_ID!=null and pd.USER_ID!=''">
+		<if test="USER_ID!=null and USER_ID!=''">
 				USER_ID = #{USER_ID},
 		</if>
-		<if test="pd.PAY_AMOUNT!=null and pd.PAY_AMOUNT!=''">
+		<if test="PAY_AMOUNT!=null and PAY_AMOUNT!=''">
 				PAY_AMOUNT = #{PAY_AMOUNT},
 		</if>
-		<if test="pd.PAY_TIME!=null and pd.PAY_TIME!=''">
+		<if test="PAY_TIME!=null and PAY_TIME!=''">
 				PAY_TIME = #{PAY_TIME},
 		</if>
-		<if test="pd.RETURN_TIME!=null and pd.RETURN_TIME!=''">
+		<if test="RETURN_TIME!=null and RETURN_TIME!=''">
 				RETURN_TIME = #{RETURN_TIME},
 		</if>
-		<if test="pd.REMARK!=null and pd.REMARK!=''">
+		<if test="REMARK!=null and REMARK!=''">
 				REMARK = #{REMARK},
 		</if>
-		<if test="pd.PAY_STATUS!=null and pd.PAY_STATUS!=''">
+		<if test="PAY_STATUS!=null">
 				PAY_STATUS = #{PAY_STATUS},
-		</if>
-		<if test="pd.PAYORDER_ID!=null and pd.PAYORDER_ID!=''">
-		PAYORDER_ID = PAYORDER_ID,
 		</if>
 				UPDATE_TIME = now()
 			where

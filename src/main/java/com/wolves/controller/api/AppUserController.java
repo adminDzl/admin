@@ -32,6 +32,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -56,6 +58,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags="AppUserController",description="user的控制层")
 public class AppUserController {
 
+    Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource(name="userService")
     private UserService userService;
     @Resource(name="smsService")
@@ -1497,6 +1500,7 @@ public class AppUserController {
     })
     @RequestMapping(value = "/reportOrder", method = RequestMethod.POST)
     public Result reportOrder(@RequestHeader("Authorization") String token,@RequestBody JSONObject jsonObject){
+        System.out.println("支付上报-------------{}"+jsonObject.toJSONString());
         Result<Decorate> result = new Result<Decorate>();
         //使用token获取登陆人信息
         User user = userService.getUser(token);
@@ -1517,10 +1521,11 @@ public class AppUserController {
             result.setResult(ResultCode.FAIL);
             return result;
         }
-
+        System.out.println("支付上报-------------{}"+ status);
         PageData pd = new PageData();
         pd.put("PAYORDER_ID", id);
         PageData pageData = payOrderService.findById(pd);
+        System.out.println("支付上报-------------{}" + pageData.toString());
         if (pageData != null){
             pageData.put("PAY_STATUS", status);
             payorderService.edit(pageData);

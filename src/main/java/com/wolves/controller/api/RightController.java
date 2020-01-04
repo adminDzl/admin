@@ -533,6 +533,10 @@ public class RightController {
                     userService.checkUser(checkUserDTO, user.getCompanyId());
                 }
             }
+        } else {
+            result.setMsg("没有权限");
+            result.setResult(ResultCode.FAIL);
+            return result;
         }
         result.setMsg("success");
         result.setResult(ResultCode.SUCCESS);
